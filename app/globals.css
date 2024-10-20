@@ -8,6 +8,48 @@
   --background-end-rgb: 255, 255, 255;
 }
 
+@layer base {
+  /* body {
+    @apply antialiased bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100;
+  } */
+
+  h1 {
+    @apply font-jetbrains_mono;
+  }
+
+  h2 {
+    @apply font-jetbrains_mono;
+  }
+
+  h3 {
+    @apply font-jetbrains_mono;
+  }
+
+  p {
+    @apply font-jetbrains_mono;
+  }
+
+  a {
+    @apply font-jetbrains_mono;
+  }
+
+  input {
+    @apply font-jetbrains_mono;
+  }
+
+  textarea {
+    @apply font-jetbrains_mono;
+  }
+
+  button {
+    @apply font-jetbrains_mono;
+  }
+
+  label {
+    @apply font-jetbrains_mono;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
@@ -18,10 +60,31 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+}
+
+.underline-fade {
+  position: relative;
+  display: inline-block;
+  transition: color 0.2s ease;
+}
+
+.underline-fade::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 3px;
+  width: 100%;
+  height: 1.5px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.2s ease;
+}
+
+.underline-fade:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }

@@ -1,0 +1,99 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
+
+export default function Debugger() {
+  const [currentCycle, setCurrentCycle] = useState(0)
+  const [maxCycle, setMaxCycle] = useState(0)
+  const [jumpCycle, setJumpCycle] = useState('')
+  const [headerInfo, setHeaderInfo] = useState<any>(null)
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case 'n':
+          handleNextCycle()
+          break
+        case 'b':
+          handlePreviousCycle()
+          break
+        case 'v':
+          handleBeginning()
+          break
+        case 'm':
+          handleEnd()
+          break
+        case 'j':
+          // Focus on the jump to cycle input
+          document.getElementById('jumpCycleInput')?.focus()
+          break
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyPress)
+    return () => window.removeEventListener('keydown', handleKeyPress)
+  }, [currentCycle, maxCycle])
+
+  useEffect(() => {
+    const headerInfoParam = searchParams.get('headerInfo')
+    if (headerInfoParam) {
+      const parsedHeaderInfo = JSON.parse(headerInfoParam)
+      setHeaderInfo(parsedHeaderInfo)
+      setMaxCycle(parsedHeaderInfo.maxCycle || 0)
+    }
+  }, [searchParams])
+
+  const handleNextCycle = () => setCurrentCycle((prev) => Math.min(prev + 1, maxCycle))
+  const handlePreviousCycle = () => setCurrentCycle((prev) => Math.max(prev - 1, 0))
+  const handleBeginning = () => setCurrentCycle(0)
+  const handleEnd = () => setCurrentCycle(maxCycle)
+  const handleJumpToCycle = () => {
+    const cycle = parseInt(jumpCycle)
+    if (!isNaN(cycle) && cycle >= 0 && cycle <= maxCycle) {
+      setCurrentCycle(cycle)
+      setJumpCycle('')
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-100 p-8">
+      {/* home button */}
+      <div className="mb-8">
+        <a href="/" className="text-blue-500 underline-fade">← Back to Home</a>
+      </div>
+
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <h1 className="text-2xl font-bold mb-6">Verilog Debugger</h1>
+        <div className="mb-4">
+          <p>Current Cycle: {currentCycle}</p>
+          <p>Max Cycle: {maxCycle}</p>
+        </div>
+        <div className="flex space-x-2 mb-4">
+          <button onClick={handleBeginning} className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Beginning (v)</button>
+          <button onClick={handlePreviousCycle} className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Previous Cycle (b)</button>
+          <button onClick={handleNextCycle} className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Next Cycle (n)</button>
+          <button onClick={handleEnd} className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">End (m)</button>
+        </div>
+        <div className="flex space-x-2">
+          <input
+            id="jumpCycleInput"
+            type="number"
+            value={jumpCycle}
+            onChange={(e) => setJumpCycle(e.target.value)}
+            className="border rounded px-2 py-1"
+            placeholder="Cycle number"
+          />
+          <button onClick={handleJumpToCycle} className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Jump to Cycle (j)</button>
+        </div>
+        {headerInfo && (
+          <div className="mt-8">
+            <h2 className="text-xl font-semibold mb-4">File Header Information</h2>
+            <pre className="bg-gray-100 p-4 rounded">{JSON.stringify(headerInfo, null, 2)}</pre>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
