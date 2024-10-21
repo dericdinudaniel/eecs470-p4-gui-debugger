@@ -8,6 +8,7 @@ export default function Debugger() {
   const [maxCycle, setMaxCycle] = useState(0);
   const [jumpCycle, setJumpCycle] = useState("");
   const [headerInfo, setHeaderInfo] = useState<any>(null);
+  const [signalData, setSignalData] = useState<any>(null);
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -42,6 +43,19 @@ export default function Debugger() {
     }
   };
 
+  const fetchSignalData = async (cycle: number) => {
+    try {
+      const response = await fetch(`/api/get_signals/${cycle}/`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch signal data");
+      }
+      const data = await response.json();
+      setSignalData(data);
+    } catch (error) {
+      console.error("Error fetching signal data:", error);
+    }
+  };
+
   useEffect(() => {
     const headerInfoParam = searchParams.get("headerInfo");
     if (headerInfoParam) {
@@ -49,20 +63,36 @@ export default function Debugger() {
       setHeaderInfo(parsedHeaderInfo);
       setMaxCycle(parsedHeaderInfo.num_cycles || 0);
     }
+
+    fetchSignalData(0);
   }, [searchParams]);
 
-  const handleNextCycle = () =>
+  const handleNextCycle = () => {
     setCurrentCycle((prev) => Math.min(prev + 1, maxCycle));
-  const handlePreviousCycle = () =>
+    fetchSignalData(Math.min(currentCycle + 1, maxCycle));
+  };
+
+  const handlePreviousCycle = () => {
     setCurrentCycle((prev) => Math.max(prev - 1, 0));
-  const handleBeginning = () => setCurrentCycle(0);
-  const handleEnd = () => setCurrentCycle(maxCycle);
+    fetchSignalData(Math.max(currentCycle - 1, 0));
+  };
+
+  const handleBeginning = () => {
+    setCurrentCycle(0);
+    fetchSignalData(0);
+  };
+  const handleEnd = () => {
+    setCurrentCycle(maxCycle);
+    fetchSignalData(maxCycle);
+  };
+
   const handleJumpToCycle = () => {
     var cycle = parseInt(jumpCycle);
     if (!isNaN(cycle)) {
       cycle = Math.max(0, Math.min(cycle, maxCycle));
       setCurrentCycle(cycle);
       setJumpCycle("");
+      fetchSignalData(cycle);
     }
   };
 
@@ -79,7 +109,7 @@ export default function Debugger() {
         <h1 className="text-2xl font-bold mb-6">Verilog Debugger</h1>
         <div className="mb-4">
           <p>Current Cycle: {currentCycle}</p>
-          <p>Max Cycle: {maxCycle}</p>
+          <p>Num Cycles: {maxCycle}</p>
         </div>
         <div className="flex space-x-2 mb-4">
           <button onClick={handleBeginning} className="debugger-cycle-btn">
@@ -109,13 +139,11 @@ export default function Debugger() {
             Jump to Cycle (j)
           </button>
         </div>
-        {headerInfo && (
+        {signalData && (
           <div className="mt-8">
-            <h2 className="text-xl font-semibold mb-4">
-              File Header Information
-            </h2>
+            <h2 className="text-xl font-semibold mb-4">Signal Data</h2>
             <pre className="bg-gray-100 p-4 rounded">
-              {JSON.stringify(headerInfo, null, 2)}
+              {JSON.stringify(signalData, null, 2)}
             </pre>
           </div>
         )}

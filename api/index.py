@@ -38,6 +38,8 @@ def parse_vcd_content():
         # Parse VCD content
         vcd = VcdParser()
         vcd.parse_str(vcd_content)
+        # store the parsed data in cache
+        cache.set('parsed_data', vcd.scope)
         
         # Extract clock data and count cycles
         try:
@@ -52,15 +54,12 @@ def parse_vcd_content():
         match = re.search(pattern, vcd_content)
         timescale = int(match.group(1)) if match else None
         
-        parsed_data = {
+        header_data = {
             "num_cycles": num_cycles,
             "timescale": timescale
         }
-        
-        # Store the parsed data in cache if needed
-        cache.set('parsed_data', parsed_data)
 
-        return jsonify(parsed_data)
+        return jsonify(header_data)
 
     except Exception as e:
         logging.error(f"Error processing VCD content: {str(e)}")
@@ -69,35 +68,8 @@ def parse_vcd_content():
 @app.route("/api/get_signals/<cycle>/", methods=["GET"])
 def get_signals(cycle):
     try:
-        # Get the parsed data from cache
-        parsed_data = cache.get('parsed_data')
-        if not parsed_data:
-            return jsonify({"error": "No parsed data found in cache"}), 400
-        
-        # Get the VCD content from cache
-        vcd_content = cache.get('vcd_content')
-        if not vcd_content:
-            return jsonify({"error": "No VCD content found in cache"}), 400
-        
-        # Parse VCD content
-        vcd = VcdParser()
-        vcd.parse_str(vcd_content)
-        
-        # Get the clock data
-        clock = vcd.scope.children["testbench"].children["clock"].data
-        
-        # Get the timescale
-        timescale = parsed_data['timescale']
-        
-        # Get the signals at the specified cycle
-        cycle = int(cycle)
-        signals = {}
-        for signal_name, signal_data in vcd.scope.children["testbench"].children.items():
-            if signal_name == "clock":
-                continue
-            signals[signal_name] = signal_data.data[cycle]
-        
-        return jsonify(signals)
+        # return a test response with a json object
+        return jsonify({"test": "response", "cycle": cycle})
     
     except Exception as e:
         logging.error(f"Error getting signals: {str(e)}")
