@@ -44,7 +44,7 @@ def parse_vcd_content():
         # Extract clock data and count cycles
         try:
             clock = vcd.scope.children["testbench"].children["clock"].data
-            num_cycles = len(clock)
+            num_cycles = int((len(clock) - 1) / 2)
         except KeyError:
             return jsonify({"error": "Could not find clock data in the VCD content"}), 400
         
@@ -68,8 +68,21 @@ def parse_vcd_content():
 @app.route("/api/get_signals/<cycle>/", methods=["GET"])
 def get_signals(cycle):
     try:
+        parsed_data = cache.get('parsed_data')
+        if not parsed_data:
+            return jsonify({"error": "No parsed data available (not in cache)"}), 400
+        
+        clock = parsed_data.children["testbench"].children["clock"].data
+        clock_index = int(cycle) * 2 + 1
+        clock_at_cycle = clock[clock_index]
+        
         # return a test response with a json object
-        return jsonify({"test": "response", "cycle": cycle})
+        return jsonify({
+            "test": "response", 
+            "cycle": cycle,
+            "clock": clock_at_cycle,
+            "clock_index": clock_index,
+        })
     
     except Exception as e:
         logging.error(f"Error getting signals: {str(e)}")
