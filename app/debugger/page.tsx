@@ -82,28 +82,16 @@ export default function Debugger() {
           <p>Max Cycle: {maxCycle}</p>
         </div>
         <div className="flex space-x-2 mb-4">
-          <button
-            onClick={handleBeginning}
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-          >
+          <button onClick={handleBeginning} className="debugger-cycle-btn">
             Beginning (v)
           </button>
-          <button
-            onClick={handlePreviousCycle}
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-          >
+          <button onClick={handlePreviousCycle} className="debugger-cycle-btn">
             Previous Cycle (b)
           </button>
-          <button
-            onClick={handleNextCycle}
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-          >
+          <button onClick={handleNextCycle} className="debugger-cycle-btn">
             Next Cycle (n)
           </button>
-          <button
-            onClick={handleEnd}
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-          >
+          <button onClick={handleEnd} className="debugger-cycle-btn">
             End (m)
           </button>
         </div>
@@ -117,10 +105,7 @@ export default function Debugger() {
             className="border rounded px-2 py-1"
             placeholder="Cycle number"
           />
-          <button
-            onClick={handleJumpToCycle}
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-          >
+          <button onClick={handleJumpToCycle} className="debugger-cycle-btn">
             Jump to Cycle (j)
           </button>
         </div>
