@@ -1,53 +1,60 @@
-'use client'
+"use client";
 
-import { useState, useCallback } from 'react'
-import { useDropzone } from 'react-dropzone'
-import { useRouter } from 'next/navigation'
+import { useState, useCallback } from "react";
+import { useDropzone } from "react-dropzone";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const [fileContent, setFileContent] = useState('')
-  const router = useRouter()
+  const [fileContent, setFileContent] = useState("");
+  const router = useRouter();
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    const file = acceptedFiles[0]
-    const reader = new FileReader()
+    const file = acceptedFiles[0];
+    const reader = new FileReader();
     reader.onload = (e) => {
-      const content = e.target?.result as string
-      setFileContent(content)
-    }
-    reader.readAsText(file)
-  }, [])
+      const content = e.target?.result as string;
+      setFileContent(content);
+    };
+    reader.readAsText(file);
+  }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ 
-    onDrop, 
-    accept: { 'text/vcd': ['.vcd'] },
-    multiple: false
-  })
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: { "text/vcd": [".vcd"] },
+    multiple: false,
+  });
 
   const handleParseContent = async () => {
     if (!fileContent) {
-      alert('Please drop a file or paste content before parsing.')
-      return
+      alert("Please drop a file or paste content before parsing.");
+      return;
     }
 
     try {
-      const response = await fetch('/api/parse', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/parse", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ fileContent }),
-      })
-      const data = await response.json()
-      router.push(`/debugger?headerInfo=${encodeURIComponent(JSON.stringify(data))}`)
+      });
+      const data = await response.json();
+      router.push(
+        `/debugger?headerInfo=${encodeURIComponent(JSON.stringify(data))}`
+      );
     } catch (error) {
-      console.error('Error parsing file:', error)
+      console.error("Error parsing file:", error);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-md w-96">
-        <h1 className="text-2xl font-bold mb-6 text-center">Verilog Debugger</h1>
-        <div {...getRootProps()} className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-blue-500 transition-colors mb-4">
+        <h1 className="text-2xl font-bold mb-6 text-center">
+          Verilog Debugger
+        </h1>
+        <div
+          {...getRootProps()}
+          className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-blue-500 transition-colors mb-4"
+        >
           <input {...getInputProps()} />
           {isDragActive ? (
             <p>Drop the file here ...</p>
@@ -56,7 +63,10 @@ export default function Home() {
           )}
         </div>
         <div className="mt-4">
-          <label htmlFor="pasteInput" className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="pasteInput"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Or paste file contents:
           </label>
           <textarea
@@ -75,5 +85,5 @@ export default function Home() {
         </div>
       </div>
     </div>
-  )
+  );
 }
