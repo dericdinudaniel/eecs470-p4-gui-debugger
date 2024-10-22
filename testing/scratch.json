@@ -1,0 +1,1403 @@
+{
+  "cycle": "12",
+  "endpoint": "/api/parse/",
+  "signals": {
+    "children": {
+      "testbench": {
+        "children": {
+          "clock": {
+            "name": "clock",
+            "type": {
+              "sigType": "reg",
+              "width": 1
+            },
+            "value": "1"
+          },
+          "clock_count": {
+            "name": "clock_count",
+            "type": {
+              "sigType": "reg",
+              "width": 32
+            },
+            "value": "b00000000000000000000000000001001"
+          },
+          "committed_insts": {
+            "name": "committed_insts",
+            "type": {
+              "sigType": "reg",
+              "width": 72
+            },
+            "value": "b000000000000000000000000000110000000000000000000000000000000000100101001"
+          },
+          "error_status": {
+            "name": "error_status",
+            "type": {
+              "sigType": "reg",
+              "width": 4
+            },
+            "value": "b1010"
+          },
+          "ex_mem_NPC_dbg": {
+            "name": "ex_mem_NPC_dbg",
+            "type": {
+              "sigType": "reg",
+              "width": 32
+            },
+            "value": "b00000000000000000000000000011100"
+          },
+          "ex_mem_inst_dbg": {
+            "name": "ex_mem_inst_dbg",
+            "type": {
+              "sigType": "reg",
+              "width": 32
+            },
+            "value": "b00010000010100000000000001110011"
+          },
+          "ex_mem_valid_dbg": {
+            "name": "ex_mem_valid_dbg",
+            "type": {
+              "sigType": "reg",
+              "width": 1
+            },
+            "value": "1"
+          },
+          "id_ex_NPC_dbg": {
+            "name": "id_ex_NPC_dbg",
+            "type": {
+              "sigType": "reg",
+              "width": 32
+            },
+            "value": "b00000000000000000000000000100000"
+          },
+          "id_ex_inst_dbg": {
+            "name": "id_ex_inst_dbg",
+            "type": {
+              "sigType": "reg",
+              "width": 32
+            },
+            "value": "b00000000000000000000000000000000"
+          },
+          "id_ex_valid_dbg": {
+            "name": "id_ex_valid_dbg",
+            "type": {
+              "sigType": "reg",
+              "width": 1
+            },
+            "value": "1"
+          },
+          "if_NPC_dbg": {
+            "name": "if_NPC_dbg",
+            "type": {
+              "sigType": "reg",
+              "width": 32
+            },
+            "value": "b00000000000000000000000000101000"
+          },
+          "if_id_NPC_dbg": {
+            "name": "if_id_NPC_dbg",
+            "type": {
+              "sigType": "reg",
+              "width": 32
+            },
+            "value": "b00000000000000000000000000100100"
+          },
+          "if_id_inst_dbg": {
+            "name": "if_id_inst_dbg",
+            "type": {
+              "sigType": "reg",
+              "width": 32
+            },
+            "value": "b00000000000000000000000000000000"
+          },
+          "if_id_valid_dbg": {
+            "name": "if_id_valid_dbg",
+            "type": {
+              "sigType": "reg",
+              "width": 1
+            },
+            "value": "1"
+          },
+          "if_inst_dbg": {
+            "name": "if_inst_dbg",
+            "type": {
+              "sigType": "reg",
+              "width": 32
+            },
+            "value": "b00000000000000000000000000000000"
+          },
+          "if_valid_dbg": {
+            "name": "if_valid_dbg",
+            "type": {
+              "sigType": "reg",
+              "width": 1
+            },
+            "value": "1"
+          },
+          "instr_count": {
+            "name": "instr_count",
+            "type": {
+              "sigType": "reg",
+              "width": 32
+            },
+            "value": "b00000000000000000000000000000101"
+          },
+          "mem2proc_data": {
+            "name": "mem2proc_data",
+            "type": {
+              "sigType": "reg",
+              "width": 64
+            },
+            "value": "b0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "mem2proc_data_tag": {
+            "name": "mem2proc_data_tag",
+            "type": {
+              "sigType": "reg",
+              "width": 4
+            },
+            "value": "b0001"
+          },
+          "mem2proc_transaction_tag": {
+            "name": "mem2proc_transaction_tag",
+            "type": {
+              "sigType": "reg",
+              "width": 4
+            },
+            "value": "b0001"
+          },
+          "mem_wb_NPC_dbg": {
+            "name": "mem_wb_NPC_dbg",
+            "type": {
+              "sigType": "reg",
+              "width": 32
+            },
+            "value": "b00000000000000000000000000011000"
+          },
+          "mem_wb_inst_dbg": {
+            "name": "mem_wb_inst_dbg",
+            "type": {
+              "sigType": "reg",
+              "width": 32
+            },
+            "value": "b01000000000100010000001010110011"
+          },
+          "mem_wb_valid_dbg": {
+            "name": "mem_wb_valid_dbg",
+            "type": {
+              "sigType": "reg",
+              "width": 1
+            },
+            "value": "1"
+          },
+          "memory": {
+            "children": {
+              "acquire_tag": {
+                "name": "acquire_tag",
+                "type": {
+                  "sigType": "reg",
+                  "width": 1
+                },
+                "value": "0"
+              },
+              "block": {
+                "name": "block",
+                "type": {
+                  "sigType": "reg",
+                  "width": 64
+                },
+                "value": "b0000000000000000000000000000000000000000000000000000000000000000"
+              },
+              "block_addr": {
+                "name": "block_addr",
+                "type": {
+                  "sigType": "wire",
+                  "width": 29
+                },
+                "value": "b00000000000000000000000000100"
+              },
+              "bus_filled": {
+                "name": "bus_filled",
+                "type": {
+                  "sigType": "reg",
+                  "width": 1
+                },
+                "value": "1"
+              },
+              "byte_addr": {
+                "name": "byte_addr",
+                "type": {
+                  "sigType": "wire",
+                  "width": 3
+                },
+                "value": "b000"
+              },
+              "clock": {
+                "name": "clock",
+                "type": {
+                  "sigType": "wire",
+                  "width": 1
+                },
+                "value": "1"
+              },
+              "load_data": {
+                "name": "load_data",
+                "type": {
+                  "sigType": "reg",
+                  "width": 64
+                },
+                "value": "b0000000000000000000000000000000000000000000000000000000000000000"
+              },
+              "mem2proc_data": {
+                "name": "mem2proc_data",
+                "type": {
+                  "sigType": "reg",
+                  "width": 64
+                },
+                "value": "b0000000000000000000000000000000000000000000000000000000000000000"
+              },
+              "mem2proc_data_tag": {
+                "name": "mem2proc_data_tag",
+                "type": {
+                  "sigType": "reg",
+                  "width": 4
+                },
+                "value": "b0001"
+              },
+              "mem2proc_transaction_tag": {
+                "name": "mem2proc_transaction_tag",
+                "type": {
+                  "sigType": "reg",
+                  "width": 4
+                },
+                "value": "b0001"
+              },
+              "next_mem2proc_data": {
+                "name": "next_mem2proc_data",
+                "type": {
+                  "sigType": "reg",
+                  "width": 64
+                },
+                "value": "b0000000000000000000000000000000000000000000000000000000000000000"
+              },
+              "next_mem2proc_data_tag": {
+                "name": "next_mem2proc_data_tag",
+                "type": {
+                  "sigType": "reg",
+                  "width": 4
+                },
+                "value": "b0001"
+              },
+              "next_mem2proc_transaction_tag": {
+                "name": "next_mem2proc_transaction_tag",
+                "type": {
+                  "sigType": "reg",
+                  "width": 4
+                },
+                "value": "b0001"
+              },
+              "proc2mem_addr": {
+                "name": "proc2mem_addr",
+                "type": {
+                  "sigType": "reg",
+                  "width": 32
+                },
+                "value": "b00000000000000000000000000100000"
+              },
+              "proc2mem_command": {
+                "name": "proc2mem_command",
+                "type": {
+                  "sigType": "wire",
+                  "width": 2
+                },
+                "value": "b01"
+              },
+              "proc2mem_data": {
+                "name": "proc2mem_data",
+                "type": {
+                  "sigType": "reg",
+                  "width": 64
+                },
+                "value": "b0000000000000000000000000000000000000000000000000000000000000001"
+              },
+              "proc2mem_size": {
+                "name": "proc2mem_size",
+                "type": {
+                  "sigType": "reg",
+                  "width": 2
+                },
+                "value": "b11"
+              },
+              "unnamed$$0": {
+                "children": {},
+                "name": "unnamed$$0"
+              },
+              "unnamed$$1": {
+                "children": {},
+                "name": "unnamed$$1"
+              },
+              "unnamed$$2": {
+                "children": {},
+                "name": "unnamed$$2"
+              },
+              "valid_address": {
+                "name": "valid_address",
+                "type": {
+                  "sigType": "reg",
+                  "width": 1
+                },
+                "value": "1"
+              }
+            },
+            "name": "memory"
+          },
+          "output_reg_writeback_and_maybe_halt": {
+            "children": {
+              "block": {
+                "name": "block",
+                "type": {
+                  "sigType": "reg",
+                  "width": 64
+                },
+                "value": "b0100000000010001000000101011001100000010001100010000001010110011"
+              },
+              "inst": {
+                "name": "inst",
+                "type": {
+                  "sigType": "reg",
+                  "width": 32
+                },
+                "value": "b00000010001100010000001010110011"
+              },
+              "pc": {
+                "name": "pc",
+                "type": {
+                  "sigType": "reg",
+                  "width": 32
+                },
+                "value": "b00000000000000000000000000010000"
+              },
+              "unnamed$$0": {
+                "children": {},
+                "name": "unnamed$$0"
+              }
+            },
+            "name": "output_reg_writeback_and_maybe_halt"
+          },
+          "proc2mem_addr": {
+            "name": "proc2mem_addr",
+            "type": {
+              "sigType": "reg",
+              "width": 32
+            },
+            "value": "b00000000000000000000000000100000"
+          },
+          "proc2mem_command": {
+            "name": "proc2mem_command",
+            "type": {
+              "sigType": "reg",
+              "width": 2
+            },
+            "value": "b01"
+          },
+          "proc2mem_data": {
+            "name": "proc2mem_data",
+            "type": {
+              "sigType": "reg",
+              "width": 64
+            },
+            "value": "b0000000000000000000000000000000000000000000000000000000000000001"
+          },
+          "proc2mem_size": {
+            "name": "proc2mem_size",
+            "type": {
+              "sigType": "reg",
+              "width": 2
+            },
+            "value": "b11"
+          },
+          "reset": {
+            "name": "reset",
+            "type": {
+              "sigType": "reg",
+              "width": 1
+            },
+            "value": "0"
+          },
+          "show_final_mem_and_status": {
+            "children": {
+              "final_status": {
+                "name": "final_status",
+                "type": {
+                  "sigType": "reg",
+                  "width": 4
+                },
+                "value": "bxxxx"
+              },
+              "showing_data": {
+                "name": "showing_data",
+                "type": {
+                  "sigType": "reg",
+                  "width": 32
+                },
+                "value": "b00000000000000000000000000000000"
+              },
+              "unnamed$$0": {
+                "children": {},
+                "name": "unnamed$$0"
+              }
+            },
+            "name": "show_final_mem_and_status"
+          },
+          "verisimpleV": {
+            "children": {
+              "Dmem_addr": {
+                "name": "Dmem_addr",
+                "type": {
+                  "sigType": "reg",
+                  "width": 32
+                },
+                "value": "b00000000000000000000000000000001"
+              },
+              "Dmem_command": {
+                "name": "Dmem_command",
+                "type": {
+                  "sigType": "reg",
+                  "width": 2
+                },
+                "value": "b00"
+              },
+              "Dmem_size": {
+                "name": "Dmem_size",
+                "type": {
+                  "sigType": "reg",
+                  "width": 2
+                },
+                "value": "b00"
+              },
+              "Dmem_store_data": {
+                "name": "Dmem_store_data",
+                "type": {
+                  "sigType": "reg",
+                  "width": 64
+                },
+                "value": "b0000000000000000000000000000000000000000000000000000000000000001"
+              },
+              "Imem_addr": {
+                "name": "Imem_addr",
+                "type": {
+                  "sigType": "reg",
+                  "width": 32
+                },
+                "value": "b00000000000000000000000000100000"
+              },
+              "clock": {
+                "name": "clock",
+                "type": {
+                  "sigType": "wire",
+                  "width": 1
+                },
+                "value": "1"
+              },
+              "committed_insts": {
+                "name": "committed_insts",
+                "type": {
+                  "sigType": "reg",
+                  "width": 72
+                },
+                "value": "b000000000000000000000000000110000000000000000000000000000000000100101001"
+              },
+              "ex_mem_NPC_dbg": {
+                "name": "ex_mem_NPC_dbg",
+                "type": {
+                  "sigType": "reg",
+                  "width": 32
+                },
+                "value": "b00000000000000000000000000011100"
+              },
+              "ex_mem_enable": {
+                "name": "ex_mem_enable",
+                "type": {
+                  "sigType": "reg",
+                  "width": 1
+                },
+                "value": "1"
+              },
+              "ex_mem_inst_dbg": {
+                "name": "ex_mem_inst_dbg",
+                "type": {
+                  "sigType": "reg",
+                  "width": 32
+                },
+                "value": "b00010000010100000000000001110011"
+              },
+              "ex_mem_reg": {
+                "name": "ex_mem_reg",
+                "type": {
+                  "sigType": "reg",
+                  "width": 111
+                },
+                "value": "b000000000000000000000000000000010000000000000000000000000001110000000000000000000000000000000000100000001000001"
+              },
+              "ex_mem_valid_dbg": {
+                "name": "ex_mem_valid_dbg",
+                "type": {
+                  "sigType": "reg",
+                  "width": 1
+                },
+                "value": "1"
+              },
+              "ex_packet": {
+                "name": "ex_packet",
+                "type": {
+                  "sigType": "reg",
+                  "width": 111
+                },
+                "value": "b000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000100001"
+              },
+              "forward_EX_MEM_rs1": {
+                "name": "forward_EX_MEM_rs1",
+                "type": {
+                  "sigType": "reg",
+                  "width": 1
+                },
+                "value": "0"
+              },
+              "forward_EX_MEM_rs2": {
+                "name": "forward_EX_MEM_rs2",
+                "type": {
+                  "sigType": "reg",
+                  "width": 1
+                },
+                "value": "0"
+              },
+              "forward_MEM_WB_rs1": {
+                "name": "forward_MEM_WB_rs1",
+                "type": {
+                  "sigType": "reg",
+                  "width": 1
+                },
+                "value": "0"
+              },
+              "forward_MEM_WB_rs2": {
+                "name": "forward_MEM_WB_rs2",
+                "type": {
+                  "sigType": "reg",
+                  "width": 1
+                },
+                "value": "0"
+              },
+              "forward_packet": {
+                "name": "forward_packet",
+                "type": {
+                  "sigType": "reg",
+                  "width": 183
+                },
+                "value": "b000000000000000000000000000000000000000000000000000000000001110000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000101"
+              },
+              "id_ex_NPC_dbg": {
+                "name": "id_ex_NPC_dbg",
+                "type": {
+                  "sigType": "reg",
+                  "width": 32
+                },
+                "value": "b00000000000000000000000000100000"
+              },
+              "id_ex_enable": {
+                "name": "id_ex_enable",
+                "type": {
+                  "sigType": "reg",
+                  "width": 1
+                },
+                "value": "1"
+              },
+              "id_ex_inst_dbg": {
+                "name": "id_ex_inst_dbg",
+                "type": {
+                  "sigType": "reg",
+                  "width": 32
+                },
+                "value": "b00000000000000000000000000000000"
+              },
+              "id_ex_reg": {
+                "name": "id_ex_reg",
+                "type": {
+                  "sigType": "reg",
+                  "width": 183
+                },
+                "value": "b000000000000000000000000000000000000000000000000000000000001110000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000101"
+              },
+              "id_ex_valid_dbg": {
+                "name": "id_ex_valid_dbg",
+                "type": {
+                  "sigType": "reg",
+                  "width": 1
+                },
+                "value": "1"
+              },
+              "id_packet": {
+                "name": "id_packet",
+                "type": {
+                  "sigType": "reg",
+                  "width": 183
+                },
+                "value": "b000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000100100000000000000000000000000000000000000000000000000000000000000000000000000000000000000101"
+              },
+              "if_NPC_dbg": {
+                "name": "if_NPC_dbg",
+                "type": {
+                  "sigType": "reg",
+                  "width": 32
+                },
+                "value": "b00000000000000000000000000101000"
+              },
+              "if_id_NPC_dbg": {
+                "name": "if_id_NPC_dbg",
+                "type": {
+                  "sigType": "reg",
+                  "width": 32
+                },
+                "value": "b00000000000000000000000000100100"
+              },
+              "if_id_enable": {
+                "name": "if_id_enable",
+                "type": {
+                  "sigType": "reg",
+                  "width": 1
+                },
+                "value": "1"
+              },
+              "if_id_inst_dbg": {
+                "name": "if_id_inst_dbg",
+                "type": {
+                  "sigType": "reg",
+                  "width": 32
+                },
+                "value": "b00000000000000000000000000000000"
+              },
+              "if_id_reg": {
+                "name": "if_id_reg",
+                "type": {
+                  "sigType": "reg",
+                  "width": 97
+                },
+                "value": "b0000000000000000000000000000000000000000000000000000000000100000000000000000000000000000001001001"
+              },
+              "if_id_valid_dbg": {
+                "name": "if_id_valid_dbg",
+                "type": {
+                  "sigType": "reg",
+                  "width": 1
+                },
+                "value": "1"
+              },
+              "if_inst_dbg": {
+                "name": "if_inst_dbg",
+                "type": {
+                  "sigType": "reg",
+                  "width": 32
+                },
+                "value": "b00000000000000000000000000000000"
+              },
+              "if_packet": {
+                "name": "if_packet",
+                "type": {
+                  "sigType": "reg",
+                  "width": 97
+                },
+                "value": "b0000000000000000000000000000000000000000000000000000000000100100000000000000000000000000001010001"
+              },
+              "if_valid": {
+                "name": "if_valid",
+                "type": {
+                  "sigType": "reg",
+                  "width": 1
+                },
+                "value": "1"
+              },
+              "if_valid_dbg": {
+                "name": "if_valid_dbg",
+                "type": {
+                  "sigType": "reg",
+                  "width": 1
+                },
+                "value": "1"
+              },
+              "mem2proc_data": {
+                "name": "mem2proc_data",
+                "type": {
+                  "sigType": "reg",
+                  "width": 64
+                },
+                "value": "b0000000000000000000000000000000000000000000000000000000000000000"
+              },
+              "mem2proc_data_tag": {
+                "name": "mem2proc_data_tag",
+                "type": {
+                  "sigType": "reg",
+                  "width": 4
+                },
+                "value": "b0001"
+              },
+              "mem2proc_transaction_tag": {
+                "name": "mem2proc_transaction_tag",
+                "type": {
+                  "sigType": "reg",
+                  "width": 4
+                },
+                "value": "b0001"
+              },
+              "mem_packet": {
+                "name": "mem_packet",
+                "type": {
+                  "sigType": "reg",
+                  "width": 73
+                },
+                "value": "b0000000000000000000000000000000100000000000000000000000000011100000000101"
+              },
+              "mem_wb_NPC_dbg": {
+                "name": "mem_wb_NPC_dbg",
+                "type": {
+                  "sigType": "reg",
+                  "width": 32
+                },
+                "value": "b00000000000000000000000000011000"
+              },
+              "mem_wb_enable": {
+                "name": "mem_wb_enable",
+                "type": {
+                  "sigType": "reg",
+                  "width": 1
+                },
+                "value": "1"
+              },
+              "mem_wb_inst_dbg": {
+                "name": "mem_wb_inst_dbg",
+                "type": {
+                  "sigType": "reg",
+                  "width": 32
+                },
+                "value": "b01000000000100010000001010110011"
+              },
+              "mem_wb_reg": {
+                "name": "mem_wb_reg",
+                "type": {
+                  "sigType": "reg",
+                  "width": 73
+                },
+                "value": "b0000000000000000000000000000000100000000000000000000000000011000001010001"
+              },
+              "mem_wb_valid_dbg": {
+                "name": "mem_wb_valid_dbg",
+                "type": {
+                  "sigType": "reg",
+                  "width": 1
+                },
+                "value": "1"
+              },
+              "proc2mem_addr": {
+                "name": "proc2mem_addr",
+                "type": {
+                  "sigType": "reg",
+                  "width": 32
+                },
+                "value": "b00000000000000000000000000100000"
+              },
+              "proc2mem_command": {
+                "name": "proc2mem_command",
+                "type": {
+                  "sigType": "reg",
+                  "width": 2
+                },
+                "value": "b01"
+              },
+              "proc2mem_data": {
+                "name": "proc2mem_data",
+                "type": {
+                  "sigType": "reg",
+                  "width": 64
+                },
+                "value": "b0000000000000000000000000000000000000000000000000000000000000001"
+              },
+              "proc2mem_size": {
+                "name": "proc2mem_size",
+                "type": {
+                  "sigType": "reg",
+                  "width": 2
+                },
+                "value": "b11"
+              },
+              "reset": {
+                "name": "reset",
+                "type": {
+                  "sigType": "wire",
+                  "width": 1
+                },
+                "value": "0"
+              },
+              "stage_ex_0": {
+                "children": {
+                  "alu_0": {
+                    "children": {
+                      "alu_func": {
+                        "name": "alu_func",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 4
+                        },
+                        "value": "b0000"
+                      },
+                      "opa": {
+                        "name": "opa",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 32
+                        },
+                        "value": "b00000000000000000000000000000000"
+                      },
+                      "opb": {
+                        "name": "opb",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 32
+                        },
+                        "value": "b00000000000000000000000000000000"
+                      },
+                      "result": {
+                        "name": "result",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 32
+                        },
+                        "value": "b00000000000000000000000000000000"
+                      }
+                    },
+                    "name": "alu_0"
+                  },
+                  "alu_result": {
+                    "name": "alu_result",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 32
+                    },
+                    "value": "b00000000000000000000000000000000"
+                  },
+                  "conditional_branch_0": {
+                    "children": {
+                      "func": {
+                        "name": "func",
+                        "type": {
+                          "sigType": "wire",
+                          "width": 3
+                        },
+                        "value": "b000"
+                      },
+                      "rs1": {
+                        "name": "rs1",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 32
+                        },
+                        "value": "b00000000000000000000000000000000"
+                      },
+                      "rs2": {
+                        "name": "rs2",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 32
+                        },
+                        "value": "b00000000000000000000000000000000"
+                      },
+                      "take": {
+                        "name": "take",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 1
+                        },
+                        "value": "1"
+                      }
+                    },
+                    "name": "conditional_branch_0"
+                  },
+                  "ex_packet": {
+                    "name": "ex_packet",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 111
+                    },
+                    "value": "b000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000100001"
+                  },
+                  "id_ex_reg": {
+                    "name": "id_ex_reg",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 183
+                    },
+                    "value": "b000000000000000000000000000000000000000000000000000000000001110000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000101"
+                  },
+                  "mult_0": {
+                    "children": {
+                      "func": {
+                        "name": "func",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 3
+                        },
+                        "value": "b000"
+                      },
+                      "mixed_mul": {
+                        "name": "mixed_mul",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 64
+                        },
+                        "value": "b0000000000000000000000000000000000000000000000000000000000000000"
+                      },
+                      "result": {
+                        "name": "result",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 32
+                        },
+                        "value": "b00000000000000000000000000000000"
+                      },
+                      "rs1": {
+                        "name": "rs1",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 32
+                        },
+                        "value": "b00000000000000000000000000000000"
+                      },
+                      "rs2": {
+                        "name": "rs2",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 32
+                        },
+                        "value": "b00000000000000000000000000000000"
+                      },
+                      "signed_mul": {
+                        "name": "signed_mul",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 64
+                        },
+                        "value": "b0000000000000000000000000000000000000000000000000000000000000000"
+                      },
+                      "unsigned_mul": {
+                        "name": "unsigned_mul",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 64
+                        },
+                        "value": "b0000000000000000000000000000000000000000000000000000000000000000"
+                      }
+                    },
+                    "name": "mult_0"
+                  },
+                  "mult_result": {
+                    "name": "mult_result",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 32
+                    },
+                    "value": "b00000000000000000000000000000000"
+                  },
+                  "opa_mux_out": {
+                    "name": "opa_mux_out",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 32
+                    },
+                    "value": "b00000000000000000000000000000000"
+                  },
+                  "opb_mux_out": {
+                    "name": "opb_mux_out",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 32
+                    },
+                    "value": "b00000000000000000000000000000000"
+                  },
+                  "take_conditional": {
+                    "name": "take_conditional",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 1
+                    },
+                    "value": "1"
+                  }
+                },
+                "name": "stage_ex_0"
+              },
+              "stage_id_0": {
+                "children": {
+                  "clock": {
+                    "name": "clock",
+                    "type": {
+                      "sigType": "wire",
+                      "width": 1
+                    },
+                    "value": null
+                  },
+                  "decoder_0": {
+                    "children": {
+                      "alu_func": {
+                        "name": "alu_func",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 4
+                        },
+                        "value": "b0000"
+                      },
+                      "cond_branch": {
+                        "name": "cond_branch",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 1
+                        },
+                        "value": "0"
+                      },
+                      "csr_op": {
+                        "name": "csr_op",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 1
+                        },
+                        "value": "0"
+                      },
+                      "halt": {
+                        "name": "halt",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 1
+                        },
+                        "value": "0"
+                      },
+                      "has_dest": {
+                        "name": "has_dest",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 1
+                        },
+                        "value": "0"
+                      },
+                      "illegal": {
+                        "name": "illegal",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 1
+                        },
+                        "value": "1"
+                      },
+                      "inst": {
+                        "name": "inst",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 32
+                        },
+                        "value": "b00000000000000000000000000000000"
+                      },
+                      "mult": {
+                        "name": "mult",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 1
+                        },
+                        "value": "0"
+                      },
+                      "opa_select": {
+                        "name": "opa_select",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 2
+                        },
+                        "value": "b00"
+                      },
+                      "opb_select": {
+                        "name": "opb_select",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 3
+                        },
+                        "value": "b000"
+                      },
+                      "rd_mem": {
+                        "name": "rd_mem",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 1
+                        },
+                        "value": "0"
+                      },
+                      "uncond_branch": {
+                        "name": "uncond_branch",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 1
+                        },
+                        "value": "0"
+                      },
+                      "valid": {
+                        "name": "valid",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 1
+                        },
+                        "value": "1"
+                      },
+                      "wr_mem": {
+                        "name": "wr_mem",
+                        "type": {
+                          "sigType": "reg",
+                          "width": 1
+                        },
+                        "value": "0"
+                      }
+                    },
+                    "name": "decoder_0"
+                  },
+                  "has_dest_reg": {
+                    "name": "has_dest_reg",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 1
+                    },
+                    "value": "0"
+                  },
+                  "id_packet": {
+                    "name": "id_packet",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 183
+                    },
+                    "value": "b000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000100100000000000000000000000000000000000000000000000000000000000000000000000000000000000000101"
+                  },
+                  "if_id_reg": {
+                    "name": "if_id_reg",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 97
+                    },
+                    "value": "b0000000000000000000000000000000000000000000000000000000000100000000000000000000000000000001001001"
+                  },
+                  "reset": {
+                    "name": "reset",
+                    "type": {
+                      "sigType": "wire",
+                      "width": 1
+                    },
+                    "value": null
+                  }
+                },
+                "name": "stage_id_0"
+              },
+              "stage_if_0": {
+                "children": {
+                  "Imem_addr": {
+                    "name": "Imem_addr",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 32
+                    },
+                    "value": "b00000000000000000000000000100000"
+                  },
+                  "Imem_data": {
+                    "name": "Imem_data",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 64
+                    },
+                    "value": "b0000000000000000000000000000000000000000000000000000000000000000"
+                  },
+                  "PC_reg": {
+                    "name": "PC_reg",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 32
+                    },
+                    "value": "b00000000000000000000000000100100"
+                  },
+                  "branch_target": {
+                    "name": "branch_target",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 32
+                    },
+                    "value": "b00000000000000000000000000000001"
+                  },
+                  "clock": {
+                    "name": "clock",
+                    "type": {
+                      "sigType": "wire",
+                      "width": 1
+                    },
+                    "value": null
+                  },
+                  "if_packet": {
+                    "name": "if_packet",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 97
+                    },
+                    "value": "b0000000000000000000000000000000000000000000000000000000000100100000000000000000000000000001010001"
+                  },
+                  "if_valid": {
+                    "name": "if_valid",
+                    "type": {
+                      "sigType": "wire",
+                      "width": 1
+                    },
+                    "value": "1"
+                  },
+                  "reset": {
+                    "name": "reset",
+                    "type": {
+                      "sigType": "wire",
+                      "width": 1
+                    },
+                    "value": null
+                  },
+                  "take_branch": {
+                    "name": "take_branch",
+                    "type": {
+                      "sigType": "wire",
+                      "width": 1
+                    },
+                    "value": "0"
+                  }
+                },
+                "name": "stage_if_0"
+              },
+              "stage_mem_0": {
+                "children": {
+                  "Dmem_addr": {
+                    "name": "Dmem_addr",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 32
+                    },
+                    "value": "b00000000000000000000000000000001"
+                  },
+                  "Dmem_command": {
+                    "name": "Dmem_command",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 2
+                    },
+                    "value": "b00"
+                  },
+                  "Dmem_load_data": {
+                    "name": "Dmem_load_data",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 64
+                    },
+                    "value": "b0000000000000000000000000000000000000000000000000000000000000000"
+                  },
+                  "Dmem_size": {
+                    "name": "Dmem_size",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 2
+                    },
+                    "value": "b00"
+                  },
+                  "Dmem_store_data": {
+                    "name": "Dmem_store_data",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 64
+                    },
+                    "value": "b0000000000000000000000000000000000000000000000000000000000000001"
+                  },
+                  "ex_mem_reg": {
+                    "name": "ex_mem_reg",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 111
+                    },
+                    "value": "b000000000000000000000000000000010000000000000000000000000001110000000000000000000000000000000000100000001000001"
+                  },
+                  "load_data": {
+                    "name": "load_data",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 32
+                    },
+                    "value": "b00000000000000000000000000000000"
+                  },
+                  "mem_packet": {
+                    "name": "mem_packet",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 73
+                    },
+                    "value": "b0000000000000000000000000000000100000000000000000000000000011100000000101"
+                  }
+                },
+                "name": "stage_mem_0"
+              },
+              "stage_wb_0": {
+                "children": {
+                  "mem_wb_reg": {
+                    "name": "mem_wb_reg",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 73
+                    },
+                    "value": "b0000000000000000000000000000000100000000000000000000000000011000001010001"
+                  },
+                  "wb_packet": {
+                    "name": "wb_packet",
+                    "type": {
+                      "sigType": "reg",
+                      "width": 72
+                    },
+                    "value": "b000000000000000000000000000110000000000000000000000000000000000100101001"
+                  }
+                },
+                "name": "stage_wb_0"
+              },
+              "stall_for_load": {
+                "name": "stall_for_load",
+                "type": {
+                  "sigType": "reg",
+                  "width": 1
+                },
+                "value": "0"
+              },
+              "start_valid_on_reset": {
+                "name": "start_valid_on_reset",
+                "type": {
+                  "sigType": "reg",
+                  "width": 1
+                },
+                "value": "0"
+              },
+              "wb_packet": {
+                "name": "wb_packet",
+                "type": {
+                  "sigType": "reg",
+                  "width": 72
+                },
+                "value": "b000000000000000000000000000110000000000000000000000000000000000100101001"
+              },
+              "wb_valid": {
+                "name": "wb_valid",
+                "type": {
+                  "sigType": "reg",
+                  "width": 1
+                },
+                "value": "1"
+              }
+            },
+            "name": "verisimpleV"
+          }
+        },
+        "name": "testbench"
+      }
+    },
+    "name": "root"
+  }
+}

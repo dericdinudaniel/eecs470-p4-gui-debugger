@@ -19,11 +19,19 @@ import logging
 
 # for every cycle, this will store into the cache the signals at that cycle, maintaining the hierarchy
 # structure will be the exact same, but data will be a single value instead of a list of values
+
+discard_terms = {"file", "unnamed"}
 def full_parse(cache, root_scope, num_cycles):
     def process_scope(scope, timestamp):
         result = {"name": scope.name}
         if hasattr(scope, 'children'):
-            result["children"] = {name: process_scope(child, timestamp) for name, child in scope.children.items()}
+            # result["children"] = {name: process_scope(child, timestamp) for name, child in scope.children.items()}
+            result["children"] = {}
+            for name, child in scope.children.items():
+                if any(term in name.lower() for term in discard_terms):
+                    continue
+                
+                result["children"][name] = process_scope(child, timestamp)
         else:
             if hasattr(scope, 'data'):
                 data = scope.data

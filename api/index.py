@@ -52,7 +52,8 @@ def parse_vcd_content():
 
     except Exception as e:
         logging.error(f"Error processing VCD content: {str(e)}")
-        return jsonify({"error": "Internal server error"}), 500
+        # return the actual exception message
+        return jsonify({"error": str(e)}), 500
     
 @app.route("/api/get_signals/<cycle>/", methods=["GET"])
 def get_signals(cycle):
