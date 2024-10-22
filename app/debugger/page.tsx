@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import DebuggerOutput from "@/components/DebuggerOutput";
+import ROBDebugger from "@/components/ROBDebugger";
 
 export default function Debugger() {
   const [currentCycle, setCurrentCycle] = useState(0);
@@ -61,7 +63,7 @@ export default function Debugger() {
     if (headerInfoParam) {
       const parsedHeaderInfo = JSON.parse(headerInfoParam);
       setHeaderInfo(parsedHeaderInfo);
-      setMaxCycle(parsedHeaderInfo.num_cycles || 0);
+      setMaxCycle(parsedHeaderInfo.num_cycles - 1 || 0);
     }
 
     fetchSignalData(0);
@@ -109,7 +111,7 @@ export default function Debugger() {
         <h1 className="text-2xl font-bold mb-6">Verilog Debugger</h1>
         <div className="mb-4">
           <p>Current Cycle: {currentCycle}</p>
-          <p>Num Cycles: {maxCycle}</p>
+          <p>Num Cycles: {maxCycle + 1}</p>
         </div>
         <div className="flex space-x-2 mb-4">
           <button onClick={handleBeginning} className="debugger-cycle-btn">
@@ -139,14 +141,19 @@ export default function Debugger() {
             Jump to Cycle (j)
           </button>
         </div>
-        {signalData && (
+        {/* {signalData && (
           <div className="mt-8">
             <h2 className="text-xl font-semibold mb-4">Signal Data</h2>
             <pre className="bg-gray-100 p-4 rounded">
               {JSON.stringify(signalData, null, 2)}
             </pre>
           </div>
-        )}
+        )} */}
+        <ROBDebugger
+          // always pass in direct access to ROB
+          signalData={signalData?.signals.children.testbench.children.DUT}
+        />
+        {/* <DebuggerOutput signalData={signalData} /> */}
       </div>
     </div>
   );
