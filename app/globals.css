@@ -19,6 +19,10 @@
     @apply font-jetbrains_mono;
   }
 
+  span {
+    @apply font-jetbrains_mono;
+  }
+
   a {
     @apply font-jetbrains_mono;
   }
@@ -36,6 +40,10 @@
   }
 
   label {
+    @apply font-jetbrains_mono;
+  }
+
+  select {
     @apply font-jetbrains_mono;
   }
 }

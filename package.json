@@ -15,6 +15,7 @@
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
     "autoprefixer": "10.4.14",
+    "binary-parser": "^2.2.1",
     "concurrently": "^8.0.1",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",

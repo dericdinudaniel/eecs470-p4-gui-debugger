@@ -149,11 +149,16 @@ export default function Debugger() {
             </pre>
           </div>
         )} */}
-        <ROBDebugger
-          // always pass in direct access to ROB
-          signalData={signalData?.signals.children.testbench.children.DUT}
-        />
-        {/* <DebuggerOutput signalData={signalData} /> */}
+        {signalData && (
+          <>
+            <ROBDebugger
+              className=""
+              // always pass in direct access to ROB
+              signalData={signalData?.signals.children.testbench.children.DUT}
+            />
+            <DebuggerOutput signalData={signalData} />
+          </>
+        )}
       </div>
     </div>
   );
