@@ -84,17 +84,19 @@ const DisplayROBData = (
   return (
     <>
       <table className="">
-        <thead className="border-b">
+        <thead className="border ROB-border-color bg-slate-300">
           <tr>
             <th className=" p-2">Entry #</th>
-            <th className=" border-l p-2">R_dest</th>
-            <th className=" border-l p-2">T_new</th>
-            <th className=" border-l p-2">T_old</th>
-            <th className=" border-l p-2">Valid</th>
+            <th className=" border-l ROB-border-color p-2">R_dest</th>
+            <th className=" border-l ROB-border-color p-2">T_new</th>
+            <th className=" border-l ROB-border-color p-2">T_old</th>
+            <th className=" border-l ROB-border-color p-2">Valid</th>
             {isROB && (
               <>
-                <th className=" border-l p-2">Retirable</th>
-                <th className=" border-l p-2 pl-9">Head/Tail</th>
+                <th className=" border-l ROB-border-color p-2">Retirable</th>
+                <th className=" border-l ROB-border-color p-2 pl-9">
+                  Head/Tail
+                </th>
               </>
             )}
           </tr>
@@ -124,7 +126,9 @@ const DisplayROBData = (
               ? "bg-red-200"
               : isTail
               ? "bg-green-200"
-              : "";
+              : entry.valid
+              ? "bg-yellow-100"
+              : "bg-gray-200";
             const headOrTailString =
               "←" +
               (isBoth
@@ -136,26 +140,28 @@ const DisplayROBData = (
                 : "");
 
             return (
-              <tr key={idx} className={"border-b " + color}>
-                <td className="text-right">{entryNumber}</td>
-                <td className="text-center border-l">
+              <tr key={idx} className={`border ROB-border-color ${color}`}>
+                <td className="text-right border-l ROB-border-color">
+                  {entryNumber}
+                </td>
+                <td className="text-center border-l ROB-border-color">
                   {"r" + displayValue(entry.R_dest)}
                 </td>
-                <td className="text-center border-l">
+                <td className="text-center border-l ROB-border-color">
                   {"p" + displayValue(entry.T_new)}
                 </td>
-                <td className="text-center border-l">
+                <td className="text-center border-l ROB-border-color">
                   {"p" + displayValue(entry.T_old)}
                 </td>
-                <td className="text-center border-l">
+                <td className="text-center border-l ROB-border-color">
                   {displayValue(entry.valid ? "1" : "0")}
                 </td>
                 {isROB && (
                   <>
-                    <td className="text-center border-l">
+                    <td className="text-center border-l ROB-border-color">
                       {displayValue(entry.retireable ? "1" : "0")}
                     </td>
-                    <td className="text-center border-l pl-3">
+                    <td className="text-center border-l border-r ROB-border-color pl-1">
                       {isEither && headOrTailString}
                     </td>
                   </>
@@ -234,7 +240,7 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
 
           {/* display ROB internals */}
           <div className="flex space-x-4 mt-4">
-            <p className="mb-4">
+            <p className="mb-4 w-[12rem] mr-[-.8rem]">
               <span className="font-bold">Available Spots:</span>{" "}
               {available_spots}
             </p>

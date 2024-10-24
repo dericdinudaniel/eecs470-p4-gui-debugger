@@ -58,6 +58,12 @@
   }
 }
 
+@layer components {
+  .ROB-border-color {
+    @apply border-gray-800;
+  }
+}
+
 .underline-fade {
   position: relative;
   display: inline-block;
