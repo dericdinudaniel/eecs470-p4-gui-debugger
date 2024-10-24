@@ -8,7 +8,7 @@ export const N = 3;
 export const CDB_SZ = N; // This MUST match your superscalar width
 
 // Sizes
-export const ROB_SZ = 7;
+export const ROB_SZ = 32;
 export const RS_SZ = NaN; // Replace `NaN` with the appropriate value
 export const PHYS_REG_SZ_P6 = 32;
 export const PHYS_REG_SZ_R10K = 32 + ROB_SZ;
@@ -32,8 +32,6 @@ export const MULT_STAGES = 4;
 
 export const FALSE = 0; // boolean false
 export const TRUE = 1; // boolean true
-
-export const REG_IDX_WIDTH = 5;
 
 // Zero Register
 export const ZERO_REG = 0; // equivalent of 5'd0 in SystemVerilog

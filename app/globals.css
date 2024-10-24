@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  div {
+    @apply font-jetbrains_mono;
+  }
+
   h1 {
     @apply font-jetbrains_mono;
   }

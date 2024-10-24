@@ -5,6 +5,7 @@ import { clog2 } from "./utils";
 export type ADDR = number; // 32-bit address
 export type DATA = number; // 32-bit data
 export type REG_IDX = number; // 5-bit register index
+export const REG_IDX_WIDTH = 5;
 
 // Calculating the bit-width for PHYS_REG_TAG based on clog2(PHYS_REG_SZ_R10K)
 export type PHYS_REG_TAG = number;
@@ -272,6 +273,7 @@ export interface ROB_DATA {
   valid: boolean;
   retireable: boolean;
 }
+export const ROB_DATA_WIDTH = 2 * PHYS_REG_TAG_WIDTH + REG_IDX_WIDTH + 2;
 
 // RS Data packet
 export type RS_DATA = {
