@@ -23,7 +23,7 @@ type ROBDebuggerProps = {
   signalData: ScopeData;
 };
 
-const parseROBEntries = (entries: string): Types.ROB_DATA[] => {
+const parseROBData = (entries: string, arrLen: number): Types.ROB_DATA[] => {
   // Remove the 'b' prefix if present
   const binaryStr = entries.startsWith("b") ? entries.slice(1) : entries;
 
@@ -33,13 +33,13 @@ const parseROBEntries = (entries: string): Types.ROB_DATA[] => {
   const result: Types.ROB_DATA[] = [];
   const entryWidth = Types.ROB_DATA_WIDTH;
 
-  /// Helper function to extract bits and convert to number
+  // Helper function to extract bits and convert to number
   const extractBits = (startIndex: number, length: number): number => {
     const bitsSlice = binaryStr.slice(startIndex, startIndex + length);
     return parseInt(bitsSlice, 2);
   };
 
-  for (let i = 0; i < Constants.ROB_SZ; i++) {
+  for (let i = 0; i < arrLen; i++) {
     const startIdx = binaryStr.length - (i + 1) * entryWidth;
 
     // Extract each field
@@ -66,6 +66,100 @@ const parseROBEntries = (entries: string): Types.ROB_DATA[] => {
   }
 
   return result;
+};
+
+const DisplayROBData = (
+  ROBData: Types.ROB_DATA[],
+  head: number,
+  tail: number,
+  isROB: boolean
+) => {
+  return (
+    <>
+      <table className="">
+        <thead className="border-b">
+          <tr>
+            <th className=" p-2">Entry #</th>
+            <th className=" border-l p-2">R_dest</th>
+            <th className=" border-l p-2">T_new</th>
+            <th className=" border-l p-2">T_old</th>
+            <th className=" border-l p-2">Valid</th>
+            {isROB && (
+              <>
+                <th className=" border-l p-2">Retirable</th>
+                <th className=" border-l p-2 pl-9">Head/Tail</th>
+              </>
+            )}
+          </tr>
+        </thead>
+        <tbody>
+          {ROBData.map((entry, idx) => {
+            let isHead = head === idx;
+            let isTail = tail === idx;
+
+            if (!isROB) {
+              isHead = false;
+              isTail = false;
+            }
+
+            const isBoth = isHead && isTail;
+            const isEither = isHead || isTail;
+
+            const entryNumber = idx.toString().padStart(2, "") + ":";
+
+            // Helper function to display the value or "NaN"
+            const displayValue = (value: any) => (isNaN(value) ? "NaN" : value);
+
+            // green if tail, red if head, yellow if both
+            const color = isBoth
+              ? "bg-yellow-200"
+              : isHead
+              ? "bg-red-200"
+              : isTail
+              ? "bg-green-200"
+              : "";
+            const headOrTailString =
+              "←" +
+              (isBoth
+                ? " Head/Tail"
+                : isHead
+                ? " Head"
+                : isTail
+                ? " Tail"
+                : "");
+
+            return (
+              <tr key={idx} className={"border-b " + color}>
+                <td className="text-right">{entryNumber}</td>
+                <td className="text-center border-l">
+                  {"r" + displayValue(entry.R_dest)}
+                </td>
+                <td className="text-center border-l">
+                  {"p" + displayValue(entry.T_new)}
+                </td>
+                <td className="text-center border-l">
+                  {"p" + displayValue(entry.T_old)}
+                </td>
+                <td className="text-center border-l">
+                  {displayValue(entry.valid ? "1" : "0")}
+                </td>
+                {isROB && (
+                  <>
+                    <td className="text-center border-l">
+                      {displayValue(entry.retireable ? "1" : "0")}
+                    </td>
+                    <td className="text-center border-l pl-3">
+                      {isEither && headOrTailString}
+                    </td>
+                  </>
+                )}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </>
+  );
 };
 
 // function to extract values from the signal data
@@ -95,8 +189,11 @@ const extractSignalValueToInt = (
 
 const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
   // input signals
+  const dispatched_ins = extractSignalValue(signalData, "dispatched_ins").value;
+  const ROB_dispatched_ins = parseROBData(dispatched_ins, Constants.N);
 
   // internal signals
+  const reset = extractSignalValueToInt(signalData, "reset");
   const head = extractSignalValueToInt(signalData, "head");
   const tail = extractSignalValueToInt(signalData, "tail");
   const available_spots = extractSignalValueToInt(
@@ -113,7 +210,7 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
 
   // entries
   const entries = extractSignalValue(signalData, "entries").value;
-  const ROB_entries = parseROBEntries(entries);
+  const ROB_entries = parseROBData(entries, Constants.ROB_SZ);
 
   // output signals
   const open_spots = extractSignalValueToInt(signalData, "open_spots");
@@ -125,8 +222,11 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
           <h2 className="text-xl font-semibold mb-4  ">
             ROB (size = {Constants.ROB_SZ})
           </h2>
-          {/* display ROB status */}
-          <div className="flex space-x-4">
+          {/* display inputs */}
+          {DisplayROBData(ROB_dispatched_ins, -1, -1, false)}
+
+          {/* display ROB internals */}
+          <div className="flex space-x-4 mt-4">
             <p className="mb-4">
               <span className="font-bold">Available Spots:</span>{" "}
               {available_spots}
@@ -145,96 +245,17 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
               <span className="font-bold">Tail Growth:</span> {tail_growth}
             </p>
             <p className="mb-4">
-              <span className="font-bold">Next Direction:</span>{" "}
-              {next_direction}
+              <span className="font-bold">Next Dir:</span>{" "}
+              {next_direction ? "SHRK" : "GROW"}
             </p>
             <p className="mb-4">
-              <span className="font-bold">Last Direction:</span>{" "}
-              {last_direction}
+              <span className="font-bold">Last Dir:</span>{" "}
+              {last_direction ? "SHRK" : "GROW"}
             </p>
           </div>
 
-          {/* display ROB. */}
-          {/* each entry should display the following fields:
-            - entry number
-            - R_dest
-            - T_new
-            - T_old
-            - valid
-            - retireable
-        */}
-          {/* If an entry is the head or tail, the entry should be higlighted and there should be an arrow pointing to it on the right side indicating if it is head or tail */}
-          {/* The entry number can be multiple digits, they should all be right aligned */}
-          {/* display table header on top in this order: # entry number, T_new, T_old, valid, retirable, R_dest */}
-          <table className={className}>
-            <thead className="border-b">
-              <tr>
-                <th className=" p-2">Entry #</th>
-                <th className=" border-l p-2">T_new</th>
-                <th className=" border-l p-2">T_old</th>
-                <th className=" border-l p-2">Valid</th>
-                <th className=" border-l p-2">Retirable</th>
-                <th className=" border-l p-2">R_dest</th>
-                <th className=" border-l p-2 pl-9">Head/Tail</th>
-              </tr>
-            </thead>
-            <tbody>
-              {ROB_entries.map((entry, idx) => {
-                const isHead = head === idx;
-                const isTail = tail === idx;
-                const isBoth = isHead && isTail;
-                const isEither = isHead || isTail;
-
-                const entryNumber = idx.toString().padStart(2, "") + ":";
-
-                // Helper function to display the value or "NaN"
-                const displayValue = (value: any) =>
-                  isNaN(value) ? "NaN" : value;
-
-                // green if tail, red if head, yellow if both
-                const color = isBoth
-                  ? "bg-yellow-200"
-                  : isHead
-                  ? "bg-red-200"
-                  : isTail
-                  ? "bg-green-200"
-                  : "";
-                const headOrTailString =
-                  "←" +
-                  (isBoth
-                    ? " Head/Tail"
-                    : isHead
-                    ? " Head"
-                    : isTail
-                    ? " Tail"
-                    : "");
-
-                return (
-                  <tr key={idx} className={"border-b " + color}>
-                    <td className="text-right">{entryNumber}</td>
-                    <td className="text-center border-l">
-                      {"p" + displayValue(entry.T_new)}
-                    </td>
-                    <td className="text-center border-l">
-                      {"p" + displayValue(entry.T_old)}
-                    </td>
-                    <td className="text-center border-l">
-                      {displayValue(entry.valid ? "1" : "0")}
-                    </td>
-                    <td className="text-center border-l">
-                      {displayValue(entry.retireable ? "1" : "0")}
-                    </td>
-                    <td className="text-center border-l">
-                      {"r" + displayValue(entry.R_dest)}
-                    </td>
-                    <td className="text-center border-l pl-3">
-                      {isEither && headOrTailString}
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          {/* display ROB entries */}
+          {DisplayROBData(ROB_entries, head, tail, true)}
 
           {/* output signals */}
           <div>
