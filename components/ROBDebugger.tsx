@@ -27,9 +27,6 @@ const parseROBData = (entries: string, arrLen: number): Types.ROB_DATA[] => {
   // Remove the 'b' prefix if present
   const binaryStr = entries.startsWith("b") ? entries.slice(1) : entries;
 
-  // Convert string to array of bits
-  const bits = binaryStr.split("").map(Number);
-
   const result: Types.ROB_DATA[] = [];
   const entryWidth = Types.ROB_DATA_WIDTH;
 
@@ -39,22 +36,32 @@ const parseROBData = (entries: string, arrLen: number): Types.ROB_DATA[] => {
     return parseInt(bitsSlice, 2);
   };
 
-  for (let i = 0; i < arrLen; i++) {
-    const startIdx = binaryStr.length - (i + 1) * entryWidth;
+  // Process each ROB entry from the end to the beginning
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
 
-    // Extract each field
-    const retireable = binaryStr[startIdx] === "1";
-    const valid = binaryStr[startIdx + 1] === "1";
+    // Extract fields from left to right in the entry
+    const T_old = extractBits(startIdx, Types.PHYS_REG_TAG_WIDTH);
 
-    const R_dest = extractBits(startIdx + 2, Types.REG_IDX_WIDTH);
     const T_new = extractBits(
-      startIdx + 2 + Types.REG_IDX_WIDTH,
+      startIdx + Types.PHYS_REG_TAG_WIDTH,
       Types.PHYS_REG_TAG_WIDTH
     );
-    const T_old = extractBits(
-      startIdx + 2 + Types.REG_IDX_WIDTH + Types.PHYS_REG_TAG_WIDTH,
-      Types.PHYS_REG_TAG_WIDTH
+
+    const R_dest = extractBits(
+      startIdx + 2 * Types.PHYS_REG_TAG_WIDTH,
+      Types.REG_IDX_WIDTH
     );
+
+    const valid =
+      binaryStr[
+        startIdx + 2 * Types.PHYS_REG_TAG_WIDTH + Types.REG_IDX_WIDTH
+      ] === "1";
+
+    const retireable =
+      binaryStr[
+        startIdx + 2 * Types.PHYS_REG_TAG_WIDTH + Types.REG_IDX_WIDTH + 1
+      ] === "1";
 
     result.push({
       T_old,
@@ -108,7 +115,7 @@ const DisplayROBData = (
             const entryNumber = idx.toString().padStart(2, "") + ":";
 
             // Helper function to display the value or "NaN"
-            const displayValue = (value: any) => (isNaN(value) ? "NaN" : value);
+            const displayValue = (value: any) => (isNaN(value) ? "XX" : value);
 
             // green if tail, red if head, yellow if both
             const color = isBoth
