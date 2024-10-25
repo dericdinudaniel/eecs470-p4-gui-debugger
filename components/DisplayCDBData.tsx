@@ -11,20 +11,24 @@ const DisplayCDBData: React.FC<DisplayCDBDataProps> = ({
 }) => {
   return (
     <div className={className}>
-      <table>
-        <thead className="border ROB-border-color bg-slate-300">
-          <tr>
-            <th className="p-2">Tag</th>
-          </tr>
-        </thead>
-        <tbody>
-          {CDBData.map((tag, idx) => (
-            <tr key={idx} className="border ROB-border-color bg-gray-200">
-              <td className="text-center">p{tag}</td>
+      <div className="overflow-hidden rounded-lg border ROB-border-color">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr>
+              <th className="p-2 bg-slate-300">Tag</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {CDBData.map((tag, idx) => (
+              <tr key={idx}>
+                <td className="text-center bg-gray-200 border-t ROB-border-color">
+                  p{tag}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
