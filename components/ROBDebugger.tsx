@@ -53,9 +53,9 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
   return (
     <>
       <div className={`${className} mt-4`}>
-        <div className="bg-gray-100 rounded-lg shadow-lg p-4 inline-flex flex-col items-center">
+        <div className="bg-gray-500/[.15] rounded-lg shadow-lg p-4 inline-flex flex-col items-center">
           <div className="flex items-center">
-            <h2 className="text-2xl font-semibold">
+            <h2 className="text-xl font-semibold">
               ROB (size = {Constants.ROB_SZ})
             </h2>
             {/* Toggle buttons */}
@@ -99,32 +99,32 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
           {showROBInternals && (
             <div className="flex space-x-4">
               <div>
-                <p className="">
+                <p className="text-xs">
                   <span className="font-bold">Available Spots:</span>{" "}
                   {available_spots}
                 </p>
-                <p className="">
+                <p className="text-xs">
                   <span className="font-bold">Retireable Count:</span>{" "}
                   {retireable_cnt}
                 </p>
               </div>
-              <p className="">
+              <p className="text-xs">
                 <span className="font-bold">Empty:</span> {empty}
               </p>
               <div>
-                <p className="">
+                <p className="text-xs">
                   <span className="font-bold">Head Growth:</span> {head_growth}
                 </p>
-                <p className="">
+                <p className="text-xs">
                   <span className="font-bold">Tail Growth:</span> {tail_growth}
                 </p>
               </div>
               <div>
-                <p className="">
+                <p className="text-xs">
                   <span className="font-bold">Next Dir:</span>{" "}
                   {next_direction ? "SHRK" : "GROW"}
                 </p>
-                <p className="">
+                <p className="text-xs">
                   <span className="font-bold">Last Dir:</span>{" "}
                   {last_direction ? "SHRK" : "GROW"}
                 </p>
@@ -143,7 +143,7 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
 
           {/* output signals */}
           <div>
-            <p className="mt-4 flex space-x-4">
+            <p className="text-sm mt-4 flex space-x-4">
               <span className="font-bold">Open Spots:</span> {open_spots}
             </p>
           </div>

@@ -15,13 +15,13 @@ const DisplayCDBData: React.FC<DisplayCDBDataProps> = ({
         <table className="w-full border-collapse">
           <thead>
             <tr>
-              <th className="p-2 bg-slate-300">Tag</th>
+              <th className="text-sm p-2 bg-slate-300">Tag</th>
             </tr>
           </thead>
           <tbody>
             {CDBData.map((tag, idx) => (
               <tr key={idx}>
-                <td className="text-center bg-gray-200 border-t ROB-border-color">
+                <td className="text-sm text-center bg-gray-200 border-t ROB-border-color">
                   p{tag}
                 </td>
               </tr>

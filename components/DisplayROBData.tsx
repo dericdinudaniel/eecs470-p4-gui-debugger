@@ -22,15 +22,17 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
         <table className="border-collapse">
           <thead>
             <tr className="bg-slate-300">
-              <th className="p-2">Entry #</th>
-              <th className="border-l ROB-border-color p-2">R_dest</th>
-              <th className="border-l ROB-border-color p-2">T_new</th>
-              <th className="border-l ROB-border-color p-2">T_old</th>
-              <th className="border-l ROB-border-color p-2">Valid</th>
+              <th className="text-sm p-2">Entry #</th>
+              <th className="text-sm border-l ROB-border-color p-2">R_dest</th>
+              <th className="text-sm border-l ROB-border-color p-2">T_new</th>
+              <th className="text-sm border-l ROB-border-color p-2">T_old</th>
+              <th className="text-sm border-l ROB-border-color p-2">Valid</th>
               {isROB && (
                 <>
-                  <th className="border-l ROB-border-color p-2">Retirable</th>
-                  <th className="border-l ROB-border-color p-2 w-32">
+                  <th className="text-sm border-l ROB-border-color p-2">
+                    Retirable
+                  </th>
+                  <th className="text-sm border-l ROB-border-color p-2 w-32">
                     Head/Tail
                   </th>
                 </>
@@ -72,27 +74,27 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
 
               return (
                 <tr key={idx} className={color}>
-                  <td className="text-right border-t ROB-border-color">
+                  <td className="text-right text-sm border-t ROB-border-color">
                     {entryNumber}
                   </td>
-                  <td className="text-center border-l border-t ROB-border-color">
+                  <td className="text-center text-sm border-l border-t ROB-border-color">
                     {"r" + displayValue(entry.R_dest)}
                   </td>
-                  <td className="text-center border-l border-t ROB-border-color">
+                  <td className="text-center text-sm border-l border-t ROB-border-color">
                     {"p" + displayValue(entry.T_new)}
                   </td>
-                  <td className="text-center border-l border-t ROB-border-color">
+                  <td className="text-center text-sm border-l border-t ROB-border-color">
                     {"p" + displayValue(entry.T_old)}
                   </td>
-                  <td className="text-center border-l border-t ROB-border-color">
+                  <td className="text-center text-sm border-l border-t ROB-border-color">
                     {displayValue(entry.valid ? "1" : "0")}
                   </td>
                   {isROB && (
                     <>
-                      <td className="text-center border-l border-t ROB-border-color">
+                      <td className="text-center text-sm border-l border-t ROB-border-color">
                         {displayValue(entry.retireable ? "1" : "0")}
                       </td>
-                      <td className="text-center border-l border-t ROB-border-color">
+                      <td className="text-center text-sm border-l border-t ROB-border-color">
                         {isEither && headOrTailString}
                       </td>
                     </>
