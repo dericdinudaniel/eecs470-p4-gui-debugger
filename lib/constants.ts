@@ -1,4 +1,5 @@
-import { clog2 } from "./utils";
+// import { clog2 } from "./utils";
+const clog2 = (x: number): number => Math.ceil(Math.log2(x));
 
 // Architectural registers
 export const AR_NUM = 32; // number of architectural registers

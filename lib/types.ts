@@ -1,5 +1,6 @@
 import * as Constants from "./constants";
-import { clog2 } from "./utils";
+// import { clog2 } from "./utils";
+const clog2 = (x: number): number => Math.ceil(Math.log2(x));
 
 // Word and register sizes
 export type ADDR = number; // 32-bit address
