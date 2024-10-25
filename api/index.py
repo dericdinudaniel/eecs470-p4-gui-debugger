@@ -8,7 +8,10 @@ import logging
 
 app = Flask(__name__)
 CORS(app)
-cache = Cache(app, config={'CACHE_TYPE': 'simple'})
+cache = Cache(app, config={
+    'CACHE_TYPE': 'simple',
+    'CACHE_DEFAULT_TIMEOUT': 1800
+})
 
 @app.route("/api/helloworld/")
 def hello_world():
