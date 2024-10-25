@@ -1,3 +1,5 @@
+import { PHYS_REG_TAG_WIDTH } from "./types";
+
 // import { clog2 } from "./utils";
 const clog2 = (x: number): number => Math.ceil(Math.log2(x));
 

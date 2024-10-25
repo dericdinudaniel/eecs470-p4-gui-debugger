@@ -141,14 +141,7 @@ export default function Debugger() {
             Jump to Cycle (j)
           </button>
         </div>
-        {/* {signalData && (
-          <div className="mt-8">
-            <h2 className="text-xl font-semibold mb-4">Signal Data</h2>
-            <pre className="bg-gray-100 p-4 rounded">
-              {JSON.stringify(signalData, null, 2)}
-            </pre>
-          </div>
-        )} */}
+
         {signalData && (
           <>
             <ROBDebugger
@@ -156,7 +149,7 @@ export default function Debugger() {
               // always pass in direct access to ROB
               signalData={signalData?.signals.children.testbench.children.DUT}
             />
-            <DebuggerOutput signalData={signalData} />
+            {/* <DebuggerOutput signalData={signalData} /> */}
           </>
         )}
       </div>
