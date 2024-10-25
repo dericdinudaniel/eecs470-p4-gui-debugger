@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  div {
+    @apply font-jetbrains_mono;
+  }
+
   h1 {
     @apply font-jetbrains_mono;
   }
@@ -16,6 +20,10 @@
   }
 
   p {
+    @apply font-jetbrains_mono;
+  }
+
+  span {
     @apply font-jetbrains_mono;
   }
 
@@ -38,11 +46,21 @@
   label {
     @apply font-jetbrains_mono;
   }
+
+  select {
+    @apply font-jetbrains_mono;
+  }
 }
 
 @layer components {
   .debugger-cycle-btn {
     @apply bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-200;
+  }
+}
+
+@layer components {
+  .ROB-border-color {
+    @apply border-gray-800;
   }
 }
 
