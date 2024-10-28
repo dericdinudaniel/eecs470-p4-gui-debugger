@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import DebuggerOutput from "@/components/DebuggerOutput";
 import ROBDebugger from "@/components/ROBDebugger";
+import DebuggerHeader from "@/components/DebuggerHeader";
 
 export default function Debugger() {
   const [currentCycle, setCurrentCycle] = useState(0);
@@ -23,7 +24,7 @@ export default function Debugger() {
           handlePreviousCycle();
           break;
         case "v":
-          handleBeginning();
+          handleStart();
           break;
         case "m":
           handleEnd();
@@ -79,7 +80,7 @@ export default function Debugger() {
     fetchSignalData(Math.max(currentCycle - 1, 0));
   };
 
-  const handleBeginning = () => {
+  const handleStart = () => {
     setCurrentCycle(0);
     fetchSignalData(0);
   };
@@ -99,57 +100,29 @@ export default function Debugger() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      {/* home button */}
-      <div className="mb-8">
-        <a href="/" className="text-blue-500 underline-fade">
-          ← Back to Home
-        </a>
-      </div>
-
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h1 className="text-2xl font-bold mb-6">Verilog Debugger</h1>
-        <div className="mb-4">
-          <p>Current Cycle: {currentCycle}</p>
-          <p>Num Cycles: {maxCycle + 1}</p>
-        </div>
-        <div className="flex space-x-2 mb-4">
-          <button onClick={handleBeginning} className="debugger-cycle-btn">
-            Beginning (v)
-          </button>
-          <button onClick={handlePreviousCycle} className="debugger-cycle-btn">
-            Previous Cycle (b)
-          </button>
-          <button onClick={handleNextCycle} className="debugger-cycle-btn">
-            Next Cycle (n)
-          </button>
-          <button onClick={handleEnd} className="debugger-cycle-btn">
-            End (m)
-          </button>
-        </div>
-        <div className="flex space-x-2">
-          <input
-            id="jumpCycleInput"
-            type="number"
-            value={jumpCycle}
-            onChange={(e) => setJumpCycle(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className="border rounded px-2 py-1"
-            placeholder="Cycle number"
-          />
-          <button onClick={handleJumpToCycle} className="debugger-cycle-btn">
-            Jump to Cycle (j)
-          </button>
-        </div>
+    <div className="min-h-screen bg-gray-100 p-0">
+      <div className="bg-white rounded-lg shadow-md p-0">
+        <DebuggerHeader
+          currentCycle={currentCycle}
+          maxCycle={maxCycle}
+          jumpCycle={jumpCycle}
+          setJumpCycle={setJumpCycle}
+          handleStart={handleStart}
+          handlePreviousCycle={handlePreviousCycle}
+          handleNextCycle={handleNextCycle}
+          handleEnd={handleEnd}
+          handleJumpToCycle={handleJumpToCycle}
+          handleKeyDown={handleKeyDown}
+        />
 
         {signalData && (
           <>
             <ROBDebugger
-              className=""
+              className="p-8"
               // always pass in direct access to ROB
               signalData={signalData?.signals.children.testbench.children.DUT}
             />
-            {/* <DebuggerOutput signalData={signalData} /> */}
+            <DebuggerOutput signalData={signalData} />
           </>
         )}
       </div>
