@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 interface DebuggerHeaderProps {
   currentCycle: number;
@@ -17,14 +17,8 @@ interface DebuggerHeaderProps {
 function padWithSpaces(number: number, maxCycle: number): JSX.Element {
   const maxDigits = String(maxCycle).length;
   const currentDigits = String(number).length;
-
-  // Calculate the number of non-breaking spaces needed for padding
   const paddingNeeded = maxDigits - currentDigits;
-
-  // Generate an array of non-breaking spaces
-  const padding = Array(paddingNeeded).fill("\u00A0"); // "\u00A0" is the Unicode for non-breaking space
-
-  // Return the padded number as a JSX element
+  const padding = Array(paddingNeeded).fill("\u00A0");
   return (
     <span>
       {padding.join("")}
@@ -32,6 +26,51 @@ function padWithSpaces(number: number, maxCycle: number): JSX.Element {
     </span>
   );
 }
+
+interface DebuggerButtonProps {
+  onClick: () => void;
+  children: React.ReactNode;
+  shortcutKey: string;
+}
+
+const DebuggerButton: React.FC<DebuggerButtonProps> = ({
+  onClick,
+  children,
+  shortcutKey,
+}) => {
+  const [isPressed, setIsPressed] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === shortcutKey) {
+        setIsPressed(true);
+      }
+    };
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (e.key === shortcutKey) {
+        setIsPressed(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
+  }, [shortcutKey]);
+
+  return (
+    <button
+      onClick={onClick}
+      className={`debugger-cycle-btn ${isPressed ? "bg-blue-900" : ""}`}
+    >
+      <span className="underline-fade text-white">{children}</span>
+    </button>
+  );
+};
 
 const DebuggerHeader: React.FC<DebuggerHeaderProps> = ({
   currentCycle,
@@ -69,21 +108,18 @@ const DebuggerHeader: React.FC<DebuggerHeaderProps> = ({
 
           {/* buttons */}
           <div className="flex space-x-2 pl-4">
-            <button onClick={handleStart} className="debugger-cycle-btn">
+            <DebuggerButton onClick={handleStart} shortcutKey="v">
               Start (v)
-            </button>
-            <button
-              onClick={handlePreviousCycle}
-              className="debugger-cycle-btn"
-            >
+            </DebuggerButton>
+            <DebuggerButton onClick={handlePreviousCycle} shortcutKey="b">
               Previous Cycle (b)
-            </button>
-            <button onClick={handleNextCycle} className="debugger-cycle-btn">
+            </DebuggerButton>
+            <DebuggerButton onClick={handleNextCycle} shortcutKey="n">
               Next Cycle (n)
-            </button>
-            <button onClick={handleEnd} className="debugger-cycle-btn">
+            </DebuggerButton>
+            <DebuggerButton onClick={handleEnd} shortcutKey="m">
               End (m)
-            </button>
+            </DebuggerButton>
             <div className="flex space-x-2">
               <input
                 id="jumpCycleInput"
@@ -94,12 +130,9 @@ const DebuggerHeader: React.FC<DebuggerHeaderProps> = ({
                 className="border rounded text-right py-1 w-20 text-xs"
                 placeholder="Cycle #"
               />
-              <button
-                onClick={handleJumpToCycle}
-                className="debugger-cycle-btn"
-              >
+              <DebuggerButton onClick={handleJumpToCycle} shortcutKey="j">
                 Jump to Cycle (j)
-              </button>
+              </DebuggerButton>
             </div>
           </div>
         </div>
