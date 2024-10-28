@@ -21,7 +21,7 @@ export const BRANCH_PRED_SZ = NaN; // Replace `NaN` with the appropriate value
 export const LSQ_SZ = NaN; // Replace `NaN` with the appropriate value
 
 // Functional Units
-export const NUM_FU_ALU = 2;
+export const NUM_FU_ALU = 3;
 export const NUM_FU_MULT = 1;
 export const NUM_FU_LOAD = 0;
 export const NUM_FU_STORE = 0;

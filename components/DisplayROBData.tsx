@@ -68,6 +68,7 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
                 : entry.valid
                 ? "bg-yellow-100"
                 : "bg-gray-200";
+
               const headOrTailString =
                 "←" +
                 (isBoth ? "Head/Tail" : isHead ? "Head" : isTail ? "Tail" : "");
