@@ -99,79 +99,26 @@ export default function Debugger() {
     }
   };
 
-  // Helper function to pad numbers with non-breaking spaces
-  function padWithSpaces(number: number, maxCycle: number): JSX.Element {
-    const maxDigits = String(maxCycle).length;
-    const currentDigits = String(number).length;
-
-    // Calculate the number of non-breaking spaces needed for padding
-    const paddingNeeded = maxDigits - currentDigits;
-
-    // Generate an array of non-breaking spaces
-    const padding = Array(paddingNeeded).fill("\u00A0"); // "\u00A0" is the Unicode for non-breaking space
-
-    // Return the padded number as a JSX element
-    return (
-      <span>
-        {padding.join("")}
-        {number}
-      </span>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-gray-100 p-0">
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <div className="flex space-x-2 mb-4 items-center">
-          {/* title */}
-          <h1 className="text-2xl font-bold pr-6">Verilog Debugger</h1>
-
-          {/* back to home */}
-          <a href="/" className="text-blue-500 underline-fade pr-0">
-            ← Back to Home
-          </a>
-
-          {/* buttons */}
-          <div className="w-44">
-            <p className="text-right font-mono">
-              Current Cycle: {padWithSpaces(currentCycle, maxCycle)}
-            </p>
-            <p className="text-right font-mono">
-              Num Cycles: {padWithSpaces(maxCycle + 1, maxCycle)}
-            </p>
-          </div>
-          <button onClick={handleStart} className="debugger-cycle-btn">
-            Start (v)
-          </button>
-          <button onClick={handlePreviousCycle} className="debugger-cycle-btn">
-            Previous Cycle (b)
-          </button>
-          <button onClick={handleNextCycle} className="debugger-cycle-btn">
-            Next Cycle (n)
-          </button>
-          <button onClick={handleEnd} className="debugger-cycle-btn">
-            End (m)
-          </button>
-          <div className="flex space-x-2">
-            <input
-              id="jumpCycleInput"
-              type="number"
-              value={jumpCycle}
-              onChange={(e) => setJumpCycle(e.target.value)}
-              onKeyDown={handleKeyDown}
-              className="border rounded text-right py-1 w-20 text-xs"
-              placeholder="Cycle #"
-            />
-            <button onClick={handleJumpToCycle} className="debugger-cycle-btn">
-              Jump to Cycle (j)
-            </button>
-          </div>
-        </div>
+      <div className="bg-white rounded-lg shadow-md p-0">
+        <DebuggerHeader
+          currentCycle={currentCycle}
+          maxCycle={maxCycle}
+          jumpCycle={jumpCycle}
+          setJumpCycle={setJumpCycle}
+          handleStart={handleStart}
+          handlePreviousCycle={handlePreviousCycle}
+          handleNextCycle={handleNextCycle}
+          handleEnd={handleEnd}
+          handleJumpToCycle={handleJumpToCycle}
+          handleKeyDown={handleKeyDown}
+        />
 
         {signalData && (
           <>
             <ROBDebugger
-              className=""
+              className="p-8"
               // always pass in direct access to ROB
               signalData={signalData?.signals.children.testbench.children.DUT}
             />
