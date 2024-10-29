@@ -220,3 +220,5 @@ export const parseRSData = (
 
   return result;
 };
+
+export const displayValue = (value: any) => (isNaN(value) ? "XX" : value);

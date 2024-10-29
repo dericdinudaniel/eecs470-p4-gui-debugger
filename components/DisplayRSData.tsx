@@ -10,17 +10,15 @@ type DisplayRSDataProps = {
 const DisplayRSData: React.FC<DisplayRSDataProps> = ({ className, RSData }) => {
   return (
     <>
-      <div>rs</div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
-        {RSData.map((rs, idx) => (
-          <div
-            key={idx}
-            className="flex items-center p-4 border rounded-2xl shadow-lg bg-gray-200"
-          >
-            <p className="text-sm">RS Entry {idx}:</p>
-            <DisplaySingleRS className={className} RSData={rs} />
-          </div>
-        ))}
+      <div className="pt-2"></div>
+      <div className="bg-gray-200 rounded-xl p-3 shadow-xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-8 gap-3">
+          {RSData.map((rs, idx) => (
+            <div key={idx} className="items-center rounded-xl shadow-lg">
+              <DisplaySingleRS className="" RSIdx={idx} RSData={rs} />
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );

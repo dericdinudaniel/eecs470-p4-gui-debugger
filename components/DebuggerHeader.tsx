@@ -14,8 +14,8 @@ interface DebuggerHeaderProps {
 }
 
 // Helper function to pad numbers with non-breaking spaces
-function padWithSpaces(number: number, maxCycle: number): JSX.Element {
-  const maxDigits = String(maxCycle).length;
+function padWithSpaces(number: number, maxNumber: number): JSX.Element {
+  const maxDigits = String(maxNumber).length;
   const currentDigits = String(number).length;
   const paddingNeeded = maxDigits - currentDigits;
   const padding = Array(paddingNeeded).fill("\u00A0");

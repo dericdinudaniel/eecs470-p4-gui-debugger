@@ -340,7 +340,7 @@ export enum FU_TYPE {
 }
 export const FU_TYPE_WIDTH = 2;
 export function getFUTypeName(fuType: FU_TYPE): string {
-  return FU_TYPE[fuType] ? FU_TYPE[fuType] : "NaN";
+  return FU_TYPE[fuType] ? FU_TYPE[fuType] : "XXX";
 }
 
 // ROB Data packet
