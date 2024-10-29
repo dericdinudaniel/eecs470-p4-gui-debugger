@@ -10,6 +10,7 @@ import * as Types from "@/lib/types";
 import { SignalType, SignalData, ScopeData } from "@/lib/tstypes";
 import DisplayFUAvailTable from "./DisplayFUAvailTable";
 import DisplayCDBData from "./DisplayCDBData";
+import DisplayRSData from "./DisplayRSData";
 
 type RSDebuggerProps = {
   className: string;
@@ -26,13 +27,13 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalData }) => {
 
   // entries
   const entries = extractSignalValue(signalData, "entries").value;
-  parseRSData(entries, Constants.RS_SZ);
+  const RS_entries = parseRSData(entries, Constants.RS_SZ);
 
   const [showRSInputs, setShowRSInputs] = useState(false);
   return (
     <>
       <div className={`${className} mt-4`}>
-        <div className="bg-gray-500/[.15] rounded-lg shadow-lg p-4 inline-flex flex-col items-center">
+        <div className="bg-gray-200/[.15] rounded-lg shadow-lg p-4 inline-flex flex-col items-center">
           {/* header */}
           <div className="flex items-center">
             <h2 className="text-xl font-semibold">
@@ -73,6 +74,9 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalData }) => {
               </div>
             </div>
           )}
+
+          {/* display RS entries */}
+          <DisplayRSData className="pt-2" RSData={RS_entries} />
         </div>
       </div>
     </>
