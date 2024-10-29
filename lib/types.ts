@@ -4,7 +4,11 @@ const clog2 = (x: number): number => Math.ceil(Math.log2(x));
 
 // Word and register sizes
 export type ADDR = number; // 32-bit address
+export const ADDR_WIDTH = 32;
+
 export type DATA = number; // 32-bit data
+export const DATA_WIDTH = 32;
+
 export type REG_IDX = number; // 5-bit register index
 export const REG_IDX_WIDTH = 5;
 
@@ -22,6 +26,9 @@ export enum MEM_SIZE {
   WORD = 0x2,
   DOUBLE = 0x3,
 }
+export const MEM_SIZE_WIDTH = clog2(
+  Object.keys(MEM_SIZE).filter((k) => isNaN(Number(k))).length
+);
 
 // Memory bus commands
 export enum MEM_COMMAND {
@@ -29,6 +36,9 @@ export enum MEM_COMMAND {
   MEM_LOAD = 0x1,
   MEM_STORE = 0x2,
 }
+export const MEM_COMMAND_WIDTH = clog2(
+  Object.keys(MEM_COMMAND).filter((k) => isNaN(Number(k))).length
+);
 
 // ICACHE_TAG definition
 export type ICACHE_TAG = {
@@ -55,10 +65,14 @@ export enum EXCEPTION_CODE {
   HALTED_ON_WFI = 0xe,
   STORE_PAGE_FAULT = 0xf,
 }
+export const EXCEPTION_CODE_WIDTH = clog2(
+  Object.keys(EXCEPTION_CODE).filter((k) => isNaN(Number(k))).length
+);
 
 // Representation of RISC-V instruction types
 export type INST = {
   inst: number; // 32-bit instruction
+  itype: string; // Type of instruction
 
   r?: {
     funct7: number; // 7-bit
@@ -112,6 +126,7 @@ export type INST = {
     opcode: number; // 7-bit
   };
 };
+export const INST_WIDTH = 32;
 
 // ALU operand A input select
 export enum ALU_OPA_SELECT {
@@ -120,6 +135,7 @@ export enum ALU_OPA_SELECT {
   OPA_IS_PC = 0x2,
   OPA_IS_ZERO = 0x3,
 }
+export const ALU_OPA_SELECT_WIDTH = 2;
 
 // ALU operand B input select
 export enum ALU_OPB_SELECT {
@@ -130,6 +146,7 @@ export enum ALU_OPB_SELECT {
   OPB_IS_U_IMM = 0x4,
   OPB_IS_J_IMM = 0x5,
 }
+export const ALU_OPB_SELECT_WIDTH = 4;
 
 // ALU function codes
 export enum ALU_FUNC {
@@ -144,6 +161,9 @@ export enum ALU_FUNC {
   ALU_SRL = 0x8,
   ALU_SRA = 0x9,
 }
+export const ALU_FUNC_WIDTH = clog2(
+  Object.keys(ALU_FUNC).filter((k) => isNaN(Number(k))).length
+);
 
 // MULT funct3 code
 export enum MULT_FUNC {
@@ -152,6 +172,9 @@ export enum MULT_FUNC {
   M_MULHSU,
   M_MULHU,
 }
+export const MULT_FUNC_WIDTH = clog2(
+  Object.keys(MULT_FUNC).filter((k) => isNaN(Number(k))).length
+);
 
 // Branch function
 export enum BRANCH_FUNC {
@@ -162,6 +185,9 @@ export enum BRANCH_FUNC {
   B_BLTU = 0b110,
   B_BGEU = 0b111,
 }
+export const BRANCH_FUNC_WIDTH = clog2(
+  Object.keys(BRANCH_FUNC).filter((k) => isNaN(Number(k))).length
+);
 
 // IF_ID Packet
 export type IF_ID_PACKET = {
@@ -170,6 +196,7 @@ export type IF_ID_PACKET = {
   NPC: ADDR;
   valid: boolean;
 };
+export const IF_ID_PACKET_WIDTH = INST_WIDTH + 2 * ADDR_WIDTH + 1;
 
 // ID_EX Packet
 export type ID_EX_PACKET = {
@@ -192,6 +219,15 @@ export type ID_EX_PACKET = {
   csr_op: boolean;
   valid: boolean;
 };
+export const ID_EX_PACKET_WIDTH =
+  INST_WIDTH +
+  2 * ADDR_WIDTH +
+  2 * DATA_WIDTH +
+  ALU_OPA_SELECT_WIDTH +
+  ALU_OPB_SELECT_WIDTH +
+  REG_IDX_WIDTH +
+  ALU_FUNC_WIDTH +
+  9 * 1;
 
 // EX_MEM Packet
 export type EX_MEM_PACKET = {
@@ -209,6 +245,20 @@ export type EX_MEM_PACKET = {
   mem_size: MEM_SIZE;
   valid: boolean;
 };
+export const EX_MEM_PACKET_WIDTH =
+  DATA_WIDTH +
+  ADDR_WIDTH +
+  1 + // take_branch
+  DATA_WIDTH +
+  1 + // rd_mem
+  1 + // wr_mem
+  REG_IDX_WIDTH +
+  1 + // halt
+  1 + // illegal
+  1 + // csr_op
+  1 + // rd_unsigned
+  MEM_SIZE_WIDTH +
+  1; // valid
 
 // MEM_WB Packet
 export type MEM_WB_PACKET = {
@@ -220,6 +270,8 @@ export type MEM_WB_PACKET = {
   illegal: boolean;
   valid: boolean;
 };
+export const MEM_WB_PACKET_WIDTH =
+  DATA_WIDTH + ADDR_WIDTH + REG_IDX_WIDTH + 1 + 1 + 1 + 1;
 
 // COMMIT Packet
 export type COMMIT_PACKET = {
@@ -230,6 +282,8 @@ export type COMMIT_PACKET = {
   illegal: boolean;
   valid: boolean;
 };
+export const COMMIT_PACKET_WIDTH =
+  ADDR_WIDTH + DATA_WIDTH + REG_IDX_WIDTH + 1 + 1 + 1;
 
 // MULT data
 export type MULT_DATA = {
@@ -239,6 +293,8 @@ export type MULT_DATA = {
   func: MULT_FUNC;
   valid: boolean;
 };
+export const MULT_DATA_WIDTH =
+  PHYS_REG_TAG_WIDTH + DATA_WIDTH + DATA_WIDTH + MULT_FUNC_WIDTH + 1;
 
 // ALU data
 export type ALU_DATA = {
@@ -248,6 +304,8 @@ export type ALU_DATA = {
   func: ALU_FUNC;
   valid: boolean;
 };
+export const ALU_DATA_WIDTH =
+  PHYS_REG_TAG_WIDTH + DATA_WIDTH + DATA_WIDTH + ALU_FUNC_WIDTH + 1;
 
 // BRANCH data
 export type BRANCH_DATA = {
@@ -257,14 +315,30 @@ export type BRANCH_DATA = {
   func: BRANCH_FUNC;
   valid: boolean;
 };
+export const BRANCH_DATA_WIDTH =
+  PHYS_REG_TAG_WIDTH + DATA_WIDTH + DATA_WIDTH + BRANCH_FUNC_WIDTH + 1;
+
+export type FU_FUNC = ALU_FUNC | MULT_FUNC | BRANCH_FUNC;
+
+// FU_DATA union type, which can contain ALU_DATA, MULT_DATA, or BRANCH_DATA
+export type FU_DATA =
+  | { fu_type: FU_TYPE.MUL; data: MULT_DATA }
+  | { fu_type: FU_TYPE.BR; data: BRANCH_DATA }
+  | { fu_type: FU_TYPE.ALU; data: ALU_DATA };
+export const FU_DATA_WIDTH = Math.max(
+  MULT_DATA_WIDTH,
+  BRANCH_DATA_WIDTH,
+  ALU_DATA_WIDTH
+);
 
 // Enum for operation types
-export enum OP_TYPE {
+export enum FU_TYPE {
   MUL,
   BR,
   ALU,
   MEM,
 }
+export const FU_TYPE_WIDTH = 2;
 
 // ROB Data packet
 export interface ROB_DATA {
@@ -278,11 +352,26 @@ export const ROB_DATA_WIDTH = 2 * PHYS_REG_TAG_WIDTH + REG_IDX_WIDTH + 2;
 
 // RS Data packet
 export type RS_DATA = {
-  T_new: PHYS_REG_TAG;
-  T_1: PHYS_REG_TAG;
-  T_2: PHYS_REG_TAG;
-  OP: OP_TYPE;
+  occupied: boolean;
+  fu: FU_TYPE;
+  fu_data: FU_DATA;
+  T_dest: PHYS_REG_TAG;
+  T_a: PHYS_REG_TAG;
+  ready_ta: boolean;
+  T_b: PHYS_REG_TAG;
+  ready_tb: boolean;
+  packet: ID_EX_PACKET;
 };
+export const RS_DATA_WIDTH =
+  1 + // occupied
+  FU_TYPE_WIDTH + // fu
+  FU_DATA_WIDTH + // fu_data
+  PHYS_REG_TAG_WIDTH + // T_dest
+  PHYS_REG_TAG_WIDTH + // T_a
+  1 + // ready_ta
+  PHYS_REG_TAG_WIDTH + // T_b
+  1 + // ready_tb
+  ID_EX_PACKET_WIDTH; // packet
 
 // FRIZZY Data packet
 export type FRIZZY_DATA = {

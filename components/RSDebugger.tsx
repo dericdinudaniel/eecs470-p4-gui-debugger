@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import {
   extractSignalValue,
   extractSignalValueToInt,
-  parseROBData,
+  parseRSData,
   parseCDBData,
 } from "@/lib/utils";
 import * as Constants from "@/lib/constants";
 import * as Types from "@/lib/types";
 import { SignalType, SignalData, ScopeData } from "@/lib/tstypes";
 import DisplayFUAvailTable from "./DisplayFUAvailTable";
+import DisplayCDBData from "./DisplayCDBData";
 
 type RSDebuggerProps = {
   className: string;
@@ -20,7 +21,12 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalData }) => {
   const branch_avail = extractSignalValue(signalData, "branch_avail");
   const mult_avail = extractSignalValue(signalData, "mult_avail");
 
-  console.log(alu_avail, branch_avail, mult_avail);
+  const early_cdb = extractSignalValue(signalData, "early_cdb").value;
+  const RS_early_cdb = parseCDBData(early_cdb);
+
+  // entries
+  const entries = extractSignalValue(signalData, "entries").value;
+  parseRSData(entries, Constants.RS_SZ);
 
   const [showRSInputs, setShowRSInputs] = useState(false);
   return (
@@ -45,7 +51,7 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalData }) => {
 
           {/* display inputs */}
           {showRSInputs && (
-            <div>
+            <div className="flex space-x-2">
               <div className="justify-items-center">
                 <p>FU Avail</p>
                 <DisplayFUAvailTable
@@ -57,6 +63,13 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalData }) => {
                   numBranch={Constants.NUM_FU_BRANCH}
                   numMult={Constants.NUM_FU_MULT}
                 />
+              </div>
+              <div className="justify-items-center">
+                <p>Early CDB</p>
+                <DisplayCDBData className="" CDBData={RS_early_cdb} />
+              </div>
+              <div className="justify-items-center">
+                <p>Decoded Instructions</p>
               </div>
             </div>
           )}
