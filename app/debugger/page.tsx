@@ -119,7 +119,7 @@ export default function Debugger() {
         {signalData && (
           <>
             <RSDebugger
-              className="p-8"
+              className=""
               signalData={signalData?.signals.children.testbench.children.DUT}
             />
             {/* <ROBDebugger

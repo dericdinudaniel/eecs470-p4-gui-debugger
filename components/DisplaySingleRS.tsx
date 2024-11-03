@@ -27,22 +27,22 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
                 RS: #{RSIdx}
               </th>
             </tr>
+            <tr>
+              <td
+                className="text-xs p-1 border-t ROB-border-color text-center"
+                colSpan={2}
+              >
+                RS: #{RSIdx}
+              </td>
+            </tr>
           </thead>
           <tbody>
             <tr>
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
                 Occupied:
               </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color">
+              <td className="text-xs p-1 text-center border-t ROB-border-color w-16">
                 {RSData.occupied ? "Yes" : "No"}
-              </td>
-            </tr>
-            <tr>
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
-                FU Type:
-              </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color">
-                {Types.getFUTypeName(RSData.fu)}
               </td>
             </tr>
             <tr>
@@ -69,6 +69,57 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
               <td className="text-xs p-1 text-center border-t ROB-border-color">
                 {displayValue(RSData.T_b)}
                 {RSData.ready_tb ? "+" : " "}
+              </td>
+            </tr>
+            <tr>
+              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+                FU Type:
+              </td>
+              <td className="text-xs p-1 text-center border-t ROB-border-color">
+                {Types.getFUTypeName(RSData.fu)}
+              </td>
+            </tr>
+
+            {/* func data */}
+            <tr>
+              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+                rs1:
+              </td>
+              <td className="text-xs p-1 text-center border-t ROB-border-color">
+                {RSData.fu_data.data.rs1}
+              </td>
+            </tr>
+            <tr>
+              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+                rs2:
+              </td>
+              <td className="text-xs p-1 text-center border-t ROB-border-color">
+                {RSData.fu_data.data.rs2}
+              </td>
+            </tr>
+            <tr>
+              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+                func:
+              </td>
+              <td className="text-xs p-1 text-center border-t ROB-border-color">
+                {(() => {
+                  switch (RSData.fu) {
+                    case Types.FU_TYPE.ALU:
+                      return Types.getALUFuncName(
+                        RSData.fu_data.data.func as Types.ALU_FUNC
+                      );
+                    case Types.FU_TYPE.MUL:
+                      return Types.getMULFuncName(
+                        RSData.fu_data.data.func as Types.MULT_FUNC
+                      );
+                    case Types.FU_TYPE.BR:
+                      return Types.getBRFuncName(
+                        RSData.fu_data.data.func as Types.BRANCH_FUNC
+                      );
+                    default:
+                      return "XXX";
+                  }
+                })()}
               </td>
             </tr>
           </tbody>

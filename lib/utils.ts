@@ -144,6 +144,121 @@ export const parseID_EX_PACKET = (packetStr: string): Types.ID_EX_PACKET => {
   };
 };
 
+export const parseMULT_DATA = (inputStr: string): Types.MULT_DATA => {
+  let accessIdx = 0;
+
+  const T_new = extractBits(inputStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
+  accessIdx += Types.PHYS_REG_TAG_WIDTH;
+
+  const rs1 = extractBits(inputStr, accessIdx, Types.DATA_WIDTH);
+  accessIdx += Types.DATA_WIDTH;
+
+  const rs2 = extractBits(inputStr, accessIdx, Types.DATA_WIDTH);
+  accessIdx += Types.DATA_WIDTH;
+
+  const valid = inputStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  const func = extractBits(
+    inputStr,
+    accessIdx,
+    Types.MULT_FUNC_WIDTH
+  ) as Types.MULT_FUNC;
+  accessIdx += Types.MULT_FUNC_WIDTH;
+
+  return {
+    T_new,
+    rs1,
+    rs2,
+    func,
+    valid,
+  };
+};
+
+export const parseALU_DATA = (inputStr: string): Types.ALU_DATA => {
+  let accessIdx = 0;
+
+  const T_new = extractBits(inputStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
+  accessIdx += Types.PHYS_REG_TAG_WIDTH;
+
+  const rs1 = extractBits(inputStr, accessIdx, Types.DATA_WIDTH);
+  accessIdx += Types.DATA_WIDTH;
+
+  const rs2 = extractBits(inputStr, accessIdx, Types.DATA_WIDTH);
+  accessIdx += Types.DATA_WIDTH;
+
+  const valid = inputStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  const func = extractBits(
+    inputStr,
+    accessIdx,
+    Types.ALU_FUNC_WIDTH
+  ) as Types.ALU_FUNC;
+  accessIdx += Types.ALU_FUNC_WIDTH;
+
+  return {
+    T_new,
+    rs1,
+    rs2,
+    func,
+    valid,
+  };
+};
+
+export const parseBRANCH_DATA = (inputStr: string): Types.BRANCH_DATA => {
+  let accessIdx = 0;
+
+  const T_new = extractBits(inputStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
+  accessIdx += Types.PHYS_REG_TAG_WIDTH;
+
+  const rs1 = extractBits(inputStr, accessIdx, Types.DATA_WIDTH);
+  accessIdx += Types.DATA_WIDTH;
+
+  const rs2 = extractBits(inputStr, accessIdx, Types.DATA_WIDTH);
+  accessIdx += Types.DATA_WIDTH;
+
+  const valid = inputStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  const func = extractBits(
+    inputStr,
+    accessIdx,
+    Types.BRANCH_FUNC_WIDTH
+  ) as Types.BRANCH_FUNC;
+  accessIdx += Types.BRANCH_FUNC_WIDTH;
+
+  return {
+    T_new,
+    rs1,
+    rs2,
+    func,
+    valid,
+  };
+};
+
+const parseFU_DATA = (inputStr: string, fu: Types.FU_TYPE): Types.FU_DATA => {
+  switch (fu) {
+    case Types.FU_TYPE.MUL:
+      return { fu_type: Types.FU_TYPE.MUL, data: parseMULT_DATA(inputStr) };
+    case Types.FU_TYPE.ALU:
+      return { fu_type: Types.FU_TYPE.ALU, data: parseALU_DATA(inputStr) };
+    case Types.FU_TYPE.BR:
+      return { fu_type: Types.FU_TYPE.BR, data: parseBRANCH_DATA(inputStr) };
+    default:
+      return {
+        fu_type: Types.FU_TYPE.ALU,
+        data: {
+          T_new: 0,
+          rs1: 0,
+          rs2: 0,
+          func: Types.ALU_FUNC.ALU_ADD,
+          valid: false,
+        },
+      };
+  }
+};
+
 ////// RS
 export const parseRSData = (
   entries: string,
@@ -171,17 +286,10 @@ export const parseRSData = (
     ) as Types.FU_TYPE;
     accessIdx += Types.FU_TYPE_WIDTH;
 
-    // skiping fu_data for now (not implemented yet). push an fu_data with all bytes set to 0 (mult with all mult_data set to 0)
-    const fu_data: Types.FU_DATA = {
-      fu_type: Types.FU_TYPE.MUL,
-      data: {
-        T_new: 0,
-        rs1: 0,
-        rs2: 0,
-        func: Types.MULT_FUNC.M_MUL,
-        valid: false,
-      },
-    };
+    const fu_data = parseFU_DATA(
+      binaryStr.slice(accessIdx, accessIdx + Types.FU_DATA_WIDTH),
+      fu
+    );
     accessIdx += Types.FU_DATA_WIDTH;
 
     const T_dest = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);

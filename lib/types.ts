@@ -164,17 +164,23 @@ export enum ALU_FUNC {
 export const ALU_FUNC_WIDTH = clog2(
   Object.keys(ALU_FUNC).filter((k) => isNaN(Number(k))).length
 );
+export function getALUFuncName(aluFunc: ALU_FUNC): string {
+  return ALU_FUNC[aluFunc] ? ALU_FUNC[aluFunc] : "XXX";
+}
 
 // MULT funct3 code
 export enum MULT_FUNC {
-  M_MUL,
-  M_MULH,
-  M_MULHSU,
-  M_MULHU,
+  M_MUL = 0x0,
+  M_MULH = 0x1,
+  M_MULHSU = 0x2,
+  M_MULHU = 0x3,
 }
 export const MULT_FUNC_WIDTH = clog2(
   Object.keys(MULT_FUNC).filter((k) => isNaN(Number(k))).length
 );
+export function getMULFuncName(mulFunc: MULT_FUNC): string {
+  return MULT_FUNC[mulFunc] ? MULT_FUNC[mulFunc] : "XXX";
+}
 
 // Branch function
 export enum BRANCH_FUNC {
@@ -188,6 +194,9 @@ export enum BRANCH_FUNC {
 export const BRANCH_FUNC_WIDTH = clog2(
   Object.keys(BRANCH_FUNC).filter((k) => isNaN(Number(k))).length
 );
+export function getBRFuncName(brFunc: BRANCH_FUNC): string {
+  return BRANCH_FUNC[brFunc] ? BRANCH_FUNC[brFunc] : "XXX";
+}
 
 // IF_ID Packet
 export type IF_ID_PACKET = {
@@ -290,8 +299,8 @@ export type MULT_DATA = {
   T_new: PHYS_REG_TAG;
   rs1: DATA;
   rs2: DATA;
-  func: MULT_FUNC;
   valid: boolean;
+  func: MULT_FUNC;
 };
 export const MULT_DATA_WIDTH =
   PHYS_REG_TAG_WIDTH + DATA_WIDTH + DATA_WIDTH + MULT_FUNC_WIDTH + 1;
@@ -299,10 +308,10 @@ export const MULT_DATA_WIDTH =
 // ALU data
 export type ALU_DATA = {
   T_new: PHYS_REG_TAG;
-  opa: DATA;
-  opb: DATA;
-  func: ALU_FUNC;
+  rs1: DATA;
+  rs2: DATA;
   valid: boolean;
+  func: ALU_FUNC;
 };
 export const ALU_DATA_WIDTH =
   PHYS_REG_TAG_WIDTH + DATA_WIDTH + DATA_WIDTH + ALU_FUNC_WIDTH + 1;
@@ -312,8 +321,8 @@ export type BRANCH_DATA = {
   T_new: PHYS_REG_TAG;
   rs1: DATA;
   rs2: DATA;
-  func: BRANCH_FUNC;
   valid: boolean;
+  func: BRANCH_FUNC;
 };
 export const BRANCH_DATA_WIDTH =
   PHYS_REG_TAG_WIDTH + DATA_WIDTH + DATA_WIDTH + BRANCH_FUNC_WIDTH + 1;
