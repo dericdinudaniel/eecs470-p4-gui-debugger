@@ -54,6 +54,7 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
     <>
       <div className={`${className} mt-4`}>
         <div className="bg-gray-500/[.15] rounded-lg shadow-lg p-4 inline-flex flex-col items-center">
+          {/* header */}
           <div className="flex items-center">
             <h2 className="text-xl font-semibold">
               ROB (size = {Constants.ROB_SZ})

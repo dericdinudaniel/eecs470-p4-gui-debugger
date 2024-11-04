@@ -19,13 +19,22 @@ const DisplayCDBData: React.FC<DisplayCDBDataProps> = ({
             </tr>
           </thead>
           <tbody>
-            {CDBData.map((tag, idx) => (
-              <tr key={idx}>
-                <td className="text-sm text-center bg-gray-200 border-t ROB-border-color">
-                  p{tag}
-                </td>
-              </tr>
-            ))}
+            {CDBData.map((tag, idx) => {
+              const displayTag = Number.isNaN(tag) ? "XX" : tag;
+
+              const color =
+                Number.isNaN(tag) || tag == 0 ? "bg-red-200" : "bg-green-200";
+
+              return (
+                <tr key={idx}>
+                  <td
+                    className={`text-sm text-center bg-gray-200 border-t ROB-border-color ${color}`}
+                  >
+                    p{displayTag}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

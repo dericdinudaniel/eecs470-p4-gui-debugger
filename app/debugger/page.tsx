@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import DebuggerOutput from "@/components/DebuggerOutput";
 import ROBDebugger from "@/components/ROBDebugger";
 import DebuggerHeader from "@/components/DebuggerHeader";
+import RSDebugger from "@/components/RSDebugger";
 
 export default function Debugger() {
   const [currentCycle, setCurrentCycle] = useState(0);
@@ -117,11 +118,14 @@ export default function Debugger() {
 
         {signalData && (
           <>
-            <ROBDebugger
-              className="p-8"
-              // always pass in direct access to ROB
-              signalData={signalData?.signals.children.testbench.children.DUT}
+            <RSDebugger
+              className="m-4"
+              signalRS={signalData?.signals.children.testbench.children.DUT}
             />
+            {/* <ROBDebugger
+              className="p-8"
+              signalData={signalData?.signals.children.testbench.children.DUT}
+            /> */}
             <DebuggerOutput signalData={signalData} />
           </>
         )}

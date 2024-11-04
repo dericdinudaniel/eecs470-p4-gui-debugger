@@ -12,7 +12,7 @@ export const CDB_SZ = N; // This MUST match your superscalar width
 
 // Sizes
 export const ROB_SZ = 32;
-export const RS_SZ = NaN; // Replace `NaN` with the appropriate value
+export const RS_SZ = 16; // Replace `NaN` with the appropriate value
 export const PHYS_REG_SZ_P6 = 32;
 export const PHYS_REG_SZ_R10K = 32 + ROB_SZ;
 
@@ -21,8 +21,8 @@ export const BRANCH_PRED_SZ = NaN; // Replace `NaN` with the appropriate value
 export const LSQ_SZ = NaN; // Replace `NaN` with the appropriate value
 
 // Functional Units
-export const NUM_FU_ALU = 2;
-export const NUM_FU_MULT = 1;
+export const NUM_FU_ALU = 3;
+export const NUM_FU_MULT = 2;
 export const NUM_FU_LOAD = 0;
 export const NUM_FU_STORE = 0;
 export const NUM_FU_BRANCH = 1;

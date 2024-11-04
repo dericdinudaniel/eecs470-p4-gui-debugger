@@ -1,5 +1,6 @@
 import React from "react";
 import * as Types from "@/lib/types";
+import { displayValue } from "@/lib/utils";
 
 type DisplayROBDataProps = {
   className: string;
@@ -54,10 +55,6 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
 
               const entryNumber = idx.toString().padStart(2, "") + ":";
 
-              // Helper function to display the value or "NaN"
-              const displayValue = (value: any) =>
-                isNaN(value) ? "XX" : value;
-
               // green if tail, red if head, yellow if both
               const color = isBoth
                 ? "bg-yellow-200"
@@ -68,6 +65,7 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
                 : entry.valid
                 ? "bg-yellow-100"
                 : "bg-gray-200";
+
               const headOrTailString =
                 "←" +
                 (isBoth ? "Head/Tail" : isHead ? "Head" : isTail ? "Tail" : "");
