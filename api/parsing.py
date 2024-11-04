@@ -36,9 +36,13 @@ def full_parse(cache, root_scope, num_cycles):
             if hasattr(scope, 'data'):
                 data = scope.data
                 value = None
+                latest_matching_time = -1
                 for time, val in data:
                     if time <= timestamp:
-                        value = val
+                        # Update the value if this is a later or equal timestamp
+                        if time >= latest_matching_time:
+                            latest_matching_time = time
+                            value = val
                     else:
                         break
                 result["value"] = value
@@ -51,7 +55,6 @@ def full_parse(cache, root_scope, num_cycles):
     for cycle in range(num_cycles):  # +1 to include the last cycle      
         clock = root_scope.children["testbench"].children["clock"].data
         timestamp = clock[(cycle * 2) + 1][0]
-        print(f"timestamp: {timestamp}")
         
         cycle_data = process_scope(root_scope, timestamp)
         cache.set(f"cycle_{cycle}", cycle_data)
