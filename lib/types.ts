@@ -385,8 +385,27 @@ export const RS_DATA_WIDTH =
   1 + // ready_tb
   ID_EX_PACKET_WIDTH; // packet
 
-// FRIZZY Data packet
+// ready and free list. boolean for each physical register
 export type FRIZZY_DATA = {
-  ready: boolean;
-  free: boolean;
+  ready: boolean[]; // 1 if ready
+  free: boolean[]; // 1 if free
 };
+export const FRIZZY_DATA_WIDTH = 2 * Constants.PHYS_REG_SZ_R10K;
+
+// FRIZZY Data packet
+export type FREDDY_IN = {
+  R_dest: REG_IDX;
+  R_a: REG_IDX;
+  R_b: REG_IDX;
+};
+export const FREDDY_IN_WIDTH = 3 * REG_IDX_WIDTH;
+
+export type FREDDY_OUT = {
+  T_new: PHYS_REG_TAG;
+  T_old: PHYS_REG_TAG;
+  T_a: PHYS_REG_TAG;
+  ready_ta: boolean;
+  T_b: PHYS_REG_TAG;
+  ready_tb: boolean;
+};
+export const FREDDY_OUT_WIDTH = 4 * PHYS_REG_TAG_WIDTH + 2;
