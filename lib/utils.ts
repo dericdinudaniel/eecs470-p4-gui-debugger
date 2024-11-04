@@ -237,7 +237,10 @@ export const parseBRANCH_DATA = (inputStr: string): Types.BRANCH_DATA => {
   };
 };
 
-const parseFU_DATA = (inputStr: string, fu: Types.FU_TYPE): Types.FU_DATA => {
+export const parseFU_DATA = (
+  inputStr: string,
+  fu: Types.FU_TYPE
+): Types.FU_DATA => {
   switch (fu) {
     case Types.FU_TYPE.MUL:
       return { fu_type: Types.FU_TYPE.MUL, data: parseMULT_DATA(inputStr) };
@@ -257,6 +260,41 @@ const parseFU_DATA = (inputStr: string, fu: Types.FU_TYPE): Types.FU_DATA => {
         },
       };
   }
+};
+
+export const parseListFU_DATA = (
+  inputStr: string,
+  fu: Types.FU_TYPE
+): Types.FU_DATA[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  const result: Types.FU_DATA[] = [];
+  const entryWidth = Types.FU_DATA_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
+
+  // Process each FU_DATA entry from the end to the beginning
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+
+    // Extract fields from left to right in the entry
+    const fu_data = parseFU_DATA(
+      binaryStr.slice(startIdx, startIdx + entryWidth),
+      fu
+    );
+
+    result.push(fu_data);
+  }
+
+  return result;
+};
+
+export const getNumFUOut = (fu_list: Types.FU_DATA[]): number => {
+  let count = 0;
+  for (let i = 0; i < fu_list.length; i++) {
+    if (fu_list[i].data.valid) {
+      count++;
+    }
+  }
+  return count;
 };
 
 ////// RS
