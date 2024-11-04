@@ -47,6 +47,8 @@ const extractBits = (
   return parseInt(bitsSlice, 2);
 };
 
+export const displayValue = (value: any) => (isNaN(value) ? "XX" : value);
+
 ////// ROB
 export const parseROBData = (
   entries: string,
@@ -144,6 +146,7 @@ export const parseID_EX_PACKET = (packetStr: string): Types.ID_EX_PACKET => {
   };
 };
 
+// RS
 export const parseMULT_DATA = (inputStr: string): Types.MULT_DATA => {
   let accessIdx = 0;
 
@@ -367,4 +370,33 @@ export const parseRSData = (
   return result;
 };
 
-export const displayValue = (value: any) => (isNaN(value) ? "XX" : value);
+// Frizzy List
+export const parseFreeList = (inputStr: string): string[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+
+  const result: string[] = [];
+
+  for (let i = 0; i < binaryStr.length; i++) {
+    result.push(binaryStr[i]);
+  }
+
+  return result;
+};
+
+export const parseReadyBits = (inputStr: string): string[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+
+  const result: string[] = [];
+
+  for (let i = 0; i < binaryStr.length; i++) {
+    result.push(binaryStr[i]);
+  }
+
+  return result;
+};
+
+export const parseFree_PR = (inputStr: string): number[] => {
+  const result: number[] = [];
+
+  return result;
+};

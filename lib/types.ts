@@ -387,8 +387,8 @@ export const RS_DATA_WIDTH =
 
 // ready and free list. boolean for each physical register
 export type FRIZZY_DATA = {
-  ready: boolean[]; // 1 if ready
-  free: boolean[]; // 1 if free
+  ready: string[]; // 1 if ready
+  free: string[]; // 1 if free
 };
 export const FRIZZY_DATA_WIDTH = 2 * Constants.PHYS_REG_SZ_R10K;
 
