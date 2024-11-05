@@ -10,7 +10,7 @@ const DisplayCDBData: React.FC<DisplayCDBDataProps> = ({
   CDBData,
 }) => {
   return (
-    <div className={className}>
+    <div className={`${className}`}>
       <div className="overflow-hidden rounded-lg border ROB-border-color">
         <table className="w-full border-collapse">
           <thead>

@@ -11,3 +11,11 @@ export const parseInstruction = (instruction: number): string => {
     return "Invalid instruction";
   }
 };
+
+export const chunkArray = <T>(array: T[], chunkSize: number): T[][] => {
+  const chunks: T[][] = [];
+  for (let i = 0; i < array.length; i += chunkSize) {
+    chunks.push(array.slice(i, i + chunkSize));
+  }
+  return chunks;
+};
