@@ -376,7 +376,7 @@ export const parseFreeList = (inputStr: string): string[] => {
 
   const result: string[] = [];
 
-  for (let i = 0; i < binaryStr.length; i++) {
+  for (let i = binaryStr.length - 1; i >= 0; i--) {
     result.push(binaryStr[i]);
   }
 
@@ -396,7 +396,33 @@ export const parseReadyBits = (inputStr: string): string[] => {
 };
 
 export const parseFree_PR = (inputStr: string): number[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+
+  // N of PHYS_REG_TAG
   const result: number[] = [];
+
+  const arrLen = Constants.N;
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * Types.PHYS_REG_TAG_WIDTH;
+    const tag = extractBits(binaryStr, startIdx, Types.PHYS_REG_TAG_WIDTH);
+    result.push(tag);
+  }
+
+  return result;
+};
+
+export const parseReg_Map = (inputStr: string): number[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+
+  // N of PHYS_REG_TAG
+  const result: number[] = [];
+
+  const arrLen = Constants.AR_NUM;
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * Types.PHYS_REG_TAG_WIDTH;
+    const tag = extractBits(binaryStr, startIdx, Types.PHYS_REG_TAG_WIDTH);
+    result.push(tag);
+  }
 
   return result;
 };

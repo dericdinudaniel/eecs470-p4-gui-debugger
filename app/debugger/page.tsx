@@ -129,7 +129,7 @@ export default function Debugger() {
             /> */}
             <FNAFDebugger
               className="m-4"
-              signalFrizzy={signalData?.signals.children.testbench.children.DUT}
+              signalFNAF={signalData?.signals.children.testbench.children.DUT}
             />
             <DebuggerOutput signalData={signalData} />
           </>

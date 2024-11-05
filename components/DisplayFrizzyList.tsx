@@ -1,5 +1,6 @@
 import React from "react";
 import * as Constants from "@/lib/constants";
+import { chunkArray } from "@/lib/tsutils";
 
 type DisplayFrizzyListProps = {
   className: string;
@@ -7,13 +8,13 @@ type DisplayFrizzyListProps = {
   readyBits: string[];
 };
 
-const chunkArray = (array: string[], chunkSize: number) => {
-  const chunks = [];
-  for (let i = 0; i < array.length; i += chunkSize) {
-    chunks.push(array.slice(i, i + chunkSize));
-  }
-  return chunks;
-};
+// const chunkArray = (array: string[], chunkSize: number) => {
+//   const chunks = [];
+//   for (let i = 0; i < array.length; i += chunkSize) {
+//     chunks.push(array.slice(i, i + chunkSize));
+//   }
+//   return chunks;
+// };
 
 const DisplayFrizzyList: React.FC<DisplayFrizzyListProps> = ({
   className,
@@ -30,7 +31,7 @@ const DisplayFrizzyList: React.FC<DisplayFrizzyListProps> = ({
 
   return (
     <>
-      <div className="inline-flex flex-col items-center shadow-lg p-2 rounded-lg bg-gray-200">
+      <div className={`inline-flex flex-col items-center ${className}`}>
         <h2 className="text-lg font-semibold">Frizzy (Free + Ready/Busy)</h2>
         <div className="flex space-x-1">
           {freeListChunks.map((freeChunk, chunkIdx) => (
