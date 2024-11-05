@@ -32,7 +32,7 @@ const DisplayFrizzyList: React.FC<DisplayFrizzyListProps> = ({
   return (
     <>
       <div className={`inline-flex flex-col items-center ${className}`}>
-        <h2 className="text-lg font-semibold">Frizzy (Free + Ready/Busy)</h2>
+        <h2 className="text-lg font-semibold">Free (green) + Ready (+)</h2>
         <div className="flex space-x-1">
           {freeListChunks.map((freeChunk, chunkIdx) => (
             <div
@@ -43,40 +43,51 @@ const DisplayFrizzyList: React.FC<DisplayFrizzyListProps> = ({
                 <thead>
                   <tr className="bg-slate-300">
                     <th className="text-sm p-2">PR #</th>
-                    <th className="text-sm border-l ROB-border-color p-2">
+                    {/* <th className="text-sm border-l ROB-border-color p-2">
                       Free
-                    </th>
-                    <th className="text-sm border-l ROB-border-color p-2">
+                    </th> */}
+                    {/* <th className="text-sm border-l ROB-border-color p-2">
                       Ready
-                    </th>
+                    </th> */}
                   </tr>
                 </thead>
                 <tbody>
                   {freeChunk.map((frizzy_data, idx) => {
                     const globalIdx = chunkIdx * chunkSize + idx;
-                    const prNumber = globalIdx.toString() + ":";
+                    const prNumber = globalIdx.toString();
                     const free = freeChunk[idx];
                     const ready = readyBitsChunks[chunkIdx][idx];
 
                     return (
                       <tr key={globalIdx} className="">
-                        <td className="text-right text-sm border-t ROB-border-color bg-gray-200 font-semibold">
-                          {prNumber}
-                        </td>
                         <td
+                          className={`text-center text-sm border-t ROB-border-color ${
+                            readyBits[globalIdx] === "1"
+                              ? "bg-green-200"
+                              : "bg-gray-200"
+                          }`}
+                        >
+                          <div className="flex  px-3 space-x-1">
+                            <span className="w-4">{prNumber}</span>
+                            <span className={"flex items-center"}>
+                              {readyBits[globalIdx] === "1" ? "+" : "\u00A0"}
+                            </span>
+                          </div>
+                        </td>
+                        {/* <td
                           className={`text-center text-sm border-l border-t ROB-border-color ${
                             free == "1" ? "bg-green-200" : "bg-red-200"
                           }`}
                         >
                           {free}
-                        </td>
-                        <td
+                        </td> */}
+                        {/* <td
                           className={`text-center text-sm border-l border-t ROB-border-color ${
                             ready == "1" ? "bg-green-200" : "bg-red-200"
                           }`}
                         >
                           {ready}
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   })}
