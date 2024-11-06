@@ -426,3 +426,70 @@ export const parseReg_Map = (inputStr: string): number[] => {
 
   return result;
 };
+
+// Register File
+export const parseRegfile = (inputStr: string): number[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+
+  const arrLen = binaryStr.length / Types.DATA_WIDTH;
+
+  const result: number[] = [];
+
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * Types.DATA_WIDTH;
+    const data = extractBits(binaryStr, startIdx, Types.DATA_WIDTH);
+    result.push(data);
+  }
+
+  return result;
+};
+
+export const parseRegPortIdx = (
+  inputStr: string,
+  numPorts: number,
+  portWidth: number = Types.PHYS_REG_TAG_WIDTH
+): number[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+
+  const result: number[] = [];
+
+  for (let i = numPorts - 1; i >= 0; i--) {
+    const startIdx = i * portWidth;
+    const tag = extractBits(binaryStr, startIdx, portWidth);
+    result.push(tag);
+  }
+
+  return result;
+};
+
+export const parseRegPortData = (
+  inputStr: string,
+  numPorts: number
+): number[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+
+  const result: number[] = [];
+
+  for (let i = numPorts - 1; i >= 0; i--) {
+    const startIdx = i * Types.DATA_WIDTH;
+    const data = extractBits(binaryStr, startIdx, Types.DATA_WIDTH);
+    result.push(data);
+  }
+
+  return result;
+};
+
+export const parseRegPortValid = (
+  inputStr: string,
+  numPorts: number
+): boolean[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+
+  const result: boolean[] = [];
+
+  for (let i = numPorts - 1; i >= 0; i--) {
+    result.push(binaryStr[i] === "1");
+  }
+
+  return result;
+};
