@@ -50,8 +50,8 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
 
   const open_spots = extractSignalValueToInt(signalRS, "open_spots");
 
-  const [showRSInputs, setShowRSInputs] = useState(false);
-  const [showRSOutputs, setShowRSOutputs] = useState(false);
+  const [showRSInputs, setShowRSInputs] = useState(true);
+  const [showRSOutputs, setShowRSOutputs] = useState(true);
 
   return (
     <>

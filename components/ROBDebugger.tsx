@@ -20,7 +20,7 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
   // input signals
   const dispatched_ins = extractSignalValue(signalData, "dispatched_ins").value;
   const ROB_dispatched_ins = parseROBData(dispatched_ins, Constants.N);
-  const cdb = extractSignalValue(signalData, "cdb").value;
+  const cdb = extractSignalValue(signalData, "rob_completed").value;
   const ROB_cdb = parseCDBData(cdb);
 
   // internal signals
@@ -48,7 +48,7 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
 
   // State to control visibility of stuff
   const [showROBInternals, setShowROBInternals] = useState(false);
-  const [showROBInputs, setShowROBInputs] = useState(false);
+  const [showROBInputs, setShowROBInputs] = useState(true);
 
   return (
     <>
@@ -89,10 +89,10 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
                   isROB={false}
                 />
               </div>
-              <div className="justify-items-center">
+              {/* <div className="justify-items-center">
                 <p>CDB</p>
                 <DisplayCDBData className="" CDBData={ROB_cdb} />
-              </div>
+              </div> */}
             </div>
           )}
 
