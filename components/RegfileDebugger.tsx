@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   clog2,
   extractSignalValue,
@@ -33,7 +33,7 @@ const DisplayRegPorts: React.FC<{
         <thead>
           <tr className="bg-slate-300">
             <th className="text-sm p-2">Port #</th>
-            <th className="text-sm border-l ROB-border-color p-2">Reg Idx</th>
+            <th className="text-sm border-l ROB-border-color p-2">Idx</th>
             <th className="text-sm border-l ROB-border-color p-2">Data</th>
           </tr>
         </thead>
@@ -92,6 +92,8 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
   const Ref_read_out = parseRegPortData(read_out, READ_PORTS);
   const Ref_write_data = parseRegPortData(write_data, WRITE_PORTS);
 
+  const [showRegfilePorts, setShowRegfilePorts] = useState(false);
+
   return (
     <>
       <div
@@ -99,6 +101,12 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
       >
         <div className="justify-items-center">
           <h2 className="text-lg font-semibold">Physical Registers</h2>
+          <button
+            className="bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600  text-xs mb-2"
+            onClick={() => setShowRegfilePorts(!showRegfilePorts)}
+          >
+            {showRegfilePorts ? "Hide Regfile Ports" : "Show Regfile Ports"}
+          </button>
           <div className="flex space-x-1">
             {regChunks.map((regChunk, chunkIdx) => (
               <div
@@ -138,26 +146,30 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
           </div>
         </div>
         <div className="flex space-x-2">
-          {/* read ports */}
-          <div className="justify-items-center">
-            <h2 className="text-lg font-semibold">Read Ports</h2>
-            <DisplayRegPorts
-              numPorts={READ_PORTS}
-              ports_idx={Reg_read_idx}
-              ports_data={Ref_read_out}
-            />
-          </div>
+          {showRegfilePorts && (
+            <>
+              {/* read ports */}
+              <div className="justify-items-center">
+                <h2 className="text-lg font-semibold">Read Ports</h2>
+                <DisplayRegPorts
+                  numPorts={READ_PORTS}
+                  ports_idx={Reg_read_idx}
+                  ports_data={Ref_read_out}
+                />
+              </div>
 
-          {/* write ports */}
-          <div className="justify-items-center">
-            <h2 className="text-lg font-semibold">Write Ports</h2>
-            <DisplayRegPorts
-              numPorts={WRITE_PORTS}
-              ports_idx={Reg_write_idx}
-              ports_data={Ref_write_data}
-              ports_valid={Reg_write_en}
-            />
-          </div>
+              {/* write ports */}
+              <div className="justify-items-center">
+                <h2 className="text-lg font-semibold">Write Ports</h2>
+                <DisplayRegPorts
+                  numPorts={WRITE_PORTS}
+                  ports_idx={Reg_write_idx}
+                  ports_data={Ref_write_data}
+                  ports_valid={Reg_write_en}
+                />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>
