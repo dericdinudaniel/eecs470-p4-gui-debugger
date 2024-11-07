@@ -54,9 +54,7 @@ const DisplayFrizzyList: React.FC<DisplayFrizzyListProps> = ({
                       <tr key={globalIdx} className="">
                         <td
                           className={`text-center text-sm border-t ROB-border-color ${
-                            readyBits[globalIdx] === "1"
-                              ? "bg-green-200"
-                              : "bg-gray-200"
+                            free === "1" ? "bg-green-200" : "bg-gray-200"
                           }`}
                         >
                           <div className="flex  px-3 space-x-1">
