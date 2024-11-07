@@ -1,17 +1,16 @@
 import React from "react";
 import * as Constants from "@/lib/constants";
 import { chunkArray } from "@/lib/tsutils";
+import { displayValue } from "@/lib/utils";
 
 type DisplayMapTableProps = {
   className: string;
   mapTable: number[];
-  readyBits: string[];
 };
 
 const DisplayMapTable: React.FC<DisplayMapTableProps> = ({
   className,
   mapTable,
-  readyBits,
 }) => {
   const chunkSize = 16; // Adjust the chunk size as needed
   const mapTableChunks = chunkArray(mapTable, chunkSize);
@@ -34,21 +33,13 @@ const DisplayMapTable: React.FC<DisplayMapTableProps> = ({
               </thead>
               <tbody>
                 {chunk.map((pr, idx) => (
-                  <tr
-                    key={chunkIdx * chunkSize + idx}
-                    className={`${
-                      readyBits[pr] === "1" ? "bg-green-200" : "bg-gray-200"
-                    }`}
-                  >
+                  <tr key={chunkIdx * chunkSize + idx} className="bg-gray-200">
                     <td className="text-right text-sm border-t ROB-border-color font-semibold">
                       {chunkIdx * chunkSize + idx}:
                     </td>
                     <td className=" text-sm border-l border-t ROB-border-color">
-                      <div className="flex  px-3 space-x-1">
-                        <span className="w-4">{pr}</span>
-                        <span className="flex items-center">
-                          {readyBits[pr] === "1" ? "+" : "\u00A0"}
-                        </span>
+                      <div className="text-center">
+                        <span>{displayValue(pr)}</span>
                       </div>
                     </td>
                   </tr>
