@@ -388,7 +388,7 @@ export const parseReadyBits = (inputStr: string): string[] => {
 
   const result: string[] = [];
 
-  for (let i = 0; i < binaryStr.length; i++) {
+  for (let i = binaryStr.length - 1; i >= 0; i--) {
     result.push(binaryStr[i]);
   }
 
