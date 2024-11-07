@@ -10,6 +10,7 @@ import DebuggerHeader from "@/components/DebuggerHeader";
 import RSDebugger from "@/components/RSDebugger";
 import FNAFDebugger from "@/components/FNAFDebugger";
 import RegfileDebugger from "@/components/RegfileDebugger";
+import { extractSignalValueToInt } from "@/lib/utils";
 
 export default function Debugger() {
   const [currentCycle, setCurrentCycle] = useState(0);
@@ -135,10 +136,16 @@ export default function Debugger() {
     }
   };
 
+  const verilogCycle = parseInt(
+    signalData?.signals.children.testbench.children.cycle_count.value.slice(1),
+    2
+  );
+
   return (
     <div className="min-h-screen bg-gray-100 p-0">
       <div className="bg-white rounded-lg shadow-md p-0">
         <DebuggerHeader
+          verilogCycle={verilogCycle}
           currentCycle={currentCycle}
           isNegativeEdge={isNegativeEdge}
           includeNegativeEdges={includeNegativeEdges}

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 
 interface DebuggerHeaderProps {
+  verilogCycle: number;
   currentCycle: number;
   isNegativeEdge: boolean;
   includeNegativeEdges: boolean;
@@ -109,6 +110,7 @@ const ToggleSwitch: React.FC<{
 };
 
 const DebuggerHeader: React.FC<DebuggerHeaderProps> = ({
+  verilogCycle,
   currentCycle,
   isNegativeEdge,
   includeNegativeEdges,
@@ -142,6 +144,10 @@ const DebuggerHeader: React.FC<DebuggerHeaderProps> = ({
               Num Cycles: {padWithSpaces(maxCycle + 1, maxCycle)}
             </p>
           </div>
+
+          <p className="font-semibold pl-4">
+            Verilog Cycle: {!Number.isNaN(verilogCycle) ? verilogCycle : "XX"}
+          </p>
 
           <div className="flex space-x-2 pl-4 items-center">
             <DebuggerButton onClick={handleStart} shortcutKey="v">
