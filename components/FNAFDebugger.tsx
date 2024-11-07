@@ -27,9 +27,6 @@ const FNAFDebugger: React.FC<FNAFDebuggerProps> = ({
   const ready_bits = extractSignalValue(signalFrizzy, "ready_bits").value;
   const FNAF_ready_bits = parseFreeList(ready_bits);
 
-  //   const free_PR = extractSignalValue(signalFNAF, "free_PR").value;
-  //   const FNAF_free_PR = parseFree_PR(free_PR);
-
   const reg_map = extractSignalValue(signalFNAF, "reg_map").value;
   const FNAF_reg_map = parseReg_Map(reg_map);
 
@@ -42,11 +39,7 @@ const FNAFDebugger: React.FC<FNAFDebuggerProps> = ({
             freeList={FNAF_free_list}
             readyBits={FNAF_ready_bits}
           />
-          <DisplayMapTable
-            className=""
-            mapTable={FNAF_reg_map}
-            readyBits={FNAF_ready_bits}
-          />
+          <DisplayMapTable className="" mapTable={FNAF_reg_map} />
         </div>
       </div>
     </>
