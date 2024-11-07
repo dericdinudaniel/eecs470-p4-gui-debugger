@@ -7,6 +7,7 @@ import ROBDebugger from "@/components/ROBDebugger";
 import DebuggerHeader from "@/components/DebuggerHeader";
 import RSDebugger from "@/components/RSDebugger";
 import FNAFDebugger from "@/components/FNAFDebugger";
+import RegfileDebugger from "@/components/RegfileDebugger";
 
 export default function Debugger() {
   const [currentCycle, setCurrentCycle] = useState(0);
@@ -127,9 +128,15 @@ export default function Debugger() {
               className="m-4"
               signalRS={signalData?.signals.children.testbench.children.DUT}
             /> */}
-            <FNAFDebugger
+            {/* <FNAFDebugger
               className="m-4"
               signalFNAF={signalData?.signals.children.testbench.children.DUT}
+            /> */}
+            <RegfileDebugger
+              className="m-4"
+              signalRegfile={
+                signalData?.signals.children.testbench.children.DUT
+              }
             />
             <DebuggerOutput signalData={signalData} />
           </>

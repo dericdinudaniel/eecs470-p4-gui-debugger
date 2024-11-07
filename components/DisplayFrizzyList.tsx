@@ -8,14 +8,6 @@ type DisplayFrizzyListProps = {
   readyBits: string[];
 };
 
-// const chunkArray = (array: string[], chunkSize: number) => {
-//   const chunks = [];
-//   for (let i = 0; i < array.length; i += chunkSize) {
-//     chunks.push(array.slice(i, i + chunkSize));
-//   }
-//   return chunks;
-// };
-
 const DisplayFrizzyList: React.FC<DisplayFrizzyListProps> = ({
   className,
   freeList,
