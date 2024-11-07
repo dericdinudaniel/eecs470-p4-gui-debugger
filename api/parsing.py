@@ -21,7 +21,7 @@ import logging
 # structure will be the exact same, but data will be a single value instead of a list of values
 
 discard_terms = {"file", "unnamed"}
-def full_parse(cache, root_scope, num_cycles):
+def full_parse(cache, root_scope, num_clocks, num_cycles):
     def process_scope(scope, timestamp):
         result = {"name": scope.name}
         if hasattr(scope, 'children'):
@@ -52,11 +52,27 @@ def full_parse(cache, root_scope, num_cycles):
                 }
         return result
 
-    for cycle in range(num_cycles):  # +1 to include the last cycle      
-        clock = root_scope.children["testbench"].children["clock"].data
-        timestamp = clock[(cycle * 2) + 1][0]
+    # clock = root_scope.children["testbench"].children["clock"].data
+    # for cycle in range(num_cycles):  # +1 to include the last cycle      
+    #     timestamp = clock[(cycle * 2) + 1][0]
         
-        cycle_data = process_scope(root_scope, timestamp)
-        cache.set(f"cycle_{cycle}", cycle_data)
+    #     cycle_data = process_scope(root_scope, timestamp)
+    #     cache.set(f"cycle_{cycle}", cycle_data)
+    
+    # clock starts at 0
+    clock = root_scope.children["testbench"].children["clock"].data
+    for i in range(num_clocks):  # +1 to include the last cycle      
+        cycle_number = (i-1) // 2
+        is_negedge = i % 2 == 0
+        
+        is_negedge_str = "neg" if is_negedge else "pos"
+        
+        timestamp = clock[i][0]
+        
+        current_data = process_scope(root_scope, timestamp)
+        
+        print(f"cycle_{cycle_number}_{is_negedge_str}")
+        
+        cache.set(f"cycle_{cycle_number}_{is_negedge_str}", current_data)
 
     return "Parsing and caching complete"

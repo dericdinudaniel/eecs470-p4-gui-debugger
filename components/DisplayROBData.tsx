@@ -62,7 +62,9 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
                 ? "bg-red-200"
                 : isTail
                 ? "bg-green-200"
-                : entry.valid
+                : entry.valid && !isROB
+                ? "bg-green-200"
+                : entry.valid && isROB
                 ? "bg-yellow-100"
                 : "bg-gray-200";
 
