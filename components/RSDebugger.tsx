@@ -120,11 +120,11 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
           )}
 
           {/* display RS entries */}
-          <DisplayRSData className="pt-2" RSData={RS_entries} />
+          <DisplayRSData className="" RSData={RS_entries} />
 
           {/* display outputs */}
           {showRSOutputs && (
-            <div className="mt-4 justify-items-center">
+            <div className="mt-2 justify-items-center">
               <div className="flex space-x-4">
                 {/* MULT */}
                 <div className="justify-items-center">

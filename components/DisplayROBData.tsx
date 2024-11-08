@@ -39,9 +39,9 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
               {isROB && (
                 <>
                   <th className="text-sm border-l ROB-border-color px-2 py-1">
-                    Retire?
+                    Ret?
                   </th>
-                  <th className="text-sm border-l ROB-border-color px-2 py-1 w-32">
+                  <th className="text-sm border-l ROB-border-color px-2 py-1">
                     H/T
                   </th>
                 </>
@@ -102,7 +102,9 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
                         {displayValue(entry.retireable ? "1" : "0")}
                       </td>
                       <td className="text-center text-sm border-l border-t ROB-border-color">
-                        {isEither && headOrTailString}
+                        <div className="w-14">
+                          {isEither && headOrTailString}
+                        </div>
                       </td>
                     </>
                   )}

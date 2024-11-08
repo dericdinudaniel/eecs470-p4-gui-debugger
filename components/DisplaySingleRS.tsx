@@ -40,7 +40,7 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
           <tbody>
             <tr>
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
-                Occupied:
+                Occ:
               </td>
               <td className="text-xs p-1 text-center border-t ROB-border-color w-16">
                 {RSData.occupied ? "Yes" : "No"}
