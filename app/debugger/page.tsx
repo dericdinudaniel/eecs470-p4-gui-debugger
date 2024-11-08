@@ -11,6 +11,7 @@ import RSDebugger from "@/components/RSDebugger";
 import FNAFDebugger from "@/components/FNAFDebugger";
 import RegfileDebugger from "@/components/RegfileDebugger";
 import { extractSignalValueToInt } from "@/lib/utils";
+import ShadDebuggerHeader from "@/components/ShadDebuggerHeader";
 
 export default function Debugger() {
   const [currentCycle, setCurrentCycle] = useState(0);
@@ -142,55 +143,56 @@ export default function Debugger() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-100 p-0">
-      <div className="bg-white rounded-lg shadow-md p-0">
-        <DebuggerHeader
-          verilogCycle={verilogCycle}
-          currentCycle={currentCycle}
-          isNegativeEdge={isNegativeEdge}
-          includeNegativeEdges={includeNegativeEdges}
-          setIncludeNegativeEdges={setIncludeNegativeEdges}
-          maxCycle={maxCycle}
-          jumpCycle={jumpCycle}
-          setJumpCycle={setJumpCycle}
-          handleStart={handleStart}
-          handlePreviousCycle={handlePreviousCycle}
-          handleNextCycle={handleNextCycle}
-          handleEnd={handleEnd}
-          handleJumpToCycle={handleJumpToCycle}
-          handleKeyDown={handleKeyDown}
-        />
-
-        {signalData && (
-          <>
-            <div className="">
-              <div className="flex">
-                <ROBDebugger
-                  className="p-8"
-                  signalData={
-                    signalData?.signals.children.testbench.children.DUT_ooo
-                      .children.DUT_rob
-                  }
-                />
-                <FNAFDebugger
-                  className="m-4"
-                  signalFNAF={
-                    signalData?.signals.children.testbench.children.DUT_ooo
-                      .children.DUT_freddy
-                  }
-                />
-                <RSDebugger
-                  className="m-4"
-                  signalRS={
-                    signalData?.signals.children.testbench.children.DUT_ooo
-                      .children.DUT_rs
-                  }
-                />
+    <div className="min-h-screen bg-gray-100">
+      <ShadDebuggerHeader
+        verilogCycle={verilogCycle}
+        currentCycle={currentCycle}
+        isNegativeEdge={isNegativeEdge}
+        includeNegativeEdges={includeNegativeEdges}
+        setIncludeNegativeEdges={setIncludeNegativeEdges}
+        maxCycle={maxCycle}
+        jumpCycle={jumpCycle}
+        setJumpCycle={setJumpCycle}
+        handleStart={handleStart}
+        handlePreviousCycle={handlePreviousCycle}
+        handleNextCycle={handleNextCycle}
+        handleEnd={handleEnd}
+        handleJumpToCycle={handleJumpToCycle}
+        handleKeyDown={handleKeyDown}
+      />
+      <div className="p-0">
+        <div className="bg-white rounded-lg shadow-md">
+          {signalData && (
+            <>
+              <div className="">
+                <div className="flex">
+                  <ROBDebugger
+                    className="p-8"
+                    signalData={
+                      signalData?.signals.children.testbench.children.DUT_ooo
+                        .children.DUT_rob
+                    }
+                  />
+                  <FNAFDebugger
+                    className="m-4"
+                    signalFNAF={
+                      signalData?.signals.children.testbench.children.DUT_ooo
+                        .children.DUT_freddy
+                    }
+                  />
+                  <RSDebugger
+                    className="m-4"
+                    signalRS={
+                      signalData?.signals.children.testbench.children.DUT_ooo
+                        .children.DUT_rs
+                    }
+                  />
+                </div>
               </div>
-            </div>
-            <DebuggerOutput signalData={signalData} />
-          </>
-        )}
+              <DebuggerOutput signalData={signalData} />
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
