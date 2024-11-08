@@ -12,7 +12,7 @@ const DisplayRSData: React.FC<DisplayRSDataProps> = ({ className, RSData }) => {
     <>
       <div className="pt-2"></div>
       <div className="bg-gray-300 rounded-xl p-3 shadow-xl">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-8 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-8 gap-1">
           {RSData.map((rs, idx) => (
             <div key={idx} className="items-center rounded-xl shadow-lg">
               <DisplaySingleRS className="" RSIdx={idx} RSData={rs} />

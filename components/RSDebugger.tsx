@@ -129,7 +129,7 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
                 {/* MULT */}
                 <div className="justify-items-center">
                   <p># MULT OUT: {getNumFUOut(RS_mult_out)}</p>
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-1">
                     {RS_mult_out.map((fu_data, idx) => (
                       <div key={idx}>
                         <DisplaySingleFU_DATA
@@ -145,7 +145,7 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
                 {/* ALU */}
                 <div className="justify-items-center">
                   <p># ALU OUT: {getNumFUOut(RS_alu_out)}</p>
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-1">
                     {RS_alu_out.map((fu_data, idx) => (
                       <div key={idx}>
                         <DisplaySingleFU_DATA
@@ -161,7 +161,7 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
                 {/* BRANCH */}
                 <div className="justify-items-center">
                   <p># BR OUT: {getNumFUOut(RS_branch_out)}</p>
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-1">
                     {RS_branch_out.map((fu_data, idx) => (
                       <div key={idx}>
                         <DisplaySingleFU_DATA

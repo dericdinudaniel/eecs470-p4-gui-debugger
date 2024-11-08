@@ -53,7 +53,7 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
   return (
     <>
       <div className={`${className} mt-4`}>
-        <div className="bg-gray-500/[.15] rounded-lg shadow-lg p-4 inline-flex flex-col items-center">
+        <div className="bg-gray-500/[.15] rounded-lg shadow-lg p-4 pb-1 inline-flex flex-col items-center">
           {/* header */}
           <div className="flex items-center">
             <h2 className="text-xl font-semibold">
@@ -144,7 +144,7 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
 
           {/* output signals */}
           <div>
-            <p className="text-sm mt-4 flex space-x-4">
+            <p className="text-sm mt-2">
               <span className="font-bold">Open Spots:</span> {open_spots}
             </p>
           </div>

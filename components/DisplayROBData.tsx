@@ -23,18 +23,26 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
         <table className="border-collapse">
           <thead>
             <tr className="bg-slate-300">
-              <th className="text-sm p-2">Entry #</th>
-              <th className="text-sm border-l ROB-border-color p-2">R_dest</th>
-              <th className="text-sm border-l ROB-border-color p-2">T_new</th>
-              <th className="text-sm border-l ROB-border-color p-2">T_old</th>
-              <th className="text-sm border-l ROB-border-color p-2">Valid</th>
+              <th className="text-sm px-4">#</th>
+              <th className="text-sm border-l ROB-border-color px-2 py-1">
+                R_dest
+              </th>
+              <th className="text-sm border-l ROB-border-color px-2 py-1">
+                T_new
+              </th>
+              <th className="text-sm border-l ROB-border-color px-2 py-1">
+                T_old
+              </th>
+              <th className="text-sm border-l ROB-border-color px-2 py-1">
+                Valid
+              </th>
               {isROB && (
                 <>
-                  <th className="text-sm border-l ROB-border-color p-2">
-                    Retirable
+                  <th className="text-sm border-l ROB-border-color px-2 py-1">
+                    Retire?
                   </th>
-                  <th className="text-sm border-l ROB-border-color p-2 w-32">
-                    Head/Tail
+                  <th className="text-sm border-l ROB-border-color px-2 py-1 w-32">
+                    H/T
                   </th>
                 </>
               )}
@@ -69,8 +77,7 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
                 : "bg-gray-200";
 
               const headOrTailString =
-                "←" +
-                (isBoth ? "Head/Tail" : isHead ? "Head" : isTail ? "Tail" : "");
+                "←" + (isBoth ? "H&T" : isHead ? "Head" : isTail ? "Tail" : "");
 
               return (
                 <tr key={idx} className={color}>
