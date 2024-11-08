@@ -34,7 +34,7 @@ const DisplayFormat = {
 const DebuggerOutput: React.FC<DebuggerOutputProps> = ({ signalData }) => {
   const [displayFormat, setDisplayFormat] = useState<
     keyof typeof DisplayFormat
-  >(DisplayFormat.HEX);
+  >(DisplayFormat.BINARY);
 
   if (!signalData) {
     return <div className="p-4 bg-gray-100 rounded-lg">Loading data...</div>;
@@ -90,8 +90,8 @@ const DebuggerOutput: React.FC<DebuggerOutputProps> = ({ signalData }) => {
             }
             className="p-1 border rounded"
           >
-            <option value={DisplayFormat.HEX}>Hex</option>
             <option value={DisplayFormat.BINARY}>Binary</option>
+            <option value={DisplayFormat.HEX}>Hex</option>
             <option value={DisplayFormat.DECIMAL}>Decimal</option>
           </select>
         </div>

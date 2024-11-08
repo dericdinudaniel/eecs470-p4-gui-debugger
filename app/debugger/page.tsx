@@ -143,7 +143,7 @@ export default function Debugger() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-white">
       <ShadDebuggerHeader
         verilogCycle={verilogCycle}
         currentCycle={currentCycle}
@@ -161,7 +161,7 @@ export default function Debugger() {
         handleKeyDown={handleKeyDown}
       />
       <div className="p-0">
-        <div className="bg-white rounded-lg shadow-md">
+        <div className="bg-white">
           {signalData && (
             <>
               <div className="">

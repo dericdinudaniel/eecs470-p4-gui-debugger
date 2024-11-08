@@ -105,7 +105,7 @@ export default function DebuggerHeader({
   handleKeyDown,
 }: DebuggerHeaderProps) {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/70 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/70 backdrop-blur-sm shadow-md">
       <div className="flex h-14 items-center justify-between px-4 md:px-6">
         <div className="flex items-center space-x-4">
           <span className="font-bold text-lg">Chimp Debugger</span>
@@ -149,7 +149,7 @@ export default function DebuggerHeader({
           <div className="flex flex-col items-center justify-center">
             <Label
               htmlFor="include-negedges"
-              className="text-[10px] text-muted-foreground underline-fade mb-1"
+              className="text-[12px] text-muted-foreground underline-fade mb-1"
             >
               Include Negedges (t)
             </Label>
@@ -161,30 +161,38 @@ export default function DebuggerHeader({
           </div>
         </div>
 
+        {/* cycle display */}
         <div className="flex items-center space-x-4">
           <div className="flex flex-col items-end">
-            <p className="text-xs font-mono">
+            <p className="text-sm font-mono">
               Verilog Cycle:{" "}
               {padWithSpaces(
                 Number.isNaN(verilogCycle) ? 0 : verilogCycle,
                 maxCycle
               )}
             </p>
-            <p className="text-xs font-mono">
+            {/* <p className="text-sm font-mono">
               Current Cycle: {padWithSpaces(currentCycle, maxCycle)}
               {isNegativeEdge ? "-" : "+"}
-            </p>
-            <p className="text-xs font-mono">
+            </p> */}
+            <p className="text-sm font-mono">
               Num Cycles: {padWithSpaces(maxCycle + 1, maxCycle)}
             </p>
           </div>
-          <div
-            className={`px-3 h-10 rounded-lg text-white flex items-center justify-center text-2xl ${
-              isNegativeEdge ? "bg-destructive" : "bg-dbgbtnPress"
-            }`}
-          >
-            {currentCycle}
-            {isNegativeEdge ? "-" : "+"}
+          <div className="flex flex-row items-center space-x-1">
+            <p className="text-sm font-mono">
+              Current Cycle:
+              {/* {padWithSpaces(currentCycle, maxCycle)}
+              {isNegativeEdge ? "-" : "+"} */}
+            </p>
+            <div
+              className={`px-3 h-10 rounded-lg text-white flex items-center justify-center text-2xl ${
+                isNegativeEdge ? "bg-destructive" : "bg-dbgbtnPress"
+              }`}
+            >
+              {currentCycle}
+              {isNegativeEdge ? "-" : "+"}
+            </div>
           </div>
         </div>
       </div>
