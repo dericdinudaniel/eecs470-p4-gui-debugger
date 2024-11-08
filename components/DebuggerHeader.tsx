@@ -77,32 +77,40 @@ const DebuggerButton: React.FC<DebuggerButtonProps> = ({
   );
 };
 
-const ToggleSwitch: React.FC<{
+const ToggleSwitch = ({
+  checked,
+  onChange,
+}: {
   checked: boolean;
   onChange: (checked: boolean) => void;
-}> = ({ checked, onChange }) => {
+}) => {
   return (
     <label className="inline-flex items-center cursor-pointer">
-      <div className="justify-items-center">
-        <span className="ml-2 text-sm text-gray-700">Include Negedges (t)</span>
+      <div className="flex flex-col items-start">
+        <span className="mb-1 text-sm text-gray-700">Include Negedges (t)</span>
         <div className="relative">
           <input
             type="checkbox"
-            className="sr-only"
+            className="sr-only peer"
             checked={checked}
             onChange={(e) => onChange(e.target.checked)}
           />
           <div
-            className={`w-12 h-5 bg-gray-300 rounded-full transition-colors duration-200 ease-in-out ${
-              checked ? "bg-blue-600" : ""
-            }`}
-          >
-            <div
-              className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform duration-200 ease-in-out ${
-                checked ? "transform translate-x-7" : ""
-              }`}
-            />
-          </div>
+            className={`
+              w-12 h-5 rounded-full
+              bg-gray-300 peer-checked:bg-blue-500
+              transition-colors duration-200 ease-in-out
+            `}
+          />
+          <div
+            className={`
+              absolute left-0.5 top-0.5
+              w-4 h-4 rounded-full
+              bg-white
+              transform transition-transform duration-200 ease-in-out
+              peer-checked:translate-x-7
+            `}
+          />
         </div>
       </div>
     </label>
