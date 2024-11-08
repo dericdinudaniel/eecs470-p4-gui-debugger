@@ -8,7 +8,7 @@ export const parseInstruction = (instruction: number): string => {
     const inst = new Instruction(hexStr);
     return inst.asm;
   } catch (e) {
-    return "Invalid instruction";
+    return "Invalid Instr";
   }
 };
 

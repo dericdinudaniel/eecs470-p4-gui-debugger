@@ -146,7 +146,7 @@ const DebuggerHeader: React.FC<DebuggerHeaderProps> = ({
           <div className="w-56 font-semibold">
             <p className="text-right font-mono">
               Current Cycle: {padWithSpaces(currentCycle, maxCycle)}
-              {isNegativeEdge ? "/neg" : "/pos"}
+              {isNegativeEdge ? "-" : "+"}
             </p>
             <p className="text-right font-mono">
               Num Cycles: {padWithSpaces(maxCycle + 1, maxCycle)}
