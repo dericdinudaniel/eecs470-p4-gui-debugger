@@ -12,6 +12,7 @@ import FNAFDebugger from "@/components/FNAFDebugger";
 import RegfileDebugger from "@/components/RegfileDebugger";
 import { extractSignalValueToInt } from "@/lib/utils";
 import ShadDebuggerHeader from "@/components/ShadDebuggerHeader";
+import DisplaySingleSignal from "@/components/DisplaySingleSignal";
 
 export default function Debugger() {
   const [currentCycle, setCurrentCycle] = useState(0);
@@ -189,6 +190,10 @@ export default function Debugger() {
                   />
                 </div>
               </div>
+              <DisplaySingleSignal
+                className=""
+                signalData={signalData?.signals.children.testbench.children}
+              />
               <DebuggerOutput signalData={signalData} />
             </>
           )}
