@@ -328,6 +328,12 @@ export const BRANCH_DATA_WIDTH =
   PHYS_REG_TAG_WIDTH + DATA_WIDTH + DATA_WIDTH + BRANCH_FUNC_WIDTH + 1;
 
 export type FU_FUNC = ALU_FUNC | MULT_FUNC | BRANCH_FUNC;
+export const FU_FUNC_WIDTH = 4;
+// export const FU_FUNC_WIDTH = Math.max(
+//   ALU_FUNC_WIDTH,
+//   MULT_FUNC_WIDTH,
+//   BRANCH_FUNC_WIDTH
+// );
 
 // FU_DATA union type, which can contain ALU_DATA, MULT_DATA, or BRANCH_DATA
 export type FU_DATA =
@@ -366,24 +372,27 @@ export const ROB_DATA_WIDTH = 2 * PHYS_REG_TAG_WIDTH + REG_IDX_WIDTH + 2;
 export type RS_DATA = {
   occupied: boolean;
   fu: FU_TYPE;
-  fu_data: FU_DATA;
-  T_dest: PHYS_REG_TAG;
+  fu_func: FU_FUNC;
+  T_new: PHYS_REG_TAG;
   T_a: PHYS_REG_TAG;
   ready_ta: boolean;
   T_b: PHYS_REG_TAG;
   ready_tb: boolean;
   packet: ID_EX_PACKET;
+  has_imm: boolean;
+  imm_value: DATA;
 };
 export const RS_DATA_WIDTH =
-  1 + // occupied
-  FU_TYPE_WIDTH + // fu
-  FU_DATA_WIDTH + // fu_data
-  PHYS_REG_TAG_WIDTH + // T_dest
-  PHYS_REG_TAG_WIDTH + // T_a
-  1 + // ready_ta
-  PHYS_REG_TAG_WIDTH + // T_b
-  1 + // ready_tb
-  ID_EX_PACKET_WIDTH; // packet
+  1 +
+  FU_TYPE_WIDTH +
+  FU_FUNC_WIDTH +
+  2 * PHYS_REG_TAG_WIDTH +
+  1 +
+  PHYS_REG_TAG_WIDTH +
+  1 +
+  ID_EX_PACKET_WIDTH +
+  1 +
+  DATA_WIDTH;
 
 // ready and free list. boolean for each physical register
 export type FRIZZY_DATA = {
@@ -409,3 +418,15 @@ export type FREDDY_OUT = {
   ready_tb: boolean;
 };
 export const FREDDY_OUT_WIDTH = 4 * PHYS_REG_TAG_WIDTH + 2;
+
+export type RS_TO_FU_DATA = {
+  T_new: PHYS_REG_TAG;
+  T_a: PHYS_REG_TAG;
+  T_b: PHYS_REG_TAG;
+  valid: boolean;
+  fu_func: FU_FUNC;
+  has_imm: boolean;
+  imm_value: DATA;
+};
+export const RS_TO_FU_DATA_WIDTH =
+  3 * PHYS_REG_TAG_WIDTH + 1 + FU_FUNC_WIDTH + 1 + DATA_WIDTH;

@@ -3,47 +3,52 @@ import * as Types from "@/lib/types";
 import { displayValue } from "@/lib/utils";
 import { parseInstruction } from "@/lib/tsutils";
 
-type DisplaySingleRSProps = {
+type DisplaySingleRS_TO_FU_DATAProps = {
   className: string;
-  RSIdx: number;
-  RSData: Types.RS_DATA;
+  FUIdx: number;
+  RS_TO_FUData: Types.RS_TO_FU_DATA;
+  fu_type: Types.FU_TYPE;
 };
 
-const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
+const getFU_TYPE = (fu_data: Types.FU_DATA) => {
+  switch (fu_data.fu_type) {
+    case Types.FU_TYPE.ALU:
+      return fu_data.data as Types.ALU_DATA;
+    case Types.FU_TYPE.MUL:
+      return fu_data.data as Types.MULT_DATA;
+    case Types.FU_TYPE.BR:
+      return fu_data.data as Types.BRANCH_DATA;
+  }
+};
+
+const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
   className,
-  RSIdx,
-  RSData,
+  FUIdx,
+  RS_TO_FUData,
+  fu_type,
 }) => {
   return (
     <div className={`${className}  hover:shadow-2xl transition-shadow`}>
       <div className="overflow-hidden rounded-lg border ROB-border-color">
         <table
           className={`w-full border-collapse ${
-            RSData.occupied ? "bg-green-200" : "bg-red-200"
+            RS_TO_FUData.valid ? "bg-green-200" : "bg-red-200"
           }`}
         >
           <thead>
             <tr>
               <th className="text-xs p-1 bg-slate-300" colSpan={2}>
-                RS: #{RSIdx}
+                FU: #{FUIdx}
               </th>
-            </tr>
-            <tr>
-              <td
-                className="text-xs p-1 border-t ROB-border-color text-center font-semibold"
-                colSpan={2}
-              >
-                {parseInstruction(RSData.packet.inst.inst)}
-              </td>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
-                Occ:
+                Valid:
               </td>
               <td className="text-xs p-1 text-center border-t ROB-border-color w-16">
-                {RSData.occupied ? "Yes" : "No"}
+                {RS_TO_FUData.valid ? "Yes" : "No"}
               </td>
             </tr>
             <tr>
@@ -51,25 +56,23 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
                 T_new:
               </td>
               <td className="text-xs p-1 text-center border-t ROB-border-color">
-                {displayValue(RSData.T_new)}
+                {displayValue(RS_TO_FUData.T_new)}
               </td>
             </tr>
             <tr>
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
-                T_a:
+                rs1:
               </td>
               <td className="text-xs p-1 text-center border-t ROB-border-color">
-                {displayValue(RSData.T_a)}
-                {RSData.ready_ta ? "+" : " "}
+                {displayValue(RS_TO_FUData.T_a)}
               </td>
             </tr>
             <tr>
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
-                T_b:
+                rs2:
               </td>
               <td className="text-xs p-1 text-center border-t ROB-border-color">
-                {displayValue(RSData.T_b)}
-                {RSData.ready_tb ? "+" : " "}
+                {displayValue(RS_TO_FUData.T_b)}
               </td>
             </tr>
             <tr>
@@ -77,29 +80,27 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
                 FU Type:
               </td>
               <td className="text-xs p-1 text-center border-t ROB-border-color">
-                {Types.getFUTypeName(RSData.fu)}
+                {Types.getFUTypeName(fu_type)}
               </td>
             </tr>
-
-            {/* func data */}
             <tr>
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
                 func:
               </td>
               <td className="text-xs p-1 text-center border-t ROB-border-color">
                 {(() => {
-                  switch (RSData.fu) {
+                  switch (fu_type) {
                     case Types.FU_TYPE.ALU:
                       return Types.getALUFuncName(
-                        RSData.fu_func as Types.ALU_FUNC
+                        RS_TO_FUData.fu_func as Types.ALU_FUNC
                       );
                     case Types.FU_TYPE.MUL:
                       return Types.getMULFuncName(
-                        RSData.fu_func as Types.MULT_FUNC
+                        RS_TO_FUData.fu_func as Types.MULT_FUNC
                       );
                     case Types.FU_TYPE.BR:
                       return Types.getBRFuncName(
-                        RSData.fu_func as Types.BRANCH_FUNC
+                        RS_TO_FUData.fu_func as Types.BRANCH_FUNC
                       );
                     default:
                       return "XXX";
@@ -114,4 +115,4 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
   );
 };
 
-export default DisplaySingleRS;
+export default DisplaySingleRS_TO_FU_DATA;

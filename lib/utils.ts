@@ -297,14 +297,20 @@ export const parseListFU_DATA = (
   return result;
 };
 
-export const getNumFUOut = (fu_list: Types.FU_DATA[]): number => {
+export const getNumFUOut = (fu_list: Types.RS_TO_FU_DATA[]): number => {
   let count = 0;
   for (let i = 0; i < fu_list.length; i++) {
-    if (fu_list[i].data.valid) {
+    if (fu_list[i].valid) {
       count++;
     }
   }
   return count;
+};
+
+export const parseFU_FUNC = (inputStr: string): Types.FU_FUNC => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+
+  return parseInt(binaryStr, 2) as Types.FU_FUNC;
 };
 
 ////// RS
@@ -334,13 +340,10 @@ export const parseRSData = (
     ) as Types.FU_TYPE;
     accessIdx += Types.FU_TYPE_WIDTH;
 
-    const fu_data = parseFU_DATA(
-      binaryStr.slice(accessIdx, accessIdx + Types.FU_DATA_WIDTH),
-      fu
-    );
-    accessIdx += Types.FU_DATA_WIDTH;
+    const fu_func = parseFU_FUNC(binaryStr.slice(accessIdx, accessIdx + 1));
+    accessIdx += Types.FU_FUNC_WIDTH;
 
-    const T_dest = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
+    const T_new = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
     accessIdx += Types.PHYS_REG_TAG_WIDTH;
 
     const T_a = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
@@ -361,16 +364,77 @@ export const parseRSData = (
     );
     accessIdx += Types.ID_EX_PACKET_WIDTH;
 
+    const has_imm = binaryStr[accessIdx] === "1";
+    accessIdx += 1;
+
+    const imm_value = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
+
     result.push({
       occupied,
       fu,
-      fu_data,
-      T_dest,
+      fu_func,
+      T_new,
       T_a,
       ready_ta,
       T_b,
       ready_tb,
       packet,
+      has_imm,
+      imm_value,
+    });
+  }
+
+  return result;
+};
+
+export const parseRS_TO_FU_DATA_List = (
+  inputStr: string,
+  fu_type: Types.FU_TYPE
+): Types.RS_TO_FU_DATA[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+
+  const result: Types.RS_TO_FU_DATA[] = [];
+
+  const arrLen = binaryStr.length / Types.RS_TO_FU_DATA_WIDTH;
+  const entryWidth = Types.RS_TO_FU_DATA_WIDTH;
+
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+    let accessIdx = startIdx;
+
+    const T_new = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
+    accessIdx += Types.PHYS_REG_TAG_WIDTH;
+
+    const T_a = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
+    accessIdx += Types.PHYS_REG_TAG_WIDTH;
+
+    const T_b = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
+    accessIdx += Types.PHYS_REG_TAG_WIDTH;
+
+    const valid = binaryStr[accessIdx] === "1";
+    accessIdx += 1;
+
+    const func = extractBits(
+      binaryStr,
+      accessIdx,
+      Types.FU_FUNC_WIDTH
+    ) as Types.FU_FUNC;
+    accessIdx += Types.FU_FUNC_WIDTH;
+
+    const has_imm = binaryStr[accessIdx] === "1";
+    accessIdx += 1;
+
+    const imm_value = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
+    accessIdx += Types.DATA_WIDTH;
+
+    result.push({
+      T_new,
+      T_a,
+      T_b,
+      valid,
+      fu_func: func,
+      has_imm,
+      imm_value,
     });
   }
 

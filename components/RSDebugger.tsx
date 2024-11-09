@@ -6,6 +6,7 @@ import {
   parseCDBData,
   parseListFU_DATA,
   getNumFUOut,
+  parseRS_TO_FU_DATA_List,
 } from "@/lib/utils";
 import * as Constants from "@/lib/constants";
 import * as Types from "@/lib/types";
@@ -14,7 +15,7 @@ import DisplayFUAvailTable from "./DisplayFUAvailTable";
 import DisplayCDBData from "./DisplayCDBData";
 import DisplayRSData from "./DisplayRSData";
 import DisplaySingleRS from "./DisplaySingleRS";
-import DisplaySingleFU_DATA from "./DisplaySingleFU_DATA";
+import DisplaySingleRS_TO_FU_DATA from "./DisplaySingleRS_TO_FU_DATA";
 
 type RSDebuggerProps = {
   className: string;
@@ -44,9 +45,9 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
   const mult_out = extractSignalValue(signalRS, "mult_out").value;
   const alu_out = extractSignalValue(signalRS, "alu_out").value;
   const branch_out = extractSignalValue(signalRS, "branch_out").value;
-  const RS_mult_out = parseListFU_DATA(mult_out, Types.FU_TYPE.MUL);
-  const RS_alu_out = parseListFU_DATA(alu_out, Types.FU_TYPE.ALU);
-  const RS_branch_out = parseListFU_DATA(branch_out, Types.FU_TYPE.BR);
+  const RS_mult_out = parseRS_TO_FU_DATA_List(mult_out, Types.FU_TYPE.MUL);
+  const RS_alu_out = parseRS_TO_FU_DATA_List(alu_out, Types.FU_TYPE.ALU);
+  const RS_branch_out = parseRS_TO_FU_DATA_List(branch_out, Types.FU_TYPE.BR);
 
   const open_spots = extractSignalValueToInt(signalRS, "open_spots");
 
@@ -132,10 +133,11 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
                   <div className="flex space-x-1">
                     {RS_mult_out.map((fu_data, idx) => (
                       <div key={idx}>
-                        <DisplaySingleFU_DATA
+                        <DisplaySingleRS_TO_FU_DATA
                           className=""
                           FUIdx={idx}
-                          FUData={fu_data}
+                          RS_TO_FUData={fu_data}
+                          fu_type={Types.FU_TYPE.MUL}
                         />
                       </div>
                     ))}
@@ -148,10 +150,11 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
                   <div className="flex space-x-1">
                     {RS_alu_out.map((fu_data, idx) => (
                       <div key={idx}>
-                        <DisplaySingleFU_DATA
+                        <DisplaySingleRS_TO_FU_DATA
                           className=""
                           FUIdx={idx}
-                          FUData={fu_data}
+                          RS_TO_FUData={fu_data}
+                          fu_type={Types.FU_TYPE.ALU}
                         />
                       </div>
                     ))}
@@ -164,10 +167,11 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
                   <div className="flex space-x-1">
                     {RS_branch_out.map((fu_data, idx) => (
                       <div key={idx}>
-                        <DisplaySingleFU_DATA
+                        <DisplaySingleRS_TO_FU_DATA
                           className=""
                           FUIdx={idx}
-                          FUData={fu_data}
+                          RS_TO_FUData={fu_data}
+                          fu_type={Types.FU_TYPE.BR}
                         />
                       </div>
                     ))}
