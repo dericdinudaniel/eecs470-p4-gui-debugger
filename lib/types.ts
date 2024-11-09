@@ -427,6 +427,12 @@ export type RS_TO_FU_DATA = {
   fu_func: FU_FUNC;
   has_imm: boolean;
   imm_value: DATA;
+  packet: ID_EX_PACKET;
 };
 export const RS_TO_FU_DATA_WIDTH =
-  3 * PHYS_REG_TAG_WIDTH + 1 + FU_FUNC_WIDTH + 1 + DATA_WIDTH;
+  3 * PHYS_REG_TAG_WIDTH +
+  1 +
+  FU_FUNC_WIDTH +
+  1 +
+  DATA_WIDTH +
+  ID_EX_PACKET_WIDTH;

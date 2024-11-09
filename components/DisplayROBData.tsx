@@ -64,17 +64,18 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
               const entryNumber = idx.toString().padStart(2, "") + ":";
 
               // green if tail, red if head, yellow if both
-              const color = isBoth
-                ? "bg-yellow-200"
-                : isHead
-                ? "bg-red-200"
-                : isTail
-                ? "bg-green-200"
-                : entry.valid && !isROB
-                ? "bg-green-200"
-                : entry.valid && isROB
-                ? "bg-yellow-100"
-                : "bg-gray-200";
+              let color = "bg-gray-200";
+              if (isBoth) {
+                color = "bg-yellow-200";
+              } else if (isHead) {
+                color = "bg-red-200";
+              } else if (isTail) {
+                color = "bg-green-200";
+              } else if (!isROB) {
+                color = entry.valid ? "bg-green-200" : "bg-red-200";
+              } else if (entry.valid && isROB) {
+                color = "bg-yellow-100";
+              }
 
               const headOrTailString =
                 "←" + (isBoth ? "H&T" : isHead ? "Head" : isTail ? "Tail" : "");

@@ -358,7 +358,6 @@ export const parseRSData = (
     const ready_tb = binaryStr[accessIdx] === "1";
     accessIdx += 1;
 
-    // skiping packet for now (not implemented yet), use a dummy packet with all bytes set to 0
     const packet = parseID_EX_PACKET(
       binaryStr.slice(accessIdx, accessIdx + Types.ID_EX_PACKET_WIDTH)
     );
@@ -383,7 +382,6 @@ export const parseRSData = (
       imm_value,
     });
   }
-
   return result;
 };
 
@@ -427,6 +425,10 @@ export const parseRS_TO_FU_DATA_List = (
     const imm_value = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
     accessIdx += Types.DATA_WIDTH;
 
+    const packet = parseID_EX_PACKET(
+      binaryStr.slice(accessIdx, accessIdx + Types.ID_EX_PACKET_WIDTH)
+    );
+
     result.push({
       T_new,
       T_a,
@@ -435,6 +437,7 @@ export const parseRS_TO_FU_DATA_List = (
       fu_func: func,
       has_imm,
       imm_value,
+      packet,
     });
   }
 

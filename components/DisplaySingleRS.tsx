@@ -38,14 +38,14 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
             </tr>
           </thead>
           <tbody>
-            <tr>
+            {/* <tr>
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
                 Occ:
               </td>
               <td className="text-xs p-1 text-center border-t ROB-border-color w-16">
                 {RSData.occupied ? "Yes" : "No"}
               </td>
-            </tr>
+            </tr> */}
             <tr>
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
                 T_new:
@@ -86,7 +86,7 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
                 func:
               </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color">
+              <td className="text-xs p-1 text-center border-t ROB-border-color w-16">
                 {(() => {
                   switch (RSData.fu) {
                     case Types.FU_TYPE.ALU:

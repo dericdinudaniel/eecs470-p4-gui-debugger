@@ -41,16 +41,24 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
                 FU: #{FUIdx}
               </th>
             </tr>
+            <tr>
+              <td
+                className="text-xs p-1 border-t ROB-border-color text-center font-semibold"
+                colSpan={2}
+              >
+                {parseInstruction(RS_TO_FUData.packet.inst.inst)}
+              </td>
+            </tr>
           </thead>
           <tbody>
-            <tr>
+            {/* <tr>
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
                 Valid:
               </td>
               <td className="text-xs p-1 text-center border-t ROB-border-color w-16">
                 {RS_TO_FUData.valid ? "Yes" : "No"}
               </td>
-            </tr>
+            </tr> */}
             <tr>
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
                 T_new:
@@ -79,7 +87,7 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
                 FU Type:
               </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color">
+              <td className="text-xs p-1 text-center border-t ROB-border-color w-16">
                 {Types.getFUTypeName(fu_type)}
               </td>
             </tr>
