@@ -38,14 +38,6 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
             </tr>
           </thead>
           <tbody>
-            {/* <tr>
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
-                Occ:
-              </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color w-16">
-                {RSData.occupied ? "Yes" : "No"}
-              </td>
-            </tr> */}
             <tr>
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
                 T_new:
@@ -76,6 +68,8 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
               className={`${
                 Number.isNaN(RSData.imm_value) && RSData.has_imm
                   ? "bg-red-500"
+                  : !RSData.has_imm && RSData.occupied
+                  ? "bg-gray-200"
                   : ""
               }`}
             >
