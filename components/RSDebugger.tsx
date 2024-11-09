@@ -94,9 +94,6 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
                     aluAvail={alu_avail.value}
                     branchAvail={branch_avail.value}
                     multAvail={mult_avail.value}
-                    numAlu={Constants.NUM_FU_ALU}
-                    numBranch={Constants.NUM_FU_BRANCH}
-                    numMult={Constants.NUM_FU_MULT}
                   />
                 </div>
                 <div className="justify-items-center">

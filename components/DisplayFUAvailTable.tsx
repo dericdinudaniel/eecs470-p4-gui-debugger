@@ -1,13 +1,11 @@
 import React from "react";
+import * as Constants from "@/lib/constants";
 
 interface FUTableProps {
   className: string;
   aluAvail: string;
   branchAvail: string;
   multAvail: string;
-  numAlu: number;
-  numBranch: number;
-  numMult: number;
 }
 
 const DisplayFUAvailTable: React.FC<FUTableProps> = ({
@@ -15,10 +13,11 @@ const DisplayFUAvailTable: React.FC<FUTableProps> = ({
   aluAvail,
   branchAvail,
   multAvail,
-  numAlu,
-  numBranch,
-  numMult,
 }) => {
+  const numAlu = Constants.NUM_FU_ALU;
+  const numBranch = Constants.NUM_FU_BRANCH;
+  const numMult = Constants.NUM_FU_MULT;
+
   // Helper function to convert binary string to array of 1s and 0s
   const binaryToArray = (binary: string, length: number) => {
     // Remove the 'b' prefix and convert to array of numbers
