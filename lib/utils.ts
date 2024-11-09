@@ -70,31 +70,32 @@ export const parseROBData = (
   // Process each ROB entry from the end to the beginning
   for (let i = arrLen - 1; i >= 0; i--) {
     const startIdx = i * entryWidth;
+    let accessIdx = startIdx;
 
     // Extract fields from left to right in the entry
-    const T_old = extractBits(binaryStr, startIdx, Types.PHYS_REG_TAG_WIDTH);
+    const T_old = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
+    accessIdx += Types.PHYS_REG_TAG_WIDTH;
 
-    const T_new = extractBits(
-      binaryStr,
-      startIdx + Types.PHYS_REG_TAG_WIDTH,
-      Types.PHYS_REG_TAG_WIDTH
-    );
+    const T_new = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
+    accessIdx += Types.PHYS_REG_TAG_WIDTH;
 
     const R_dest = extractBits(
       binaryStr,
-      startIdx + 2 * Types.PHYS_REG_TAG_WIDTH,
+      accessIdx,
       Types.REG_IDX_WIDTH
+    ) as Types.REG_IDX;
+    accessIdx += Types.REG_IDX_WIDTH;
+
+    const valid = binaryStr[accessIdx] === "1";
+    accessIdx += 1;
+
+    const retireable = binaryStr[accessIdx] === "1";
+    accessIdx += 1;
+
+    const packet = parseID_EX_PACKET(
+      binaryStr.slice(accessIdx, accessIdx + Types.ID_EX_PACKET_WIDTH)
     );
-
-    const valid =
-      binaryStr[
-        startIdx + 2 * Types.PHYS_REG_TAG_WIDTH + Types.REG_IDX_WIDTH
-      ] === "1";
-
-    const retireable =
-      binaryStr[
-        startIdx + 2 * Types.PHYS_REG_TAG_WIDTH + Types.REG_IDX_WIDTH + 1
-      ] === "1";
+    accessIdx += Types.ID_EX_PACKET_WIDTH;
 
     result.push({
       T_old,
@@ -102,6 +103,7 @@ export const parseROBData = (
       R_dest,
       valid,
       retireable,
+      packet,
     });
   }
 

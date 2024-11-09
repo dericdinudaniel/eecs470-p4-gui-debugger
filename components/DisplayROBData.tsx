@@ -1,6 +1,8 @@
 import React from "react";
 import * as Types from "@/lib/types";
 import { displayValue } from "@/lib/utils";
+import { parse } from "path";
+import { parseInstruction } from "@/lib/tsutils";
 
 type DisplayROBDataProps = {
   className: string;
@@ -24,6 +26,9 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
           <thead>
             <tr className="bg-slate-300">
               <th className="text-sm px-4">#</th>
+              <th className="text-sm border-l ROB-border-color px-2 py-1">
+                <div className="w-36">Inst</div>
+              </th>
               <th className="text-sm border-l ROB-border-color px-2 py-1">
                 R_dest
               </th>
@@ -82,8 +87,11 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
 
               return (
                 <tr key={idx} className={color}>
-                  <td className="text-right text-sm border-t ROB-border-color">
+                  <td className="text-right text-sm border-t ROB-border-color font-semibold">
                     {entryNumber}
+                  </td>
+                  <td className="text-center text-sm border-l border-t ROB-border-color font-semibold">
+                    {parseInstruction(entry.packet.inst.inst)}
                   </td>
                   <td className="text-center text-sm border-l border-t ROB-border-color">
                     {"r" + displayValue(entry.R_dest)}

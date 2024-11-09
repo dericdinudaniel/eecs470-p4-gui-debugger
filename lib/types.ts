@@ -365,8 +365,10 @@ export interface ROB_DATA {
   R_dest: REG_IDX;
   valid: boolean;
   retireable: boolean;
+  packet: ID_EX_PACKET;
 }
-export const ROB_DATA_WIDTH = 2 * PHYS_REG_TAG_WIDTH + REG_IDX_WIDTH + 2;
+export const ROB_DATA_WIDTH =
+  2 * PHYS_REG_TAG_WIDTH + REG_IDX_WIDTH + 2 + ID_EX_PACKET_WIDTH;
 
 // RS Data packet
 export type RS_DATA = {
