@@ -72,6 +72,20 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
                 {RSData.ready_tb ? "+" : " "}
               </td>
             </tr>
+            <tr
+              className={`${
+                Number.isNaN(RSData.imm_value) && RSData.has_imm
+                  ? "bg-red-500"
+                  : ""
+              }`}
+            >
+              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+                Imm:
+              </td>
+              <td className="text-xs p-1 text-center border-t ROB-border-color">
+                {displayValue(RSData.imm_value)}
+              </td>
+            </tr>
             <tr>
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
                 FU Type:
