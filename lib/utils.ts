@@ -11,6 +11,7 @@ import { parse } from "path";
 import { ScopeData, SignalData } from "./tstypes";
 import * as Types from "./types";
 import * as Constants from "./constants";
+import { reverseStr } from "./tsutils";
 
 export const clog2 = (x: number): number => Math.ceil(Math.log2(x));
 
@@ -367,11 +368,18 @@ export const parseRSData = (
     accessIdx += Types.DATA_WIDTH;
 
     // b mask is array of boolean, so we need to extract each bit
-    const b_mask: boolean[] = [];
-    for (let j = Constants.NUM_CHECKPOINTS - 1; j >= 0; j--) {
-      const b_maskAccessIdx = accessIdx + j;
-      b_mask.push(binaryStr[b_maskAccessIdx] === "1");
-    }
+    // const b_mask: boolean[] = [];
+    // for (let j = Constants.NUM_CHECKPOINTS - 1; j >= 0; j--) {
+    //   const b_maskAccessIdx = accessIdx + j;
+    //   b_mask.push(binaryStr[b_maskAccessIdx] === "1");
+    // }
+    // accessIdx += Constants.NUM_CHECKPOINTS;
+    // console.log(b_mask);
+    const b_mask_raw = binaryStr.slice(
+      accessIdx,
+      accessIdx + Constants.NUM_CHECKPOINTS
+    );
+    const b_mask = reverseStr(b_mask_raw);
     accessIdx += Constants.NUM_CHECKPOINTS;
 
     const packet = parseID_EX_PACKET(

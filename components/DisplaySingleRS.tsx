@@ -109,6 +109,16 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
               </td>
             </tr>
 
+            {/* EBR */}
+            <tr>
+              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+                BMASK:
+              </td>
+              <td className="text-xs p-1 text-center border-t ROB-border-color">
+                {RSData.b_mask}
+              </td>
+            </tr>
+
             {/* func data */}
             <tr>
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">

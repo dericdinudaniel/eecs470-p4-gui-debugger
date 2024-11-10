@@ -382,7 +382,7 @@ export type RS_DATA = {
   ready_tb: boolean;
   has_imm: boolean;
   imm_value: DATA;
-  b_mask: boolean[];
+  b_mask: string;
   packet: ID_EX_PACKET;
 };
 export const RS_DATA_WIDTH =
