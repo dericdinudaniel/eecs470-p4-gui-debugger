@@ -72,9 +72,9 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
               if (isBoth) {
                 color = "bg-yellow-200";
               } else if (isHead) {
-                color = "bg-red-200";
-              } else if (isTail) {
                 color = "bg-green-200";
+              } else if (isTail) {
+                color = "bg-red-200";
               } else if (!isROB) {
                 color = entry.valid ? "bg-green-200" : "bg-red-200";
               } else if (entry.valid && isROB) {
