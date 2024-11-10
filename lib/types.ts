@@ -386,17 +386,17 @@ export type RS_DATA = {
   packet: ID_EX_PACKET;
 };
 export const RS_DATA_WIDTH =
-  1 +                         // occupied
-  FU_TYPE_WIDTH +             // fu
-  FU_FUNC_WIDTH +             // fu_func
-  2 * PHYS_REG_TAG_WIDTH +    // T_new, T_a
-  1 +                         // ready_ta
-  PHYS_REG_TAG_WIDTH +        // T_b
-  1 +                         // ready_tb
-  1 +                         // has_imm
-  DATA_WIDTH +                // imm_value
+  1 + // occupied
+  FU_TYPE_WIDTH + // fu
+  FU_FUNC_WIDTH + // fu_func
+  2 * PHYS_REG_TAG_WIDTH + // T_new, T_a
+  1 + // ready_ta
+  PHYS_REG_TAG_WIDTH + // T_b
+  1 + // ready_tb
+  1 + // has_imm
+  DATA_WIDTH + // imm_value
   Constants.NUM_CHECKPOINTS + // b_mask
-  ID_EX_PACKET_WIDTH;         // packet
+  ID_EX_PACKET_WIDTH; // packet
 
 // ready and free list. boolean for each physical register
 export type FRIZZY_DATA = {
