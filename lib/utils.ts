@@ -522,16 +522,15 @@ export const parseRegfile = (inputStr: string): number[] => {
 
 export const parseRegPortIdx = (
   inputStr: string,
-  numPorts: number,
-  portWidth: number = Types.PHYS_REG_TAG_WIDTH
+  numPorts: number
 ): number[] => {
   const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
 
   const result: number[] = [];
 
   for (let i = numPorts - 1; i >= 0; i--) {
-    const startIdx = i * portWidth;
-    const tag = extractBits(binaryStr, startIdx, portWidth);
+    const startIdx = i * Types.PHYS_REG_TAG_WIDTH;
+    const tag = extractBits(binaryStr, startIdx, Types.PHYS_REG_TAG_WIDTH);
     result.push(tag);
   }
 

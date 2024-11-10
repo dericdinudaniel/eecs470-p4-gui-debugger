@@ -20,7 +20,7 @@ import logging
 # for every cycle, this will store into the cache the signals at that cycle, maintaining the hierarchy
 # structure will be the exact same, but data will be a single value instead of a list of values
 
-discard_terms = {"file", "unnamed"}
+discard_terms = {"unnamed"}
 def full_parse(cache, root_scope, num_clocks, num_cycles):
     def process_scope(scope, timestamp):
         result = {"name": scope.name}

@@ -3,6 +3,7 @@ from flask_caching import Cache
 from flask_cors import CORS
 from pyDigitalWaveTools.vcd.parser import VcdParser
 from parsing import full_parse
+from pprint import pprint
 
 import logging
 

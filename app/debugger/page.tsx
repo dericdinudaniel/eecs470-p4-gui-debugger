@@ -190,6 +190,13 @@ export default function Debugger() {
                   />
                 </div>
               </div>
+              <RegfileDebugger
+                className="m-4"
+                signalRegfile={
+                  signalData?.signals.children.testbench.children.DUT_ooo
+                    .children.DUT_regfile
+                }
+              />
               <DisplaySingleSignal
                 className=""
                 signalData={signalData?.signals.children.testbench.children}

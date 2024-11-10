@@ -10,6 +10,7 @@ import {
 } from "@/lib/utils";
 import { ScopeData } from "@/lib/tstypes";
 import { chunkArray } from "@/lib/tsutils";
+import * as Constants from "@/lib/constants";
 
 type RegfileDebuggerProps = {
   className: string;
@@ -83,16 +84,16 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
   const write_data = extractSignalValue(signalRegfile, "write_data").value;
   const write_en = extractSignalValue(signalRegfile, "write_en").value;
 
-  const READ_PORTS = 5;
-  const WRITE_PORTS = 5;
-  const Reg_read_idx = parseRegPortIdx(read_idx, READ_PORTS, clog2(32));
-  const Reg_write_idx = parseRegPortIdx(write_idx, WRITE_PORTS, clog2(32));
+  const READ_PORTS = Constants.READ_PORTS;
+  const WRITE_PORTS = Constants.WRITE_PORTS;
+  const Reg_read_idx = parseRegPortIdx(read_idx, READ_PORTS);
+  const Reg_write_idx = parseRegPortIdx(write_idx, WRITE_PORTS);
   const Reg_write_en = parseRegPortValid(write_en, 5);
 
   const Ref_read_out = parseRegPortData(read_out, READ_PORTS);
   const Ref_write_data = parseRegPortData(write_data, WRITE_PORTS);
 
-  const [showRegfilePorts, setShowRegfilePorts] = useState(false);
+  const [showRegfilePorts, setShowRegfilePorts] = useState(true);
 
   return (
     <>
@@ -107,6 +108,32 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
           >
             {showRegfilePorts ? "Hide Regfile Ports" : "Show Regfile Ports"}
           </button>
+          <div className="flex space-x-2 pb-2">
+            {showRegfilePorts && (
+              <>
+                {/* read ports */}
+                <div className="justify-items-center">
+                  <h2 className="text-lg font-semibold">Read Ports</h2>
+                  <DisplayRegPorts
+                    numPorts={READ_PORTS}
+                    ports_idx={Reg_read_idx}
+                    ports_data={Ref_read_out}
+                  />
+                </div>
+
+                {/* write ports */}
+                <div className="justify-items-center">
+                  <h2 className="text-lg font-semibold">Write Ports</h2>
+                  <DisplayRegPorts
+                    numPorts={WRITE_PORTS}
+                    ports_idx={Reg_write_idx}
+                    ports_data={Ref_write_data}
+                    ports_valid={Reg_write_en}
+                  />
+                </div>
+              </>
+            )}
+          </div>
           <div className="flex space-x-1">
             {regChunks.map((regChunk, chunkIdx) => (
               <div
@@ -144,32 +171,6 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
               </div>
             ))}
           </div>
-        </div>
-        <div className="flex space-x-2">
-          {showRegfilePorts && (
-            <>
-              {/* read ports */}
-              <div className="justify-items-center">
-                <h2 className="text-lg font-semibold">Read Ports</h2>
-                <DisplayRegPorts
-                  numPorts={READ_PORTS}
-                  ports_idx={Reg_read_idx}
-                  ports_data={Ref_read_out}
-                />
-              </div>
-
-              {/* write ports */}
-              <div className="justify-items-center">
-                <h2 className="text-lg font-semibold">Write Ports</h2>
-                <DisplayRegPorts
-                  numPorts={WRITE_PORTS}
-                  ports_idx={Reg_write_idx}
-                  ports_data={Ref_write_data}
-                  ports_valid={Reg_write_en}
-                />
-              </div>
-            </>
-          )}
         </div>
       </div>
     </>
