@@ -52,6 +52,7 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
               className={`${
                 RSData.occupied &&
                 !Number.isNaN(RSData.T_a) &&
+                RSData.T_a != 0 &&
                 EarlyCDB?.includes(RSData.T_a)
                   ? "bg-green-500"
                   : ""
@@ -69,6 +70,7 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
               className={`${
                 RSData.occupied &&
                 !Number.isNaN(RSData.T_b) &&
+                RSData.T_b != 0 &&
                 EarlyCDB?.includes(RSData.T_b)
                   ? "bg-green-500"
                   : ""

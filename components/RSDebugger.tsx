@@ -8,6 +8,7 @@ import {
   getNumFUOut,
   parseRS_TO_FU_DATA_List,
 } from "@/lib/utils";
+import { reverseStr } from "@/lib/tsutils";
 import * as Constants from "@/lib/constants";
 import * as Types from "@/lib/types";
 import { SignalType, SignalData, ScopeData } from "@/lib/tstypes";
@@ -91,9 +92,9 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
                   <p>FU Avail</p>
                   <DisplayFUAvailTable
                     className=""
-                    aluAvail={alu_avail.value}
-                    branchAvail={branch_avail.value}
-                    multAvail={mult_avail.value}
+                    aluAvail={reverseStr(alu_avail.value)}
+                    branchAvail={reverseStr(branch_avail.value)}
+                    multAvail={reverseStr(mult_avail.value)}
                   />
                 </div>
                 <div className="justify-items-center">
