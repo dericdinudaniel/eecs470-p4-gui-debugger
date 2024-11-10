@@ -71,8 +71,6 @@ def full_parse(cache, root_scope, num_clocks, num_cycles):
         
         current_data = process_scope(root_scope, timestamp)
         
-        print(f"cycle_{cycle_number}_{is_negedge_str}")
-        
         cache.set(f"cycle_{cycle_number}_{is_negedge_str}", current_data)
 
     return "Parsing and caching complete"

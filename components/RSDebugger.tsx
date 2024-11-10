@@ -118,7 +118,11 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
           )}
 
           {/* display RS entries */}
-          <DisplayRSData className="" RSData={RS_entries} />
+          <DisplayRSData
+            className=""
+            RSData={RS_entries}
+            EarlyCDB={RS_early_cdb}
+          />
 
           {/* display outputs */}
           {showRSOutputs && (

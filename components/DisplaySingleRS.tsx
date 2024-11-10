@@ -7,15 +7,17 @@ type DisplaySingleRSProps = {
   className: string;
   RSIdx: number;
   RSData: Types.RS_DATA;
+  EarlyCDB?: Types.PHYS_REG_TAG[];
 };
 
 const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
   className,
   RSIdx,
   RSData,
+  EarlyCDB,
 }) => {
   return (
-    <div className={`${className}  hover:shadow-2xl transition-shadow`}>
+    <div className={`${className} hover:shadow-2xl transition-shadow`}>
       <div className="overflow-hidden rounded-lg border ROB-border-color">
         <table
           className={`w-full border-collapse ${
@@ -46,7 +48,15 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
                 {displayValue(RSData.T_new)}
               </td>
             </tr>
-            <tr>
+            <tr
+              className={`${
+                RSData.occupied &&
+                !Number.isNaN(RSData.T_a) &&
+                EarlyCDB?.includes(RSData.T_a)
+                  ? "bg-green-500"
+                  : ""
+              }`}
+            >
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
                 T_a:
               </td>
@@ -55,7 +65,15 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
                 {RSData.ready_ta ? "+" : " "}
               </td>
             </tr>
-            <tr>
+            <tr
+              className={`${
+                RSData.occupied &&
+                !Number.isNaN(RSData.T_b) &&
+                EarlyCDB?.includes(RSData.T_b)
+                  ? "bg-green-500"
+                  : ""
+              }`}
+            >
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
                 T_b:
               </td>
