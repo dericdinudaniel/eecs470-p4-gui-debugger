@@ -56,6 +56,8 @@ export const MEM_64BIT_LINES = MEM_SIZE_IN_BYTES / 8;
 export const READ_PORTS = 2 * NUM_FU;
 export const WRITE_PORTS = NUM_FU_ALU + NUM_FU_MULT + NUM_FU_BRANCH;
 
+export const NUM_CHECKPOINTS = 4;
+
 // Memory latency in cycles
 // export const CLOCK_PERIOD          = 10.0; // in ns
 // export const MEM_LATENCY_IN_CYCLES = Math.floor(100.0 / CLOCK_PERIOD + 0.49999);

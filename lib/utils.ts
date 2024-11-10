@@ -360,15 +360,24 @@ export const parseRSData = (
     const ready_tb = binaryStr[accessIdx] === "1";
     accessIdx += 1;
 
-    const packet = parseID_EX_PACKET(
-      binaryStr.slice(accessIdx, accessIdx + Types.ID_EX_PACKET_WIDTH)
-    );
-    accessIdx += Types.ID_EX_PACKET_WIDTH;
-
     const has_imm = binaryStr[accessIdx] === "1";
     accessIdx += 1;
 
     const imm_value = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
+    accessIdx += Types.DATA_WIDTH;
+
+    // b mask is array of boolean, so we need to extract each bit
+    const b_mask: boolean[] = [];
+    for (let j = Constants.NUM_CHECKPOINTS - 1; j >= 0; j--) {
+      const b_maskAccessIdx = accessIdx + j;
+      b_mask.push(binaryStr[b_maskAccessIdx] === "1");
+    }
+    accessIdx += Constants.NUM_CHECKPOINTS;
+
+    const packet = parseID_EX_PACKET(
+      binaryStr.slice(accessIdx, accessIdx + Types.ID_EX_PACKET_WIDTH)
+    );
+    accessIdx += Types.ID_EX_PACKET_WIDTH;
 
     result.push({
       occupied,
@@ -379,9 +388,10 @@ export const parseRSData = (
       ready_ta,
       T_b,
       ready_tb,
-      packet,
       has_imm,
       imm_value,
+      b_mask,
+      packet,
     });
   }
   return result;
