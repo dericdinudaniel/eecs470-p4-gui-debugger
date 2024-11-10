@@ -383,6 +383,7 @@ export type RS_DATA = {
   has_imm: boolean;
   imm_value: DATA;
   b_mask: string;
+  predicted: boolean;
   packet: ID_EX_PACKET;
 };
 export const RS_DATA_WIDTH =
@@ -396,6 +397,7 @@ export const RS_DATA_WIDTH =
   1 + // has_imm
   DATA_WIDTH + // imm_value
   Constants.NUM_CHECKPOINTS + // b_mask
+  1 + // predicted
   ID_EX_PACKET_WIDTH; // packet
 
 // ready and free list. boolean for each physical register
@@ -431,15 +433,19 @@ export type RS_TO_FU_DATA = {
   fu_func: FU_FUNC;
   has_imm: boolean;
   imm_value: DATA;
+  b_mask: string;
+  predicted: boolean;
   packet: ID_EX_PACKET;
 };
 export const RS_TO_FU_DATA_WIDTH =
-  3 * PHYS_REG_TAG_WIDTH +
-  1 +
-  FU_FUNC_WIDTH +
-  1 +
-  DATA_WIDTH +
-  ID_EX_PACKET_WIDTH;
+  3 * PHYS_REG_TAG_WIDTH + // T_new, T_a, T_b
+  1 + // valid
+  FU_FUNC_WIDTH + // fu_func
+  1 + // has_imm
+  DATA_WIDTH + // imm_value
+  Constants.NUM_CHECKPOINTS + // b_mask
+  1 + // predicted
+  ID_EX_PACKET_WIDTH; // packet
 
 export enum BRANCH_PREDICT_T {
   NOT_RESOLVING = 0b00,

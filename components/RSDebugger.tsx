@@ -55,6 +55,12 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
   const [showRSInputs, setShowRSInputs] = useState(true);
   const [showRSOutputs, setShowRSOutputs] = useState(true);
 
+  console.log("Types.RS_DATA_WIDTH", Types.RS_DATA_WIDTH);
+  console.log("Types.FU_TYPE_WIDTH", Types.FU_TYPE_WIDTH);
+  console.log("Types.FU_FUNC_WIDTH", Types.FU_FUNC_WIDTH);
+  console.log("Types.PHYS_REG_TAG_WIDTH", Types.PHYS_REG_TAG_WIDTH);
+  console.log("Constants.NUM_CHECKPOINTS", Constants.NUM_CHECKPOINTS);
+
   return (
     <>
       <div className={`${className} mt-4`}>
