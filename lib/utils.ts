@@ -604,3 +604,13 @@ export const parseRegPortValid = (
 };
 
 // branching stuff
+// export const parseCHECKPOINT_DATA = (
+//   inputStr: string
+// ): Types.CHECKPOINT_DATA => {
+//   const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+//   let accessIdx = 0;
+
+//   const pc_checkpoint = extractBits(binaryStr, 0, Types.ADDR_WIDTH);
+//   accessIdx += Types.ADDR_WIDTH;
+
+// };
