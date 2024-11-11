@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [fileContent, setFileContent] = useState("");
+  const [localFilename, setLocalFilename] = useState("");
   const router = useRouter();
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -25,35 +26,38 @@ export default function Home() {
   });
 
   const handleParseContent = async () => {
-    // if (!fileContent) {
-    //   alert("Please drop a file or paste content before parsing.");
-    //   return;
-    // }
+    if (!fileContent) {
+      alert("Please drop a file or paste content before parsing.");
+      return;
+    }
 
-    // try {
-    //   const response = await fetch("/api/parse", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({ fileContent }),
-    //   });
-    //   const data = await response.json();
-    //   router.push(
-    //     `/debugger?headerInfo=${encodeURIComponent(JSON.stringify(data))}`
-    //   );
-    // } catch (error) {
-    //   console.error("Error parsing file:", error);
-    // }
-
-    const test = {
-      header: {
-        test: "test",
-      },
-    };
     try {
       const response = await fetch("/api/parse", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ test }),
+        body: JSON.stringify({ fileContent }),
+      });
+      const data = await response.json();
+      router.push(
+        `/debugger?headerInfo=${encodeURIComponent(JSON.stringify(data))}`
+      );
+    } catch (error) {
+      console.error("Error parsing file:", error);
+    }
+  };
+
+  const handleParseLocalFile = async () => {
+    if (!localFilename) {
+      alert("Please enter a filename before parsing.");
+      return;
+    }
+
+    //  just send the filename as a string to the server
+    try {
+      const response = await fetch("/api/parse_local", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ localFilename }),
       });
       const data = await response.json();
       router.push(
@@ -100,6 +104,28 @@ export default function Home() {
             className="mt-2 w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors"
           >
             Parse VCD Content
+          </button>
+
+          {/* local file */}
+          <input
+            type="text"
+            name="localFilename"
+            value={localFilename}
+            onChange={(e) => setLocalFilename(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault(); // Prevent form submission if wrapped in a form
+                handleParseLocalFile();
+              }
+            }}
+            className="w-full mt-10 h-12 px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:border-blue-500"
+            placeholder="Or upload a .vcd to /uploads, and put filename here"
+          />
+          <button
+            onClick={handleParseLocalFile}
+            className="mt-2 w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors"
+          >
+            Parse Local File
           </button>
         </div>
       </div>
