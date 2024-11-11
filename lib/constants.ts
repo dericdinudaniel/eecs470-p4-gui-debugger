@@ -54,7 +54,7 @@ export const MEM_SIZE_IN_BYTES = 64 * 1024;
 export const MEM_64BIT_LINES = MEM_SIZE_IN_BYTES / 8;
 
 export const READ_PORTS = 2 * NUM_FU;
-export const WRITE_PORTS = NUM_FU_ALU + NUM_FU_MULT + NUM_FU_BRANCH;
+export const WRITE_PORTS = N;
 
 export const NUM_CHECKPOINTS = 4;
 

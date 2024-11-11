@@ -21,12 +21,12 @@ const DisplayRegPorts: React.FC<{
   numPorts: number;
   ports_idx: number[];
   ports_data: number[];
-  ports_valid?: boolean[];
+  ports_enable?: boolean[];
 }> = ({
   numPorts,
   ports_idx,
   ports_data,
-  ports_valid = Array(numPorts).fill(false),
+  ports_enable = Array(numPorts).fill(false),
 }) => {
   return (
     <div className="overflow-hidden rounded-lg border ROB-border-color">
@@ -41,7 +41,7 @@ const DisplayRegPorts: React.FC<{
         <tbody>
           {ports_idx.map((idx, port) => {
             const rowColor =
-              ports_valid[port] ||
+              ports_enable[port] ||
               (ports_idx[port] != 0 && !Number.isNaN(ports_idx[port]))
                 ? "bg-green-200"
                 : "";
@@ -88,7 +88,7 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
   const WRITE_PORTS = Constants.WRITE_PORTS;
   const Reg_read_idx = parseRegPortIdx(read_idx, READ_PORTS);
   const Reg_write_idx = parseRegPortIdx(write_idx, WRITE_PORTS);
-  const Reg_write_en = parseRegPortValid(write_en, 5);
+  const Reg_write_en = parseRegPortValid(write_en, WRITE_PORTS);
 
   const Ref_read_out = parseRegPortData(read_out, READ_PORTS);
   const Ref_write_data = parseRegPortData(write_data, WRITE_PORTS);
@@ -128,7 +128,7 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
                     numPorts={WRITE_PORTS}
                     ports_idx={Reg_write_idx}
                     ports_data={Ref_write_data}
-                    ports_valid={Reg_write_en}
+                    ports_enable={Reg_write_en}
                   />
                 </div>
               </>
