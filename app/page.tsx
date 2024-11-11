@@ -119,7 +119,7 @@ export default function Home() {
               }
             }}
             className="w-full mt-10 h-12 px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:border-blue-500"
-            placeholder="Or upload a .vcd to /uploads, and put filename here"
+            placeholder="Or upload a .vcd to /uploads, and put filename (no '.vcd') here"
           />
           <button
             onClick={handleParseLocalFile}
