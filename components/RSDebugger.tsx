@@ -135,23 +135,6 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
           {showRSOutputs && (
             <div className="mt-2 justify-items-center">
               <div className="flex space-x-4">
-                {/* MULT */}
-                <div className="justify-items-center">
-                  <p># MULT OUT: {getNumFUOut(RS_mult_out)}</p>
-                  <div className="flex space-x-1">
-                    {RS_mult_out.map((fu_data, idx) => (
-                      <div key={idx}>
-                        <DisplaySingleRS_TO_FU_DATA
-                          className=""
-                          FUIdx={idx}
-                          RS_TO_FUData={fu_data}
-                          fu_type={Types.FU_TYPE.MUL}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
                 {/* ALU */}
                 <div className="justify-items-center">
                   <p># ALU OUT: {getNumFUOut(RS_alu_out)}</p>
@@ -163,6 +146,23 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
                           FUIdx={idx}
                           RS_TO_FUData={fu_data}
                           fu_type={Types.FU_TYPE.ALU}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* MULT */}
+                <div className="justify-items-center">
+                  <p># MULT OUT: {getNumFUOut(RS_mult_out)}</p>
+                  <div className="flex space-x-1">
+                    {RS_mult_out.map((fu_data, idx) => (
+                      <div key={idx}>
+                        <DisplaySingleRS_TO_FU_DATA
+                          className=""
+                          FUIdx={idx}
+                          RS_TO_FUData={fu_data}
+                          fu_type={Types.FU_TYPE.MUL}
                         />
                       </div>
                     ))}
