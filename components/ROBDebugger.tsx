@@ -52,7 +52,7 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
 
   return (
     <>
-      <div className={`${className} mt-4`}>
+      <div className={`${className}`}>
         <div className="bg-gray-500/[.15] rounded-lg shadow-lg p-4 pb-1 inline-flex flex-col items-center">
           {/* header */}
           <div className="flex items-center">

@@ -171,7 +171,7 @@ export default function Debugger() {
                 <div className="flex">
                   <div>
                     <ROBDebugger
-                      className="p-8"
+                      className="m-4"
                       signalData={
                         signalData?.signals.children.testbench.children.DUT_ooo
                           .children.DUT_rob
