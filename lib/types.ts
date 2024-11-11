@@ -453,3 +453,17 @@ export enum BRANCH_PREDICT_T {
   MISPREDICTED = 0b10,
 }
 export const BRANCH_PREDICT_T_WIDTH = 2;
+
+export type CHECKPOINT_DATA = {
+  pc_checkpoint: ADDR;
+  bhr_checkpoint: boolean[]; // BRANCH_PRED_SZ bits
+  rob_tail: number; // width = clog2(ROB_SZ + N)
+  frizzy_checkpoint: FRIZZY_DATA;
+  map_checkpoint: PHYS_REG_TAG[]; // array of size AR_NUM
+};
+export const CHECKPOINT_DATA_WIDTH =
+  ADDR_WIDTH +
+  Constants.BRANCH_PRED_SZ +
+  clog2(Constants.ROB_SZ + Constants.N) +
+  FRIZZY_DATA_WIDTH +
+  Constants.AR_NUM * PHYS_REG_TAG_WIDTH;
