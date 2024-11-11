@@ -11,7 +11,8 @@ app = Flask(__name__)
 CORS(app)
 cache = Cache(app, config={
     'CACHE_TYPE': 'simple',
-    'CACHE_DEFAULT_TIMEOUT': 1800
+    'CACHE_DEFAULT_TIMEOUT': 1800,
+    'CACHE_THRESHOLD': 1500
 })
 
 @app.route("/api/helloworld/")

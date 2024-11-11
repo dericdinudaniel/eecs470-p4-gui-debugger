@@ -456,7 +456,7 @@ export const BRANCH_PREDICT_T_WIDTH = 2;
 
 export type CHECKPOINT_DATA = {
   pc_checkpoint: ADDR;
-  bhr_checkpoint: boolean[]; // BRANCH_PRED_SZ bits
+  bhr_checkpoint: string; // BRANCH_PRED_SZ bits
   rob_tail: number; // width = clog2(ROB_SZ + N)
   frizzy_checkpoint: FRIZZY_DATA;
   map_checkpoint: PHYS_REG_TAG[]; // array of size AR_NUM

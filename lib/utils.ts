@@ -505,21 +505,21 @@ export const parseReadyBits = (inputStr: string): string[] => {
   return result;
 };
 
-export const parseFree_PR = (inputStr: string): number[] => {
-  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+// export const parseFree_PR = (inputStr: string): number[] => {
+//   const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
 
-  // N of PHYS_REG_TAG
-  const result: number[] = [];
+//   // N of PHYS_REG_TAG
+//   const result: number[] = [];
 
-  const arrLen = Constants.N;
-  for (let i = arrLen - 1; i >= 0; i--) {
-    const startIdx = i * Types.PHYS_REG_TAG_WIDTH;
-    const tag = extractBits(binaryStr, startIdx, Types.PHYS_REG_TAG_WIDTH);
-    result.push(tag);
-  }
+//   const arrLen = Constants.N;
+//   for (let i = arrLen - 1; i >= 0; i--) {
+//     const startIdx = i * Types.PHYS_REG_TAG_WIDTH;
+//     const tag = extractBits(binaryStr, startIdx, Types.PHYS_REG_TAG_WIDTH);
+//     result.push(tag);
+//   }
 
-  return result;
-};
+//   return result;
+// };
 
 export const parseReg_Map = (inputStr: string): number[] => {
   const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
@@ -604,13 +604,80 @@ export const parseRegPortValid = (
 };
 
 // branching stuff
-// export const parseCHECKPOINT_DATA = (
-//   inputStr: string
-// ): Types.CHECKPOINT_DATA => {
-//   const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
-//   let accessIdx = 0;
+export const parseCHECKPOINT_DATA = (
+  inputStr: string
+): Types.CHECKPOINT_DATA => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  let accessIdx = 0;
 
-//   const pc_checkpoint = extractBits(binaryStr, 0, Types.ADDR_WIDTH);
-//   accessIdx += Types.ADDR_WIDTH;
+  const pc_checkpoint = extractBits(binaryStr, 0, Types.ADDR_WIDTH);
+  accessIdx += Types.ADDR_WIDTH;
 
-// };
+  const bhr_checkpoint_raw = binaryStr.slice(
+    accessIdx,
+    accessIdx + Constants.BRANCH_PRED_SZ
+  );
+  const bhr_checkpoint = reverseStr(bhr_checkpoint_raw);
+  accessIdx += Constants.BRANCH_PRED_SZ;
+
+  const rob_tail = extractBits(
+    binaryStr,
+    accessIdx,
+    clog2(Constants.ROB_SZ + Constants.N)
+  );
+  accessIdx += clog2(Constants.ROB_SZ + Constants.N);
+
+  const frizzy_checkpoint = parseFRIZZY_DATA(
+    binaryStr.slice(accessIdx, accessIdx + Types.FRIZZY_DATA_WIDTH)
+  );
+  accessIdx += Types.FRIZZY_DATA_WIDTH;
+
+  const map_checkpoint = parseReg_Map(
+    binaryStr.slice(
+      accessIdx,
+      accessIdx + Constants.AR_NUM * Types.PHYS_REG_TAG_WIDTH
+    )
+  );
+
+  return {
+    pc_checkpoint,
+    bhr_checkpoint,
+    rob_tail,
+    frizzy_checkpoint,
+    map_checkpoint,
+  };
+};
+
+export const parseFRIZZY_DATA = (inputStr: string): Types.FRIZZY_DATA => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+
+  const ready = parseReadyBits(binaryStr.slice(0, Constants.N));
+  const free = parseFreeList(binaryStr.slice(Constants.N, Constants.N * 2));
+
+  return {
+    ready,
+    free,
+  };
+};
+
+export const parseCHECKPOINT_DATA_List = (
+  inputStr: string
+): Types.CHECKPOINT_DATA[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  const result: Types.CHECKPOINT_DATA[] = [];
+
+  const entryWidth = Types.CHECKPOINT_DATA_WIDTH;
+  const arrLen = Constants.NUM_CHECKPOINTS;
+
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+
+    const checkpoint_data = parseCHECKPOINT_DATA(
+      binaryStr.slice(startIdx, startIdx + entryWidth)
+    );
+
+    result.push(checkpoint_data);
+  }
+
+  return result;
+};
