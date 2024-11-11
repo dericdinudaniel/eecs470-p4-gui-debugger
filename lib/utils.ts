@@ -111,7 +111,7 @@ export const parseROBData = (
   return result;
 };
 
-export const parseCDBData = (cdb: string): Types.PHYS_REG_TAG[] => {
+export const parseCDBTags = (cdb: string): Types.PHYS_REG_TAG[] => {
   const binaryStr = cdb.startsWith("b") ? cdb.slice(1) : cdb;
 
   const result: Types.PHYS_REG_TAG[] = [];
@@ -120,11 +120,23 @@ export const parseCDBData = (cdb: string): Types.PHYS_REG_TAG[] => {
   // Process each CDB entry from the end to the beginning
   for (let i = Constants.CDB_SZ - 1; i >= 0; i--) {
     const startIdx = i * entryWidth;
-
-    // Extract fields from left to right in the entry
     const tag = extractBits(binaryStr, startIdx, Types.PHYS_REG_TAG_WIDTH);
-
     result.push(tag);
+  }
+
+  return result;
+};
+
+export const parseCDBValues = (cdb: string): Types.DATA[] => {
+  const binaryStr = cdb.startsWith("b") ? cdb.slice(1) : cdb;
+
+  const result: Types.DATA[] = [];
+  const entryWidth = Types.DATA_WIDTH;
+
+  for (let i = Constants.CDB_SZ - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+    const data = extractBits(binaryStr, startIdx, Types.DATA_WIDTH);
+    result.push(data);
   }
 
   return result;
@@ -156,126 +168,52 @@ export const parseID_EX_PACKET = (packetStr: string): Types.ID_EX_PACKET => {
   };
 };
 
-// RS
-export const parseMULT_DATA = (inputStr: string): Types.MULT_DATA => {
-  let accessIdx = 0;
-
-  const T_new = extractBits(inputStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
-  accessIdx += Types.PHYS_REG_TAG_WIDTH;
-
-  const rs1 = extractBits(inputStr, accessIdx, Types.DATA_WIDTH);
-  accessIdx += Types.DATA_WIDTH;
-
-  const rs2 = extractBits(inputStr, accessIdx, Types.DATA_WIDTH);
-  accessIdx += Types.DATA_WIDTH;
-
-  const valid = inputStr[accessIdx] === "1";
-  accessIdx += 1;
-
-  const func = extractBits(
-    inputStr,
-    accessIdx,
-    Types.MULT_FUNC_WIDTH
-  ) as Types.MULT_FUNC;
-  accessIdx += Types.MULT_FUNC_WIDTH;
-
-  return {
-    T_new,
-    rs1,
-    rs2,
-    func,
-    valid,
-  };
-};
-
-export const parseALU_DATA = (inputStr: string): Types.ALU_DATA => {
-  let accessIdx = 0;
-
-  const T_new = extractBits(inputStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
-  accessIdx += Types.PHYS_REG_TAG_WIDTH;
-
-  const rs1 = extractBits(inputStr, accessIdx, Types.DATA_WIDTH);
-  accessIdx += Types.DATA_WIDTH;
-
-  const rs2 = extractBits(inputStr, accessIdx, Types.DATA_WIDTH);
-  accessIdx += Types.DATA_WIDTH;
-
-  const valid = inputStr[accessIdx] === "1";
-  accessIdx += 1;
-
-  const func = extractBits(
-    inputStr,
-    accessIdx,
-    Types.ALU_FUNC_WIDTH
-  ) as Types.ALU_FUNC;
-  accessIdx += Types.ALU_FUNC_WIDTH;
-
-  return {
-    T_new,
-    rs1,
-    rs2,
-    func,
-    valid,
-  };
-};
-
-export const parseBRANCH_DATA = (inputStr: string): Types.BRANCH_DATA => {
-  let accessIdx = 0;
-
-  const T_new = extractBits(inputStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
-  accessIdx += Types.PHYS_REG_TAG_WIDTH;
-
-  const rs1 = extractBits(inputStr, accessIdx, Types.DATA_WIDTH);
-  accessIdx += Types.DATA_WIDTH;
-
-  const rs2 = extractBits(inputStr, accessIdx, Types.DATA_WIDTH);
-  accessIdx += Types.DATA_WIDTH;
-
-  const valid = inputStr[accessIdx] === "1";
-  accessIdx += 1;
-
-  const func = extractBits(
-    inputStr,
-    accessIdx,
-    Types.BRANCH_FUNC_WIDTH
-  ) as Types.BRANCH_FUNC;
-  accessIdx += Types.BRANCH_FUNC_WIDTH;
-
-  return {
-    T_new,
-    rs1,
-    rs2,
-    func,
-    valid,
-  };
-};
-
 export const parseFU_DATA = (
   inputStr: string,
   fu: Types.FU_TYPE
 ): Types.FU_DATA => {
-  switch (fu) {
-    case Types.FU_TYPE.MUL:
-      return { fu_type: Types.FU_TYPE.MUL, data: parseMULT_DATA(inputStr) };
-    case Types.FU_TYPE.ALU:
-      return { fu_type: Types.FU_TYPE.ALU, data: parseALU_DATA(inputStr) };
-    case Types.FU_TYPE.BR:
-      return { fu_type: Types.FU_TYPE.BR, data: parseBRANCH_DATA(inputStr) };
-    default:
-      return {
-        fu_type: Types.FU_TYPE.ALU,
-        data: {
-          T_new: 0,
-          rs1: 0,
-          rs2: 0,
-          func: Types.ALU_FUNC.ALU_ADD,
-          valid: false,
-        },
-      };
-  }
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  let accessIdx = 0;
+
+  const T_new = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
+  accessIdx += Types.PHYS_REG_TAG_WIDTH;
+
+  const rs1 = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
+  accessIdx += Types.DATA_WIDTH;
+
+  const rs2 = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
+  accessIdx += Types.DATA_WIDTH;
+
+  const valid = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  const fu_func = parseFU_FUNC(
+    binaryStr.slice(accessIdx, accessIdx + Types.FU_FUNC_WIDTH)
+  );
+  accessIdx += Types.FU_FUNC_WIDTH;
+
+  const b_mask_raw = binaryStr.slice(
+    accessIdx,
+    accessIdx + Constants.NUM_CHECKPOINTS
+  );
+  const b_mask = reverseStr(b_mask_raw);
+  accessIdx += Constants.NUM_CHECKPOINTS;
+
+  const predicted = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  return {
+    T_new,
+    rs1,
+    rs2,
+    valid,
+    fu_func,
+    b_mask,
+    predicted,
+  };
 };
 
-export const parseListFU_DATA = (
+export const parseFU_DATA_List = (
   inputStr: string,
   fu: Types.FU_TYPE
 ): Types.FU_DATA[] => {
@@ -343,7 +281,9 @@ export const parseRSData = (
     ) as Types.FU_TYPE;
     accessIdx += Types.FU_TYPE_WIDTH;
 
-    const fu_func = parseFU_FUNC(binaryStr.slice(accessIdx, accessIdx + 1));
+    const fu_func = parseFU_FUNC(
+      binaryStr.slice(accessIdx, accessIdx + Types.FU_FUNC_WIDTH)
+    );
     accessIdx += Types.FU_FUNC_WIDTH;
 
     const T_new = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
@@ -436,11 +376,9 @@ export const parseRS_TO_FU_DATA_List = (
     const valid = binaryStr[accessIdx] === "1";
     accessIdx += 1;
 
-    const fu_func = extractBits(
-      binaryStr,
-      accessIdx,
-      Types.FU_FUNC_WIDTH
-    ) as Types.FU_FUNC;
+    const fu_func = parseFU_FUNC(
+      binaryStr.slice(accessIdx, accessIdx + Types.FU_FUNC_WIDTH)
+    );
     accessIdx += Types.FU_FUNC_WIDTH;
 
     const has_imm = binaryStr[accessIdx] === "1";

@@ -3,8 +3,7 @@ import {
   extractSignalValue,
   extractSignalValueToInt,
   parseRSData,
-  parseCDBData,
-  parseListFU_DATA,
+  parseCDBTags,
   getNumFUOut,
   parseRS_TO_FU_DATA_List,
 } from "@/lib/utils";
@@ -36,7 +35,7 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
   const mult_avail = extractSignalValue(signalRS, "mult_avail");
 
   const early_cdb = extractSignalValue(signalRS, "early_cdb").value;
-  const RS_early_cdb = parseCDBData(early_cdb);
+  const RS_early_cdb = parseCDBTags(early_cdb);
 
   // entries
   const entries = extractSignalValue(signalRS, "entries").value;
@@ -101,7 +100,7 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
                   {/* <p>Early CDB</p> */}
                   <DisplayCDBData
                     className=""
-                    CDBData={RS_early_cdb}
+                    CDBTags={RS_early_cdb}
                     isEarlyCDB={true}
                   />
                 </div>

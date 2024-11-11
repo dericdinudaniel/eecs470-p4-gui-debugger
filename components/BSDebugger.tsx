@@ -4,7 +4,7 @@ import {
   extractSignalValue,
   extractSignalValueToInt,
   parseBoolArrToString,
-  parseCDBData,
+  parseCDBTags,
   parseCHECKPOINT_DATA,
   parseCHECKPOINT_DATA_List,
 } from "@/lib/utils";
@@ -95,7 +95,7 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
   const BS_checkpoint_in = parseCHECKPOINT_DATA(checkpoint_in);
 
   const cdb = extractSignalValue(signalBS, "cdb").value;
-  const BS_cdb = parseCDBData(cdb);
+  const BS_cdb = parseCDBTags(cdb);
 
   const T_old = extractSignalValueToInt(signalBS, "T_old");
 
@@ -164,7 +164,7 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
                   </div>
                   <DisplayCDBData
                     className=""
-                    CDBData={BS_cdb}
+                    CDBTags={BS_cdb}
                     isEarlyCDB={false}
                   />
                 </div>

@@ -161,9 +161,7 @@ export enum ALU_FUNC {
   ALU_SRL = 0x8,
   ALU_SRA = 0x9,
 }
-export const ALU_FUNC_WIDTH = clog2(
-  Object.keys(ALU_FUNC).filter((k) => isNaN(Number(k))).length
-);
+export const ALU_FUNC_WIDTH = 4;
 export function getALUFuncName(aluFunc: ALU_FUNC): string {
   return ALU_FUNC[aluFunc] ? ALU_FUNC[aluFunc] : "XXX";
 }
@@ -175,9 +173,7 @@ export enum MULT_FUNC {
   M_MULHSU = 0x2,
   M_MULHU = 0x3,
 }
-export const MULT_FUNC_WIDTH = clog2(
-  Object.keys(MULT_FUNC).filter((k) => isNaN(Number(k))).length
-);
+export const MULT_FUNC_WIDTH = 4;
 export function getMULFuncName(mulFunc: MULT_FUNC): string {
   return MULT_FUNC[mulFunc] ? MULT_FUNC[mulFunc] : "XXX";
 }
@@ -191,9 +187,7 @@ export enum BRANCH_FUNC {
   B_BLTU = 0b110,
   B_BGEU = 0b111,
 }
-export const BRANCH_FUNC_WIDTH = clog2(
-  Object.keys(BRANCH_FUNC).filter((k) => isNaN(Number(k))).length
-);
+export const BRANCH_FUNC_WIDTH = 4;
 export function getBRFuncName(brFunc: BRANCH_FUNC): string {
   return BRANCH_FUNC[brFunc] ? BRANCH_FUNC[brFunc] : "XXX";
 }
@@ -294,57 +288,26 @@ export type COMMIT_PACKET = {
 export const COMMIT_PACKET_WIDTH =
   ADDR_WIDTH + DATA_WIDTH + REG_IDX_WIDTH + 1 + 1 + 1;
 
-// MULT data
-export type MULT_DATA = {
-  T_new: PHYS_REG_TAG;
-  rs1: DATA;
-  rs2: DATA;
-  valid: boolean;
-  func: MULT_FUNC;
-};
-export const MULT_DATA_WIDTH =
-  PHYS_REG_TAG_WIDTH + DATA_WIDTH + DATA_WIDTH + MULT_FUNC_WIDTH + 1;
-
-// ALU data
-export type ALU_DATA = {
-  T_new: PHYS_REG_TAG;
-  rs1: DATA;
-  rs2: DATA;
-  valid: boolean;
-  func: ALU_FUNC;
-};
-export const ALU_DATA_WIDTH =
-  PHYS_REG_TAG_WIDTH + DATA_WIDTH + DATA_WIDTH + ALU_FUNC_WIDTH + 1;
-
-// BRANCH data
-export type BRANCH_DATA = {
-  T_new: PHYS_REG_TAG;
-  rs1: DATA;
-  rs2: DATA;
-  valid: boolean;
-  func: BRANCH_FUNC;
-};
-export const BRANCH_DATA_WIDTH =
-  PHYS_REG_TAG_WIDTH + DATA_WIDTH + DATA_WIDTH + BRANCH_FUNC_WIDTH + 1;
-
 export type FU_FUNC = ALU_FUNC | MULT_FUNC | BRANCH_FUNC;
 export const FU_FUNC_WIDTH = 4;
-// export const FU_FUNC_WIDTH = Math.max(
-//   ALU_FUNC_WIDTH,
-//   MULT_FUNC_WIDTH,
-//   BRANCH_FUNC_WIDTH
-// );
 
-// FU_DATA union type, which can contain ALU_DATA, MULT_DATA, or BRANCH_DATA
-export type FU_DATA =
-  | { fu_type: FU_TYPE.MUL; data: MULT_DATA }
-  | { fu_type: FU_TYPE.BR; data: BRANCH_DATA }
-  | { fu_type: FU_TYPE.ALU; data: ALU_DATA };
-export const FU_DATA_WIDTH = Math.max(
-  MULT_DATA_WIDTH,
-  BRANCH_DATA_WIDTH,
-  ALU_DATA_WIDTH
-);
+export type FU_DATA = {
+  T_new: PHYS_REG_TAG;
+  rs1: DATA;
+  rs2: DATA;
+  valid: boolean;
+  fu_func: FU_FUNC;
+  b_mask: string;
+  predicted: boolean;
+};
+export const FU_DATA_WIDTH =
+  PHYS_REG_TAG_WIDTH + // T_new
+  DATA_WIDTH + // rs1
+  DATA_WIDTH + // rs2
+  1 + // valid
+  FU_FUNC_WIDTH + // fu_func
+  Constants.NUM_CHECKPOINTS + // b_mask
+  1; // predicted
 
 // Enum for operation types
 export enum FU_TYPE {

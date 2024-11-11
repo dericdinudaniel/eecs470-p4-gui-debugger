@@ -3,7 +3,7 @@ import {
   extractSignalValue,
   extractSignalValueToInt,
   parseROBData,
-  parseCDBData,
+  parseCDBTags,
 } from "@/lib/utils";
 import * as Constants from "@/lib/constants";
 import * as Types from "@/lib/types";
@@ -21,7 +21,7 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
   const dispatched_ins = extractSignalValue(signalData, "dispatched_ins").value;
   const ROB_dispatched_ins = parseROBData(dispatched_ins, Constants.N);
   const cdb = extractSignalValue(signalData, "rob_completed").value;
-  const ROB_cdb = parseCDBData(cdb);
+  const ROB_cdb = parseCDBTags(cdb);
 
   // internal signals
   const reset = extractSignalValueToInt(signalData, "reset");

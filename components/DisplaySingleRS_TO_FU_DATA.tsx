@@ -10,17 +10,6 @@ type DisplaySingleRS_TO_FU_DATAProps = {
   fu_type: Types.FU_TYPE;
 };
 
-const getFU_TYPE = (fu_data: Types.FU_DATA) => {
-  switch (fu_data.fu_type) {
-    case Types.FU_TYPE.ALU:
-      return fu_data.data as Types.ALU_DATA;
-    case Types.FU_TYPE.MUL:
-      return fu_data.data as Types.MULT_DATA;
-    case Types.FU_TYPE.BR:
-      return fu_data.data as Types.BRANCH_DATA;
-  }
-};
-
 const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
   className,
   FUIdx,
@@ -51,14 +40,6 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
             </tr>
           </thead>
           <tbody>
-            {/* <tr>
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
-                Valid:
-              </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color w-16">
-                {RS_TO_FUData.valid ? "Yes" : "No"}
-              </td>
-            </tr> */}
             <tr>
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
                 T_new:
@@ -69,7 +50,7 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
             </tr>
             <tr>
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
-                rs1:
+                T_a:
               </td>
               <td className="text-xs p-1 text-center border-t ROB-border-color">
                 {displayValue(RS_TO_FUData.T_a)}
@@ -77,7 +58,7 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
             </tr>
             <tr>
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
-                rs2:
+                T_b:
               </td>
               <td className="text-xs p-1 text-center border-t ROB-border-color">
                 {displayValue(RS_TO_FUData.T_b)}
@@ -100,7 +81,6 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
               </td>
             </tr>
 
-            {/* EBR */}
             {/* EBR */}
             <tr>
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">

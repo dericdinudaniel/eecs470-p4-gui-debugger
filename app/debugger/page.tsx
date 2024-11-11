@@ -14,6 +14,7 @@ import { extractSignalValueToInt } from "@/lib/utils";
 import ShadDebuggerHeader from "@/components/ShadDebuggerHeader";
 import DisplaySingleSignal from "@/components/DisplaySingleSignal";
 import BSDebugger from "@/components/BSDebugger";
+import FUDebugger from "@/components/FUDebugger";
 
 export default function Debugger() {
   const [currentCycle, setCurrentCycle] = useState(0);
@@ -168,13 +169,22 @@ export default function Debugger() {
             <>
               <div className="">
                 <div className="flex">
-                  <ROBDebugger
-                    className="p-8"
-                    signalData={
-                      signalData?.signals.children.testbench.children.DUT_ooo
-                        .children.DUT_rob
-                    }
-                  />
+                  <div>
+                    <ROBDebugger
+                      className="p-8"
+                      signalData={
+                        signalData?.signals.children.testbench.children.DUT_ooo
+                          .children.DUT_rob
+                      }
+                    />
+                    <RegfileDebugger
+                      className="m-4"
+                      signalRegfile={
+                        signalData?.signals.children.testbench.children.DUT_ooo
+                          .children.DUT_regfile
+                      }
+                    />
+                  </div>
                   <FNAFDebugger
                     className="m-4"
                     signalFNAF={
@@ -182,22 +192,24 @@ export default function Debugger() {
                         .children.DUT_freddy
                     }
                   />
-                  <RSDebugger
-                    className="m-4"
-                    signalRS={
-                      signalData?.signals.children.testbench.children.DUT_ooo
-                        .children.DUT_rs
-                    }
-                  />
+                  <div className="justify-items-center">
+                    <RSDebugger
+                      className="m-4"
+                      signalRS={
+                        signalData?.signals.children.testbench.children.DUT_ooo
+                          .children.DUT_rs
+                      }
+                    />
+                    <FUDebugger
+                      className="m-4"
+                      signalFU={
+                        signalData?.signals.children.testbench.children.DUT_ooo
+                          .children.DUT_fu
+                      }
+                    />
+                  </div>
                 </div>
               </div>
-              <RegfileDebugger
-                className="m-4"
-                signalRegfile={
-                  signalData?.signals.children.testbench.children.DUT_ooo
-                    .children.DUT_regfile
-                }
-              />
               {/* <BSDebugger
                 className="m-4"
                 signalBS={signalData?.signals.children.testbench.children.DUT}
