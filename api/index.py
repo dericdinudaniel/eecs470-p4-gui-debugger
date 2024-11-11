@@ -4,6 +4,7 @@ from flask_cors import CORS
 from pyDigitalWaveTools.vcd.parser import VcdParser
 from parsing import full_parse
 from pprint import pprint
+import os
 
 import logging
 
@@ -20,42 +21,41 @@ def hello_world():
 
 @app.route("/api/parse/", methods=["POST"])
 def parse_vcd_content():
-    data = request.json
-    
     try:
-        data = request.json
+        # data = request.json
 
-        if not data:
-            return jsonify({"error": "No JSON data in the request"}), 400
+        # if not data:
+        #     return jsonify({"error": "No JSON data in the request"}), 400
         
-        if 'fileContent' not in data:
-            return jsonify({"error": "No VCD content in the request"}), 400
+        # if 'fileContent' not in data:
+        #     return jsonify({"error": "No VCD content in the request"}), 400
         
-        vcd_content = data['fileContent']
+        # vcd_content = data['fileContent']
         
         # Log the received content (be careful with large contents)
-        logging.info(f"Received VCD content length: {len(vcd_content)}")
+        # logging.info(f"Received VCD content length: {len(vcd_content)}")
 
-        # Parse VCD content
-        vcd = VcdParser()
-        vcd.parse_str(vcd_content)
-        
-        # Extract clock data and count cycles
-        try:
-            clock = vcd.scope.children["testbench"].children["clock"].data
-            num_clocks = len(clock)
-            num_cycles = int((len(clock) - 1) / 2)
-            print(len(clock))
-        except KeyError:
-            return jsonify({"error": "Could not find clock data in the VCD content"}), 400
-        
-        full_parse(cache, vcd.scope, num_clocks, num_cycles)
-        
-        header_data = {
-            "num_clock": num_clocks,
-            "num_cycles": num_cycles,
-        }
-        return jsonify(header_data)
+        with open("./uploads/ooo_core.vcd") as vcd_content:
+            # Parse VCD content
+            vcd = VcdParser()
+            vcd.parse(vcd_content)
+            
+            # Extract clock data and count cycles
+            try:
+                clock = vcd.scope.children["testbench"].children["clock"].data
+                num_clocks = len(clock)
+                num_cycles = int((len(clock) - 1) / 2)
+                print(len(clock))
+            except KeyError:
+                return jsonify({"error": "Could not find clock data in the VCD content"}), 400
+            
+            full_parse(cache, vcd.scope, num_clocks, num_cycles)
+            
+            header_data = {
+                "num_clock": num_clocks,
+                "num_cycles": num_cycles,
+            }
+            return jsonify(header_data)
 
     except Exception as e:
         logging.error(f"Error processing VCD content: {str(e)}")

@@ -25,16 +25,35 @@ export default function Home() {
   });
 
   const handleParseContent = async () => {
-    if (!fileContent) {
-      alert("Please drop a file or paste content before parsing.");
-      return;
-    }
+    // if (!fileContent) {
+    //   alert("Please drop a file or paste content before parsing.");
+    //   return;
+    // }
 
+    // try {
+    //   const response = await fetch("/api/parse", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({ fileContent }),
+    //   });
+    //   const data = await response.json();
+    //   router.push(
+    //     `/debugger?headerInfo=${encodeURIComponent(JSON.stringify(data))}`
+    //   );
+    // } catch (error) {
+    //   console.error("Error parsing file:", error);
+    // }
+
+    const test = {
+      header: {
+        test: "test",
+      },
+    };
     try {
       const response = await fetch("/api/parse", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fileContent }),
+        body: JSON.stringify({ test }),
       });
       const data = await response.json();
       router.push(
