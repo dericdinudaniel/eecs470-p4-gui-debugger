@@ -13,7 +13,7 @@ import RegfileDebugger from "@/components/RegfileDebugger";
 import { extractSignalValueToInt } from "@/lib/utils";
 import ShadDebuggerHeader from "@/components/ShadDebuggerHeader";
 import DisplaySingleSignal from "@/components/DisplaySingleSignal";
-import BranchStackDebugger from "@/components/BranchStackDebugger";
+import BSDebugger from "@/components/BSDebugger";
 
 export default function Debugger() {
   const [currentCycle, setCurrentCycle] = useState(0);
@@ -198,8 +198,8 @@ export default function Debugger() {
                     .children.DUT_regfile
                 }
               />
-              {/* <BranchStackDebugger
-                className=""
+              {/* <BSDebugger
+                className="m-4"
                 signalBS={signalData?.signals.children.testbench.children.DUT}
               /> */}
               <DisplaySingleSignal

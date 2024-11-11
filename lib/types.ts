@@ -453,6 +453,11 @@ export enum BRANCH_PREDICT_T {
   MISPREDICTED = 0b10,
 }
 export const BRANCH_PREDICT_T_WIDTH = 2;
+export function getBranchPredictName(branchPredict: BRANCH_PREDICT_T): string {
+  return BRANCH_PREDICT_T[branchPredict]
+    ? BRANCH_PREDICT_T[branchPredict]
+    : "XXX";
+}
 
 export type CHECKPOINT_DATA = {
   pc_checkpoint: ADDR;

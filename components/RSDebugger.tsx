@@ -98,8 +98,12 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
                   />
                 </div>
                 <div className="justify-items-center">
-                  <p>Early CDB</p>
-                  <DisplayCDBData className="" CDBData={RS_early_cdb} />
+                  {/* <p>Early CDB</p> */}
+                  <DisplayCDBData
+                    className=""
+                    CDBData={RS_early_cdb}
+                    isEarlyCDB={true}
+                  />
                 </div>
                 <div className="justify-items-center">
                   <p>Decoded Instructions</p>

@@ -1,11 +1,6 @@
 import React from "react";
 import { SignalType, SignalData, ScopeData } from "@/lib/tstypes";
-import {
-  extractSignalValue,
-  parseFree_PR,
-  parseFreeList,
-  parseReg_Map,
-} from "@/lib/utils";
+import { extractSignalValue, parseFreeList, parseReg_Map } from "@/lib/utils";
 import DisplayFrizzyList from "./DisplayFrizzyList";
 import DisplayMapTable from "./DisplayMapTable";
 

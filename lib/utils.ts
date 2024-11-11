@@ -651,8 +651,10 @@ export const parseCHECKPOINT_DATA = (
 export const parseFRIZZY_DATA = (inputStr: string): Types.FRIZZY_DATA => {
   const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
 
-  const ready = parseReadyBits(binaryStr.slice(0, Constants.N));
-  const free = parseFreeList(binaryStr.slice(Constants.N, Constants.N * 2));
+  const ready = parseReadyBits(binaryStr.slice(0, Constants.PHYS_REG_SZ_R10K));
+  const free = parseFreeList(
+    binaryStr.slice(Constants.PHYS_REG_SZ_R10K, Constants.PHYS_REG_SZ_R10K * 2)
+  );
 
   return {
     ready,
@@ -680,4 +682,22 @@ export const parseCHECKPOINT_DATA_List = (
   }
 
   return result;
+};
+
+export const parseToBoolArray = (inputStr: string): boolean[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+
+  const result: boolean[] = [];
+
+  for (let i = binaryStr.length - 1; i >= 0; i--) {
+    result.push(binaryStr[i] === "1");
+  }
+
+  return result;
+};
+
+export const parseBoolArrToString = (inputArr: string): string => {
+  const binaryStr = inputArr.startsWith("b") ? inputArr.slice(1) : inputArr;
+
+  return reverseStr(binaryStr);
 };
