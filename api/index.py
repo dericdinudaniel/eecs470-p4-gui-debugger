@@ -11,7 +11,7 @@ app = Flask(__name__)
 CORS(app)
 cache = Cache(app, config={
     'CACHE_TYPE': 'simple',
-    'CACHE_DEFAULT_TIMEOUT': 1800,
+    'CACHE_DEFAULT_TIMEOUT': 60000,
     'CACHE_THRESHOLD': 10000
 })
 
@@ -48,7 +48,7 @@ def parse_vcd_content():
         except KeyError:
             return jsonify({"error": "Could not find clock data in the VCD content"}), 400
         
-        full_parse(cache, vcd.scope, num_clocks, num_cycles)
+        full_parse(cache, vcd.scope, num_clocks)
         
         header_data = {
             "num_clock": num_clocks,
