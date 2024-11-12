@@ -177,6 +177,7 @@ export default function Debugger() {
                   <IBDebugger
                     className="m-4"
                     signalIB={cpu.children.instr_buffer}
+                    signalCPU={cpu}
                   />
                   <div className="justify-items-center">
                     <ROBDebugger

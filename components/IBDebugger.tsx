@@ -13,9 +13,14 @@ import { ChevronUpIcon, ChevronDownIcon } from "lucide-react";
 type IBDebuggerProps = {
   className: string;
   signalIB: ScopeData;
+  signalCPU: ScopeData;
 };
 
-const IBDebugger: React.FC<IBDebuggerProps> = ({ className, signalIB }) => {
+const IBDebugger: React.FC<IBDebuggerProps> = ({
+  className,
+  signalIB,
+  signalCPU,
+}) => {
   // buffer
   const buffer = extractSignalValue(signalIB, "buffer").value;
   const IB_buffer = parseID_EX_PACKET_List(buffer);
@@ -42,6 +47,9 @@ const IBDebugger: React.FC<IBDebuggerProps> = ({ className, signalIB }) => {
     "output_id_ex_packet"
   ).value;
   const IB_output_id_ex_packet = parseID_EX_PACKET_List(output_id_ex_packet);
+
+  const if_id_reg = extractSignalValue(signalCPU, "if_id_reg").value;
+  const CPU_if_id_reg = parseID_EX_PACKET_List(if_id_reg);
 
   const [showIBInputs, setShowIBInputs] = useState(false);
 
@@ -101,7 +109,7 @@ const IBDebugger: React.FC<IBDebuggerProps> = ({ className, signalIB }) => {
             <div>
               <DisplayInstList
                 className=""
-                instList={IB_output_id_ex_packet}
+                instList={CPU_if_id_reg}
                 head={-1}
                 tail={-1}
                 isIB={false}
