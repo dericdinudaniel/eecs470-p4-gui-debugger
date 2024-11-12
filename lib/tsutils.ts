@@ -8,7 +8,7 @@ export const parseInstruction = (instruction: number): string => {
     const inst = new Instruction(hexStr);
     return inst.asm;
   } catch (e) {
-    return "Invalid instruction";
+    return "Invalid Instr";
   }
 };
 
@@ -18,4 +18,8 @@ export const chunkArray = <T>(array: T[], chunkSize: number): T[][] => {
     chunks.push(array.slice(i, i + chunkSize));
   }
   return chunks;
+};
+
+export const reverseStr = (str: string): string => {
+  return str.split("").reverse().join("");
 };

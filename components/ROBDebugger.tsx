@@ -3,7 +3,7 @@ import {
   extractSignalValue,
   extractSignalValueToInt,
   parseROBData,
-  parseCDBData,
+  parseCDBTags,
 } from "@/lib/utils";
 import * as Constants from "@/lib/constants";
 import * as Types from "@/lib/types";
@@ -20,8 +20,8 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
   // input signals
   const dispatched_ins = extractSignalValue(signalData, "dispatched_ins").value;
   const ROB_dispatched_ins = parseROBData(dispatched_ins, Constants.N);
-  const cdb = extractSignalValue(signalData, "cdb").value;
-  const ROB_cdb = parseCDBData(cdb);
+  const cdb = extractSignalValue(signalData, "rob_completed").value;
+  const ROB_cdb = parseCDBTags(cdb);
 
   // internal signals
   const reset = extractSignalValueToInt(signalData, "reset");
@@ -48,12 +48,12 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
 
   // State to control visibility of stuff
   const [showROBInternals, setShowROBInternals] = useState(false);
-  const [showROBInputs, setShowROBInputs] = useState(false);
+  const [showROBInputs, setShowROBInputs] = useState(true);
 
   return (
     <>
-      <div className={`${className} mt-4`}>
-        <div className="bg-gray-500/[.15] rounded-lg shadow-lg p-4 inline-flex flex-col items-center">
+      <div className={`${className}`}>
+        <div className="bg-gray-500/[.15] rounded-lg shadow-lg p-4 pb-1 inline-flex flex-col items-center">
           {/* header */}
           <div className="flex items-center">
             <h2 className="text-xl font-semibold">
@@ -80,7 +80,7 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
           {showROBInputs && (
             <div className="flex space-x-4 mb-2">
               <div className="justify-items-center">
-                <p>Dispatched Instructions</p>
+                <p className="font-semibold">Dispatched Instructions</p>
                 <DisplayROBData
                   className=""
                   ROBData={ROB_dispatched_ins}
@@ -89,10 +89,10 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
                   isROB={false}
                 />
               </div>
-              <div className="justify-items-center">
+              {/* <div className="justify-items-center">
                 <p>CDB</p>
                 <DisplayCDBData className="" CDBData={ROB_cdb} />
-              </div>
+              </div> */}
             </div>
           )}
 
@@ -144,7 +144,7 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
 
           {/* output signals */}
           <div>
-            <p className="text-sm mt-4 flex space-x-4">
+            <p className="text-sm mt-2">
               <span className="font-bold">Open Spots:</span> {open_spots}
             </p>
           </div>

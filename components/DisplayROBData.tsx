@@ -1,6 +1,7 @@
 import React from "react";
 import * as Types from "@/lib/types";
 import { displayValue } from "@/lib/utils";
+import { parseInstruction } from "@/lib/tsutils";
 
 type DisplayROBDataProps = {
   className: string;
@@ -23,18 +24,29 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
         <table className="border-collapse">
           <thead>
             <tr className="bg-slate-300">
-              <th className="text-sm p-2">Entry #</th>
-              <th className="text-sm border-l ROB-border-color p-2">R_dest</th>
-              <th className="text-sm border-l ROB-border-color p-2">T_new</th>
-              <th className="text-sm border-l ROB-border-color p-2">T_old</th>
-              <th className="text-sm border-l ROB-border-color p-2">Valid</th>
+              <th className="text-sm px-4">#</th>
+              <th className="text-sm border-l ROB-border-color px-2 py-1">
+                <div className="w-36">Inst</div>
+              </th>
+              <th className="text-sm border-l ROB-border-color px-2 py-1">
+                R_dest
+              </th>
+              <th className="text-sm border-l ROB-border-color px-2 py-1">
+                T_new
+              </th>
+              <th className="text-sm border-l ROB-border-color px-2 py-1">
+                T_old
+              </th>
+              <th className="text-sm border-l ROB-border-color px-2 py-1">
+                Valid
+              </th>
               {isROB && (
                 <>
-                  <th className="text-sm border-l ROB-border-color p-2">
-                    Retirable
+                  <th className="text-sm border-l ROB-border-color px-2 py-1">
+                    Ret?
                   </th>
-                  <th className="text-sm border-l ROB-border-color p-2 w-32">
-                    Head/Tail
+                  <th className="text-sm border-l ROB-border-color px-2 py-1">
+                    H/T
                   </th>
                 </>
               )}
@@ -56,24 +68,29 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
               const entryNumber = idx.toString().padStart(2, "") + ":";
 
               // green if tail, red if head, yellow if both
-              const color = isBoth
-                ? "bg-yellow-200"
-                : isHead
-                ? "bg-red-200"
-                : isTail
-                ? "bg-green-200"
-                : entry.valid
-                ? "bg-yellow-100"
-                : "bg-gray-200";
+              let color = "bg-gray-200";
+              if (isBoth) {
+                color = "bg-yellow-200";
+              } else if (isHead) {
+                color = "bg-green-200";
+              } else if (isTail) {
+                color = "bg-red-200";
+              } else if (!isROB) {
+                color = entry.valid ? "bg-green-200" : "bg-red-200";
+              } else if (entry.valid && isROB) {
+                color = "bg-yellow-100";
+              }
 
               const headOrTailString =
-                "←" +
-                (isBoth ? "Head/Tail" : isHead ? "Head" : isTail ? "Tail" : "");
+                "←" + (isBoth ? "H&T" : isHead ? "Head" : isTail ? "Tail" : "");
 
               return (
                 <tr key={idx} className={color}>
-                  <td className="text-right text-sm border-t ROB-border-color">
+                  <td className="text-right text-sm border-t ROB-border-color font-semibold">
                     {entryNumber}
+                  </td>
+                  <td className="text-center text-sm border-l border-t ROB-border-color font-semibold">
+                    {parseInstruction(entry.packet.inst.inst)}
                   </td>
                   <td className="text-center text-sm border-l border-t ROB-border-color">
                     {"r" + displayValue(entry.R_dest)}
@@ -93,7 +110,9 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
                         {displayValue(entry.retireable ? "1" : "0")}
                       </td>
                       <td className="text-center text-sm border-l border-t ROB-border-color">
-                        {isEither && headOrTailString}
+                        <div className="w-14">
+                          {isEither && headOrTailString}
+                        </div>
                       </td>
                     </>
                   )}

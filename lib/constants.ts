@@ -17,7 +17,7 @@ export const PHYS_REG_SZ_P6 = 32;
 export const PHYS_REG_SZ_R10K = 32 + ROB_SZ;
 
 // worry about these later
-export const BRANCH_PRED_SZ = NaN; // Replace `NaN` with the appropriate value
+export const BRANCH_PRED_SZ = 10; // Replace `NaN` with the appropriate value
 export const LSQ_SZ = NaN; // Replace `NaN` with the appropriate value
 
 // Functional Units
@@ -52,6 +52,11 @@ export const ICACHE_LINE_BITS = clog2(ICACHE_LINES);
 // Memory specifications
 export const MEM_SIZE_IN_BYTES = 64 * 1024;
 export const MEM_64BIT_LINES = MEM_SIZE_IN_BYTES / 8;
+
+export const READ_PORTS = 2 * NUM_FU;
+export const WRITE_PORTS = N;
+
+export const NUM_CHECKPOINTS = 4;
 
 // Memory latency in cycles
 // export const CLOCK_PERIOD          = 10.0; // in ns

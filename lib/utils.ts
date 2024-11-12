@@ -1,9 +1,17 @@
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
 // helper functions
 
 import { parse } from "path";
 import { ScopeData, SignalData } from "./tstypes";
 import * as Types from "./types";
 import * as Constants from "./constants";
+import { reverseStr } from "./tsutils";
 
 export const clog2 = (x: number): number => Math.ceil(Math.log2(x));
 
@@ -63,31 +71,32 @@ export const parseROBData = (
   // Process each ROB entry from the end to the beginning
   for (let i = arrLen - 1; i >= 0; i--) {
     const startIdx = i * entryWidth;
+    let accessIdx = startIdx;
 
     // Extract fields from left to right in the entry
-    const T_old = extractBits(binaryStr, startIdx, Types.PHYS_REG_TAG_WIDTH);
+    const T_old = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
+    accessIdx += Types.PHYS_REG_TAG_WIDTH;
 
-    const T_new = extractBits(
-      binaryStr,
-      startIdx + Types.PHYS_REG_TAG_WIDTH,
-      Types.PHYS_REG_TAG_WIDTH
-    );
+    const T_new = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
+    accessIdx += Types.PHYS_REG_TAG_WIDTH;
 
     const R_dest = extractBits(
       binaryStr,
-      startIdx + 2 * Types.PHYS_REG_TAG_WIDTH,
+      accessIdx,
       Types.REG_IDX_WIDTH
+    ) as Types.REG_IDX;
+    accessIdx += Types.REG_IDX_WIDTH;
+
+    const valid = binaryStr[accessIdx] === "1";
+    accessIdx += 1;
+
+    const retireable = binaryStr[accessIdx] === "1";
+    accessIdx += 1;
+
+    const packet = parseID_EX_PACKET(
+      binaryStr.slice(accessIdx, accessIdx + Types.ID_EX_PACKET_WIDTH)
     );
-
-    const valid =
-      binaryStr[
-        startIdx + 2 * Types.PHYS_REG_TAG_WIDTH + Types.REG_IDX_WIDTH
-      ] === "1";
-
-    const retireable =
-      binaryStr[
-        startIdx + 2 * Types.PHYS_REG_TAG_WIDTH + Types.REG_IDX_WIDTH + 1
-      ] === "1";
+    accessIdx += Types.ID_EX_PACKET_WIDTH;
 
     result.push({
       T_old,
@@ -95,13 +104,14 @@ export const parseROBData = (
       R_dest,
       valid,
       retireable,
+      packet,
     });
   }
 
   return result;
 };
 
-export const parseCDBData = (cdb: string): Types.PHYS_REG_TAG[] => {
+export const parseCDBTags = (cdb: string): Types.PHYS_REG_TAG[] => {
   const binaryStr = cdb.startsWith("b") ? cdb.slice(1) : cdb;
 
   const result: Types.PHYS_REG_TAG[] = [];
@@ -110,11 +120,23 @@ export const parseCDBData = (cdb: string): Types.PHYS_REG_TAG[] => {
   // Process each CDB entry from the end to the beginning
   for (let i = Constants.CDB_SZ - 1; i >= 0; i--) {
     const startIdx = i * entryWidth;
-
-    // Extract fields from left to right in the entry
     const tag = extractBits(binaryStr, startIdx, Types.PHYS_REG_TAG_WIDTH);
-
     result.push(tag);
+  }
+
+  return result;
+};
+
+export const parseCDBValues = (cdb: string): Types.DATA[] => {
+  const binaryStr = cdb.startsWith("b") ? cdb.slice(1) : cdb;
+
+  const result: Types.DATA[] = [];
+  const entryWidth = Types.DATA_WIDTH;
+
+  for (let i = Constants.CDB_SZ - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+    const data = extractBits(binaryStr, startIdx, Types.DATA_WIDTH);
+    result.push(data);
   }
 
   return result;
@@ -146,126 +168,52 @@ export const parseID_EX_PACKET = (packetStr: string): Types.ID_EX_PACKET => {
   };
 };
 
-// RS
-export const parseMULT_DATA = (inputStr: string): Types.MULT_DATA => {
-  let accessIdx = 0;
-
-  const T_new = extractBits(inputStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
-  accessIdx += Types.PHYS_REG_TAG_WIDTH;
-
-  const rs1 = extractBits(inputStr, accessIdx, Types.DATA_WIDTH);
-  accessIdx += Types.DATA_WIDTH;
-
-  const rs2 = extractBits(inputStr, accessIdx, Types.DATA_WIDTH);
-  accessIdx += Types.DATA_WIDTH;
-
-  const valid = inputStr[accessIdx] === "1";
-  accessIdx += 1;
-
-  const func = extractBits(
-    inputStr,
-    accessIdx,
-    Types.MULT_FUNC_WIDTH
-  ) as Types.MULT_FUNC;
-  accessIdx += Types.MULT_FUNC_WIDTH;
-
-  return {
-    T_new,
-    rs1,
-    rs2,
-    func,
-    valid,
-  };
-};
-
-export const parseALU_DATA = (inputStr: string): Types.ALU_DATA => {
-  let accessIdx = 0;
-
-  const T_new = extractBits(inputStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
-  accessIdx += Types.PHYS_REG_TAG_WIDTH;
-
-  const rs1 = extractBits(inputStr, accessIdx, Types.DATA_WIDTH);
-  accessIdx += Types.DATA_WIDTH;
-
-  const rs2 = extractBits(inputStr, accessIdx, Types.DATA_WIDTH);
-  accessIdx += Types.DATA_WIDTH;
-
-  const valid = inputStr[accessIdx] === "1";
-  accessIdx += 1;
-
-  const func = extractBits(
-    inputStr,
-    accessIdx,
-    Types.ALU_FUNC_WIDTH
-  ) as Types.ALU_FUNC;
-  accessIdx += Types.ALU_FUNC_WIDTH;
-
-  return {
-    T_new,
-    rs1,
-    rs2,
-    func,
-    valid,
-  };
-};
-
-export const parseBRANCH_DATA = (inputStr: string): Types.BRANCH_DATA => {
-  let accessIdx = 0;
-
-  const T_new = extractBits(inputStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
-  accessIdx += Types.PHYS_REG_TAG_WIDTH;
-
-  const rs1 = extractBits(inputStr, accessIdx, Types.DATA_WIDTH);
-  accessIdx += Types.DATA_WIDTH;
-
-  const rs2 = extractBits(inputStr, accessIdx, Types.DATA_WIDTH);
-  accessIdx += Types.DATA_WIDTH;
-
-  const valid = inputStr[accessIdx] === "1";
-  accessIdx += 1;
-
-  const func = extractBits(
-    inputStr,
-    accessIdx,
-    Types.BRANCH_FUNC_WIDTH
-  ) as Types.BRANCH_FUNC;
-  accessIdx += Types.BRANCH_FUNC_WIDTH;
-
-  return {
-    T_new,
-    rs1,
-    rs2,
-    func,
-    valid,
-  };
-};
-
 export const parseFU_DATA = (
   inputStr: string,
   fu: Types.FU_TYPE
 ): Types.FU_DATA => {
-  switch (fu) {
-    case Types.FU_TYPE.MUL:
-      return { fu_type: Types.FU_TYPE.MUL, data: parseMULT_DATA(inputStr) };
-    case Types.FU_TYPE.ALU:
-      return { fu_type: Types.FU_TYPE.ALU, data: parseALU_DATA(inputStr) };
-    case Types.FU_TYPE.BR:
-      return { fu_type: Types.FU_TYPE.BR, data: parseBRANCH_DATA(inputStr) };
-    default:
-      return {
-        fu_type: Types.FU_TYPE.ALU,
-        data: {
-          T_new: 0,
-          rs1: 0,
-          rs2: 0,
-          func: Types.ALU_FUNC.ALU_ADD,
-          valid: false,
-        },
-      };
-  }
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  let accessIdx = 0;
+
+  const T_new = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
+  accessIdx += Types.PHYS_REG_TAG_WIDTH;
+
+  const rs1 = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
+  accessIdx += Types.DATA_WIDTH;
+
+  const rs2 = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
+  accessIdx += Types.DATA_WIDTH;
+
+  const valid = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  const fu_func = parseFU_FUNC(
+    binaryStr.slice(accessIdx, accessIdx + Types.FU_FUNC_WIDTH)
+  );
+  accessIdx += Types.FU_FUNC_WIDTH;
+
+  const b_mask_raw = binaryStr.slice(
+    accessIdx,
+    accessIdx + Constants.NUM_CHECKPOINTS
+  );
+  const b_mask = reverseStr(b_mask_raw);
+  accessIdx += Constants.NUM_CHECKPOINTS;
+
+  const predicted = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  return {
+    T_new,
+    rs1,
+    rs2,
+    valid,
+    fu_func,
+    b_mask,
+    predicted,
+  };
 };
 
-export const parseListFU_DATA = (
+export const parseFU_DATA_List = (
   inputStr: string,
   fu: Types.FU_TYPE
 ): Types.FU_DATA[] => {
@@ -290,14 +238,20 @@ export const parseListFU_DATA = (
   return result;
 };
 
-export const getNumFUOut = (fu_list: Types.FU_DATA[]): number => {
+export const getNumFUOut = (fu_list: Types.RS_TO_FU_DATA[]): number => {
   let count = 0;
   for (let i = 0; i < fu_list.length; i++) {
-    if (fu_list[i].data.valid) {
+    if (fu_list[i].valid) {
       count++;
     }
   }
   return count;
+};
+
+export const parseFU_FUNC = (inputStr: string): Types.FU_FUNC => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+
+  return parseInt(binaryStr, 2) as Types.FU_FUNC;
 };
 
 ////// RS
@@ -327,13 +281,12 @@ export const parseRSData = (
     ) as Types.FU_TYPE;
     accessIdx += Types.FU_TYPE_WIDTH;
 
-    const fu_data = parseFU_DATA(
-      binaryStr.slice(accessIdx, accessIdx + Types.FU_DATA_WIDTH),
-      fu
+    const fu_func = parseFU_FUNC(
+      binaryStr.slice(accessIdx, accessIdx + Types.FU_FUNC_WIDTH)
     );
-    accessIdx += Types.FU_DATA_WIDTH;
+    accessIdx += Types.FU_FUNC_WIDTH;
 
-    const T_dest = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
+    const T_new = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
     accessIdx += Types.PHYS_REG_TAG_WIDTH;
 
     const T_a = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
@@ -348,7 +301,30 @@ export const parseRSData = (
     const ready_tb = binaryStr[accessIdx] === "1";
     accessIdx += 1;
 
-    // skiping packet for now (not implemented yet), use a dummy packet with all bytes set to 0
+    const has_imm = binaryStr[accessIdx] === "1";
+    accessIdx += 1;
+
+    const imm_value = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
+    accessIdx += Types.DATA_WIDTH;
+
+    // b mask is array of boolean, so we need to extract each bit
+    // const b_mask: boolean[] = [];
+    // for (let j = Constants.NUM_CHECKPOINTS - 1; j >= 0; j--) {
+    //   const b_maskAccessIdx = accessIdx + j;
+    //   b_mask.push(binaryStr[b_maskAccessIdx] === "1");
+    // }
+    // accessIdx += Constants.NUM_CHECKPOINTS;
+    // console.log(b_mask);
+    const b_mask_raw = binaryStr.slice(
+      accessIdx,
+      accessIdx + Constants.NUM_CHECKPOINTS
+    );
+    const b_mask = reverseStr(b_mask_raw);
+    accessIdx += Constants.NUM_CHECKPOINTS;
+
+    const predicted = binaryStr[accessIdx] === "1";
+    accessIdx += 1;
+
     const packet = parseID_EX_PACKET(
       binaryStr.slice(accessIdx, accessIdx + Types.ID_EX_PACKET_WIDTH)
     );
@@ -357,12 +333,84 @@ export const parseRSData = (
     result.push({
       occupied,
       fu,
-      fu_data,
-      T_dest,
+      fu_func,
+      T_new,
       T_a,
       ready_ta,
       T_b,
       ready_tb,
+      has_imm,
+      imm_value,
+      b_mask,
+      predicted,
+      packet,
+    });
+  }
+  return result;
+};
+
+export const parseRS_TO_FU_DATA_List = (
+  inputStr: string,
+  fu_type: Types.FU_TYPE
+): Types.RS_TO_FU_DATA[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+
+  const result: Types.RS_TO_FU_DATA[] = [];
+
+  const arrLen = binaryStr.length / Types.RS_TO_FU_DATA_WIDTH;
+  const entryWidth = Types.RS_TO_FU_DATA_WIDTH;
+
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+    let accessIdx = startIdx;
+
+    const T_new = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
+    accessIdx += Types.PHYS_REG_TAG_WIDTH;
+
+    const T_a = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
+    accessIdx += Types.PHYS_REG_TAG_WIDTH;
+
+    const T_b = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
+    accessIdx += Types.PHYS_REG_TAG_WIDTH;
+
+    const valid = binaryStr[accessIdx] === "1";
+    accessIdx += 1;
+
+    const fu_func = parseFU_FUNC(
+      binaryStr.slice(accessIdx, accessIdx + Types.FU_FUNC_WIDTH)
+    );
+    accessIdx += Types.FU_FUNC_WIDTH;
+
+    const has_imm = binaryStr[accessIdx] === "1";
+    accessIdx += 1;
+
+    const imm_value = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
+    accessIdx += Types.DATA_WIDTH;
+
+    const b_mask_raw = binaryStr.slice(
+      accessIdx,
+      accessIdx + Constants.NUM_CHECKPOINTS
+    );
+    const b_mask = reverseStr(b_mask_raw);
+    accessIdx += Constants.NUM_CHECKPOINTS;
+
+    const predicted = binaryStr[accessIdx] === "1";
+    accessIdx += 1;
+
+    const packet = parseID_EX_PACKET(
+      binaryStr.slice(accessIdx, accessIdx + Types.ID_EX_PACKET_WIDTH)
+    );
+
+    result.push({
+      T_new,
+      T_a,
+      T_b,
+      valid,
+      fu_func,
+      has_imm,
+      imm_value,
+      b_mask,
+      predicted,
       packet,
     });
   }
@@ -388,28 +436,28 @@ export const parseReadyBits = (inputStr: string): string[] => {
 
   const result: string[] = [];
 
-  for (let i = 0; i < binaryStr.length; i++) {
+  for (let i = binaryStr.length - 1; i >= 0; i--) {
     result.push(binaryStr[i]);
   }
 
   return result;
 };
 
-export const parseFree_PR = (inputStr: string): number[] => {
-  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+// export const parseFree_PR = (inputStr: string): number[] => {
+//   const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
 
-  // N of PHYS_REG_TAG
-  const result: number[] = [];
+//   // N of PHYS_REG_TAG
+//   const result: number[] = [];
 
-  const arrLen = Constants.N;
-  for (let i = arrLen - 1; i >= 0; i--) {
-    const startIdx = i * Types.PHYS_REG_TAG_WIDTH;
-    const tag = extractBits(binaryStr, startIdx, Types.PHYS_REG_TAG_WIDTH);
-    result.push(tag);
-  }
+//   const arrLen = Constants.N;
+//   for (let i = arrLen - 1; i >= 0; i--) {
+//     const startIdx = i * Types.PHYS_REG_TAG_WIDTH;
+//     const tag = extractBits(binaryStr, startIdx, Types.PHYS_REG_TAG_WIDTH);
+//     result.push(tag);
+//   }
 
-  return result;
-};
+//   return result;
+// };
 
 export const parseReg_Map = (inputStr: string): number[] => {
   const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
@@ -446,16 +494,15 @@ export const parseRegfile = (inputStr: string): number[] => {
 
 export const parseRegPortIdx = (
   inputStr: string,
-  numPorts: number,
-  portWidth: number = Types.PHYS_REG_TAG_WIDTH
+  numPorts: number
 ): number[] => {
   const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
 
   const result: number[] = [];
 
   for (let i = numPorts - 1; i >= 0; i--) {
-    const startIdx = i * portWidth;
-    const tag = extractBits(binaryStr, startIdx, portWidth);
+    const startIdx = i * Types.PHYS_REG_TAG_WIDTH;
+    const tag = extractBits(binaryStr, startIdx, Types.PHYS_REG_TAG_WIDTH);
     result.push(tag);
   }
 
@@ -492,4 +539,103 @@ export const parseRegPortValid = (
   }
 
   return result;
+};
+
+// branching stuff
+export const parseCHECKPOINT_DATA = (
+  inputStr: string
+): Types.CHECKPOINT_DATA => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  let accessIdx = 0;
+
+  const pc_checkpoint = extractBits(binaryStr, 0, Types.ADDR_WIDTH);
+  accessIdx += Types.ADDR_WIDTH;
+
+  const bhr_checkpoint_raw = binaryStr.slice(
+    accessIdx,
+    accessIdx + Constants.BRANCH_PRED_SZ
+  );
+  const bhr_checkpoint = reverseStr(bhr_checkpoint_raw);
+  accessIdx += Constants.BRANCH_PRED_SZ;
+
+  const rob_tail = extractBits(
+    binaryStr,
+    accessIdx,
+    clog2(Constants.ROB_SZ + Constants.N)
+  );
+  accessIdx += clog2(Constants.ROB_SZ + Constants.N);
+
+  const frizzy_checkpoint = parseFRIZZY_DATA(
+    binaryStr.slice(accessIdx, accessIdx + Types.FRIZZY_DATA_WIDTH)
+  );
+  accessIdx += Types.FRIZZY_DATA_WIDTH;
+
+  const map_checkpoint = parseReg_Map(
+    binaryStr.slice(
+      accessIdx,
+      accessIdx + Constants.AR_NUM * Types.PHYS_REG_TAG_WIDTH
+    )
+  );
+
+  return {
+    pc_checkpoint,
+    bhr_checkpoint,
+    rob_tail,
+    frizzy_checkpoint,
+    map_checkpoint,
+  };
+};
+
+export const parseFRIZZY_DATA = (inputStr: string): Types.FRIZZY_DATA => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+
+  const ready = parseReadyBits(binaryStr.slice(0, Constants.PHYS_REG_SZ_R10K));
+  const free = parseFreeList(
+    binaryStr.slice(Constants.PHYS_REG_SZ_R10K, Constants.PHYS_REG_SZ_R10K * 2)
+  );
+
+  return {
+    ready,
+    free,
+  };
+};
+
+export const parseCHECKPOINT_DATA_List = (
+  inputStr: string
+): Types.CHECKPOINT_DATA[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  const result: Types.CHECKPOINT_DATA[] = [];
+
+  const entryWidth = Types.CHECKPOINT_DATA_WIDTH;
+  const arrLen = Constants.NUM_CHECKPOINTS;
+
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+
+    const checkpoint_data = parseCHECKPOINT_DATA(
+      binaryStr.slice(startIdx, startIdx + entryWidth)
+    );
+
+    result.push(checkpoint_data);
+  }
+
+  return result;
+};
+
+export const parseToBoolArray = (inputStr: string): boolean[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+
+  const result: boolean[] = [];
+
+  for (let i = binaryStr.length - 1; i >= 0; i--) {
+    result.push(binaryStr[i] === "1");
+  }
+
+  return result;
+};
+
+export const parseBoolArrToString = (inputArr: string): string => {
+  const binaryStr = inputArr.startsWith("b") ? inputArr.slice(1) : inputArr;
+
+  return reverseStr(binaryStr);
 };

@@ -3,10 +3,11 @@ import {
   extractSignalValue,
   extractSignalValueToInt,
   parseRSData,
-  parseCDBData,
-  parseListFU_DATA,
+  parseCDBTags,
   getNumFUOut,
+  parseRS_TO_FU_DATA_List,
 } from "@/lib/utils";
+import { reverseStr } from "@/lib/tsutils";
 import * as Constants from "@/lib/constants";
 import * as Types from "@/lib/types";
 import { SignalType, SignalData, ScopeData } from "@/lib/tstypes";
@@ -14,7 +15,7 @@ import DisplayFUAvailTable from "./DisplayFUAvailTable";
 import DisplayCDBData from "./DisplayCDBData";
 import DisplayRSData from "./DisplayRSData";
 import DisplaySingleRS from "./DisplaySingleRS";
-import DisplaySingleFU_DATA from "./DisplaySingleFU_DATA";
+import DisplaySingleRS_TO_FU_DATA from "./DisplaySingleRS_TO_FU_DATA";
 
 type RSDebuggerProps = {
   className: string;
@@ -34,7 +35,7 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
   const mult_avail = extractSignalValue(signalRS, "mult_avail");
 
   const early_cdb = extractSignalValue(signalRS, "early_cdb").value;
-  const RS_early_cdb = parseCDBData(early_cdb);
+  const RS_early_cdb = parseCDBTags(early_cdb);
 
   // entries
   const entries = extractSignalValue(signalRS, "entries").value;
@@ -44,14 +45,14 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
   const mult_out = extractSignalValue(signalRS, "mult_out").value;
   const alu_out = extractSignalValue(signalRS, "alu_out").value;
   const branch_out = extractSignalValue(signalRS, "branch_out").value;
-  const RS_mult_out = parseListFU_DATA(mult_out, Types.FU_TYPE.MUL);
-  const RS_alu_out = parseListFU_DATA(alu_out, Types.FU_TYPE.ALU);
-  const RS_branch_out = parseListFU_DATA(branch_out, Types.FU_TYPE.BR);
+  const RS_mult_out = parseRS_TO_FU_DATA_List(mult_out, Types.FU_TYPE.MUL);
+  const RS_alu_out = parseRS_TO_FU_DATA_List(alu_out, Types.FU_TYPE.ALU);
+  const RS_branch_out = parseRS_TO_FU_DATA_List(branch_out, Types.FU_TYPE.BR);
 
   const open_spots = extractSignalValueToInt(signalRS, "open_spots");
 
-  const [showRSInputs, setShowRSInputs] = useState(false);
-  const [showRSOutputs, setShowRSOutputs] = useState(false);
+  const [showRSInputs, setShowRSInputs] = useState(true);
+  const [showRSOutputs, setShowRSOutputs] = useState(true);
 
   return (
     <>
@@ -87,29 +88,27 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
             <div>
               <div className="flex space-x-2">
                 <div className="justify-items-center">
-                  <p>FU Avail</p>
+                  <p className="font-semibold">FU Avail</p>
                   <DisplayFUAvailTable
                     className=""
-                    aluAvail={alu_avail.value}
-                    branchAvail={branch_avail.value}
-                    multAvail={mult_avail.value}
-                    numAlu={Constants.NUM_FU_ALU}
-                    numBranch={Constants.NUM_FU_BRANCH}
-                    numMult={Constants.NUM_FU_MULT}
+                    aluAvail={reverseStr(alu_avail.value)}
+                    branchAvail={reverseStr(branch_avail.value)}
+                    multAvail={reverseStr(mult_avail.value)}
                   />
                 </div>
                 <div className="justify-items-center">
-                  <p>Early CDB</p>
-                  <DisplayCDBData className="" CDBData={RS_early_cdb} />
+                  {/* <p>Early CDB</p> */}
+                  <DisplayCDBData
+                    className=""
+                    CDBTags={RS_early_cdb}
+                    isEarlyCDB={true}
+                  />
                 </div>
-                <div className="justify-items-center">
-                  <p>Decoded Instructions</p>
-                  <div className="flex space-x-1 bg-gray-200 shadow-lg p-2 rounded-xl">
+                <div className="justify-items-center bg-gray-300 p-2 pt-0 mt-1 rounded-lg shadow-lg">
+                  <p className="font-semibold">Decoded Instructions</p>
+                  <div className="flex space-x-1">
                     {RS_decoded_instruction.map((rs, idx) => (
-                      <div
-                        key={idx}
-                        className="items-center rounded-xl shadow-lg"
-                      >
+                      <div key={idx}>
                         <DisplaySingleRS className="" RSIdx={idx} RSData={rs} />
                       </div>
                     ))}
@@ -120,38 +119,48 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
           )}
 
           {/* display RS entries */}
-          <DisplayRSData className="pt-2" RSData={RS_entries} />
+          <DisplayRSData
+            className=""
+            RSData={RS_entries}
+            EarlyCDB={RS_early_cdb}
+          />
 
           {/* display outputs */}
           {showRSOutputs && (
-            <div className="mt-4 justify-items-center">
-              <div className="flex space-x-4">
-                {/* MULT */}
+            <div className="mt-2 justify-items-center">
+              <div className="flex space-x-4 bg-gray-300 rounded-lg p-2 pt-1 shadow-lg">
+                {/* ALU */}
                 <div className="justify-items-center">
-                  <p># MULT OUT: {getNumFUOut(RS_mult_out)}</p>
-                  <div className="flex space-x-2">
-                    {RS_mult_out.map((fu_data, idx) => (
+                  <p className="font-semibold">
+                    # ALU OUT: {getNumFUOut(RS_alu_out)}
+                  </p>
+                  <div className="flex space-x-1">
+                    {RS_alu_out.map((fu_data, idx) => (
                       <div key={idx}>
-                        <DisplaySingleFU_DATA
+                        <DisplaySingleRS_TO_FU_DATA
                           className=""
                           FUIdx={idx}
-                          FUData={fu_data}
+                          RS_TO_FUData={fu_data}
+                          fu_type={Types.FU_TYPE.ALU}
                         />
                       </div>
                     ))}
                   </div>
                 </div>
 
-                {/* ALU */}
+                {/* MULT */}
                 <div className="justify-items-center">
-                  <p># ALU OUT: {getNumFUOut(RS_alu_out)}</p>
-                  <div className="flex space-x-2">
-                    {RS_alu_out.map((fu_data, idx) => (
+                  <p className="font-semibold">
+                    # MULT OUT: {getNumFUOut(RS_mult_out)}
+                  </p>
+                  <div className="flex space-x-1">
+                    {RS_mult_out.map((fu_data, idx) => (
                       <div key={idx}>
-                        <DisplaySingleFU_DATA
+                        <DisplaySingleRS_TO_FU_DATA
                           className=""
                           FUIdx={idx}
-                          FUData={fu_data}
+                          RS_TO_FUData={fu_data}
+                          fu_type={Types.FU_TYPE.MUL}
                         />
                       </div>
                     ))}
@@ -160,14 +169,17 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
 
                 {/* BRANCH */}
                 <div className="justify-items-center">
-                  <p># BR OUT: {getNumFUOut(RS_branch_out)}</p>
-                  <div className="flex space-x-2">
+                  <p className="font-semibold">
+                    # BR OUT: {getNumFUOut(RS_branch_out)}
+                  </p>
+                  <div className="flex space-x-1">
                     {RS_branch_out.map((fu_data, idx) => (
                       <div key={idx}>
-                        <DisplaySingleFU_DATA
+                        <DisplaySingleRS_TO_FU_DATA
                           className=""
                           FUIdx={idx}
-                          FUData={fu_data}
+                          RS_TO_FUData={fu_data}
+                          fu_type={Types.FU_TYPE.BR}
                         />
                       </div>
                     ))}

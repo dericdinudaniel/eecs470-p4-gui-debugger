@@ -7,16 +7,18 @@ type DisplaySingleRSProps = {
   className: string;
   RSIdx: number;
   RSData: Types.RS_DATA;
+  EarlyCDB?: Types.PHYS_REG_TAG[];
 };
 
 const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
   className,
   RSIdx,
   RSData,
+  EarlyCDB,
 }) => {
   return (
-    <div className={`${className}  hover:shadow-2xl transition-shadow`}>
-      <div className="overflow-hidden rounded-lg border ROB-border-color">
+    <div className={`${className}`}>
+      <div className="overflow-hidden rounded-lg hover:shadow-2xl transition-shadow border ROB-border-color">
         <table
           className={`w-full border-collapse ${
             RSData.occupied ? "bg-green-200" : "bg-red-200"
@@ -40,21 +42,22 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
           <tbody>
             <tr>
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
-                Occupied:
-              </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color w-16">
-                {RSData.occupied ? "Yes" : "No"}
-              </td>
-            </tr>
-            <tr>
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
-                T:
+                T_new:
               </td>
               <td className="text-xs p-1 text-center border-t ROB-border-color">
-                {displayValue(RSData.T_dest)}
+                {displayValue(RSData.T_new)}
               </td>
             </tr>
-            <tr>
+            <tr
+              className={`${
+                RSData.occupied &&
+                !Number.isNaN(RSData.T_a) &&
+                RSData.T_a != 0 &&
+                EarlyCDB?.includes(RSData.T_a)
+                  ? "bg-green-500"
+                  : ""
+              }`}
+            >
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
                 T_a:
               </td>
@@ -63,7 +66,16 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
                 {RSData.ready_ta ? "+" : " "}
               </td>
             </tr>
-            <tr>
+            <tr
+              className={`${
+                RSData.occupied &&
+                !Number.isNaN(RSData.T_b) &&
+                RSData.T_b != 0 &&
+                EarlyCDB?.includes(RSData.T_b)
+                  ? "bg-green-500"
+                  : ""
+              }`}
+            >
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
                 T_b:
               </td>
@@ -72,6 +84,42 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
                 {RSData.ready_tb ? "+" : " "}
               </td>
             </tr>
+            <tr
+              className={`${
+                Number.isNaN(RSData.imm_value) && RSData.has_imm
+                  ? "bg-red-500"
+                  : !RSData.has_imm && RSData.occupied
+                  ? "bg-gray-200"
+                  : ""
+              }`}
+            >
+              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+                Imm:
+              </td>
+              <td className="text-xs p-1 text-center border-t ROB-border-color">
+                {displayValue(RSData.imm_value)}
+              </td>
+            </tr>
+
+            {/* EBR */}
+            <tr>
+              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+                BMASK:
+              </td>
+              <td className="text-xs p-1 text-center border-t ROB-border-color">
+                {RSData.b_mask}
+              </td>
+            </tr>
+            <tr>
+              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+                Predicted:
+              </td>
+              <td className="text-xs p-1 text-center border-t ROB-border-color">
+                {RSData.predicted ? "T" : "NT"}
+              </td>
+            </tr>
+
+            {/* func data */}
             <tr>
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
                 FU Type:
@@ -80,42 +128,24 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
                 {Types.getFUTypeName(RSData.fu)}
               </td>
             </tr>
-
-            {/* func data */}
-            <tr>
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
-                rs1:
-              </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color">
-                {RSData.fu_data.data.rs1}
-              </td>
-            </tr>
-            <tr>
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
-                rs2:
-              </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color">
-                {RSData.fu_data.data.rs2}
-              </td>
-            </tr>
             <tr>
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
                 func:
               </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color">
+              <td className="text-xs p-1 text-center border-t ROB-border-color w-16">
                 {(() => {
                   switch (RSData.fu) {
                     case Types.FU_TYPE.ALU:
                       return Types.getALUFuncName(
-                        RSData.fu_data.data.func as Types.ALU_FUNC
+                        RSData.fu_func as Types.ALU_FUNC
                       );
                     case Types.FU_TYPE.MUL:
                       return Types.getMULFuncName(
-                        RSData.fu_data.data.func as Types.MULT_FUNC
+                        RSData.fu_func as Types.MULT_FUNC
                       );
                     case Types.FU_TYPE.BR:
                       return Types.getBRFuncName(
-                        RSData.fu_data.data.func as Types.BRANCH_FUNC
+                        RSData.fu_func as Types.BRANCH_FUNC
                       );
                     default:
                       return "XXX";
