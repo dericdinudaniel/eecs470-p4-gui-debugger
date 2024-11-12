@@ -17,7 +17,11 @@ module.exports = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       fontFamily: {
-        jetbrains_mono: ["var(--font-jetbrains_mono)", ...fontFamily.mono],
+        jetbrains_mono: [
+          "var(--font-jetbrains_mono)",
+          ...fontFamily.mono,
+          "monospace",
+        ],
       },
       borderRadius: {
         lg: "var(--radius)",

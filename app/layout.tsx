@@ -1,7 +1,5 @@
 import "./globals.css";
-import { Inter, JetBrains_Mono } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import { JetBrains_Mono } from "next/font/google";
 
 export const metadata = {
   title: "Create Next App",
@@ -21,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} ${jetbrains_mono.variable}`}>
+      <body className={`${jetbrains_mono.variable}`}>
         <main>{children}</main>
       </body>
     </html>
