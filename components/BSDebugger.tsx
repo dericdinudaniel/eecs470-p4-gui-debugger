@@ -34,11 +34,13 @@ const DisplaySingleCheckpoint: React.FC<{
       ? valid
         ? "bg-green-200"
         : "bg-red-200"
-      : "bg-gray-100";
+      : "bg-gray-200";
 
   return (
     <div className={`${className}`}>
-      <div className={`p-2 pb-0 rounded-xl ${backgroundColor}`}>
+      <div
+        className={`p-2 pb-0 rounded-lg border ROB-border-color ${backgroundColor}`}
+      >
         {idx !== undefined && (
           <h2 className="text-xl font-semibold text-center">Stack #{idx}</h2>
         )}
@@ -51,7 +53,7 @@ const DisplaySingleCheckpoint: React.FC<{
           {/* Toggle Button */}
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600 text-xs h-7 ml-2"
+            className="bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600 text-xs h-10 ml-2"
           >
             {isCollapsed ? "Show Checkpoint" : "Hide Checkpoint"}
           </button>

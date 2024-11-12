@@ -80,7 +80,7 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
           {showROBInputs && (
             <div className="flex space-x-4 mb-2">
               <div className="justify-items-center">
-                <p>Dispatched Instructions</p>
+                <p className="font-semibold">Dispatched Instructions</p>
                 <DisplayROBData
                   className=""
                   ROBData={ROB_dispatched_ins}

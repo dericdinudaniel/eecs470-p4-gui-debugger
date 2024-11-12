@@ -17,8 +17,8 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
   fu_type,
 }) => {
   return (
-    <div className={`${className}  hover:shadow-2xl transition-shadow`}>
-      <div className="overflow-hidden rounded-lg border ROB-border-color">
+    <div className={`${className}`}>
+      <div className="overflow-hidden rounded-lg hover:shadow-2xl transition-shadow border ROB-border-color">
         <table
           className={`w-full border-collapse ${
             FUData.valid ? "bg-green-200" : "bg-red-200"

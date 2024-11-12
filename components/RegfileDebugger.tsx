@@ -115,7 +115,7 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
               <>
                 {/* read ports */}
                 <div className="justify-items-center">
-                  <h2 className="text-lg font-semibold">Read Ports</h2>
+                  <h2 className="text-md font-semibold">Read Ports</h2>
                   <DisplayRegPorts
                     numPorts={READ_PORTS}
                     ports_idx={Reg_read_idx}
@@ -125,7 +125,7 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
 
                 {/* write ports */}
                 <div className="justify-items-center">
-                  <h2 className="text-lg font-semibold">Write Ports</h2>
+                  <h2 className="text-md font-semibold">Write Ports</h2>
                   <DisplayRegPorts
                     numPorts={WRITE_PORTS}
                     ports_idx={Reg_write_idx}
