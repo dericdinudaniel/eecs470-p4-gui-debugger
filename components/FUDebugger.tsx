@@ -62,7 +62,16 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
             />
 
             <div className="ml-4">
-              <div>
+              <div
+                className={`${
+                  b_mask_mask_status ==
+                  Types.BRANCH_PREDICT_T.CORRECTLY_PREDICTED
+                    ? "bg-green-300"
+                    : b_mask_mask_status == Types.BRANCH_PREDICT_T.MISPREDICTED
+                    ? "bg-red-300"
+                    : ""
+                }`}
+              >
                 <span className="font-bold">Branch Resolve Status: </span>
                 {Types.getBranchPredictName(b_mask_mask_status)}
               </div>

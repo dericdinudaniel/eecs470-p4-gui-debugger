@@ -91,9 +91,11 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
   const branch_mask_in = parseBoolArrToString(
     extractSignalValue(signalBS, "branch_mask_in").value
   );
-  const prediction = Types.getBranchPredictName(
-    extractSignalValueToInt(signalBS, "prediction") as Types.BRANCH_PREDICT_T
-  );
+  const prediction = extractSignalValueToInt(
+    signalBS,
+    "prediction"
+  ) as Types.BRANCH_PREDICT_T;
+
   const dispatch_valid = Boolean(
     extractSignalValueToInt(signalBS, "dispatch_valid")
   );
@@ -166,9 +168,17 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
                       <span className="font-bold">BMASK in: </span>
                       {branch_mask_in}
                     </div>
-                    <div>
+                    <div
+                      className={`${
+                        prediction == Types.BRANCH_PREDICT_T.CORRECTLY_PREDICTED
+                          ? "bg-green-300"
+                          : prediction == Types.BRANCH_PREDICT_T.MISPREDICTED
+                          ? "bg-red-300"
+                          : ""
+                      }`}
+                    >
                       <span className="font-bold">Prediction: </span>
-                      {prediction}
+                      {Types.getBranchPredictName(prediction)}
                     </div>
                     <div>
                       <span className="font-bold">T_old: </span>
