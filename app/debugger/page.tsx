@@ -177,21 +177,23 @@ export default function Debugger() {
                           .children.DUT_rob
                       }
                     />
-                    <RegfileDebugger
+                  </div>
+                  <div>
+                    <FNAFDebugger
                       className="m-4"
+                      signalFNAF={
+                        signalData?.signals.children.testbench.children.DUT_ooo
+                          .children.DUT_freddy
+                      }
+                    />
+                    <RegfileDebugger
+                      className="mt-4"
                       signalRegfile={
                         signalData?.signals.children.testbench.children.DUT_ooo
                           .children.DUT_regfile
                       }
                     />
                   </div>
-                  <FNAFDebugger
-                    className="m-4"
-                    signalFNAF={
-                      signalData?.signals.children.testbench.children.DUT_ooo
-                        .children.DUT_freddy
-                    }
-                  />
                   <div className="justify-items-center">
                     <RSDebugger
                       className="m-4"

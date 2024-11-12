@@ -23,7 +23,7 @@ const DisplayFrizzyList: React.FC<DisplayFrizzyListProps> = ({
 
   return (
     <>
-      <div className={`inline-flex flex-col items-center ${className}`}>
+      <div className={`flex-col justify-items-center ${className}`}>
         <h2 className="text-lg font-semibold">Free + Ready List</h2>
         <div className="flex space-x-1">
           {freeListChunks.map((freeChunk, chunkIdx) => (
@@ -64,20 +64,6 @@ const DisplayFrizzyList: React.FC<DisplayFrizzyListProps> = ({
                             </span>
                           </div>
                         </td>
-                        {/* <td
-                          className={`text-center text-sm border-l border-t ROB-border-color ${
-                            free == "1" ? "bg-green-200" : "bg-red-200"
-                          }`}
-                        >
-                          {free}
-                        </td> */}
-                        {/* <td
-                          className={`text-center text-sm border-l border-t ROB-border-color ${
-                            ready == "1" ? "bg-green-200" : "bg-red-200"
-                          }`}
-                        >
-                          {ready}
-                        </td> */}
                       </tr>
                     );
                   })}

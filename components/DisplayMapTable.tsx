@@ -16,7 +16,7 @@ const DisplayMapTable: React.FC<DisplayMapTableProps> = ({
   const mapTableChunks = chunkArray(mapTable, chunkSize);
 
   return (
-    <div className={`inline-flex flex-col items-center ${className}`}>
+    <div className={`justify-items-center ${className}`}>
       <h2 className="text-lg font-semibold">Map Table</h2>
       <div className="flex space-x-1">
         {mapTableChunks.map((chunk, chunkIdx) => (

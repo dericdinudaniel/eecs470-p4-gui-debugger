@@ -98,17 +98,17 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
   return (
     <>
       <div
-        className={`${className} inline-flex flex-col items-center bg-gray-200 rounded-lg p-3`}
+        className={`${className} inline-flex flex-col items-center bg-gray-500/[.15] rounded-lg p-3 shadow-lg`}
       >
         <div className="justify-items-center">
           <h2 className="text-lg font-semibold">Physical Registers</h2>
           <button
-            className="bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600  text-xs mb-2"
+            className="bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600  text-xs mb-0"
             onClick={() => setShowRegfilePorts(!showRegfilePorts)}
           >
             {showRegfilePorts ? "Hide Regfile Ports" : "Show Regfile Ports"}
           </button>
-          <div className="flex space-x-2 pb-2">
+          <div className="flex space-x-2 mb-2">
             {showRegfilePorts && (
               <>
                 {/* read ports */}
@@ -156,7 +156,7 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
                       const value = regChunk[idx];
 
                       return (
-                        <tr key={globalIdx} className="bg-gray-100">
+                        <tr key={globalIdx} className="bg-gray-200">
                           <td className="text-center text-sm border-t ROB-border-color font-semibold">
                             {prNumber}:
                           </td>

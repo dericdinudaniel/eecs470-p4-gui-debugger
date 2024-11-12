@@ -27,8 +27,8 @@ const FNAFDebugger: React.FC<FNAFDebuggerProps> = ({
 
   return (
     <>
-      <div className="p-4 inline-flex flex-row">
-        <div className="space-x-4 bg-gray-200 p-3 rounded-xl shadow-lg">
+      <div className="bg-gray-500/[.15] p-4 pt-3 pb-1 rounded-lg shadow-lg mt-4 justify-items-center">
+        <div className="flex space-x-3 rounded-xl">
           <DisplayFrizzyList
             className=""
             freeList={FNAF_free_list}
