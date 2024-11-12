@@ -184,7 +184,7 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
                   <DisplayCDBData
                     className=""
                     CDBTags={BS_cdb}
-                    isEarlyCDB={false}
+                    isEarlyCDB={true}
                   />
                 </div>
                 <DisplaySingleCheckpoint
