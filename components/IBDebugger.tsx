@@ -1,0 +1,117 @@
+import React, { useState } from "react";
+import { ScopeData } from "@/lib/tstypes";
+import {
+  extractSignalValue,
+  parseID_EX_PACKET_List,
+  parseBoolArrToBoolArray,
+  extractSignalValueToInt,
+} from "@/lib/utils";
+import DisplayInstList from "./DisplayInstList";
+import { Toggle } from "./ui/toggle";
+import { ChevronUpIcon, ChevronDownIcon } from "lucide-react";
+
+type IBDebuggerProps = {
+  className: string;
+  signalIB: ScopeData;
+};
+
+const IBDebugger: React.FC<IBDebuggerProps> = ({ className, signalIB }) => {
+  // buffer
+  const buffer = extractSignalValue(signalIB, "buffer").value;
+  const IB_buffer = parseID_EX_PACKET_List(buffer);
+
+  const valid = extractSignalValue(signalIB, "valid").value;
+  const IB_valid = parseBoolArrToBoolArray(valid);
+
+  const head = extractSignalValueToInt(signalIB, "head");
+  const tail = extractSignalValueToInt(signalIB, "tail");
+
+  // inputs
+  const num_dispatched = extractSignalValueToInt(signalIB, "num_dispatched");
+  const num_fetched = extractSignalValueToInt(signalIB, "num_fetched");
+
+  const input_id_ex_packet = extractSignalValue(
+    signalIB,
+    "input_id_ex_packet"
+  ).value;
+  const IB_input_id_ex_packet = parseID_EX_PACKET_List(input_id_ex_packet);
+
+  // outputs
+  const output_id_ex_packet = extractSignalValue(
+    signalIB,
+    "output_id_ex_packet"
+  ).value;
+  const IB_output_id_ex_packet = parseID_EX_PACKET_List(output_id_ex_packet);
+
+  const [showIBInputs, setShowIBInputs] = useState(false);
+
+  return (
+    <>
+      <div className={`${className}`}>
+        <div className="bg-gray-500/[.15] rounded-lg shadow-lg p-2 inline-flex flex-col items-center">
+          <div className="flex items-center mb-2">
+            <h2 className="text-xl font-semibold">Inst Buffer</h2>
+            {/* small button to enable IBInputs, show only down or up arrow */}
+            <Toggle
+              pressed={showIBInputs}
+              onPressedChange={() => setShowIBInputs(!showIBInputs)}
+              className="ml-2"
+            >
+              {showIBInputs ? (
+                <ChevronUpIcon className="h-5 w-5" />
+              ) : (
+                <ChevronDownIcon className="h-5 w-5" />
+              )}
+            </Toggle>
+          </div>
+          <div className="justify-items-center space-y-2">
+            {/* inputs */}
+            {showIBInputs && (
+              <div>
+                <div className="text-sm">
+                  <span className="font-semibold">Num Dispatched: </span>
+                  {num_dispatched}
+                </div>
+                <div className="text-sm">
+                  <span className="font-semibold">Num Fetched: </span>
+                  {num_fetched}
+                </div>
+              </div>
+            )}
+            <div>
+              <DisplayInstList
+                className=""
+                instList={IB_input_id_ex_packet}
+                head={-1}
+                tail={-1}
+                isIB={false}
+              />
+            </div>
+
+            {/* actual buffer */}
+            <DisplayInstList
+              className=""
+              instList={IB_buffer}
+              head={head}
+              tail={tail}
+              isIB={true}
+            />
+
+            {/* outputs */}
+            <div>
+              <DisplayInstList
+                className=""
+                instList={IB_output_id_ex_packet}
+                head={-1}
+                tail={-1}
+                isIB={false}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default IBDebugger;

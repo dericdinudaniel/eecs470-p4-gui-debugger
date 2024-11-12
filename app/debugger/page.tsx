@@ -15,6 +15,7 @@ import ShadDebuggerHeader from "@/components/ShadDebuggerHeader";
 import DisplaySingleSignal from "@/components/DisplaySingleSignal";
 import BSDebugger from "@/components/BSDebugger";
 import FUDebugger from "@/components/FUDebugger";
+import IBDebugger from "@/components/IBDebugger";
 
 export default function Debugger() {
   const [currentCycle, setCurrentCycle] = useState(0);
@@ -145,8 +146,9 @@ export default function Debugger() {
     2
   );
 
-  const DUT_ooo =
-    signalData?.signals.children.testbench.children.mustafa.children.ooo_core;
+  const testbench = signalData?.signals.children.testbench;
+  const cpu = testbench?.children.mustafa;
+  const DUT_ooo = cpu?.children.ooo_core;
 
   return (
     <div className="min-h-screen bg-white">
@@ -172,6 +174,10 @@ export default function Debugger() {
             <>
               <div className="">
                 <div className="flex">
+                  <IBDebugger
+                    className="m-4"
+                    signalIB={cpu.children.instr_buffer}
+                  />
                   <div className="justify-items-center">
                     <ROBDebugger
                       className="m-4"
