@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SignalType, SignalData, ScopeData } from "@/lib/tstypes";
+import { ScopeData } from "@/lib/tstypes";
 import {
   extractSignalValue,
   extractSignalValueToInt,
@@ -13,7 +13,6 @@ import * as Types from "@/lib/types";
 import DisplayFrizzyList from "./DisplayFrizzyList";
 import DisplayMapTable from "./DisplayMapTable";
 import DisplayCDBData from "./DisplayCDBData";
-import { parse } from "path";
 
 interface BSDebuggerProps {
   className: string;
@@ -202,7 +201,7 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
             <div className="mt-2 grid grid-cols-2 gap-x-2 gap-y-2">
               {BS_branch_stacks.map((cp, idx) => {
                 return (
-                  <div key={idx}>
+                  <div key={idx} className="m-4">
                     <DisplaySingleCheckpoint
                       className=""
                       checkpoint={cp}

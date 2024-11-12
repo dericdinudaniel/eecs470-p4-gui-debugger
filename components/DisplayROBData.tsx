@@ -40,11 +40,11 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
               <th className="text-sm border-l ROB-border-color px-2 py-1">
                 Valid
               </th>
+              <th className="text-sm border-l ROB-border-color px-2 py-1">
+                Ret?
+              </th>
               {isROB && (
                 <>
-                  <th className="text-sm border-l ROB-border-color px-2 py-1">
-                    Ret?
-                  </th>
                   <th className="text-sm border-l ROB-border-color px-2 py-1">
                     H/T
                   </th>
@@ -104,11 +104,11 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
                   <td className="text-center text-sm border-l border-t ROB-border-color">
                     {displayValue(entry.valid ? "1" : "0")}
                   </td>
+                  <td className="text-center text-sm border-l border-t ROB-border-color">
+                    {displayValue(entry.retireable ? "1" : "0")}
+                  </td>
                   {isROB && (
                     <>
-                      <td className="text-center text-sm border-l border-t ROB-border-color">
-                        {displayValue(entry.retireable ? "1" : "0")}
-                      </td>
                       <td className="text-center text-sm border-l border-t ROB-border-color">
                         <div className="w-14">
                           {isEither && headOrTailString}
