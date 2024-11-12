@@ -13,6 +13,7 @@ import * as Types from "@/lib/types";
 import DisplayFrizzyList from "./DisplayFrizzyList";
 import DisplayMapTable from "./DisplayMapTable";
 import DisplayCDBData from "./DisplayCDBData";
+import { parse } from "path";
 
 interface BSDebuggerProps {
   className: string;
@@ -76,9 +77,13 @@ const DisplaySingleCheckpoint: React.FC<{
 };
 
 const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
-  // branch stacks
+  // branch stacks / internals
   const branch_stacks = extractSignalValue(signalBS, "branch_stacks").value;
   const BS_branch_stacks = parseCHECKPOINT_DATA_List(branch_stacks);
+
+  const bmask_current = parseBoolArrToString(
+    extractSignalValue(signalBS, "bmask_current").value
+  );
 
   // inputs
   const branch_mask_in = parseBoolArrToString(
@@ -124,7 +129,13 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
         <div className="bg-gray-500/[.15] rounded-lg shadow-lg p-4 inline-flex flex-col items-center">
           {/* HEADER */}
           <div className="flex items-center">
-            <h2 className="text-xl font-semibold">Branch Stacks</h2>
+            <div>
+              <h2 className="text-xl font-semibold">Branch Stacks</h2>
+              <div>
+                <span className="font-semibold">BMask Current: </span>
+                {bmask_current}
+              </div>
+            </div>
 
             {/* Toggle buttons */}
             <div className="pl-3 space-x-2">

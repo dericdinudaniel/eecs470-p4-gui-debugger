@@ -101,13 +101,15 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
         className={`${className} inline-flex flex-col items-center bg-gray-500/[.15] rounded-lg p-3 shadow-lg`}
       >
         <div className="justify-items-center">
-          <h2 className="text-lg font-semibold">Physical Registers</h2>
-          <button
-            className="bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600  text-xs mb-0"
-            onClick={() => setShowRegfilePorts(!showRegfilePorts)}
-          >
-            {showRegfilePorts ? "Hide Regfile Ports" : "Show Regfile Ports"}
-          </button>
+          <div className="flex items-center">
+            <h2 className="text-lg font-semibold">Physical Registers</h2>
+            <button
+              className="ml-4 bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600  text-xs mb-0"
+              onClick={() => setShowRegfilePorts(!showRegfilePorts)}
+            >
+              {showRegfilePorts ? "Hide Regfile Ports" : "Show Regfile Ports"}
+            </button>
+          </div>
           <div className="flex space-x-2 mb-2">
             {showRegfilePorts && (
               <>

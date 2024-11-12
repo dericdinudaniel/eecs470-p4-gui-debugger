@@ -177,6 +177,13 @@ export default function Debugger() {
                           .children.DUT_rob
                       }
                     />
+                    <BSDebugger
+                      className="m-4"
+                      signalBS={
+                        signalData?.signals.children.testbench.children.DUT_ooo
+                          .children.DUT_branch_stack
+                      }
+                    />
                   </div>
                   <div>
                     <FNAFDebugger
