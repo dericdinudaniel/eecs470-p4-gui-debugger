@@ -1,6 +1,6 @@
 import React from "react";
 import * as Types from "@/lib/types";
-import { displayValue } from "@/lib/utils";
+import { displayValue, displayValueHex } from "@/lib/utils";
 import { parseInstruction } from "@/lib/tsutils";
 
 type DisplaySingleRSProps = {
@@ -97,7 +97,7 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
                 Imm:
               </td>
               <td className="text-xs p-1 text-center border-t ROB-border-color">
-                {displayValue(RSData.imm_value)}
+                {displayValueHex(RSData.imm_value)}
               </td>
             </tr>
 

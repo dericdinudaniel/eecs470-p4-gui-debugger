@@ -1,6 +1,6 @@
 import React from "react";
 import * as Types from "@/lib/types";
-import { displayValue } from "@/lib/utils";
+import { displayValue, displayValueHex } from "@/lib/utils";
 import { parseInstruction } from "@/lib/tsutils";
 
 type DisplaySingleFU_DATAProps = {
@@ -61,7 +61,7 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
                 rs1:
               </td>
               <td className="text-xs p-1 text-center border-t ROB-border-color">
-                {displayValue(FUData.rs1)}
+                {displayValueHex(FUData.rs1)}
               </td>
             </tr>
             <tr>
@@ -69,7 +69,7 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
                 rs2:
               </td>
               <td className="text-xs p-1 text-center border-t ROB-border-color">
-                {displayValue(FUData.rs2)}
+                {displayValueHex(FUData.rs2)}
               </td>
             </tr>
 

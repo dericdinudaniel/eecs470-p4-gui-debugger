@@ -7,6 +7,7 @@ import {
   parseRegPortIdx,
   parseRegPortValid,
   displayValue,
+  displayValueHex,
 } from "@/lib/utils";
 import { ScopeData } from "@/lib/tstypes";
 import { chunkArray } from "@/lib/tsutils";
@@ -55,7 +56,7 @@ const DisplayRegPorts: React.FC<{
                   {displayValue(idx)}
                 </td>
                 <td className="text-center text-sm border-l border-t ROB-border-color">
-                  {displayValue(ports_data[port])}
+                  {displayValueHex(ports_data[port])}
                 </td>
               </tr>
             );
@@ -163,7 +164,7 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
                             {prNumber}:
                           </td>
                           <td className="text-center text-sm border-t border-l ROB-border-color">
-                            {Number.isNaN(value) ? "XX" : value}
+                            {displayValueHex(value)}
                           </td>
                         </tr>
                       );

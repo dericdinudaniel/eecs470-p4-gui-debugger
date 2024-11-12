@@ -1,6 +1,6 @@
 import React from "react";
 import * as Types from "@/lib/types";
-import { displayValue } from "@/lib/utils";
+import { displayValue, displayValueHex } from "@/lib/utils";
 import { parseInstruction } from "@/lib/tsutils";
 
 type DisplaySingleRS_TO_FU_DATAProps = {
@@ -77,7 +77,7 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
                 Imm:
               </td>
               <td className="text-xs p-1 text-center border-t ROB-border-color">
-                {displayValue(RS_TO_FUData.imm_value)}
+                {displayValueHex(RS_TO_FUData.imm_value)}
               </td>
             </tr>
 

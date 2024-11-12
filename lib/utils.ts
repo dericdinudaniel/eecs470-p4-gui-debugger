@@ -56,6 +56,8 @@ const extractBits = (
 };
 
 export const displayValue = (value: any) => (isNaN(value) ? "XX" : value);
+export const displayValueHex = (value: any) =>
+  isNaN(value) ? "XX" : value.toString(16);
 
 ////// ROB
 export const parseROBData = (
