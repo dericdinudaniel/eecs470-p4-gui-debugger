@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_caching import Cache
 from flask_cors import CORS
 from pyDigitalWaveTools.vcd.parser import VcdParser
-from parsing import full_parse
+from parsing import full_parse, after_parse_endpoint
 from pprint import pprint
 
 import logging
@@ -39,20 +39,12 @@ def parse_vcd_content():
         vcd = VcdParser()
         vcd.parse_str(vcd_content)
         
-        # Extract clock data and count cycles
-        try:
-            clock = vcd.scope.children["testbench"].children["clock"].data
-            num_clocks = len(clock)
-            num_cycles = int((len(clock) - 1) / 2)
-            print(len(clock))
-        except KeyError:
-            return jsonify({"error": "Could not find clock data in the VCD content"}), 400
-        
-        full_parse(cache, vcd.scope, num_clocks, num_cycles)
+        num_clocks, num_cycles, time = after_parse_endpoint(vcd, cache)
         
         header_data = {
             "num_clock": num_clocks,
             "num_cycles": num_cycles,
+            "time" : time
         }
         return jsonify(header_data)
 
@@ -79,20 +71,12 @@ def parse_localvcd_content():
             vcd = VcdParser()
             vcd.parse(vcd_file)
             
-            # Extract clock data and count cycles
-            try:
-                clock = vcd.scope.children["testbench"].children["clock"].data
-                num_clocks = len(clock)
-                num_cycles = int((len(clock) - 1) / 2)
-                print(len(clock))
-            except KeyError:
-                return jsonify({"error": "Could not find clock data in the VCD content"}), 400
-            
-            full_parse(cache, vcd.scope, num_clocks, num_cycles)
-            
+            num_clocks, num_cycles, time = after_parse_endpoint(vcd, cache)
+        
             header_data = {
                 "num_clock": num_clocks,
                 "num_cycles": num_cycles,
+                "time" : time
             }
             return jsonify(header_data)
 
