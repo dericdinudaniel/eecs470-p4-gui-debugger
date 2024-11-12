@@ -34,7 +34,7 @@ const DisplayFrizzyList: React.FC<DisplayFrizzyListProps> = ({
               <table className="border-collapse">
                 <thead>
                   <tr className="bg-slate-300">
-                    <th className="text-sm p-2">PR #</th>
+                    <th className="text-sm p-1">PR #</th>
                     {/* <th className="text-sm border-l ROB-border-color p-2">
                       Free
                     </th> */}
@@ -57,7 +57,7 @@ const DisplayFrizzyList: React.FC<DisplayFrizzyListProps> = ({
                             free === "1" ? "bg-green-200" : "bg-gray-200"
                           }`}
                         >
-                          <div className="flex  px-3 space-x-1">
+                          <div className="flex px-3 space-x-1">
                             <span className="w-4">{prNumber}</span>
                             <span className={"flex items-center"}>
                               {readyBits[globalIdx] === "1" ? "+" : "\u00A0"}

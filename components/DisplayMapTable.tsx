@@ -27,8 +27,8 @@ const DisplayMapTable: React.FC<DisplayMapTableProps> = ({
             <table className="border-collapse">
               <thead>
                 <tr className="bg-slate-300">
-                  <th className="text-sm p-2">AR#</th>
-                  <th className="text-sm border-l ROB-border-color p-2">PR#</th>
+                  <th className="text-sm p-1">AR#</th>
+                  <th className="text-sm border-l ROB-border-color p-1">PR#</th>
                 </tr>
               </thead>
               <tbody>

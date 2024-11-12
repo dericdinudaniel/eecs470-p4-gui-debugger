@@ -33,9 +33,9 @@ const DisplayRegPorts: React.FC<{
       <table className="border-collapse">
         <thead>
           <tr className="bg-slate-300">
-            <th className="text-sm p-2">Port #</th>
-            <th className="text-sm border-l ROB-border-color p-2">Idx</th>
-            <th className="text-sm border-l ROB-border-color p-2">Data</th>
+            <th className="text-sm p-1">Port #</th>
+            <th className="text-sm border-l ROB-border-color p-1">Idx</th>
+            <th className="text-sm border-l ROB-border-color p-1">Data</th>
           </tr>
         </thead>
         <tbody>
@@ -145,8 +145,8 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
                 <table>
                   <thead>
                     <tr className="bg-slate-300">
-                      <th className="text-sm p-2">PR #</th>
-                      <th className="text-sm p-2 border-l ROB-border-color">
+                      <th className="text-sm p-1">PR #</th>
+                      <th className="text-sm p-1 border-l ROB-border-color">
                         Value
                       </th>
                     </tr>
