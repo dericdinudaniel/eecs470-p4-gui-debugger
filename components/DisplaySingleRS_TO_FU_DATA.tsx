@@ -90,14 +90,6 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
                 {RS_TO_FUData.b_mask}
               </td>
             </tr>
-            <tr>
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
-                Predicted:
-              </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color">
-                {RS_TO_FUData.predicted ? "T" : "NT"}
-              </td>
-            </tr>
 
             {/* func data */}
             <tr>

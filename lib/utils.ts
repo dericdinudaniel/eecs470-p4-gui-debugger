@@ -93,6 +93,12 @@ export const parseROBData = (
     const retireable = binaryStr[accessIdx] === "1";
     accessIdx += 1;
 
+    const halt = binaryStr[accessIdx] === "1";
+    accessIdx += 1;
+
+    const NPC = extractBits(binaryStr, accessIdx, Types.ADDR_WIDTH);
+    accessIdx += Types.ADDR_WIDTH;
+
     const packet = parseID_EX_PACKET(
       binaryStr.slice(accessIdx, accessIdx + Types.ID_EX_PACKET_WIDTH)
     );
@@ -104,6 +110,8 @@ export const parseROBData = (
       R_dest,
       valid,
       retireable,
+      halt,
+      NPC,
       packet,
     });
   }
@@ -311,9 +319,6 @@ export const parseFU_DATA = (
   const b_mask = reverseStr(b_mask_raw);
   accessIdx += Constants.NUM_CHECKPOINTS;
 
-  const predicted = binaryStr[accessIdx] === "1";
-  accessIdx += 1;
-
   return {
     T_new,
     rs1,
@@ -321,7 +326,6 @@ export const parseFU_DATA = (
     valid,
     fu_func,
     b_mask,
-    predicted,
   };
 };
 
@@ -434,9 +438,6 @@ export const parseRSData = (
     const b_mask = reverseStr(b_mask_raw);
     accessIdx += Constants.NUM_CHECKPOINTS;
 
-    const predicted = binaryStr[accessIdx] === "1";
-    accessIdx += 1;
-
     const packet = parseID_EX_PACKET(
       binaryStr.slice(accessIdx, accessIdx + Types.ID_EX_PACKET_WIDTH)
     );
@@ -454,7 +455,6 @@ export const parseRSData = (
       has_imm,
       imm_value,
       b_mask,
-      predicted,
       packet,
     });
   }
@@ -506,9 +506,6 @@ export const parseRS_TO_FU_DATA_List = (
     const b_mask = reverseStr(b_mask_raw);
     accessIdx += Constants.NUM_CHECKPOINTS;
 
-    const predicted = binaryStr[accessIdx] === "1";
-    accessIdx += 1;
-
     const packet = parseID_EX_PACKET(
       binaryStr.slice(accessIdx, accessIdx + Types.ID_EX_PACKET_WIDTH)
     );
@@ -522,7 +519,6 @@ export const parseRS_TO_FU_DATA_List = (
       has_imm,
       imm_value,
       b_mask,
-      predicted,
       packet,
     });
   }

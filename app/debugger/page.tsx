@@ -145,6 +145,9 @@ export default function Debugger() {
     2
   );
 
+  const DUT_ooo =
+    signalData?.signals.children.testbench.children.mustafa.children.ooo_core;
+
   return (
     <div className="min-h-screen bg-white">
       <ShadDebuggerHeader
@@ -172,49 +175,31 @@ export default function Debugger() {
                   <div className="justify-items-center">
                     <ROBDebugger
                       className="m-4"
-                      signalData={
-                        signalData?.signals.children.testbench.children.DUT_ooo
-                          .children.DUT_rob
-                      }
+                      signalData={DUT_ooo.children.DUT_rob}
                     />
                     <BSDebugger
                       className="m-4"
-                      signalBS={
-                        signalData?.signals.children.testbench.children.DUT_ooo
-                          .children.DUT_branch_stack
-                      }
+                      signalBS={DUT_ooo.children.DUT_branch_stack}
                     />
                   </div>
                   <div>
                     <FNAFDebugger
                       className="m-4"
-                      signalFNAF={
-                        signalData?.signals.children.testbench.children.DUT_ooo
-                          .children.DUT_freddy
-                      }
+                      signalFNAF={DUT_ooo.children.DUT_freddy}
                     />
                     <RegfileDebugger
                       className="mt-4"
-                      signalRegfile={
-                        signalData?.signals.children.testbench.children.DUT_ooo
-                          .children.DUT_regfile
-                      }
+                      signalRegfile={DUT_ooo.children.DUT_regfile}
                     />
                   </div>
                   <div className="justify-items-center">
                     <RSDebugger
                       className="m-4"
-                      signalRS={
-                        signalData?.signals.children.testbench.children.DUT_ooo
-                          .children.DUT_rs
-                      }
+                      signalRS={DUT_ooo.children.DUT_rs}
                     />
                     <FUDebugger
                       className="m-4"
-                      signalFU={
-                        signalData?.signals.children.testbench.children.DUT_ooo
-                          .children.DUT_fu
-                      }
+                      signalFU={DUT_ooo.children.DUT_fu}
                     />
                   </div>
                 </div>

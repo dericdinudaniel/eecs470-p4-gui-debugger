@@ -298,7 +298,6 @@ export type FU_DATA = {
   valid: boolean;
   fu_func: FU_FUNC;
   b_mask: string;
-  predicted: boolean;
 };
 export const FU_DATA_WIDTH =
   PHYS_REG_TAG_WIDTH + // T_new
@@ -306,8 +305,7 @@ export const FU_DATA_WIDTH =
   DATA_WIDTH + // rs2
   1 + // valid
   FU_FUNC_WIDTH + // fu_func
-  Constants.NUM_CHECKPOINTS + // b_mask
-  1; // predicted
+  Constants.NUM_CHECKPOINTS; // b_mask
 
 // Enum for operation types
 export enum FU_TYPE {
@@ -328,10 +326,12 @@ export interface ROB_DATA {
   R_dest: REG_IDX;
   valid: boolean;
   retireable: boolean;
+  halt: boolean;
+  NPC: ADDR;
   packet: ID_EX_PACKET;
 }
 export const ROB_DATA_WIDTH =
-  2 * PHYS_REG_TAG_WIDTH + REG_IDX_WIDTH + 2 + ID_EX_PACKET_WIDTH;
+  2 * PHYS_REG_TAG_WIDTH + REG_IDX_WIDTH + 3 + ADDR_WIDTH + ID_EX_PACKET_WIDTH;
 
 // RS Data packet
 export type RS_DATA = {
@@ -346,7 +346,6 @@ export type RS_DATA = {
   has_imm: boolean;
   imm_value: DATA;
   b_mask: string;
-  predicted: boolean;
   packet: ID_EX_PACKET;
 };
 export const RS_DATA_WIDTH =
@@ -360,7 +359,6 @@ export const RS_DATA_WIDTH =
   1 + // has_imm
   DATA_WIDTH + // imm_value
   Constants.NUM_CHECKPOINTS + // b_mask
-  1 + // predicted
   ID_EX_PACKET_WIDTH; // packet
 
 // ready and free list. boolean for each physical register
@@ -397,7 +395,6 @@ export type RS_TO_FU_DATA = {
   has_imm: boolean;
   imm_value: DATA;
   b_mask: string;
-  predicted: boolean;
   packet: ID_EX_PACKET;
 };
 export const RS_TO_FU_DATA_WIDTH =
@@ -407,7 +404,6 @@ export const RS_TO_FU_DATA_WIDTH =
   1 + // has_imm
   DATA_WIDTH + // imm_value
   Constants.NUM_CHECKPOINTS + // b_mask
-  1 + // predicted
   ID_EX_PACKET_WIDTH; // packet
 
 export enum BRANCH_PREDICT_T {

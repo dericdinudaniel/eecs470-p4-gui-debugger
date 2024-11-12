@@ -11,6 +11,7 @@ import {
 } from "@/lib/utils";
 import DisplaySingleFU_DATA from "./DisplaySingleFU_DATA";
 import DisplayCDBData from "./DisplayCDBData";
+import { reverseStr } from "@/lib/tsutils";
 
 type FUDebuggerProps = {
   className: string;
@@ -39,6 +40,19 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
 
   const cdb_values = extractSignalValue(signalFU, "cdb_values").value;
   const FU_cdb_values = parseCDBValues(cdb_values);
+
+  // update later
+  const branch_results_out = extractSignalValue(
+    signalFU,
+    "branch_results_out"
+  ).value;
+  let FU_branch_results_out = branch_results_out.startsWith("b")
+    ? branch_results_out.slice(1)
+    : branch_results_out;
+  FU_branch_results_out = reverseStr(FU_branch_results_out);
+
+  let b_mask = extractSignalValue(signalFU, "b_mask").value.slice(1);
+  b_mask = reverseStr(b_mask);
 
   const [showFUInputs, setShowFUInputs] = useState(true);
   return (
@@ -136,6 +150,8 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
                         </div>
                       ))}
                     </div>
+                    <div>branch_results_out: {FU_branch_results_out}</div>
+                    <div>b_mask: {b_mask}</div>
                   </div>
                 </div>
               </div>

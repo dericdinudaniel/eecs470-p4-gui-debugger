@@ -82,14 +82,6 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
                 {FUData.b_mask}
               </td>
             </tr>
-            <tr>
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
-                Predicted:
-              </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color">
-                {FUData.predicted ? "T" : "NT"}
-              </td>
-            </tr>
 
             {/* func data */}
             <tr>

@@ -110,14 +110,6 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
                 {RSData.b_mask}
               </td>
             </tr>
-            <tr>
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
-                Predicted:
-              </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color">
-                {RSData.predicted ? "T" : "NT"}
-              </td>
-            </tr>
 
             {/* func data */}
             <tr>
