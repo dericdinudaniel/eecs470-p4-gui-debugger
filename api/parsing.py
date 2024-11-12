@@ -21,7 +21,7 @@ import logging
 # structure will be the exact same, but data will be a single value instead of a list of values
 
 discard_terms = {"unnamed"}
-def full_parse(cache, root_scope, num_clocks):
+def full_parse(cache, root_scope, num_clocks, num_cycles):
     def process_scope(scope, timestamp):
         result = {"name": scope.name}
         if hasattr(scope, 'children'):

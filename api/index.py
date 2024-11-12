@@ -48,7 +48,7 @@ def parse_vcd_content():
         except KeyError:
             return jsonify({"error": "Could not find clock data in the VCD content"}), 400
         
-        full_parse(cache, vcd.scope, num_clocks)
+        full_parse(cache, vcd.scope, num_clocks, num_cycles)
         
         header_data = {
             "num_clock": num_clocks,
