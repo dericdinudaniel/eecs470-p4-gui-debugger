@@ -142,30 +142,142 @@ export const parseCDBValues = (cdb: string): Types.DATA[] => {
   return result;
 };
 
+// export const parseID_EX_PACKET_OLD = (
+//   packetStr: string
+// ): Types.ID_EX_PACKET => {
+//   const binaryStr = packetStr.startsWith("b") ? packetStr.slice(1) : packetStr;
+//   return {
+//     inst: {
+//       inst: parseInt(binaryStr, 2),
+//       itype: "r",
+//     },
+//     PC: 0,
+//     NPC: 0,
+//     rs1_value: 0,
+//     rs2_value: 0,
+//     opa_select: Types.ALU_OPA_SELECT.OPA_IS_RS1,
+//     opb_select: Types.ALU_OPB_SELECT.OPB_IS_RS2,
+//     dest_reg_idx: 0,
+//     alu_func: Types.ALU_FUNC.ALU_ADD,
+//     mult: false,
+//     rd_mem: false,
+//     wr_mem: false,
+//     cond_branch: false,
+//     uncond_branch: false,
+//     halt: false,
+//     illegal: false,
+//     csr_op: false,
+//     valid: false,
+//   };
+// };
+
 export const parseID_EX_PACKET = (packetStr: string): Types.ID_EX_PACKET => {
-  return {
-    inst: {
-      inst: parseInt(packetStr, 2),
-      itype: "r",
-    },
-    PC: 0,
-    NPC: 0,
-    rs1_value: 0,
-    rs2_value: 0,
-    opa_select: Types.ALU_OPA_SELECT.OPA_IS_RS1,
-    opb_select: Types.ALU_OPB_SELECT.OPB_IS_RS2,
-    dest_reg_idx: 0,
-    alu_func: Types.ALU_FUNC.ALU_ADD,
-    mult: false,
-    rd_mem: false,
-    wr_mem: false,
-    cond_branch: false,
-    uncond_branch: false,
-    halt: false,
-    illegal: false,
-    csr_op: false,
-    valid: false,
+  const binaryStr = packetStr.startsWith("b") ? packetStr.slice(1) : packetStr;
+  let accessIdx = 0;
+
+  const inst = {
+    inst: extractBits(binaryStr, accessIdx, Types.INST_WIDTH),
+    itype: "r",
   };
+  accessIdx += Types.INST_WIDTH;
+
+  const PC = extractBits(binaryStr, accessIdx, Types.ADDR_WIDTH);
+  accessIdx += Types.ADDR_WIDTH;
+
+  const NPC = extractBits(binaryStr, accessIdx, Types.ADDR_WIDTH);
+  accessIdx += Types.ADDR_WIDTH;
+
+  const rs1_value = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
+  accessIdx += Types.DATA_WIDTH;
+
+  const rs2_value = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
+  accessIdx += Types.DATA_WIDTH;
+
+  const opa_select = extractBits(
+    binaryStr,
+    accessIdx,
+    Types.ALU_OPA_SELECT_WIDTH
+  ) as Types.ALU_OPA_SELECT;
+  accessIdx += Types.ALU_OPA_SELECT_WIDTH;
+
+  const opb_select = extractBits(
+    binaryStr,
+    accessIdx,
+    Types.ALU_OPB_SELECT_WIDTH
+  ) as Types.ALU_OPB_SELECT;
+  accessIdx += Types.ALU_OPB_SELECT_WIDTH;
+
+  const dest_reg_idx = extractBits(
+    binaryStr,
+    accessIdx,
+    Types.REG_IDX_WIDTH
+  ) as Types.REG_IDX;
+  accessIdx += Types.REG_IDX_WIDTH;
+
+  const alu_func = extractBits(
+    binaryStr,
+    accessIdx,
+    Types.ALU_FUNC_WIDTH
+  ) as Types.ALU_FUNC;
+  accessIdx += Types.ALU_FUNC_WIDTH;
+
+  const mult = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+  const rd_mem = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+  const wr_mem = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+  const cond_branch = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+  const uncond_branch = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+  const halt = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+  const illegal = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+  const csr_op = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+  const valid = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  return {
+    inst,
+    PC,
+    NPC,
+    rs1_value,
+    rs2_value,
+    opa_select,
+    opb_select,
+    dest_reg_idx,
+    alu_func,
+    mult,
+    rd_mem,
+    wr_mem,
+    cond_branch,
+    uncond_branch,
+    halt,
+    illegal,
+    csr_op,
+    valid,
+  };
+};
+
+export const parseID_EX_PACKET_List = (
+  inputStr: string
+): Types.ID_EX_PACKET[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  const result: Types.ID_EX_PACKET[] = [];
+  const entryWidth = Types.ID_EX_PACKET_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
+
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+    const packet = parseID_EX_PACKET(
+      binaryStr.slice(startIdx, startIdx + entryWidth)
+    );
+    result.push(packet);
+  }
+  return result;
 };
 
 export const parseFU_DATA = (
@@ -618,24 +730,19 @@ export const parseCHECKPOINT_DATA_List = (
 
     result.push(checkpoint_data);
   }
-
   return result;
 };
 
-export const parseToBoolArray = (inputStr: string): boolean[] => {
+export const parseBoolArrToBoolArray = (inputStr: string): boolean[] => {
   const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
-
   const result: boolean[] = [];
-
   for (let i = binaryStr.length - 1; i >= 0; i--) {
     result.push(binaryStr[i] === "1");
   }
-
   return result;
 };
 
 export const parseBoolArrToString = (inputArr: string): string => {
   const binaryStr = inputArr.startsWith("b") ? inputArr.slice(1) : inputArr;
-
   return reverseStr(binaryStr);
 };

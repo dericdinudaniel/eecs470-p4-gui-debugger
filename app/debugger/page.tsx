@@ -169,7 +169,7 @@ export default function Debugger() {
             <>
               <div className="">
                 <div className="flex">
-                  <div>
+                  <div className="justify-items-center">
                     <ROBDebugger
                       className="m-4"
                       signalData={

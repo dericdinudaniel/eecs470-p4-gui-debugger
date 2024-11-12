@@ -32,7 +32,11 @@ const DisplayCDBData: React.FC<DisplayCDBDataProps> = ({
             <tbody>
               {CDBTags.map((tag, idx) => {
                 const displayTag = Number.isNaN(tag) ? "XX" : tag;
-                const displayVal = CDBData ? CDBData[idx] : "XX";
+                const displayVal = CDBData
+                  ? Number.isNaN(CDBData[idx])
+                    ? "XX"
+                    : CDBData[idx]
+                  : "XX";
 
                 const color =
                   Number.isNaN(tag) || tag == 0 ? "bg-red-200" : "bg-green-200";

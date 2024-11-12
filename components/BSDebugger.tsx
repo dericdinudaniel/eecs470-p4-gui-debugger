@@ -42,7 +42,7 @@ const DisplaySingleCheckpoint: React.FC<{
         className={`p-2 pb-0 rounded-lg border ROB-border-color ${backgroundColor}`}
       >
         {idx !== undefined && (
-          <h2 className="text-xl font-semibold text-center">Stack #{idx}</h2>
+          <h2 className="text-md font-semibold text-center">Stack #{idx}</h2>
         )}
         <div className="flex items-center">
           <div>
