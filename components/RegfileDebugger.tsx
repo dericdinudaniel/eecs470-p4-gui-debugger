@@ -146,7 +146,7 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
                 <table>
                   <thead>
                     <tr className="bg-slate-300">
-                      <th className="text-sm p-1">PR #</th>
+                      <th className="text-sm p-1">#</th>
                       <th className="text-sm p-1 border-l ROB-border-color w-20">
                         Value
                       </th>
