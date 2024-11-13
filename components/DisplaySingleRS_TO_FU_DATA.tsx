@@ -32,7 +32,7 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
             </tr>
             <tr>
               <td
-                className="text-xs p-1 border-t ROB-border-color text-center font-semibold"
+                className="text-xs p-1 border-t ROB-border-color text-center font-semibold w-40"
                 colSpan={2}
               >
                 {parseInstruction(RS_TO_FUData.packet.inst.inst)}
@@ -76,7 +76,7 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
                 Imm:
               </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color">
+              <td className="text-xs p-1 text-center border-t ROB-border-color w-20">
                 {displayValueHex(RS_TO_FUData.imm_value)}
               </td>
             </tr>

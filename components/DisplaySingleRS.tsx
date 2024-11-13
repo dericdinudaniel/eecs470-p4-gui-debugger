@@ -32,7 +32,7 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
             </tr>
             <tr>
               <td
-                className="text-xs p-1 border-t ROB-border-color text-center font-semibold"
+                className="text-xs p-1 border-t ROB-border-color text-center font-semibold w-40"
                 colSpan={2}
               >
                 {parseInstruction(RSData.packet.inst.inst)}

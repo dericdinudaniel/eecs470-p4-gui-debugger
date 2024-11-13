@@ -60,7 +60,7 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
                 rs1:
               </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color">
+              <td className="text-xs p-1 text-center border-t ROB-border-color w-20">
                 {displayValueHex(FUData.rs1)}
               </td>
             </tr>
@@ -68,7 +68,7 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
               <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
                 rs2:
               </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color">
+              <td className="text-xs p-1 text-center border-t ROB-border-color w-20">
                 {displayValueHex(FUData.rs2)}
               </td>
             </tr>

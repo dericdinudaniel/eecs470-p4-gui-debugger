@@ -1,4 +1,5 @@
 import * as Types from "@/lib/types";
+import { displayValueHex } from "@/lib/utils";
 
 type DisplayCDBDataProps = {
   className: string;
@@ -23,7 +24,7 @@ const DisplayCDBData: React.FC<DisplayCDBDataProps> = ({
               <tr>
                 <th className="text-sm p-1 bg-slate-300">Tag</th>
                 {CDBData && (
-                  <th className="text-sm p-1 bg-slate-300 border-l ROB-border-color">
+                  <th className="text-sm p-1 bg-slate-300 border-l ROB-border-color w-20">
                     Data
                   </th>
                 )}
@@ -35,7 +36,7 @@ const DisplayCDBData: React.FC<DisplayCDBDataProps> = ({
                 const displayVal = CDBData
                   ? Number.isNaN(CDBData[idx])
                     ? "XX"
-                    : CDBData[idx]
+                    : displayValueHex(CDBData[idx])
                   : "XX";
 
                 const color =

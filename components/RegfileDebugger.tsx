@@ -36,7 +36,7 @@ const DisplayRegPorts: React.FC<{
           <tr className="bg-slate-300">
             <th className="text-sm p-1">Port #</th>
             <th className="text-sm border-l ROB-border-color p-1">Idx</th>
-            <th className="text-sm border-l ROB-border-color p-1">Data</th>
+            <th className="text-sm border-l ROB-border-color p-1 w-20">Data</th>
           </tr>
         </thead>
         <tbody>
@@ -147,7 +147,7 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
                   <thead>
                     <tr className="bg-slate-300">
                       <th className="text-sm p-1">PR #</th>
-                      <th className="text-sm p-1 border-l ROB-border-color">
+                      <th className="text-sm p-1 border-l ROB-border-color w-20">
                         Value
                       </th>
                     </tr>

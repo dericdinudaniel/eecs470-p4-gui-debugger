@@ -54,7 +54,7 @@ const DisplaySingleCheckpoint: React.FC<{
             onClick={() => setIsCollapsed(!isCollapsed)}
             className="bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600 text-xs h-10 ml-2"
           >
-            {isCollapsed ? "Show Checkpoint" : "Hide Checkpoint"}
+            {isCollapsed ? "Show ChckPt" : "Hide ChckPt"}
           </button>
         </div>
 
@@ -201,7 +201,7 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
             <div className="mt-2 grid grid-cols-2 gap-x-2 gap-y-2">
               {BS_branch_stacks.map((cp, idx) => {
                 return (
-                  <div key={idx} className="m-4">
+                  <div key={idx} className="">
                     <DisplaySingleCheckpoint
                       className=""
                       checkpoint={cp}

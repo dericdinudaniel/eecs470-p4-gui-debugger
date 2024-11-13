@@ -36,7 +36,7 @@ def after_parse_endpoint(parser, cache):
 # for every cycle, this will store into the cache the signals at that cycle, maintaining the hierarchy
 # structure will be the exact same, but data will be a single value instead of a list of values
 
-discard_terms = {"unnamed", "genblk"}
+discard_terms = {"unnamed", "genblk", ".psel", "tmp"}
 def full_parse(cache, root_scope, num_clocks):
     def process_scope(scope, timestamp):
         result = {"name": scope.name}
