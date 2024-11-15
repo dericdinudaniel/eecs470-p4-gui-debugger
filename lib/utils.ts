@@ -55,7 +55,7 @@ const extractBits = (
   return parseInt(bitsSlice, 2);
 };
 
-export const displayValue = (value: number) => (isNaN(value) ? "XX" : value);
+export const displayValue = (value: any) => (isNaN(value) ? "XX" : value);
 export const displayValueHex = (value: number) =>
   isNaN(value) ? "XX" : value.toString(16);
 

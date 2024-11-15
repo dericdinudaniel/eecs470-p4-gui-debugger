@@ -27,7 +27,7 @@ const Switch = React.forwardRef<
 Switch.displayName = SwitchPrimitives.Root.displayName;
 export { Switch };
 
-const NegEdgeSwitch = React.forwardRef<
+const DestructiveSwitch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
   React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
 >(({ className, ...props }, ref) => (
@@ -46,5 +46,5 @@ const NegEdgeSwitch = React.forwardRef<
     />
   </SwitchPrimitives.Root>
 ));
-NegEdgeSwitch.displayName = SwitchPrimitives.Root.displayName;
-export { NegEdgeSwitch };
+DestructiveSwitch.displayName = SwitchPrimitives.Root.displayName;
+export { DestructiveSwitch };

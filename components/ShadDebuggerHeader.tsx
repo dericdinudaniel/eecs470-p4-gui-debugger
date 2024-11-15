@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { NegEdgeSwitch } from "@/components/ui/switch";
+import { DestructiveSwitch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 
@@ -153,7 +153,7 @@ export default function DebuggerHeader({
             >
               Include Negedges (t)
             </Label>
-            <NegEdgeSwitch
+            <DestructiveSwitch
               id="include-negedges"
               checked={includeNegativeEdges}
               onCheckedChange={setIncludeNegativeEdges}
