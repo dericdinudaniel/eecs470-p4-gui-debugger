@@ -6,11 +6,9 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import DebuggerOutput from "@/components/DebuggerOutput";
 import ROBDebugger from "@/components/ROBDebugger";
-import DebuggerHeader from "@/components/DebuggerHeader";
 import RSDebugger from "@/components/RSDebugger";
 import FNAFDebugger from "@/components/FNAFDebugger";
 import RegfileDebugger from "@/components/RegfileDebugger";
-import { extractSignalValueToInt } from "@/lib/utils";
 import ShadDebuggerHeader from "@/components/ShadDebuggerHeader";
 import DisplaySingleSignal from "@/components/DisplaySingleSignal";
 import BSDebugger from "@/components/BSDebugger";
@@ -211,10 +209,6 @@ export default function Debugger() {
                   </div>
                 </div>
               </div>
-              {/* <BSDebugger
-                className="m-4"
-                signalBS={signalData?.signals.children.testbench.children.DUT}
-              /> */}
               <DisplaySingleSignal
                 className=""
                 signalData={signalData?.signals.children.testbench.children}
