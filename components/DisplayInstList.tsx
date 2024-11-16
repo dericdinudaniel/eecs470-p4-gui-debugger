@@ -1,6 +1,7 @@
 import React from "react";
 import { parseInstruction } from "@/lib/tsutils";
 import * as Types from "@/lib/types";
+import { displayValueHex } from "@/lib/utils";
 
 type DisplayInstListProps = {
   className: string;
@@ -27,6 +28,9 @@ const DisplayInstList: React.FC<DisplayInstListProps> = ({
             <thead>
               <tr className="bg-slate-300">
                 <th className="text-sm px-4">#</th>
+                <th className="text-sm border-l ROB-border-color px-2 py-1">
+                  PC
+                </th>
                 <th className="text-sm border-l ROB-border-color px-2 py-1">
                   <div className="w-36">Inst</div>
                 </th>
@@ -74,6 +78,9 @@ const DisplayInstList: React.FC<DisplayInstListProps> = ({
                   <tr key={idx} className={color}>
                     <td className="text-right text-sm border-t ROB-border-color font-semibold">
                       {entryNumber}
+                    </td>
+                    <td className="text-center text-sm border-l border-t ROB-border-color font-semibold w-10">
+                      {displayValueHex(entry.PC)}
                     </td>
                     <td className="text-center text-sm border-l border-t ROB-border-color font-semibold">
                       {parseInstruction(entry.inst.inst)}
