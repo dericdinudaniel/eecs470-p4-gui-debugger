@@ -137,7 +137,7 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
 
           {/* display ROB entries */}
           <DisplayROBData
-            className="pt-2"
+            className="py-2"
             ROBData={ROB_entries}
             head={head}
             tail={tail}
