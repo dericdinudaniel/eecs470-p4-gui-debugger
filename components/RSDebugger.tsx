@@ -60,11 +60,10 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
         <div className="bg-gray-500/[.15] rounded-lg shadow-lg p-4 inline-flex flex-col items-center">
           {/* header */}
           <div className="flex items-center">
-            <h2 className="text-xl font-semibold">
-              RS (size = {Constants.RS_SZ})
-            </h2>
+            <h2 className="text-xl font-semibold">RS</h2>
             <p className="pl-3">
-              Open Spots: {Number.isNaN(open_spots) ? "X" : open_spots}
+              <span className="font-semibold">(Open Spots: </span>
+              {Number.isNaN(open_spots) ? "X" : open_spots})
             </p>
             {/* Toggle buttons */}
             <div className="pl-3 space-x-2">

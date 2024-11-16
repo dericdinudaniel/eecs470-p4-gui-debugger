@@ -9,6 +9,7 @@ import {
 import DisplayInstList from "./DisplayInstList";
 import { Toggle } from "./ui/toggle";
 import { ChevronUpIcon, ChevronDownIcon } from "lucide-react";
+import { reverseStr } from "@/lib/tsutils";
 
 type IBDebuggerProps = {
   className: string;
@@ -25,7 +26,7 @@ const IBDebugger: React.FC<IBDebuggerProps> = ({
   const buffer = extractSignalValue(signalIB, "buffer").value;
   const IB_buffer = parseID_EX_PACKET_List(buffer);
 
-  const valid = extractSignalValue(signalIB, "valid").value;
+  const valid = reverseStr(extractSignalValue(signalIB, "valid").value);
   const IB_valid = parseBoolArrToBoolArray(valid);
 
   const head = extractSignalValueToInt(signalIB, "head");
@@ -51,7 +52,7 @@ const IBDebugger: React.FC<IBDebuggerProps> = ({
   const if_id_reg = extractSignalValue(signalCPU, "if_id_reg").value;
   const CPU_if_id_reg = parseID_EX_PACKET_List(if_id_reg);
 
-  const [showIBInputs, setShowIBInputs] = useState(false);
+  const [showIBInputs, setShowIBInputs] = useState(true);
 
   return (
     <>
@@ -76,12 +77,12 @@ const IBDebugger: React.FC<IBDebuggerProps> = ({
             {/* inputs */}
             {showIBInputs && (
               <div>
-                <div className="text-sm">
-                  <span className="font-semibold">Num Dispatched: </span>
+                <div className="text-md">
+                  <span className="font-semibold"># Dispatched: </span>
                   {num_dispatched}
                 </div>
-                <div className="text-sm">
-                  <span className="font-semibold">Num Fetched: </span>
+                <div className="text-md">
+                  <span className="font-semibold"># Fetched: </span>
                   {num_fetched}
                 </div>
               </div>
@@ -100,13 +101,15 @@ const IBDebugger: React.FC<IBDebuggerProps> = ({
             <DisplayInstList
               className=""
               instList={IB_buffer}
+              validList={IB_valid}
               head={head}
               tail={tail}
               isIB={true}
             />
 
             {/* outputs */}
-            <div>
+            <div className="justify-items-center font-semibold">
+              <p>Dispatched</p>
               <DisplayInstList
                 className=""
                 instList={CPU_if_id_reg}

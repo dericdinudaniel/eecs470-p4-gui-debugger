@@ -5,6 +5,7 @@ import * as Types from "@/lib/types";
 type DisplayInstListProps = {
   className: string;
   instList: Types.ID_EX_PACKET[];
+  validList?: boolean[];
   head: number;
   tail: number;
   isIB: boolean;
@@ -13,6 +14,7 @@ type DisplayInstListProps = {
 const DisplayInstList: React.FC<DisplayInstListProps> = ({
   className,
   instList,
+  validList,
   head,
   tail,
   isIB,
@@ -60,7 +62,7 @@ const DisplayInstList: React.FC<DisplayInstListProps> = ({
                   color = "bg-red-200";
                 } else if (!isIB) {
                   color = entry.valid ? "bg-green-200" : "bg-red-200";
-                } else if (entry.valid && isIB) {
+                } else if (validList != undefined && validList[idx] && isIB) {
                   color = "bg-yellow-100";
                 }
 
