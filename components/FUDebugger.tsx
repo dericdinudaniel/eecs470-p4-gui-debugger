@@ -51,8 +51,9 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
     : branch_results_out;
   FU_branch_results_out = reverseStr(FU_branch_results_out);
 
-  let b_mask = extractSignalValue(signalFU, "b_mask").value.slice(1);
-  b_mask = reverseStr(b_mask);
+  const b_mask = parseBoolArrToString(
+    extractSignalValue(signalFU, "b_mask").value
+  );
 
   const [showFUInputs, setShowFUInputs] = useState(true);
   return (

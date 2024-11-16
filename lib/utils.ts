@@ -314,11 +314,10 @@ export const parseFU_DATA = (
   );
   accessIdx += Types.FU_FUNC_WIDTH;
 
-  const b_mask_raw = binaryStr.slice(
+  const b_mask = binaryStr.slice(
     accessIdx,
     accessIdx + Constants.NUM_CHECKPOINTS
   );
-  const b_mask = reverseStr(b_mask_raw);
   accessIdx += Constants.NUM_CHECKPOINTS;
 
   return {
@@ -433,11 +432,10 @@ export const parseRSData = (
     // }
     // accessIdx += Constants.NUM_CHECKPOINTS;
     // console.log(b_mask);
-    const b_mask_raw = binaryStr.slice(
+    const b_mask = binaryStr.slice(
       accessIdx,
       accessIdx + Constants.NUM_CHECKPOINTS
     );
-    const b_mask = reverseStr(b_mask_raw);
     accessIdx += Constants.NUM_CHECKPOINTS;
 
     const packet = parseID_EX_PACKET(
@@ -501,11 +499,10 @@ export const parseRS_TO_FU_DATA_List = (
     const imm_value = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
     accessIdx += Types.DATA_WIDTH;
 
-    const b_mask_raw = binaryStr.slice(
+    const b_mask = binaryStr.slice(
       accessIdx,
       accessIdx + Constants.NUM_CHECKPOINTS
     );
-    const b_mask = reverseStr(b_mask_raw);
     accessIdx += Constants.NUM_CHECKPOINTS;
 
     const packet = parseID_EX_PACKET(
@@ -734,7 +731,7 @@ export const parseCHECKPOINT_DATA_List = (
 export const parseBoolArrToBoolArray = (inputStr: string): boolean[] => {
   const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
   const result: boolean[] = [];
-  for (let i = binaryStr.length - 1; i >= 0; i--) {
+  for (let i = 0; i < binaryStr.length; i++) {
     result.push(binaryStr[i] === "1");
   }
   return result;
@@ -742,5 +739,5 @@ export const parseBoolArrToBoolArray = (inputStr: string): boolean[] => {
 
 export const parseBoolArrToString = (inputArr: string): string => {
   const binaryStr = inputArr.startsWith("b") ? inputArr.slice(1) : inputArr;
-  return reverseStr(binaryStr);
+  return binaryStr;
 };
