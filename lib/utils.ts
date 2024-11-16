@@ -142,7 +142,7 @@ export const parseCDBValues = (cdb: string): Types.DATA[] => {
   const entryWidth = Types.DATA_WIDTH;
   const arrLen = binaryStr.length / entryWidth;
 
-  for (let i = arrLen; i >= 0; i--) {
+  for (let i = arrLen - 1; i >= 0; i--) {
     const startIdx = i * entryWidth;
     const data = extractBits(binaryStr, startIdx, Types.DATA_WIDTH);
     result.push(data);
