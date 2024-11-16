@@ -3,57 +3,14 @@
 @tailwind utilities;
 
 @layer base {
+  * {
+    @apply font-jetbrains_mono;
+  }
+
   body {
     @apply antialiased;
   }
 
-  div {
-    @apply font-jetbrains_mono;
-  }
-
-  h1 {
-    @apply font-jetbrains_mono;
-  }
-
-  h2 {
-    @apply font-jetbrains_mono;
-  }
-
-  h3 {
-    @apply font-jetbrains_mono;
-  }
-
-  p {
-    @apply font-jetbrains_mono;
-  }
-
-  span {
-    @apply font-jetbrains_mono;
-  }
-
-  a {
-    @apply font-jetbrains_mono;
-  }
-
-  input {
-    @apply font-jetbrains_mono;
-  }
-
-  textarea {
-    @apply font-jetbrains_mono;
-  }
-
-  button {
-    @apply font-jetbrains_mono;
-  }
-
-  label {
-    @apply font-jetbrains_mono;
-  }
-
-  select {
-    @apply font-jetbrains_mono;
-  }
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
