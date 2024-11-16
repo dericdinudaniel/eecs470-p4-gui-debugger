@@ -4,7 +4,7 @@
 
 @layer base {
   * {
-    @apply font-jetbrains_mono;
+    @apply font-jetbrains_mono text-foreground;
   }
 
   body {
@@ -78,7 +78,7 @@
 }
 
 @layer components {
-  .ROB-border-color {
+  .table-border-color {
     @apply border-gray-800;
   }
 }

@@ -23,19 +23,19 @@ const DisplayInstList: React.FC<DisplayInstListProps> = ({
   return (
     <>
       <div className={`${className}`}>
-        <div className="overflow-hidden rounded-lg border ROB-border-color">
+        <div className="overflow-hidden rounded-lg border table-border-color">
           <table className="border-collapse">
             <thead>
               <tr className="bg-slate-300">
                 <th className="text-sm px-4">#</th>
-                <th className="text-sm border-l ROB-border-color px-2 py-1">
+                <th className="text-sm border-l table-border-color px-2 py-1">
                   PC
                 </th>
-                <th className="text-sm border-l ROB-border-color px-2 py-1">
+                <th className="text-sm border-l table-border-color px-2 py-1">
                   <div className="w-36">Inst</div>
                 </th>
                 {isIB && (
-                  <th className="text-sm border-l ROB-border-color px-2 py-1">
+                  <th className="text-sm border-l table-border-color px-2 py-1">
                     H/T
                   </th>
                 )}
@@ -76,17 +76,17 @@ const DisplayInstList: React.FC<DisplayInstListProps> = ({
 
                 return (
                   <tr key={idx} className={color}>
-                    <td className="text-right text-sm border-t ROB-border-color font-semibold">
+                    <td className="text-right text-sm border-t table-border-color font-semibold">
                       {entryNumber}
                     </td>
-                    <td className="text-center text-sm border-l border-t ROB-border-color font-semibold w-10">
+                    <td className="text-center text-sm border-l border-t table-border-color font-semibold w-10">
                       {displayValueHex(entry.PC)}
                     </td>
-                    <td className="text-center text-sm border-l border-t ROB-border-color font-semibold">
+                    <td className="text-center text-sm border-l border-t table-border-color font-semibold">
                       {parseInstruction(entry.inst.inst)}
                     </td>
                     {isIB && (
-                      <td className="text-center text-sm border-l border-t ROB-border-color">
+                      <td className="text-center text-sm border-l border-t table-border-color">
                         <div className="w-14">
                           {isEither && headOrTailString}
                         </div>

@@ -20,32 +20,32 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
 }) => {
   return (
     <div className={className}>
-      <div className="overflow-hidden rounded-lg border ROB-border-color">
+      <div className="overflow-hidden rounded-lg border table-border-color">
         <table className="border-collapse">
           <thead>
             <tr className="bg-slate-300">
               <th className="text-sm px-4">#</th>
-              <th className="text-sm border-l ROB-border-color px-2 py-1">
+              <th className="text-sm border-l table-border-color px-2 py-1">
                 <div className="w-36">Inst</div>
               </th>
-              <th className="text-sm border-l ROB-border-color px-2 py-1">
+              <th className="text-sm border-l table-border-color px-2 py-1">
                 R_dest
               </th>
-              <th className="text-sm border-l ROB-border-color px-2 py-1">
+              <th className="text-sm border-l table-border-color px-2 py-1">
                 T_new
               </th>
-              <th className="text-sm border-l ROB-border-color px-2 py-1">
+              <th className="text-sm border-l table-border-color px-2 py-1">
                 T_old
               </th>
-              <th className="text-sm border-l ROB-border-color px-2 py-1">
+              <th className="text-sm border-l table-border-color px-2 py-1">
                 Valid
               </th>
-              <th className="text-sm border-l ROB-border-color px-2 py-1">
+              <th className="text-sm border-l table-border-color px-2 py-1">
                 Ret?
               </th>
               {isROB && (
                 <>
-                  <th className="text-sm border-l ROB-border-color px-2 py-1">
+                  <th className="text-sm border-l table-border-color px-2 py-1">
                     H/T
                   </th>
                 </>
@@ -86,30 +86,30 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
 
               return (
                 <tr key={idx} className={color}>
-                  <td className="text-right text-sm border-t ROB-border-color font-semibold">
+                  <td className="text-right text-sm border-t table-border-color font-semibold">
                     {entryNumber}
                   </td>
-                  <td className="text-center text-sm border-l border-t ROB-border-color font-semibold">
+                  <td className="text-center text-sm border-l border-t table-border-color font-semibold">
                     {parseInstruction(entry.packet.inst.inst)}
                   </td>
-                  <td className="text-center text-sm border-l border-t ROB-border-color">
+                  <td className="text-center text-sm border-l border-t table-border-color">
                     {"r" + displayValue(entry.R_dest)}
                   </td>
-                  <td className="text-center text-sm border-l border-t ROB-border-color">
+                  <td className="text-center text-sm border-l border-t table-border-color">
                     {"p" + displayValue(entry.T_new)}
                   </td>
-                  <td className="text-center text-sm border-l border-t ROB-border-color">
+                  <td className="text-center text-sm border-l border-t table-border-color">
                     {"p" + displayValue(entry.T_old)}
                   </td>
-                  <td className="text-center text-sm border-l border-t ROB-border-color">
+                  <td className="text-center text-sm border-l border-t table-border-color">
                     {displayValue(entry.valid ? "1" : "0")}
                   </td>
-                  <td className="text-center text-sm border-l border-t ROB-border-color">
+                  <td className="text-center text-sm border-l border-t table-border-color">
                     {displayValue(entry.retireable ? "1" : "0")}
                   </td>
                   {isROB && (
                     <>
-                      <td className="text-center text-sm border-l border-t ROB-border-color">
+                      <td className="text-center text-sm border-l border-t table-border-color">
                         <div className="w-14">
                           {isEither && headOrTailString}
                         </div>

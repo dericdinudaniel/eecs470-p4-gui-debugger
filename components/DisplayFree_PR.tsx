@@ -13,7 +13,7 @@ const DisplayFree_PR: React.FC<DisplayFree_PRProps> = ({
   return (
     <>
       <div className={`${className} inline-flex flex-col items-center`}>
-        <div className="overflow-hidden rounded-lg border ROB-border-color">
+        <div className="overflow-hidden rounded-lg border table-border-color">
           <table className="w-full border-collapse">
             <thead>
               <tr>
@@ -30,7 +30,7 @@ const DisplayFree_PR: React.FC<DisplayFree_PRProps> = ({
                 return (
                   <tr key={idx}>
                     <td
-                      className={`text-sm text-center bg-gray-200 border-t ROB-border-color ${color}`}
+                      className={`text-sm text-center bg-gray-200 border-t table-border-color ${color}`}
                     >
                       p{displayTag}
                     </td>

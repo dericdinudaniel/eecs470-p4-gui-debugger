@@ -23,7 +23,7 @@ const DisplayFrizzyList: React.FC<DisplayFrizzyListProps> = ({
   return (
     <div className={`flex-col justify-items-center ${className}`}>
       <h2 className="text-lg font-semibold">Free + Ready List</h2>
-      <div className="mb-4 overflow-hidden rounded-lg border ROB-border-color">
+      <div className="mb-4 overflow-hidden rounded-lg border table-border-color">
         <table className="border-collapse w-full">
           <thead>
             <tr className="bg-slate-300">
@@ -53,7 +53,7 @@ const DisplayFrizzyList: React.FC<DisplayFrizzyListProps> = ({
                       key={globalIdx}
                       className={`text-center text-sm border-t ${
                         colIdx === 0 ? "" : "border-l"
-                      } ROB-border-color ${
+                      } table-border-color ${
                         free === "1" ? "bg-green-200" : "bg-gray-200"
                       }`}
                     >
@@ -98,16 +98,16 @@ export default DisplayFrizzyList;
 //           {freeListChunks.map((freeChunk, chunkIdx) => (
 //             <div
 //               key={chunkIdx}
-//               className="mb-4 overflow-hidden rounded-lg border ROB-border-color"
+//               className="mb-4 overflow-hidden rounded-lg border table-border-color"
 //             >
 //               <table className="border-collapse">
 //                 <thead>
 //                   <tr className="bg-slate-300">
 //                     <th className="text-sm p-1">PR #</th>
-//                     {/* <th className="text-sm border-l ROB-border-color p-2">
+//                     {/* <th className="text-sm border-l table-border-color p-2">
 //                       Free
 //                     </th> */}
-//                     {/* <th className="text-sm border-l ROB-border-color p-2">
+//                     {/* <th className="text-sm border-l table-border-color p-2">
 //                       Ready
 //                     </th> */}
 //                   </tr>
@@ -122,7 +122,7 @@ export default DisplayFrizzyList;
 //                     return (
 //                       <tr key={globalIdx} className="">
 //                         <td
-//                           className={`text-center text-sm border-t ROB-border-color ${
+//                           className={`text-center text-sm border-t table-border-color ${
 //                             free === "1" ? "bg-green-200" : "bg-gray-200"
 //                           }`}
 //                         >

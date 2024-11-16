@@ -18,7 +18,7 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
 }) => {
   return (
     <div className={`${className}`}>
-      <div className="overflow-hidden rounded-lg hover:shadow-2xl transition-shadow border ROB-border-color">
+      <div className="overflow-hidden rounded-lg hover:shadow-2xl transition-shadow border table-border-color">
         <table
           className={`w-full border-collapse ${
             RSData.occupied ? "bg-green-200" : "bg-red-200"
@@ -32,7 +32,7 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
             </tr>
             <tr>
               <td
-                className="text-xs p-1 border-t ROB-border-color text-center font-semibold w-40"
+                className="text-xs p-1 border-t table-border-color text-center font-semibold w-40"
                 colSpan={2}
               >
                 {parseInstruction(RSData.packet.inst.inst)}
@@ -41,10 +41,10 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
           </thead>
           <tbody>
             <tr>
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+              <td className="text-xs p-1 text-right border-t border-r table-border-color">
                 T_new:
               </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color">
+              <td className="text-xs p-1 text-center border-t table-border-color">
                 {displayValue(RSData.T_new)}
               </td>
             </tr>
@@ -58,10 +58,10 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
                   : ""
               }`}
             >
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+              <td className="text-xs p-1 text-right border-t border-r table-border-color">
                 T_a:
               </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color">
+              <td className="text-xs p-1 text-center border-t table-border-color">
                 {displayValue(RSData.T_a)}
                 {RSData.ready_ta ? "+" : " "}
               </td>
@@ -76,10 +76,10 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
                   : ""
               }`}
             >
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+              <td className="text-xs p-1 text-right border-t border-r table-border-color">
                 T_b:
               </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color">
+              <td className="text-xs p-1 text-center border-t table-border-color">
                 {displayValue(RSData.T_b)}
                 {RSData.ready_tb ? "+" : " "}
               </td>
@@ -93,38 +93,38 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
                   : ""
               }`}
             >
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+              <td className="text-xs p-1 text-right border-t border-r table-border-color">
                 Imm:
               </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color">
+              <td className="text-xs p-1 text-center border-t table-border-color">
                 {displayValueHex(RSData.imm_value)}
               </td>
             </tr>
 
             {/* EBR */}
             <tr>
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+              <td className="text-xs p-1 text-right border-t border-r table-border-color">
                 BMASK:
               </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color">
+              <td className="text-xs p-1 text-center border-t table-border-color">
                 {RSData.b_mask}
               </td>
             </tr>
 
             {/* func data */}
             <tr>
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+              <td className="text-xs p-1 text-right border-t border-r table-border-color">
                 FU Type:
               </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color">
+              <td className="text-xs p-1 text-center border-t table-border-color">
                 {Types.getFUTypeName(RSData.fu)}
               </td>
             </tr>
             <tr>
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+              <td className="text-xs p-1 text-right border-t border-r table-border-color">
                 func:
               </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color w-16">
+              <td className="text-xs p-1 text-center border-t table-border-color w-16">
                 {(() => {
                   switch (RSData.fu) {
                     case Types.FU_TYPE.ALU:

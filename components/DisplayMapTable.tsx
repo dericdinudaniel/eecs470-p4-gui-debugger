@@ -22,22 +22,24 @@ const DisplayMapTable: React.FC<DisplayMapTableProps> = ({
         {mapTableChunks.map((chunk, chunkIdx) => (
           <div
             key={chunkIdx}
-            className="overflow-hidden rounded-lg border ROB-border-color mb-2"
+            className="overflow-hidden rounded-lg border table-border-color mb-2"
           >
             <table className="border-collapse">
               <thead>
                 <tr className="bg-slate-300">
                   <th className="text-sm p-1">AR#</th>
-                  <th className="text-sm border-l ROB-border-color p-1">PR#</th>
+                  <th className="text-sm border-l table-border-color p-1">
+                    PR#
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {chunk.map((pr, idx) => (
                   <tr key={chunkIdx * chunkSize + idx} className="bg-gray-200">
-                    <td className="text-right text-sm border-t ROB-border-color font-semibold">
+                    <td className="text-right text-sm border-t table-border-color font-semibold">
                       {chunkIdx * chunkSize + idx}:
                     </td>
-                    <td className=" text-sm border-l border-t ROB-border-color">
+                    <td className=" text-sm border-l border-t table-border-color">
                       <div className="text-center">
                         <span>{displayValue(pr)}</span>
                       </div>

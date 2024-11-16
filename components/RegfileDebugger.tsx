@@ -28,13 +28,15 @@ const DisplayRegPorts: React.FC<{
   ports_enable = Array(ports_idx.length).fill(false),
 }) => {
   return (
-    <div className="overflow-hidden rounded-lg border ROB-border-color">
+    <div className="overflow-hidden rounded-lg border table-border-color">
       <table className="border-collapse">
         <thead>
           <tr className="bg-slate-300">
             <th className="text-sm p-1">Port #</th>
-            <th className="text-sm border-l ROB-border-color p-1">Idx</th>
-            <th className="text-sm border-l ROB-border-color p-1 w-20">Data</th>
+            <th className="text-sm border-l table-border-color p-1">Idx</th>
+            <th className="text-sm border-l table-border-color p-1 w-20">
+              Data
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -47,13 +49,13 @@ const DisplayRegPorts: React.FC<{
 
             return (
               <tr key={port} className={rowColor}>
-                <td className="text-right text-sm border-t ROB-border-color font-semibold">
+                <td className="text-right text-sm border-t table-border-color font-semibold">
                   {displayValue(port)}:
                 </td>
-                <td className="text-center text-sm border-l border-t ROB-border-color">
+                <td className="text-center text-sm border-l border-t table-border-color">
                   {displayValue(idx)}
                 </td>
-                <td className="text-center text-sm border-l border-t ROB-border-color">
+                <td className="text-center text-sm border-l border-t table-border-color">
                   {displayValueHex(ports_data[port])}
                 </td>
               </tr>
@@ -135,13 +137,13 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
             {regChunks.map((regChunk, chunkIdx) => (
               <div
                 key={chunkIdx}
-                className="mb-4 overflow-hidden rounded-lg border ROB-border-color"
+                className="mb-4 overflow-hidden rounded-lg border table-border-color"
               >
                 <table>
                   <thead>
                     <tr className="bg-slate-300">
                       <th className="text-sm p-1">#</th>
-                      <th className="text-sm p-1 border-l ROB-border-color w-20">
+                      <th className="text-sm p-1 border-l table-border-color w-20">
                         Value
                       </th>
                     </tr>
@@ -154,10 +156,10 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
 
                       return (
                         <tr key={globalIdx} className="bg-gray-200">
-                          <td className="text-center text-sm border-t ROB-border-color font-semibold">
+                          <td className="text-center text-sm border-t table-border-color font-semibold">
                             {prNumber}:
                           </td>
-                          <td className="text-center text-sm border-t border-l ROB-border-color">
+                          <td className="text-center text-sm border-t border-l table-border-color">
                             {displayValueHex(value)}
                           </td>
                         </tr>

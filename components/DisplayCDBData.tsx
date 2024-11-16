@@ -18,13 +18,13 @@ const DisplayCDBData: React.FC<DisplayCDBDataProps> = ({
     <div className={`justify-items-center ${className}`}>
       <p className="font-semibold">{isEarlyCDB ? "Early CDB" : "CDB"}</p>
       <div className="">
-        <div className="overflow-hidden rounded-lg border ROB-border-color">
+        <div className="overflow-hidden rounded-lg border table-border-color">
           <table className="w-full border-collapse">
             <thead>
               <tr>
                 <th className="text-sm p-1 bg-slate-300">Tag</th>
                 {CDBData && (
-                  <th className="text-sm p-1 bg-slate-300 border-l ROB-border-color w-20">
+                  <th className="text-sm p-1 bg-slate-300 border-l table-border-color w-20">
                     Data
                   </th>
                 )}
@@ -45,13 +45,13 @@ const DisplayCDBData: React.FC<DisplayCDBDataProps> = ({
                 return (
                   <tr key={idx}>
                     <td
-                      className={`text-sm text-center bg-gray-200 border-t ROB-border-color ${color}`}
+                      className={`text-sm text-center bg-gray-200 border-t table-border-color ${color}`}
                     >
                       p{displayTag}
                     </td>
                     {CDBData && (
                       <td
-                        className={`text-sm text-center bg-gray-200 border-t border-l ROB-border-color ${color}`}
+                        className={`text-sm text-center bg-gray-200 border-t border-l table-border-color ${color}`}
                       >
                         {displayVal}
                       </td>

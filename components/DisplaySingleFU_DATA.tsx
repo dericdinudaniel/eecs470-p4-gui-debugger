@@ -18,7 +18,7 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
 }) => {
   return (
     <div className={`${className}`}>
-      <div className="overflow-hidden rounded-lg hover:shadow-2xl transition-shadow border ROB-border-color">
+      <div className="overflow-hidden rounded-lg hover:shadow-2xl transition-shadow border table-border-color">
         <table
           className={`w-full border-collapse ${
             FUData.valid ? "bg-green-200" : "bg-red-200"
@@ -32,7 +32,7 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
             </tr>
             {/* <tr>
               <td
-                className="text-xs p-1 border-t ROB-border-color text-center font-semibold"
+                className="text-xs p-1 border-t table-border-color text-center font-semibold"
                 colSpan={2}
               >
                 {parseInstruction(FUData.packet.inst.inst)}
@@ -41,62 +41,62 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
           </thead>
           <tbody>
             {/* <tr>
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+              <td className="text-xs p-1 text-right border-t border-r table-border-color">
                 Valid:
               </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color w-16">
+              <td className="text-xs p-1 text-center border-t table-border-color w-16">
                 {FUData.valid ? "Yes" : "No"}
               </td>
             </tr> */}
             <tr>
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+              <td className="text-xs p-1 text-right border-t border-r table-border-color">
                 T_new:
               </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color">
+              <td className="text-xs p-1 text-center border-t table-border-color">
                 {displayValue(FUData.T_new)}
               </td>
             </tr>
             <tr>
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+              <td className="text-xs p-1 text-right border-t border-r table-border-color">
                 rs1:
               </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color w-20">
+              <td className="text-xs p-1 text-center border-t table-border-color w-20">
                 {displayValueHex(FUData.rs1)}
               </td>
             </tr>
             <tr>
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+              <td className="text-xs p-1 text-right border-t border-r table-border-color">
                 rs2:
               </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color w-20">
+              <td className="text-xs p-1 text-center border-t table-border-color w-20">
                 {displayValueHex(FUData.rs2)}
               </td>
             </tr>
 
             {/* EBR */}
             <tr>
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+              <td className="text-xs p-1 text-right border-t border-r table-border-color">
                 BMASK:
               </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color">
+              <td className="text-xs p-1 text-center border-t table-border-color">
                 {FUData.b_mask}
               </td>
             </tr>
 
             {/* func data */}
             <tr>
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+              <td className="text-xs p-1 text-right border-t border-r table-border-color">
                 FU Type:
               </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color w-16">
+              <td className="text-xs p-1 text-center border-t table-border-color w-16">
                 {Types.getFUTypeName(fu_type)}
               </td>
             </tr>
             <tr>
-              <td className="text-xs p-1 text-right border-t border-r ROB-border-color">
+              <td className="text-xs p-1 text-right border-t border-r table-border-color">
                 func:
               </td>
-              <td className="text-xs p-1 text-center border-t ROB-border-color">
+              <td className="text-xs p-1 text-center border-t table-border-color">
                 {(() => {
                   switch (fu_type) {
                     case Types.FU_TYPE.ALU:

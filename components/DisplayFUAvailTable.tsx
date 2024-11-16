@@ -41,7 +41,7 @@ const DisplayFUAvailTable: React.FC<FUTableProps> = ({
 
   return (
     <div className={`${className}`}>
-      <div className="overflow-hidden rounded-lg border ROB-border-color">
+      <div className="overflow-hidden rounded-lg border table-border-color">
         <table className="w-full border-collapse">
           <thead>
             <tr>
@@ -49,7 +49,7 @@ const DisplayFUAvailTable: React.FC<FUTableProps> = ({
               {[...Array(maxFUs)].map((_, i) => (
                 <th
                   key={i}
-                  className="text-sm border-l ROB-border-color p-2 bg-slate-300"
+                  className="text-sm border-l table-border-color p-2 bg-slate-300"
                 >
                   {i}
                 </th>
@@ -59,13 +59,13 @@ const DisplayFUAvailTable: React.FC<FUTableProps> = ({
           <tbody>
             {fuTypes.map((fu, rowIdx) => (
               <tr key={fu.name}>
-                <td className="text-sm text-center bg-gray-200 border-t border-r ROB-border-color">
+                <td className="text-sm text-center bg-gray-200 border-t border-r table-border-color">
                   {fu.name}
                 </td>
                 {fu.avail.map((value, i) => (
                   <td
                     key={i}
-                    className={`text-sm text-center bg-gray-200 border-t border-l ROB-border-color ${
+                    className={`text-sm text-center bg-gray-200 border-t border-l table-border-color ${
                       value == 1 ? "bg-green-200" : "bg-red-200"
                     }`}
                   >
