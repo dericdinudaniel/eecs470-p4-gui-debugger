@@ -145,11 +145,6 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
           />
 
           {/* output signals */}
-          <div>
-            <p className="text-sm mt-2">
-              <span className="font-bold">Open Spots:</span> {open_spots}
-            </p>
-          </div>
         </div>
       </div>
     </>
