@@ -24,12 +24,14 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
             RS_TO_FUData.valid ? "bg-green-200" : "bg-red-200"
           }`}
         >
-          <thead>
+          <thead className="bg-slate-300">
             <tr>
-              <th className="text-xs p-1 bg-slate-300" colSpan={2}>
+              <th className="text-xs p-1" colSpan={2}>
                 FU: #{FUIdx}
               </th>
             </tr>
+          </thead>
+          <tbody>
             <tr>
               <td
                 className="text-xs p-1 border-t table-border-color text-center font-semibold w-40"
@@ -38,8 +40,6 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
                 {parseInstruction(RS_TO_FUData.packet.inst.inst)}
               </td>
             </tr>
-          </thead>
-          <tbody>
             <tr>
               <td className="text-xs p-1 text-right border-t border-r table-border-color">
                 T_new:
