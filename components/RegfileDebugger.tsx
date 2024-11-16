@@ -30,8 +30,8 @@ const DisplayRegPorts: React.FC<{
   return (
     <div className="overflow-hidden rounded-lg border table-border-color">
       <table className="border-collapse">
-        <thead>
-          <tr className="bg-slate-300">
+        <thead className="bg-slate-300">
+          <tr>
             <th className="text-sm p-1">Port #</th>
             <th className="text-sm border-l table-border-color p-1">Idx</th>
             <th className="text-sm border-l table-border-color p-1 w-20">
@@ -140,8 +140,8 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
                 className="mb-4 overflow-hidden rounded-lg border table-border-color"
               >
                 <table>
-                  <thead>
-                    <tr className="bg-slate-300">
+                  <thead className="bg-slate-300">
+                    <tr>
                       <th className="text-sm p-1">#</th>
                       <th className="text-sm p-1 border-l table-border-color w-20">
                         Value

@@ -25,8 +25,8 @@ const DisplayInstList: React.FC<DisplayInstListProps> = ({
       <div className={`${className}`}>
         <div className="overflow-hidden rounded-lg border table-border-color">
           <table className="border-collapse">
-            <thead>
-              <tr className="bg-slate-300">
+            <thead className="bg-slate-300">
+              <tr>
                 <th className="text-sm px-4">#</th>
                 <th className="text-sm border-l table-border-color px-2 py-1">
                   PC

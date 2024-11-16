@@ -20,11 +20,11 @@ const DisplayCDBData: React.FC<DisplayCDBDataProps> = ({
       <div className="">
         <div className="overflow-hidden rounded-lg border table-border-color">
           <table className="w-full border-collapse">
-            <thead>
+            <thead className="bg-slate-300">
               <tr>
-                <th className="text-sm p-1 bg-slate-300">Tag</th>
+                <th className="text-sm p-1">Tag</th>
                 {CDBData && (
-                  <th className="text-sm p-1 bg-slate-300 border-l table-border-color w-20">
+                  <th className="text-sm p-1 border-l table-border-color w-20">
                     Data
                   </th>
                 )}

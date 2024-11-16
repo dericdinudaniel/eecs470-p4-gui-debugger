@@ -24,9 +24,9 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
             FUData.valid ? "bg-green-200" : "bg-red-200"
           }`}
         >
-          <thead>
+          <thead className="bg-slate-300">
             <tr>
-              <th className="text-xs p-1 bg-slate-300" colSpan={2}>
+              <th className="text-xs p-1" colSpan={2}>
                 FU: #{FUIdx}
               </th>
             </tr>

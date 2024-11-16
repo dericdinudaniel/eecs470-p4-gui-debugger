@@ -15,9 +15,9 @@ const DisplayFree_PR: React.FC<DisplayFree_PRProps> = ({
       <div className={`${className} inline-flex flex-col items-center`}>
         <div className="overflow-hidden rounded-lg border table-border-color">
           <table className="w-full border-collapse">
-            <thead>
+            <thead className="bg-slate-300">
               <tr>
-                <th className="text-sm p-2 bg-slate-300">Free_PR</th>
+                <th className="text-sm p-2">Free_PR</th>
               </tr>
             </thead>
             <tbody>

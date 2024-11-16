@@ -43,14 +43,11 @@ const DisplayFUAvailTable: React.FC<FUTableProps> = ({
     <div className={`${className}`}>
       <div className="overflow-hidden rounded-lg border table-border-color">
         <table className="w-full border-collapse">
-          <thead>
+          <thead className="bg-slate-300">
             <tr>
-              <th className="text-sm p-2 bg-slate-300">FU Type</th>
+              <th className="text-sm p-2">FU Type</th>
               {[...Array(maxFUs)].map((_, i) => (
-                <th
-                  key={i}
-                  className="text-sm border-l table-border-color p-2 bg-slate-300"
-                >
+                <th key={i} className="text-sm border-l table-border-color p-2">
                   {i}
                 </th>
               ))}

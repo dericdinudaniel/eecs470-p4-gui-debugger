@@ -25,8 +25,8 @@ const DisplayMapTable: React.FC<DisplayMapTableProps> = ({
             className="overflow-hidden rounded-lg border table-border-color mb-2"
           >
             <table className="border-collapse">
-              <thead>
-                <tr className="bg-slate-300">
+              <thead className="bg-slate-300">
+                <tr>
                   <th className="text-sm p-1">AR#</th>
                   <th className="text-sm border-l table-border-color p-1">
                     PR#

@@ -25,8 +25,8 @@ const DisplayFrizzyList: React.FC<DisplayFrizzyListProps> = ({
       <h2 className="text-lg font-semibold">Free + Ready List</h2>
       <div className="mb-4 overflow-hidden rounded-lg border table-border-color">
         <table className="border-collapse w-full">
-          <thead>
-            <tr className="bg-slate-300">
+          <thead className="bg-slate-300">
+            <tr>
               <th className="text-sm p-1" colSpan={freeListChunks.length}>
                 PR #
               </th>
