@@ -28,7 +28,7 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
     signalRS,
     "decoded_instruction"
   ).value;
-  const RS_decoded_instruction = parseRSData(decoded_instruction, Constants.N);
+  const RS_decoded_instruction = parseRSData(decoded_instruction);
 
   const alu_avail = extractSignalValue(signalRS, "alu_avail");
   const branch_avail = extractSignalValue(signalRS, "branch_avail");
@@ -39,7 +39,7 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
 
   // entries
   const entries = extractSignalValue(signalRS, "entries").value;
-  const RS_entries = parseRSData(entries, Constants.RS_SZ);
+  const RS_entries = parseRSData(entries);
 
   // outputs
   const mult_out = extractSignalValue(signalRS, "mult_out").value;

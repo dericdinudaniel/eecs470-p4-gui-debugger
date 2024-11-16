@@ -7,7 +7,6 @@ export function cn(...inputs: ClassValue[]) {
 
 // helper functions
 
-import { parse } from "path";
 import { ScopeData, SignalData } from "./tstypes";
 import * as Types from "./types";
 import * as Constants from "./constants";
@@ -60,15 +59,13 @@ export const displayValueHex = (value: number) =>
   isNaN(value) ? "XX" : value.toString(16);
 
 ////// ROB
-export const parseROBData = (
-  entries: string,
-  arrLen: number
-): Types.ROB_DATA[] => {
+export const parseROBData = (entries: string): Types.ROB_DATA[] => {
   // Remove the 'b' prefix if present
   const binaryStr = entries.startsWith("b") ? entries.slice(1) : entries;
 
   const result: Types.ROB_DATA[] = [];
   const entryWidth = Types.ROB_DATA_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
 
   // Process each ROB entry from the end to the beginning
   for (let i = arrLen - 1; i >= 0; i--) {
@@ -126,9 +123,10 @@ export const parseCDBTags = (cdb: string): Types.PHYS_REG_TAG[] => {
 
   const result: Types.PHYS_REG_TAG[] = [];
   const entryWidth = Types.PHYS_REG_TAG_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
 
   // Process each CDB entry from the end to the beginning
-  for (let i = Constants.CDB_SZ - 1; i >= 0; i--) {
+  for (let i = arrLen - 1; i >= 0; i--) {
     const startIdx = i * entryWidth;
     const tag = extractBits(binaryStr, startIdx, Types.PHYS_REG_TAG_WIDTH);
     result.push(tag);
@@ -142,8 +140,9 @@ export const parseCDBValues = (cdb: string): Types.DATA[] => {
 
   const result: Types.DATA[] = [];
   const entryWidth = Types.DATA_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
 
-  for (let i = Constants.CDB_SZ - 1; i >= 0; i--) {
+  for (let i = arrLen; i >= 0; i--) {
     const startIdx = i * entryWidth;
     const data = extractBits(binaryStr, startIdx, Types.DATA_WIDTH);
     result.push(data);
@@ -372,15 +371,13 @@ export const parseFU_FUNC = (inputStr: string): Types.FU_FUNC => {
 };
 
 ////// RS
-export const parseRSData = (
-  entries: string,
-  arrLen: number
-): Types.RS_DATA[] => {
+export const parseRSData = (entries: string): Types.RS_DATA[] => {
   // Remove the 'b' prefix if present
   const binaryStr = entries.startsWith("b") ? entries.slice(1) : entries;
 
   const result: Types.RS_DATA[] = [];
   const entryWidth = Types.RS_DATA_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
 
   // Process each ROB entry from the end to the beginning
   for (let i = arrLen - 1; i >= 0; i--) {
@@ -469,8 +466,8 @@ export const parseRS_TO_FU_DATA_List = (
 
   const result: Types.RS_TO_FU_DATA[] = [];
 
-  const arrLen = binaryStr.length / Types.RS_TO_FU_DATA_WIDTH;
   const entryWidth = Types.RS_TO_FU_DATA_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
 
   for (let i = arrLen - 1; i >= 0; i--) {
     const startIdx = i * entryWidth;
@@ -571,11 +568,11 @@ export const parseReg_Map = (inputStr: string): number[] => {
 
   // N of PHYS_REG_TAG
   const result: number[] = [];
-
-  const arrLen = Constants.AR_NUM;
+  const entryWidth = Types.PHYS_REG_TAG_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
   for (let i = arrLen - 1; i >= 0; i--) {
-    const startIdx = i * Types.PHYS_REG_TAG_WIDTH;
-    const tag = extractBits(binaryStr, startIdx, Types.PHYS_REG_TAG_WIDTH);
+    const startIdx = i * entryWidth;
+    const tag = extractBits(binaryStr, startIdx, entryWidth);
     result.push(tag);
   }
 
@@ -599,15 +596,13 @@ export const parseRegfile = (inputStr: string): number[] => {
   return result;
 };
 
-export const parseRegPortIdx = (
-  inputStr: string,
-  numPorts: number
-): number[] => {
+export const parseRegPortIdx = (inputStr: string): number[] => {
   const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
-
+  const entryWidth = Types.PHYS_REG_TAG_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
   const result: number[] = [];
 
-  for (let i = numPorts - 1; i >= 0; i--) {
+  for (let i = arrLen - 1; i >= 0; i--) {
     const startIdx = i * Types.PHYS_REG_TAG_WIDTH;
     const tag = extractBits(binaryStr, startIdx, Types.PHYS_REG_TAG_WIDTH);
     result.push(tag);
@@ -616,15 +611,13 @@ export const parseRegPortIdx = (
   return result;
 };
 
-export const parseRegPortData = (
-  inputStr: string,
-  numPorts: number
-): number[] => {
+export const parseRegPortData = (inputStr: string): number[] => {
   const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
-
+  const entryWidth = Types.DATA_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
   const result: number[] = [];
 
-  for (let i = numPorts - 1; i >= 0; i--) {
+  for (let i = arrLen - 1; i >= 0; i--) {
     const startIdx = i * Types.DATA_WIDTH;
     const data = extractBits(binaryStr, startIdx, Types.DATA_WIDTH);
     result.push(data);
@@ -633,15 +626,13 @@ export const parseRegPortData = (
   return result;
 };
 
-export const parseRegPortValid = (
-  inputStr: string,
-  numPorts: number
-): boolean[] => {
+export const parseRegPortValid = (inputStr: string): boolean[] => {
   const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
-
+  const entryWidth = 1;
+  const arrLen = binaryStr.length / entryWidth;
   const result: boolean[] = [];
 
-  for (let i = numPorts - 1; i >= 0; i--) {
+  for (let i = arrLen - 1; i >= 0; i--) {
     result.push(binaryStr[i] === "1");
   }
 

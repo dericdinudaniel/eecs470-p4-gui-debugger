@@ -19,15 +19,13 @@ type RegfileDebuggerProps = {
 };
 
 const DisplayRegPorts: React.FC<{
-  numPorts: number;
   ports_idx: number[];
   ports_data: number[];
   ports_enable?: boolean[];
 }> = ({
-  numPorts,
   ports_idx,
   ports_data,
-  ports_enable = Array(numPorts).fill(false),
+  ports_enable = Array(ports_idx.length).fill(false),
 }) => {
   return (
     <div className="overflow-hidden rounded-lg border ROB-border-color">
@@ -85,14 +83,12 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
   const write_data = extractSignalValue(signalRegfile, "write_data").value;
   const write_en = extractSignalValue(signalRegfile, "write_en").value;
 
-  const READ_PORTS = Constants.READ_PORTS;
-  const WRITE_PORTS = Constants.WRITE_PORTS;
-  const Reg_read_idx = parseRegPortIdx(read_idx, READ_PORTS);
-  const Reg_write_idx = parseRegPortIdx(write_idx, WRITE_PORTS);
-  const Reg_write_en = parseRegPortValid(write_en, WRITE_PORTS);
+  const Reg_read_idx = parseRegPortIdx(read_idx);
+  const Reg_write_idx = parseRegPortIdx(write_idx);
+  const Reg_write_en = parseRegPortValid(write_en);
 
-  const Ref_read_out = parseRegPortData(read_out, READ_PORTS);
-  const Ref_write_data = parseRegPortData(write_data, WRITE_PORTS);
+  const Ref_read_out = parseRegPortData(read_out);
+  const Ref_write_data = parseRegPortData(write_data);
 
   const [showRegfilePorts, setShowRegfilePorts] = useState(true);
 
@@ -118,7 +114,6 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
                 <div className="justify-items-center">
                   <h2 className="text-md font-semibold">Read Ports</h2>
                   <DisplayRegPorts
-                    numPorts={READ_PORTS}
                     ports_idx={Reg_read_idx}
                     ports_data={Ref_read_out}
                   />
@@ -128,7 +123,6 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
                 <div className="justify-items-center">
                   <h2 className="text-md font-semibold">Write Ports</h2>
                   <DisplayRegPorts
-                    numPorts={WRITE_PORTS}
                     ports_idx={Reg_write_idx}
                     ports_data={Ref_write_data}
                     ports_enable={Reg_write_en}

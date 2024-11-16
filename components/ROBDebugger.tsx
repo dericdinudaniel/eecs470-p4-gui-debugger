@@ -19,7 +19,7 @@ type ROBDebuggerProps = {
 const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
   // input signals
   const dispatched_ins = extractSignalValue(signalData, "dispatched_ins").value;
-  const ROB_dispatched_ins = parseROBData(dispatched_ins, Constants.N);
+  const ROB_dispatched_ins = parseROBData(dispatched_ins);
   const cdb = extractSignalValue(signalData, "rob_completed").value;
   const ROB_cdb = parseCDBTags(cdb);
 
@@ -41,7 +41,7 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
 
   // entries
   const entries = extractSignalValue(signalData, "entries").value;
-  const ROB_entries = parseROBData(entries, Constants.ROB_SZ);
+  const ROB_entries = parseROBData(entries);
 
   // output signals
   const open_spots = extractSignalValueToInt(signalData, "open_spots");
