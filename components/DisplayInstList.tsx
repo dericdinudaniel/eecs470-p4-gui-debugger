@@ -29,7 +29,7 @@ const DisplayInstList: React.FC<DisplayInstListProps> = ({
               <tr className="bg-slate-300">
                 <th className="text-sm px-4">#</th>
                 <th className="text-sm border-l ROB-border-color px-2 py-1">
-                  PC test
+                  PC
                 </th>
                 <th className="text-sm border-l ROB-border-color px-2 py-1">
                   <div className="w-36">Inst</div>
