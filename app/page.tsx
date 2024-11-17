@@ -3,6 +3,10 @@
 import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
   const [fileContent, setFileContent] = useState("");
@@ -69,14 +73,14 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-md m-10">
+    <div className="min-h-screen bg-card/50 flex items-center justify-center">
+      <div className="bg-background p-8 rounded-lg shadow-md m-10 w-full max-w-4xl">
         <h1 className="text-2xl font-bold mb-6 text-center">
           Verilog Debugger
         </h1>
         <div
           {...getRootProps()}
-          className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-blue-500 transition-colors mb-4"
+          className="border-2 border-dashed border-border/50 rounded-lg p-4 text-center cursor-pointer hover:border-primary transition-colors mb-4"
         >
           <input {...getInputProps()} />
           {isDragActive ? (
@@ -85,29 +89,26 @@ export default function Home() {
             <p>Drag and drop a .vcd file here, or click to select a file</p>
           )}
         </div>
-        <div className="mt-4">
+        <div className="mt-4 w-full">
           <label
             htmlFor="pasteInput"
-            className="block text-sm font-medium text-gray-700 mb-2"
+            className="block text-sm font-medium mb-2"
           >
             Or paste file contents:
           </label>
-          <textarea
+          <Textarea
             id="pasteInput"
             value={fileContent}
             onChange={(e) => setFileContent(e.target.value)}
-            className="w-full h-32 px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:border-blue-500"
+            className="h-32"
             placeholder="Paste .vcd file contents here"
           />
-          <button
-            onClick={handleParseContent}
-            className="mt-2 w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors"
-          >
+          <Button onClick={handleParseContent} className="w-full mt-2">
             Parse VCD Content
-          </button>
+          </Button>
 
           {/* local file */}
-          <input
+          <Input
             type="text"
             name="localFilename"
             value={localFilename}
@@ -118,15 +119,12 @@ export default function Home() {
                 handleParseLocalFile();
               }
             }}
-            className="w-full mt-10 h-12 px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:border-blue-500"
+            className="mt-8 h-12"
             placeholder="Or upload a .vcd to /uploads, and put filename (no '.vcd') here"
           />
-          <button
-            onClick={handleParseLocalFile}
-            className="mt-2 w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors"
-          >
+          <Button onClick={handleParseLocalFile} className="w-full mt-2">
             Parse Local File
-          </button>
+          </Button>
         </div>
       </div>
     </div>
