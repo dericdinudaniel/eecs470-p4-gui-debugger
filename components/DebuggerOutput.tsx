@@ -75,7 +75,7 @@ const DebuggerOutput: React.FC<DebuggerOutputProps> = ({ signalData }) => {
   };
 
   return (
-    <div className="p-4 bg-gray-100 rounded-lg">
+    <div className="p-4 bg-card rounded-lg">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">Cycle: {signalData.cycle}</h2>
         <div>

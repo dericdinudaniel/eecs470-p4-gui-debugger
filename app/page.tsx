@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function Home() {
   const [fileContent, setFileContent] = useState("");
@@ -75,9 +76,12 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-card/50 flex items-center justify-center">
       <div className="bg-background p-8 rounded-lg shadow-md m-10 w-full max-w-4xl">
-        <h1 className="text-2xl font-bold mb-6 text-center">
-          Verilog Debugger
-        </h1>
+        <div className="flex justify-center space-x-2">
+          <h1 className="text-2xl font-bold mb-6 text-center">
+            Verilog Debugger
+          </h1>
+          <ThemeToggle />
+        </div>
         <div
           {...getRootProps()}
           className="border-2 border-dashed border-border/50 rounded-lg p-4 text-center cursor-pointer hover:border-primary transition-colors mb-4"

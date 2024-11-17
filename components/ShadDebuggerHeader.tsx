@@ -8,6 +8,7 @@ import { DestructiveSwitch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { DButton, DHeaderButton } from "./dui/DButton";
+import { ThemeToggle } from "./ThemeToggle";
 
 interface DebuggerHeaderProps {
   verilogCycle: number;
@@ -108,6 +109,7 @@ export default function DebuggerHeader({
           >
             ← Home
           </Link>
+          <ThemeToggle />
         </div>
 
         <div className="flex items-center justify-center space-x-2">

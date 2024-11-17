@@ -82,7 +82,7 @@ const DisplaySingleSignal: React.FC<DisplaySingleSignalProps> = ({
   );
 
   return (
-    <div className={`${className} bg-gray-100 m-4 p-4 rounded-lg shadow-md`}>
+    <div className={`${className} bg-card m-4 p-4 rounded-lg shadow-md`}>
       <p className="text-lg font-semibold">Display Single Signal</p>
       <DropdownMenu>
         <DropdownMenuTrigger className="p-2 border rounded-md">

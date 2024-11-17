@@ -7,7 +7,7 @@ const Dthead = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <thead
     ref={ref}
-    className={cn("bg-slate-300 border-b", className)}
+    className={cn("bg-tableHeader border-b", className)}
     {...props}
   />
 ));

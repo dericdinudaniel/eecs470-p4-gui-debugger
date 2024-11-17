@@ -52,7 +52,7 @@ const DisplayRegPorts: React.FC<{
             ports_enable[port] ||
             (ports_idx[port] != 0 && !Number.isNaN(ports_idx[port]))
               ? "bg-good"
-              : "";
+              : "bg-neutral";
 
           return (
             <Dtr key={port} className={rowColor}>
@@ -157,7 +157,7 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
                         const value = regChunk[idx];
 
                         return (
-                          <Dtr key={globalIdx}>
+                          <Dtr key={globalIdx} className="bg-neutral">
                             <Dtd className="font-semibold">{prNumber}:</Dtd>
                             <Dtd className="">{displayValueHex(value)}</Dtd>
                           </Dtr>

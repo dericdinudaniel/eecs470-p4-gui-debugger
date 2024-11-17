@@ -77,6 +77,8 @@ module.exports = {
         neutral: "var(--neutral)",
         bad: "var(--bad)",
         veryBad: "var(--veryBad)",
+
+        tableHeader: "var(--tableHeader)",
       },
     },
   },
