@@ -1,7 +1,16 @@
 import React from "react";
 import * as Types from "@/lib/types";
 import { displayValue, displayValueHex } from "@/lib/utils";
-import { parseInstruction } from "@/lib/tsutils";
+import {
+  Dthead,
+  Dtd,
+  DtdLeft,
+  Dth,
+  DthLeft,
+  Dtr,
+  Dtbody,
+  Dtable,
+} from "@/components/dui/DTable";
 
 type DisplaySingleFU_DATAProps = {
   className: string;
@@ -17,109 +26,71 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
   fu_type,
 }) => {
   return (
-    <div className={`${className}`}>
-      <div className="overflow-hidden rounded-lg hover:shadow-2xl transition-shadow border table-border-color">
-        <table
-          className={`w-full border-collapse ${
-            FUData.valid ? "bg-green-200" : "bg-red-200"
-          }`}
-        >
-          <thead className="bg-slate-300">
-            <tr>
-              <th className="text-xs p-1" colSpan={2}>
-                FU: #{FUIdx}
-              </th>
-            </tr>
-            {/* <tr>
-              <td
-                className="text-xs p-1 border-t table-border-color text-center font-semibold"
-                colSpan={2}
-              >
-                {parseInstruction(FUData.packet.inst.inst)}
-              </td>
-            </tr> */}
-          </thead>
-          <tbody>
-            {/* <tr>
-              <td className="text-xs p-1 text-right border-t border-r table-border-color">
-                Valid:
-              </td>
-              <td className="text-xs p-1 text-center border-t table-border-color w-16">
-                {FUData.valid ? "Yes" : "No"}
-              </td>
-            </tr> */}
-            <tr>
-              <td className="text-xs p-1 text-right border-t border-r table-border-color">
-                T_new:
-              </td>
-              <td className="text-xs p-1 text-center border-t table-border-color">
-                {displayValue(FUData.T_new)}
-              </td>
-            </tr>
-            <tr>
-              <td className="text-xs p-1 text-right border-t border-r table-border-color">
-                rs1:
-              </td>
-              <td className="text-xs p-1 text-center border-t table-border-color w-20">
-                {displayValueHex(FUData.rs1)}
-              </td>
-            </tr>
-            <tr>
-              <td className="text-xs p-1 text-right border-t border-r table-border-color">
-                rs2:
-              </td>
-              <td className="text-xs p-1 text-center border-t table-border-color w-20">
-                {displayValueHex(FUData.rs2)}
-              </td>
-            </tr>
+    <div className={`${className} hover:shadow-2xl transition-shadow`}>
+      <Dtable className={`${FUData.valid ? "bg-green-200" : "bg-red-200"}`}>
+        <Dthead>
+          <Dtr>
+            <Dth className="text-xs p-1" colSpan={2}>
+              FU: #{FUIdx}
+            </Dth>
+          </Dtr>
+        </Dthead>
+        <Dtbody>
+          <Dtr>
+            <DtdLeft className="text-xs p-1">T_new:</DtdLeft>
+            <Dtd className="text-xs p-1">{displayValue(FUData.T_new)}</Dtd>
+          </Dtr>
+          <Dtr>
+            <DtdLeft className="text-xs p-1">rs1:</DtdLeft>
+            <Dtd className="text-xs p-1 w-20">
+              {displayValueHex(FUData.rs1)}
+            </Dtd>
+          </Dtr>
+          <Dtr>
+            <DtdLeft className="text-xs p-1">rs2:</DtdLeft>
+            <Dtd className="text-xs p-1 w-20">
+              {displayValueHex(FUData.rs2)}
+            </Dtd>
+          </Dtr>
 
-            {/* EBR */}
-            <tr>
-              <td className="text-xs p-1 text-right border-t border-r table-border-color">
-                BMASK:
-              </td>
-              <td className="text-xs p-1 text-center border-t table-border-color">
-                {FUData.b_mask}
-              </td>
-            </tr>
+          {/* EBR */}
+          <Dtr>
+            <DtdLeft className="text-xs p-1">BMASK:</DtdLeft>
+            <Dtd className="text-xs p-1">{FUData.b_mask}</Dtd>
+          </Dtr>
 
-            {/* func data */}
-            <tr>
-              <td className="text-xs p-1 text-right border-t border-r table-border-color">
-                FU Type:
-              </td>
-              <td className="text-xs p-1 text-center border-t table-border-color w-16">
-                {Types.getFUTypeName(fu_type)}
-              </td>
-            </tr>
-            <tr>
-              <td className="text-xs p-1 text-right border-t border-r table-border-color">
-                func:
-              </td>
-              <td className="text-xs p-1 text-center border-t table-border-color">
-                {(() => {
-                  switch (fu_type) {
-                    case Types.FU_TYPE.ALU:
-                      return Types.getALUFuncName(
-                        FUData.fu_func as Types.ALU_FUNC
-                      );
-                    case Types.FU_TYPE.MUL:
-                      return Types.getMULFuncName(
-                        FUData.fu_func as Types.MULT_FUNC
-                      );
-                    case Types.FU_TYPE.BR:
-                      return Types.getBRFuncName(
-                        FUData.fu_func as Types.BRANCH_FUNC
-                      );
-                    default:
-                      return "XXX";
-                  }
-                })()}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+          {/* func data */}
+          <Dtr>
+            <DtdLeft className="text-xs p-1">FU Type:</DtdLeft>
+            <Dtd className="text-xs p-1 w-16">
+              {Types.getFUTypeName(fu_type)}
+            </Dtd>
+          </Dtr>
+          <Dtr>
+            <DtdLeft className="text-xs p-1">func:</DtdLeft>
+            <Dtd className="text-xs p-1">
+              {(() => {
+                switch (fu_type) {
+                  case Types.FU_TYPE.ALU:
+                    return Types.getALUFuncName(
+                      FUData.fu_func as Types.ALU_FUNC
+                    );
+                  case Types.FU_TYPE.MUL:
+                    return Types.getMULFuncName(
+                      FUData.fu_func as Types.MULT_FUNC
+                    );
+                  case Types.FU_TYPE.BR:
+                    return Types.getBRFuncName(
+                      FUData.fu_func as Types.BRANCH_FUNC
+                    );
+                  default:
+                    return "XXX";
+                }
+              })()}
+            </Dtd>
+          </Dtr>
+        </Dtbody>
+      </Dtable>
     </div>
   );
 };

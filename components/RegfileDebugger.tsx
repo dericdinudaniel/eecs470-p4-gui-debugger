@@ -11,7 +11,16 @@ import {
 } from "@/lib/utils";
 import { ScopeData } from "@/lib/tstypes";
 import { chunkArray } from "@/lib/tsutils";
-import * as Constants from "@/lib/constants";
+import {
+  Dthead,
+  Dtd,
+  DtdLeft,
+  Dth,
+  DthLeft,
+  Dtr,
+  Dtbody,
+  Dtable,
+} from "@/components/dui/DTable";
 
 type RegfileDebuggerProps = {
   className: string;
@@ -28,42 +37,32 @@ const DisplayRegPorts: React.FC<{
   ports_enable = Array(ports_idx.length).fill(false),
 }) => {
   return (
-    <div className="overflow-hidden rounded-lg border table-border-color">
-      <table className="border-collapse">
-        <thead className="bg-slate-300">
-          <tr>
-            <th className="text-sm p-1">Port #</th>
-            <th className="text-sm border-l table-border-color p-1">Idx</th>
-            <th className="text-sm border-l table-border-color p-1 w-20">
-              Data
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {ports_idx.map((idx, port) => {
-            const rowColor =
-              ports_enable[port] ||
-              (ports_idx[port] != 0 && !Number.isNaN(ports_idx[port]))
-                ? "bg-green-200"
-                : "";
+    <Dtable>
+      <Dthead>
+        <Dtr>
+          <DthLeft className="p-1">Port #</DthLeft>
+          <Dth>Idx</Dth>
+          <Dth className="w-20">Data</Dth>
+        </Dtr>
+      </Dthead>
+      <Dtbody>
+        {ports_idx.map((idx, port) => {
+          const rowColor =
+            ports_enable[port] ||
+            (ports_idx[port] != 0 && !Number.isNaN(ports_idx[port]))
+              ? "bg-green-200"
+              : "";
 
-            return (
-              <tr key={port} className={rowColor}>
-                <td className="text-right text-sm border-t table-border-color font-semibold">
-                  {displayValue(port)}:
-                </td>
-                <td className="text-center text-sm border-l border-t table-border-color">
-                  {displayValue(idx)}
-                </td>
-                <td className="text-center text-sm border-l border-t table-border-color">
-                  {displayValueHex(ports_data[port])}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+          return (
+            <Dtr key={port} className={rowColor}>
+              <DtdLeft className="font-semibold">{displayValue(port)}:</DtdLeft>
+              <Dtd>{displayValue(idx)}</Dtd>
+              <Dtd>{displayValueHex(ports_data[port])}</Dtd>
+            </Dtr>
+          );
+        })}
+      </Dtbody>
+    </Dtable>
   );
 };
 
@@ -135,39 +134,28 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
           </div>
           <div className="flex space-x-1">
             {regChunks.map((regChunk, chunkIdx) => (
-              <div
-                key={chunkIdx}
-                className="mb-4 overflow-hidden rounded-lg border table-border-color"
-              >
-                <table>
-                  <thead className="bg-slate-300">
-                    <tr>
-                      <th className="text-sm p-1">#</th>
-                      <th className="text-sm p-1 border-l table-border-color w-20">
-                        Value
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {regChunk.map((reg_data, idx) => {
-                      const globalIdx = chunkIdx * chunkSize + idx;
-                      const prNumber = globalIdx.toString();
-                      const value = regChunk[idx];
+              <Dtable key={chunkIdx}>
+                <Dthead>
+                  <Dtr>
+                    <Dth className="text-sm p-1">#</Dth>
+                    <Dth className="text-sm p-1 w-20">Value</Dth>
+                  </Dtr>
+                </Dthead>
+                <Dtbody>
+                  {regChunk.map((reg_data, idx) => {
+                    const globalIdx = chunkIdx * chunkSize + idx;
+                    const prNumber = globalIdx.toString();
+                    const value = regChunk[idx];
 
-                      return (
-                        <tr key={globalIdx} className="bg-gray-200">
-                          <td className="text-center text-sm border-t table-border-color font-semibold">
-                            {prNumber}:
-                          </td>
-                          <td className="text-center text-sm border-t border-l table-border-color">
-                            {displayValueHex(value)}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
+                    return (
+                      <Dtr key={globalIdx}>
+                        <Dtd className="font-semibold">{prNumber}:</Dtd>
+                        <Dtd className="">{displayValueHex(value)}</Dtd>
+                      </Dtr>
+                    );
+                  })}
+                </Dtbody>
+              </Dtable>
             ))}
           </div>
         </div>

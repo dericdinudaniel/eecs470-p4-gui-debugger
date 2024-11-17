@@ -2,6 +2,16 @@ import React from "react";
 import * as Constants from "@/lib/constants";
 import { chunkArray } from "@/lib/tsutils";
 import { displayValue } from "@/lib/utils";
+import {
+  Dthead,
+  Dtd,
+  DtdLeft,
+  Dth,
+  DthLeft,
+  Dtr,
+  Dtbody,
+  Dtable,
+} from "@/components/dui/DTable";
 
 type DisplayMapTableProps = {
   className: string;
@@ -20,35 +30,28 @@ const DisplayMapTable: React.FC<DisplayMapTableProps> = ({
       <h2 className="text-lg font-semibold">Map Table</h2>
       <div className="flex space-x-1">
         {mapTableChunks.map((chunk, chunkIdx) => (
-          <div
-            key={chunkIdx}
-            className="overflow-hidden rounded-lg border table-border-color mb-2"
-          >
-            <table className="border-collapse">
-              <thead className="bg-slate-300">
-                <tr>
-                  <th className="text-sm p-1">AR#</th>
-                  <th className="text-sm border-l table-border-color p-1">
-                    PR#
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {chunk.map((pr, idx) => (
-                  <tr key={chunkIdx * chunkSize + idx} className="bg-gray-200">
-                    <td className="text-right text-sm border-t table-border-color font-semibold">
-                      {chunkIdx * chunkSize + idx}:
-                    </td>
-                    <td className=" text-sm border-l border-t table-border-color">
-                      <div className="text-center">
-                        <span>{displayValue(pr)}</span>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <Dtable key={chunkIdx}>
+            <Dthead>
+              <Dtr>
+                <Dth className="p-1">AR#</Dth>
+                <Dth className="p-1">PR#</Dth>
+              </Dtr>
+            </Dthead>
+            <Dtbody>
+              {chunk.map((pr, idx) => (
+                <Dtr key={chunkIdx * chunkSize + idx}>
+                  <DtdLeft className="font-semibold bg-gray-200">
+                    {chunkIdx * chunkSize + idx}:
+                  </DtdLeft>
+                  <Dtd className=" bg-gray-200">
+                    <div className="text-center">
+                      <span>{displayValue(pr)}</span>
+                    </div>
+                  </Dtd>
+                </Dtr>
+              ))}
+            </Dtbody>
+          </Dtable>
         ))}
       </div>
     </div>

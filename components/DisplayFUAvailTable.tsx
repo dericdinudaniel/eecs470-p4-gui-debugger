@@ -1,5 +1,15 @@
 import React from "react";
 import * as Constants from "@/lib/constants";
+import {
+  Dthead,
+  Dtd,
+  DtdLeft,
+  Dth,
+  DthLeft,
+  Dtr,
+  Dtbody,
+  Dtable,
+} from "@/components/dui/DTable";
 
 interface FUTableProps {
   className: string;
@@ -41,39 +51,33 @@ const DisplayFUAvailTable: React.FC<FUTableProps> = ({
 
   return (
     <div className={`${className}`}>
-      <div className="overflow-hidden rounded-lg border table-border-color">
-        <table className="w-full border-collapse">
-          <thead className="bg-slate-300">
-            <tr>
-              <th className="text-sm p-2">FU Type</th>
-              {[...Array(maxFUs)].map((_, i) => (
-                <th key={i} className="text-sm border-l table-border-color p-2">
-                  {i}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {fuTypes.map((fu, rowIdx) => (
-              <tr key={fu.name}>
-                <td className="text-sm text-center bg-gray-200 border-t border-r table-border-color">
-                  {fu.name}
-                </td>
-                {fu.avail.map((value, i) => (
-                  <td
-                    key={i}
-                    className={`text-sm text-center bg-gray-200 border-t border-l table-border-color ${
-                      value == 1 ? "bg-green-200" : "bg-red-200"
-                    }`}
-                  >
-                    {Number.isNaN(value) ? "x" : value}
-                  </td>
-                ))}
-              </tr>
+      <Dtable>
+        <Dthead className="bg-slate-300">
+          <Dtr>
+            <Dth className="p-2">FU Type</Dth>
+            {[...Array(maxFUs)].map((_, i) => (
+              <Dth key={i} className="p-2">
+                {i}
+              </Dth>
             ))}
-          </tbody>
-        </table>
-      </div>
+          </Dtr>
+        </Dthead>
+        <Dtbody>
+          {fuTypes.map((fu, rowIdx) => (
+            <Dtr key={fu.name}>
+              <Dtd className="">{fu.name}</Dtd>
+              {fu.avail.map((value, i) => (
+                <Dtd
+                  key={i}
+                  className={`${value == 1 ? "bg-green-200" : "bg-red-200"}`}
+                >
+                  {Number.isNaN(value) ? "x" : value}
+                </Dtd>
+              ))}
+            </Dtr>
+          ))}
+        </Dtbody>
+      </Dtable>
     </div>
   );
 };

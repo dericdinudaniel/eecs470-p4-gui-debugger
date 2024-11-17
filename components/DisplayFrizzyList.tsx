@@ -1,5 +1,15 @@
 import React from "react";
 import { chunkArray } from "@/lib/tsutils";
+import {
+  Dthead,
+  Dtd,
+  DtdLeft,
+  Dth,
+  DthLeft,
+  Dtr,
+  Dtbody,
+  Dtable,
+} from "@/components/dui/DTable";
 
 type DisplayFrizzyListProps = {
   className: string;
@@ -23,54 +33,50 @@ const DisplayFrizzyList: React.FC<DisplayFrizzyListProps> = ({
   return (
     <div className={`flex-col justify-items-center ${className}`}>
       <h2 className="text-lg font-semibold">Free + Ready List</h2>
-      <div className="mb-4 overflow-hidden rounded-lg border table-border-color">
-        <table className="border-collapse w-full">
-          <thead className="bg-slate-300">
-            <tr>
-              <th className="text-sm p-1" colSpan={freeListChunks.length}>
-                PR #
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {Array.from({ length: chunkSize }).map((_, rowIdx) => (
-              <tr key={rowIdx}>
-                {freeListChunks.map((freeChunk, colIdx) => {
-                  const globalIdx = colIdx * chunkSize + rowIdx;
-                  if (globalIdx >= freeList.length) {
-                    return (
-                      <td key={globalIdx} className="bg-gray-100">
-                        &nbsp;
-                      </td>
-                    );
-                  }
-                  const prNumber = globalIdx.toString();
-                  const free = freeChunk[rowIdx];
-                  const ready = readyBitsChunks[colIdx][rowIdx];
-
+      <Dtable>
+        <Dthead>
+          <Dtr>
+            <Dth className="text-sm p-1" colSpan={freeListChunks.length}>
+              PR #
+            </Dth>
+          </Dtr>
+        </Dthead>
+        <Dtbody>
+          {Array.from({ length: chunkSize }).map((_, rowIdx) => (
+            <Dtr key={rowIdx}>
+              {freeListChunks.map((freeChunk, colIdx) => {
+                const globalIdx = colIdx * chunkSize + rowIdx;
+                if (globalIdx >= freeList.length) {
                   return (
-                    <td
-                      key={globalIdx}
-                      className={`text-center text-sm border-t ${
-                        colIdx === 0 ? "" : "border-l"
-                      } table-border-color ${
-                        free === "1" ? "bg-green-200" : "bg-gray-200"
-                      }`}
-                    >
-                      <div className="flex px-3 space-x-1">
-                        <span className="w-4">{prNumber}</span>
-                        <span className="flex items-center">
-                          {ready === "1" ? "+" : "\u00A0"}
-                        </span>
-                      </div>
-                    </td>
+                    <Dtd key={globalIdx} className="bg-gray-400">
+                      &nbsp;
+                    </Dtd>
                   );
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                }
+                const prNumber = globalIdx.toString();
+                const free = freeChunk[rowIdx];
+                const ready = readyBitsChunks[colIdx][rowIdx];
+
+                return (
+                  <Dtd
+                    key={globalIdx}
+                    className={`text-center text-sm  ${
+                      free === "1" ? "bg-green-200" : "bg-gray-200"
+                    }`}
+                  >
+                    <div className="flex px-3 space-x-1">
+                      <span className="w-4">{prNumber}</span>
+                      <span className="flex items-center">
+                        {ready === "1" ? "+" : "\u00A0"}
+                      </span>
+                    </div>
+                  </Dtd>
+                );
+              })}
+            </Dtr>
+          ))}
+        </Dtbody>
+      </Dtable>
     </div>
   );
 };

@@ -1,5 +1,15 @@
 import * as Types from "@/lib/types";
 import { displayValueHex } from "@/lib/utils";
+import {
+  Dthead,
+  Dtd,
+  DtdLeft,
+  Dth,
+  DthLeft,
+  Dtr,
+  Dtbody,
+  Dtable,
+} from "@/components/dui/DTable";
 
 type DisplayCDBDataProps = {
   className: string;
@@ -18,50 +28,36 @@ const DisplayCDBData: React.FC<DisplayCDBDataProps> = ({
     <div className={`justify-items-center ${className}`}>
       <p className="font-semibold">{isEarlyCDB ? "Early CDB" : "CDB"}</p>
       <div className="">
-        <div className="overflow-hidden rounded-lg border table-border-color">
-          <table className="w-full border-collapse">
-            <thead className="bg-slate-300">
-              <tr>
-                <th className="text-sm p-1">Tag</th>
-                {CDBData && (
-                  <th className="text-sm p-1 border-l table-border-color w-20">
-                    Data
-                  </th>
-                )}
-              </tr>
-            </thead>
-            <tbody>
-              {CDBTags.map((tag, idx) => {
-                const displayTag = Number.isNaN(tag) ? "XX" : tag;
-                const displayVal = CDBData
-                  ? Number.isNaN(CDBData[idx])
-                    ? "XX"
-                    : displayValueHex(CDBData[idx])
-                  : "XX";
+        <Dtable>
+          <Dthead>
+            <Dtr>
+              <Dth className="p-1">Tag</Dth>
+              {CDBData && <Dth className="p-1 w-20">Data</Dth>}
+            </Dtr>
+          </Dthead>
+          <Dtbody>
+            {CDBTags.map((tag, idx) => {
+              const displayTag = Number.isNaN(tag) ? "XX" : tag;
+              const displayVal = CDBData
+                ? Number.isNaN(CDBData[idx])
+                  ? "XX"
+                  : displayValueHex(CDBData[idx])
+                : "XX";
 
-                const color =
-                  Number.isNaN(tag) || tag == 0 ? "bg-red-200" : "bg-green-200";
+              const color =
+                Number.isNaN(tag) || tag == 0 ? "bg-red-200" : "bg-green-200";
 
-                return (
-                  <tr key={idx}>
-                    <td
-                      className={`text-sm text-center bg-gray-200 border-t table-border-color ${color}`}
-                    >
-                      p{displayTag}
-                    </td>
-                    {CDBData && (
-                      <td
-                        className={`text-sm text-center bg-gray-200 border-t border-l table-border-color ${color}`}
-                      >
-                        {displayVal}
-                      </td>
-                    )}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+              return (
+                <Dtr key={idx}>
+                  <DtdLeft className={`text-center ${color}`}>
+                    p{displayTag}
+                  </DtdLeft>
+                  {CDBData && <Dtd className={`${color}`}>{displayVal}</Dtd>}
+                </Dtr>
+              );
+            })}
+          </Dtbody>
+        </Dtable>
       </div>
     </div>
   );

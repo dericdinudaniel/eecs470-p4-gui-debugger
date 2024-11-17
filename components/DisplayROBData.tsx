@@ -2,6 +2,16 @@ import React from "react";
 import * as Types from "@/lib/types";
 import { displayValue } from "@/lib/utils";
 import { parseInstruction } from "@/lib/tsutils";
+import {
+  Dthead,
+  Dtd,
+  DtdLeft,
+  Dth,
+  DthLeft,
+  Dtr,
+  Dtbody,
+  Dtable,
+} from "@/components/dui/DTable";
 
 type DisplayROBDataProps = {
   className: string;
@@ -20,39 +30,23 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
 }) => {
   return (
     <div className={className}>
-      <div className="overflow-hidden rounded-lg border table-border-color">
-        <table className="border-collapse">
-          <thead className="bg-slate-300">
-            <tr>
-              <th className="text-sm px-4">#</th>
-              <th className="text-sm border-l table-border-color px-2 py-1">
+      <div className="">
+        <Dtable>
+          <Dthead>
+            <Dtr>
+              <DthLeft>#</DthLeft>
+              <Dth>
                 <div className="w-36">Inst</div>
-              </th>
-              <th className="text-sm border-l table-border-color px-2 py-1">
-                R_dest
-              </th>
-              <th className="text-sm border-l table-border-color px-2 py-1">
-                T_new
-              </th>
-              <th className="text-sm border-l table-border-color px-2 py-1">
-                T_old
-              </th>
-              <th className="text-sm border-l table-border-color px-2 py-1">
-                Valid
-              </th>
-              <th className="text-sm border-l table-border-color px-2 py-1">
-                Ret?
-              </th>
-              {isROB && (
-                <>
-                  <th className="text-sm border-l table-border-color px-2 py-1">
-                    H/T
-                  </th>
-                </>
-              )}
-            </tr>
-          </thead>
-          <tbody>
+              </Dth>
+              <Dth>R_dest</Dth>
+              <Dth>T_new</Dth>
+              <Dth>T_old</Dth>
+              <Dth>Valid</Dth>
+              <Dth>Ret?</Dth>
+              {isROB && <Dth>H/T</Dth>}
+            </Dtr>
+          </Dthead>
+          <Dtbody>
             {ROBData.map((entry, idx) => {
               let isHead = head === idx;
               let isTail = tail === idx;
@@ -85,42 +79,30 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
                 "←" + (isBoth ? "H&T" : isHead ? "Head" : isTail ? "Tail" : "");
 
               return (
-                <tr key={idx} className={color}>
-                  <td className="text-right text-sm border-t table-border-color font-semibold">
-                    {entryNumber}
-                  </td>
-                  <td className="text-center text-sm border-l border-t table-border-color font-semibold">
+                <Dtr key={idx} className={`${color}`}>
+                  <DtdLeft className="font-semibold">{entryNumber}</DtdLeft>
+                  <Dtd className="font-semibold">
                     {parseInstruction(entry.packet.inst.inst)}
-                  </td>
-                  <td className="text-center text-sm border-l border-t table-border-color">
-                    {"r" + displayValue(entry.R_dest)}
-                  </td>
-                  <td className="text-center text-sm border-l border-t table-border-color">
-                    {"p" + displayValue(entry.T_new)}
-                  </td>
-                  <td className="text-center text-sm border-l border-t table-border-color">
-                    {"p" + displayValue(entry.T_old)}
-                  </td>
-                  <td className="text-center text-sm border-l border-t table-border-color">
-                    {displayValue(entry.valid ? "1" : "0")}
-                  </td>
-                  <td className="text-center text-sm border-l border-t table-border-color">
-                    {displayValue(entry.retireable ? "1" : "0")}
-                  </td>
+                  </Dtd>
+                  <Dtd>{"r" + displayValue(entry.R_dest)}</Dtd>
+                  <Dtd>{"p" + displayValue(entry.T_new)}</Dtd>
+                  <Dtd>{"p" + displayValue(entry.T_old)}</Dtd>
+                  <Dtd>{displayValue(entry.valid ? "1" : "0")}</Dtd>
+                  <Dtd>{displayValue(entry.retireable ? "1" : "0")}</Dtd>
                   {isROB && (
                     <>
-                      <td className="text-center text-sm border-l border-t table-border-color">
+                      <Dtd className="text-sm">
                         <div className="w-14">
                           {isEither && headOrTailString}
                         </div>
-                      </td>
+                      </Dtd>
                     </>
                   )}
-                </tr>
+                </Dtr>
               );
             })}
-          </tbody>
-        </table>
+          </Dtbody>
+        </Dtable>
       </div>
     </div>
   );
