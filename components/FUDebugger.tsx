@@ -12,7 +12,7 @@ import {
 import DisplaySingleFU_DATA from "./DisplaySingleFU_DATA";
 import DisplayCDBData from "./DisplayCDBData";
 import { reverseStr } from "@/lib/tsutils";
-import { ModuleBase } from "./dui/ModuleBase";
+import { ModuleBase, ModuleHeader } from "./dui/Module";
 
 type FUDebuggerProps = {
   className: string;
@@ -57,12 +57,14 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
   );
 
   const [showFUInputs, setShowFUInputs] = useState(true);
+  const [showFU, setShowFU] = useState(true);
+
   return (
     <>
       <ModuleBase className={className}>
         {/* header */}
         <div className="flex items-center">
-          <h2 className="text-xl font-semibold">FUs</h2>
+          <ModuleHeader onClick={() => setShowFU(!showFU)}>FUs</ModuleHeader>
           <button
             className="ml-3 bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600  text-xs"
             onClick={() => setShowFUInputs(!showFUInputs)}
@@ -96,69 +98,73 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
           </div>
         </div>
 
-        {/* inputs from RS */}
-        {showFUInputs && (
+        {showFU && (
           <>
-            <div className="mt-2 justify-items-center">
-              <div className="flex space-x-4">
-                {/* ALU */}
-                <div className="justify-items-center">
-                  <p>ALU IN</p>
-                  <div className="flex space-x-1">
-                    {FU_alu_data.map((fu_data, idx) => (
-                      <div key={idx}>
-                        <DisplaySingleFU_DATA
-                          className=""
-                          FUIdx={idx}
-                          FUData={fu_data}
-                          fu_type={Types.FU_TYPE.ALU}
-                        />
+            {/* inputs from RS */}
+            {showFUInputs && (
+              <>
+                <div className="mt-2 justify-items-center">
+                  <div className="flex space-x-4">
+                    {/* ALU */}
+                    <div className="justify-items-center">
+                      <p>ALU IN</p>
+                      <div className="flex space-x-1">
+                        {FU_alu_data.map((fu_data, idx) => (
+                          <div key={idx}>
+                            <DisplaySingleFU_DATA
+                              className=""
+                              FUIdx={idx}
+                              FUData={fu_data}
+                              fu_type={Types.FU_TYPE.ALU}
+                            />
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                </div>
+                    </div>
 
-                {/* MULT */}
-                <div className="justify-items-center">
-                  <p>MULT IN</p>
-                  <div className="flex space-x-1">
-                    {FU_mult_data.map((fu_data, idx) => (
-                      <div key={idx}>
-                        <DisplaySingleFU_DATA
-                          className=""
-                          FUIdx={idx}
-                          FUData={fu_data}
-                          fu_type={Types.FU_TYPE.MUL}
-                        />
+                    {/* MULT */}
+                    <div className="justify-items-center">
+                      <p>MULT IN</p>
+                      <div className="flex space-x-1">
+                        {FU_mult_data.map((fu_data, idx) => (
+                          <div key={idx}>
+                            <DisplaySingleFU_DATA
+                              className=""
+                              FUIdx={idx}
+                              FUData={fu_data}
+                              fu_type={Types.FU_TYPE.MUL}
+                            />
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                </div>
+                    </div>
 
-                {/* BRANCH */}
-                <div className="justify-items-center">
-                  <p>BRANCH IN</p>
-                  <div className="flex space-x-1">
-                    {FU_branch_data.map((fu_data, idx) => (
-                      <div key={idx}>
-                        <DisplaySingleFU_DATA
-                          className=""
-                          FUIdx={idx}
-                          FUData={fu_data}
-                          fu_type={Types.FU_TYPE.BR}
-                        />
+                    {/* BRANCH */}
+                    <div className="justify-items-center">
+                      <p>BRANCH IN</p>
+                      <div className="flex space-x-1">
+                        {FU_branch_data.map((fu_data, idx) => (
+                          <div key={idx}>
+                            <DisplaySingleFU_DATA
+                              className=""
+                              FUIdx={idx}
+                              FUData={fu_data}
+                              fu_type={Types.FU_TYPE.BR}
+                            />
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                      <div>branch_results_out: {FU_branch_results_out}</div>
+                      <div>b_mask: {b_mask}</div>
+                    </div>
                   </div>
-                  <div>branch_results_out: {FU_branch_results_out}</div>
-                  <div>b_mask: {b_mask}</div>
                 </div>
-              </div>
-            </div>
+              </>
+            )}
+
+            {/* FUs */}
           </>
         )}
-
-        {/* FUs */}
       </ModuleBase>
     </>
   );

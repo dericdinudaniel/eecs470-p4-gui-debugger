@@ -10,7 +10,7 @@ import DisplayInstList from "./DisplayInstList";
 import { Toggle } from "./ui/toggle";
 import { ChevronUpIcon, ChevronDownIcon } from "lucide-react";
 import { reverseStr } from "@/lib/tsutils";
-import { ModuleBase } from "./dui/ModuleBase";
+import { ModuleBase, ModuleHeader } from "./dui/Module";
 
 type IBDebuggerProps = {
   className: string;
@@ -48,18 +48,21 @@ const IBDebugger: React.FC<IBDebuggerProps> = ({
     signalIB,
     "output_id_ex_packet"
   ).value;
-  const IB_output_id_ex_packet = parseID_EX_PACKET_List(output_id_ex_packet);
+  // const IB_output_id_ex_packet = parseID_EX_PACKET_List(output_id_ex_packet);
 
   const if_id_reg = extractSignalValue(signalCPU, "if_id_reg").value;
   const CPU_if_id_reg = parseID_EX_PACKET_List(if_id_reg);
 
   const [showIBInputs, setShowIBInputs] = useState(true);
+  const [showIB, setShowIB] = useState(true);
 
   return (
     <>
       <ModuleBase className={className}>
         <div className="flex items-center mb-2">
-          <h2 className="text-xl font-semibold">Inst Buffer</h2>
+          <ModuleHeader onClick={() => setShowIB(!showIB)}>
+            Inst Buffer
+          </ModuleHeader>
           {/* small button to enable IBInputs, show only down or up arrow */}
           <Toggle
             pressed={showIBInputs}
@@ -73,52 +76,57 @@ const IBDebugger: React.FC<IBDebuggerProps> = ({
             )}
           </Toggle>
         </div>
-        <div className="justify-items-center space-y-2">
-          {/* inputs */}
-          {showIBInputs && (
-            <div>
-              <div className="text-md">
-                <span className="font-semibold"># Dispatched: </span>
-                {num_dispatched}
+
+        {showIB && (
+          <>
+            <div className="justify-items-center space-y-2">
+              {/* inputs */}
+              {showIBInputs && (
+                <div>
+                  <div className="text-md">
+                    <span className="font-semibold"># Dispatched: </span>
+                    {num_dispatched}
+                  </div>
+                  <div className="text-md">
+                    <span className="font-semibold"># Fetched: </span>
+                    {num_fetched}
+                  </div>
+                </div>
+              )}
+              <div>
+                <DisplayInstList
+                  className=""
+                  instList={IB_input_id_ex_packet}
+                  head={-1}
+                  tail={-1}
+                  isIB={false}
+                />
               </div>
-              <div className="text-md">
-                <span className="font-semibold"># Fetched: </span>
-                {num_fetched}
+
+              {/* actual buffer */}
+              <DisplayInstList
+                className=""
+                instList={IB_buffer}
+                validList={IB_valid}
+                head={head}
+                tail={tail}
+                isIB={true}
+              />
+
+              {/* outputs */}
+              <div className="justify-items-center font-semibold">
+                <p>Dispatched</p>
+                <DisplayInstList
+                  className=""
+                  instList={CPU_if_id_reg}
+                  head={-1}
+                  tail={-1}
+                  isIB={false}
+                />
               </div>
             </div>
-          )}
-          <div>
-            <DisplayInstList
-              className=""
-              instList={IB_input_id_ex_packet}
-              head={-1}
-              tail={-1}
-              isIB={false}
-            />
-          </div>
-
-          {/* actual buffer */}
-          <DisplayInstList
-            className=""
-            instList={IB_buffer}
-            validList={IB_valid}
-            head={head}
-            tail={tail}
-            isIB={true}
-          />
-
-          {/* outputs */}
-          <div className="justify-items-center font-semibold">
-            <p>Dispatched</p>
-            <DisplayInstList
-              className=""
-              instList={CPU_if_id_reg}
-              head={-1}
-              tail={-1}
-              isIB={false}
-            />
-          </div>
-        </div>
+          </>
+        )}
       </ModuleBase>
     </>
   );

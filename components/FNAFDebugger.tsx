@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { ScopeData } from "@/lib/tstypes";
 import { extractSignalValue, parseFreeList, parseReg_Map } from "@/lib/utils";
-import { ModuleBase } from "./dui/ModuleBase";
+import { ModuleBase, ModuleHeader } from "./dui/Module";
 import DisplayFrizzyList from "./DisplayFrizzyList";
 import DisplayMapTable from "./DisplayMapTable";
 
@@ -26,17 +26,26 @@ const FNAFDebugger: React.FC<FNAFDebuggerProps> = ({
   const reg_map = extractSignalValue(signalFNAF, "reg_map").value;
   const FNAF_reg_map = parseReg_Map(reg_map);
 
+  const [showFreddy, setShowFreddy] = useState(true);
+
   return (
     <>
       <ModuleBase className={className}>
-        <div className="flex space-x-3 rounded-xl">
-          <DisplayFrizzyList
-            className=""
-            freeList={FNAF_free_list}
-            readyBits={FNAF_ready_bits}
-          />
-          <DisplayMapTable className="" mapTable={FNAF_reg_map} />
-        </div>
+        <ModuleHeader onClick={() => setShowFreddy(!showFreddy)}>
+          Freddy
+        </ModuleHeader>
+        {showFreddy && (
+          <>
+            <div className="flex space-x-3 rounded-xl">
+              <DisplayFrizzyList
+                className=""
+                freeList={FNAF_free_list}
+                readyBits={FNAF_ready_bits}
+              />
+              <DisplayMapTable className="" mapTable={FNAF_reg_map} />
+            </div>
+          </>
+        )}
       </ModuleBase>
     </>
   );

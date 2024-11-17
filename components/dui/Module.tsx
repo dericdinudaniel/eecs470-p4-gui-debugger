@@ -18,4 +18,8 @@ const ModuleBase = React.forwardRef<
 ));
 ModuleBase.displayName = "ModuleBase";
 
-export { ModuleBase };
+const ModuleHeader: React.FC<React.ComponentProps<"button">> = (props) => (
+  <button className="text-xl font-semibold" {...props} />
+);
+
+export { ModuleBase, ModuleHeader };

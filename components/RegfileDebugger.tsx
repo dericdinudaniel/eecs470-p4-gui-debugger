@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  clog2,
   extractSignalValue,
   parseRegfile,
   parseRegPortData,
@@ -21,7 +20,7 @@ import {
   Dtbody,
   Dtable,
 } from "@/components/dui/DTable";
-import { ModuleBase } from "./dui/ModuleBase";
+import { ModuleBase, ModuleHeader } from "./dui/Module";
 
 type RegfileDebuggerProps = {
   className: string;
@@ -93,13 +92,20 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
   const Ref_write_data = parseRegPortData(write_data);
 
   const [showRegfilePorts, setShowRegfilePorts] = useState(true);
+  const [showReg, setShowReg] = useState(true);
 
   return (
     <>
       <ModuleBase className={className}>
         <div className="justify-items-center">
           <div className="flex items-center">
-            <h2 className="text-lg font-semibold">Physical Registers</h2>
+            <ModuleHeader
+              onClick={() => {
+                setShowReg(!showReg);
+              }}
+            >
+              Physical Registers
+            </ModuleHeader>
             <button
               className="ml-4 bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600  text-xs mb-0"
               onClick={() => setShowRegfilePorts(!showRegfilePorts)}
@@ -107,56 +113,61 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
               {showRegfilePorts ? "Hide Regfile Ports" : "Show Regfile Ports"}
             </button>
           </div>
-          <div className="flex space-x-2 mb-2">
-            {showRegfilePorts && (
-              <>
-                {/* read ports */}
-                <div className="justify-items-center">
-                  <h2 className="text-md font-semibold">Read Ports</h2>
-                  <DisplayRegPorts
-                    ports_idx={Reg_read_idx}
-                    ports_data={Ref_read_out}
-                  />
-                </div>
 
-                {/* write ports */}
-                <div className="justify-items-center">
-                  <h2 className="text-md font-semibold">Write Ports</h2>
-                  <DisplayRegPorts
-                    ports_idx={Reg_write_idx}
-                    ports_data={Ref_write_data}
-                    ports_enable={Reg_write_en}
-                  />
-                </div>
-              </>
-            )}
-          </div>
-          <div className="flex space-x-1">
-            {regChunks.map((regChunk, chunkIdx) => (
-              <Dtable key={chunkIdx}>
-                <Dthead>
-                  <Dtr>
-                    <Dth className="text-sm p-1">#</Dth>
-                    <Dth className="text-sm p-1 w-20">Value</Dth>
-                  </Dtr>
-                </Dthead>
-                <Dtbody>
-                  {regChunk.map((reg_data, idx) => {
-                    const globalIdx = chunkIdx * chunkSize + idx;
-                    const prNumber = globalIdx.toString();
-                    const value = regChunk[idx];
+          {showReg && (
+            <>
+              <div className="flex space-x-2 mb-2">
+                {showRegfilePorts && (
+                  <>
+                    {/* read ports */}
+                    <div className="justify-items-center">
+                      <h2 className="text-md font-semibold">Read Ports</h2>
+                      <DisplayRegPorts
+                        ports_idx={Reg_read_idx}
+                        ports_data={Ref_read_out}
+                      />
+                    </div>
 
-                    return (
-                      <Dtr key={globalIdx}>
-                        <Dtd className="font-semibold">{prNumber}:</Dtd>
-                        <Dtd className="">{displayValueHex(value)}</Dtd>
+                    {/* write ports */}
+                    <div className="justify-items-center">
+                      <h2 className="text-md font-semibold">Write Ports</h2>
+                      <DisplayRegPorts
+                        ports_idx={Reg_write_idx}
+                        ports_data={Ref_write_data}
+                        ports_enable={Reg_write_en}
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+              <div className="flex space-x-1">
+                {regChunks.map((regChunk, chunkIdx) => (
+                  <Dtable key={chunkIdx}>
+                    <Dthead>
+                      <Dtr>
+                        <Dth className="text-sm p-1">#</Dth>
+                        <Dth className="text-sm p-1 w-20">Value</Dth>
                       </Dtr>
-                    );
-                  })}
-                </Dtbody>
-              </Dtable>
-            ))}
-          </div>
+                    </Dthead>
+                    <Dtbody>
+                      {regChunk.map((reg_data, idx) => {
+                        const globalIdx = chunkIdx * chunkSize + idx;
+                        const prNumber = globalIdx.toString();
+                        const value = regChunk[idx];
+
+                        return (
+                          <Dtr key={globalIdx}>
+                            <Dtd className="font-semibold">{prNumber}:</Dtd>
+                            <Dtd className="">{displayValueHex(value)}</Dtd>
+                          </Dtr>
+                        );
+                      })}
+                    </Dtbody>
+                  </Dtable>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </ModuleBase>
     </>

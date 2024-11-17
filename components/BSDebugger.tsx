@@ -8,7 +8,7 @@ import {
   parseCHECKPOINT_DATA,
   parseCHECKPOINT_DATA_List,
 } from "@/lib/utils";
-import { ModuleBase } from "./dui/ModuleBase";
+import { ModuleBase, ModuleHeader } from "./dui/Module";
 import * as Types from "@/lib/types";
 import DisplayFrizzyList from "./DisplayFrizzyList";
 import DisplayMapTable from "./DisplayMapTable";
@@ -130,13 +130,16 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
 
   const [showBSInputs, setShowBSInputs] = useState(true);
   const [showBSOutputs, setShowBSOutputs] = useState(true);
+  const [showBS, setShowBS] = useState(true);
 
   return (
     <ModuleBase className={className}>
       {/* HEADER */}
       <div className="flex items-center">
         <div>
-          <h2 className="text-xl font-semibold">Branch Stacks</h2>
+          <ModuleHeader onClick={() => setShowBS(!showBS)}>
+            Branch Stacks
+          </ModuleHeader>
           <div>
             <span className="font-semibold">BMask Current: </span>
             {bmask_current}
@@ -164,90 +167,98 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
         </div>
       </div>
 
-      {/* display inputs */}
-      {showBSInputs && (
+      {showBS && (
         <>
-          <div className="bg-gray-300 p-2 rounded-lg shadow-lg mt-2">
-            <div className="flex space-x-3 items-center">
-              <div>
-                <div>
-                  <span className="font-bold">BMASK in: </span>
-                  {branch_mask_in}
+          {/* display inputs */}
+          {showBSInputs && (
+            <>
+              <div className="bg-gray-300 p-2 rounded-lg shadow-lg mt-2">
+                <div className="flex space-x-3 items-center">
+                  <div>
+                    <div>
+                      <span className="font-bold">BMASK in: </span>
+                      {branch_mask_in}
+                    </div>
+                    <div>
+                      <span className="font-bold">T_old: </span>
+                      {T_old}
+                    </div>
+                  </div>
+                  <DisplayCDBData
+                    className=""
+                    CDBTags={BS_cdb}
+                    isEarlyCDB={true}
+                  />
                 </div>
-                <div>
-                  <span className="font-bold">T_old: </span>
-                  {T_old}
-                </div>
-              </div>
-              <DisplayCDBData className="" CDBTags={BS_cdb} isEarlyCDB={true} />
-            </div>
-            <DisplaySingleCheckpoint
-              className="mt-2"
-              checkpoint={BS_checkpoint_in}
-              valid={dispatch_valid}
-            />
-          </div>
-        </>
-      )}
-
-      {/* BRANCH STACKS */}
-      <div className="mt-2 bg-gray-300 p-2 rounded-lg shadow-lg">
-        <div className="mt-2 grid grid-cols-2 gap-x-2 gap-y-2">
-          {BS_branch_stacks.map((cp, idx) => {
-            return (
-              <div key={idx} className="">
                 <DisplaySingleCheckpoint
-                  className=""
-                  checkpoint={cp}
-                  idx={idx}
+                  className="mt-2"
+                  checkpoint={BS_checkpoint_in}
+                  valid={dispatch_valid}
                 />
               </div>
-            );
-          })}
-        </div>
-      </div>
+            </>
+          )}
 
-      {/* display outputs */}
-      {showBSOutputs && (
-        <>
-          <div className="mt-3 bg-gray-300 p-2 rounded-lg shadow-lg">
-            <div className="flex space-x-3">
-              <div>
-                <div
-                  className={`${
-                    prediction == Types.BRANCH_PREDICT_T.CORRECTLY_PREDICTED
-                      ? "bg-green-300"
-                      : prediction == Types.BRANCH_PREDICT_T.MISPREDICTED
-                      ? "bg-red-300"
-                      : ""
-                  }`}
-                >
-                  <span className="font-bold">Prediction: </span>
-                  {Types.getBranchPredictName(prediction)}
-                </div>
-                <div>
-                  <span className="font-bold">BMASK prev out: </span>
-                  {branch_mask_prev_out}
-                </div>
-                <div>
-                  <span className="font-bold">BMASK reg out: </span>
-                  {branch_mask_reg_out}
-                </div>
-                <div>
-                  <span className="font-bold">BMASK mask: </span>
-                  {b_mask_mask}
-                </div>
-                <div>
-                  <span className="font-bold">Full: </span>
-                  {full ? "True" : "False"}
-                </div>
-              </div>
-              <DisplaySingleCheckpoint
-                className=""
-                checkpoint={BS_checkpoint_out}
-              />
+          {/* BRANCH STACKS */}
+          <div className="mt-2 bg-gray-300 p-2 rounded-lg shadow-lg">
+            <div className="mt-2 grid grid-cols-2 gap-x-2 gap-y-2">
+              {BS_branch_stacks.map((cp, idx) => {
+                return (
+                  <div key={idx} className="">
+                    <DisplaySingleCheckpoint
+                      className=""
+                      checkpoint={cp}
+                      idx={idx}
+                    />
+                  </div>
+                );
+              })}
             </div>
           </div>
+
+          {/* display outputs */}
+          {showBSOutputs && (
+            <>
+              <div className="mt-3 bg-gray-300 p-2 rounded-lg shadow-lg">
+                <div className="flex space-x-3">
+                  <div>
+                    <div
+                      className={`${
+                        prediction == Types.BRANCH_PREDICT_T.CORRECTLY_PREDICTED
+                          ? "bg-green-300"
+                          : prediction == Types.BRANCH_PREDICT_T.MISPREDICTED
+                          ? "bg-red-300"
+                          : ""
+                      }`}
+                    >
+                      <span className="font-bold">Prediction: </span>
+                      {Types.getBranchPredictName(prediction)}
+                    </div>
+                    <div>
+                      <span className="font-bold">BMASK prev out: </span>
+                      {branch_mask_prev_out}
+                    </div>
+                    <div>
+                      <span className="font-bold">BMASK reg out: </span>
+                      {branch_mask_reg_out}
+                    </div>
+                    <div>
+                      <span className="font-bold">BMASK mask: </span>
+                      {b_mask_mask}
+                    </div>
+                    <div>
+                      <span className="font-bold">Full: </span>
+                      {full ? "True" : "False"}
+                    </div>
+                  </div>
+                  <DisplaySingleCheckpoint
+                    className=""
+                    checkpoint={BS_checkpoint_out}
+                  />
+                </div>
+              </div>
+            </>
+          )}
         </>
       )}
     </ModuleBase>
