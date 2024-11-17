@@ -16,7 +16,7 @@ const DisplayRSData: React.FC<DisplayRSDataProps> = ({
   return (
     <>
       <div className="pt-2"></div>
-      <div className="bg-gray-300 rounded-xl p-3 shadow-lg">
+      <div className="bg-card-foreground rounded-xl p-3 shadow-lg">
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-8 gap-1">
           {RSData.map((rs, idx) => (
             <div key={idx} className="items-center rounded-xl shadow-lg">

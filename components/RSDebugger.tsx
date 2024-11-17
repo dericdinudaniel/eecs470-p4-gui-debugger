@@ -16,6 +16,7 @@ import DisplayCDBData from "./DisplayCDBData";
 import DisplayRSData from "./DisplayRSData";
 import DisplaySingleRS from "./DisplaySingleRS";
 import DisplaySingleRS_TO_FU_DATA from "./DisplaySingleRS_TO_FU_DATA";
+import { DButton } from "./dui/DButton";
 
 type RSDebuggerProps = {
   className: string;
@@ -73,18 +74,12 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
           </p>
           {/* Toggle buttons */}
           <div className="pl-3 space-x-2">
-            <button
-              className="bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600  text-xs"
-              onClick={() => setShowRSInputs(!showRSInputs)}
-            >
+            <DButton onClick={() => setShowRSInputs(!showRSInputs)}>
               {showRSInputs ? "Hide RS Inputs" : "Show RS Inputs"}
-            </button>
-            <button
-              className="bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600  text-xs"
-              onClick={() => setShowRSOutputs(!showRSOutputs)}
-            >
+            </DButton>
+            <DButton onClick={() => setShowRSOutputs(!showRSOutputs)}>
               {showRSOutputs ? "Hide RS Outputs" : "Show RS Outputs"}
-            </button>
+            </DButton>
           </div>
         </div>
 
@@ -111,7 +106,7 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
                       isEarlyCDB={true}
                     />
                   </div>
-                  <div className="justify-items-center bg-gray-300 p-2 pt-0 mt-1 rounded-lg shadow-lg">
+                  <div className="justify-items-center bg-card-foreground p-2 pt-0 mt-1 rounded-lg shadow-lg">
                     <p className="font-semibold">Decoded Instructions</p>
                     <div className="flex space-x-1">
                       {RS_decoded_instruction.map((rs, idx) => (
@@ -139,7 +134,7 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
             {/* display outputs */}
             {showRSOutputs && (
               <div className="mt-2 justify-items-center">
-                <div className="flex space-x-4 bg-gray-300 rounded-lg p-2 pt-1 shadow-lg">
+                <div className="flex space-x-4 bg-card-foreground rounded-lg p-2 pt-1 shadow-lg">
                   {/* ALU */}
                   <div className="justify-items-center">
                     <p className="font-semibold">

@@ -149,7 +149,7 @@ export default function Debugger() {
   const DUT_ooo = cpu?.children.ooo_core;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <ShadDebuggerHeader
         verilogCycle={verilogCycle}
         currentCycle={currentCycle}
@@ -167,7 +167,7 @@ export default function Debugger() {
         handleKeyDown={handleKeyDown}
       />
       <div className="p-0">
-        <div className="bg-background">
+        <div className="">
           {signalData && (
             <>
               <div className="">

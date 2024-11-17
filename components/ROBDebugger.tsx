@@ -8,6 +8,7 @@ import {
 import { ScopeData } from "@/lib/tstypes";
 import DisplayROBData from "./DisplayROBData";
 import { ModuleBase, ModuleHeader } from "./dui/Module";
+import { DButton } from "./dui/DButton";
 
 type ROBDebuggerProps = {
   className: string;
@@ -61,18 +62,12 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
           </p>
           {/* Toggle buttons */}
           <div className="pl-3 space-x-2">
-            <button
-              className="bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600  text-xs"
-              onClick={() => setShowROBInputs(!showROBInputs)}
-            >
+            <DButton onClick={() => setShowROBInputs(!showROBInputs)}>
               {showROBInputs ? "Hide ROB Inputs" : "Show ROB Inputs"}
-            </button>
-            <button
-              className="bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600  text-xs"
-              onClick={() => setShowROBInternals(!showROBInternals)}
-            >
+            </DButton>
+            <DButton onClick={() => setShowROBInternals(!showROBInternals)}>
               {showROBInternals ? "Hide ROB Internals" : "Show ROB Internals"}
-            </button>
+            </DButton>
           </div>
         </div>
 

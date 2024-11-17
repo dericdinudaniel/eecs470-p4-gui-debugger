@@ -13,6 +13,7 @@ import DisplaySingleFU_DATA from "./DisplaySingleFU_DATA";
 import DisplayCDBData from "./DisplayCDBData";
 import { reverseStr } from "@/lib/tsutils";
 import { ModuleBase, ModuleHeader } from "./dui/Module";
+import { DButton } from "./dui/DButton";
 
 type FUDebuggerProps = {
   className: string;
@@ -65,12 +66,12 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
         {/* header */}
         <div className="flex items-center">
           <ModuleHeader onClick={() => setShowFU(!showFU)}>FUs</ModuleHeader>
-          <button
-            className="ml-3 bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600  text-xs"
+          <DButton
+            className="ml-3"
             onClick={() => setShowFUInputs(!showFUInputs)}
           >
             {showFUInputs ? "Hide FU Inputs" : "Show RS Inputs"}
-          </button>
+          </DButton>
           <DisplayCDBData
             className="ml-4"
             CDBTags={FU_cdb_tags}

@@ -13,6 +13,7 @@ import * as Types from "@/lib/types";
 import DisplayFrizzyList from "./DisplayFrizzyList";
 import DisplayMapTable from "./DisplayMapTable";
 import DisplayCDBData from "./DisplayCDBData";
+import { DButton } from "./dui/DButton";
 
 interface BSDebuggerProps {
   className: string;
@@ -46,12 +47,12 @@ const DisplaySingleCheckpoint: React.FC<{
             <div>ROB Tail: {checkpoint.rob_tail}</div>
           </div>
           {/* Toggle Button */}
-          <button
+          <DButton
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600 text-xs h-10 ml-2"
+            className="h-10 ml-2"
           >
             {isCollapsed ? "Show ChckPt" : "Hide ChckPt"}
-          </button>
+          </DButton>
         </div>
 
         {/* Collapsible Section */}
@@ -148,18 +149,12 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
 
         {/* Toggle buttons */}
         <div className="pl-3 space-x-2">
-          <button
-            className="bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600 text-xs"
-            onClick={() => setShowBSInputs(!showBSInputs)}
-          >
+          <DButton onClick={() => setShowBSInputs(!showBSInputs)}>
             {showBSInputs ? "Hide BS Inputs" : "Show BS Inputs"}
-          </button>
-          <button
-            className="bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600 text-xs"
-            onClick={() => setShowBSOutputs(!showBSOutputs)}
-          >
+          </DButton>
+          <DButton onClick={() => setShowBSOutputs(!showBSOutputs)}>
             {showBSOutputs ? "Hide BS Outputs" : "Show BS Outputs"}
-          </button>
+          </DButton>
         </div>
       </div>
 
@@ -168,7 +163,7 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
           {/* display inputs */}
           {showBSInputs && (
             <>
-              <div className="bg-gray-300 p-2 rounded-lg shadow-lg mt-2">
+              <div className="bg-card-foreground p-2 rounded-lg shadow-lg mt-2">
                 <div className="flex space-x-3 items-center">
                   <div>
                     <div>
@@ -196,7 +191,7 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
           )}
 
           {/* BRANCH STACKS */}
-          <div className="mt-2 bg-gray-300 p-2 rounded-lg shadow-lg">
+          <div className="mt-2 bg-card-foreground p-2 rounded-lg shadow-lg">
             <div className="mt-2 grid grid-cols-2 gap-x-2 gap-y-2">
               {BS_branch_stacks.map((cp, idx) => {
                 return (
@@ -215,7 +210,7 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
           {/* display outputs */}
           {showBSOutputs && (
             <>
-              <div className="mt-3 bg-gray-300 p-2 rounded-lg shadow-lg">
+              <div className="mt-3 bg-card-foreground p-2 rounded-lg shadow-lg">
                 <div className="flex space-x-3">
                   <div>
                     <div

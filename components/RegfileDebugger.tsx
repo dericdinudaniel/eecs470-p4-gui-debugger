@@ -21,6 +21,7 @@ import {
   Dtable,
 } from "@/components/dui/DTable";
 import { ModuleBase, ModuleHeader } from "./dui/Module";
+import { DButton } from "./dui/DButton";
 
 type RegfileDebuggerProps = {
   className: string;
@@ -106,12 +107,12 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
             >
               Physical Registers
             </ModuleHeader>
-            <button
-              className="ml-4 bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600  text-xs mb-0"
+            <DButton
+              className="ml-2"
               onClick={() => setShowRegfilePorts(!showRegfilePorts)}
             >
               {showRegfilePorts ? "Hide Regfile Ports" : "Show Regfile Ports"}
-            </button>
+            </DButton>
           </div>
 
           {showReg && (
