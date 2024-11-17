@@ -45,7 +45,7 @@ const DisplayCDBData: React.FC<DisplayCDBDataProps> = ({
                 : "XX";
 
               const color =
-                Number.isNaN(tag) || tag == 0 ? "bg-red-200" : "bg-green-200";
+                Number.isNaN(tag) || tag == 0 ? "bg-bad" : "bg-good";
 
               return (
                 <Dtr key={idx}>

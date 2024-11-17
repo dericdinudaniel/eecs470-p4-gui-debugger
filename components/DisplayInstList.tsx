@@ -62,15 +62,15 @@ const DisplayInstList: React.FC<DisplayInstListProps> = ({
               // green if tail, red if head, yellow if both
               let color = "bg-gray-200";
               if (isBoth) {
-                color = "bg-yellow-200";
+                color = "bg-med";
               } else if (isHead) {
-                color = "bg-green-200";
+                color = "bg-good";
               } else if (isTail) {
-                color = "bg-red-200";
+                color = "bg-bad";
               } else if (!isIB) {
-                color = entry.valid ? "bg-green-200" : "bg-red-200";
+                color = entry.valid ? "bg-good" : "bg-bad";
               } else if (validList != undefined && validList[idx] && isIB) {
-                color = "bg-yellow-100";
+                color = "bg-medLight";
               }
 
               const headOrTailString =

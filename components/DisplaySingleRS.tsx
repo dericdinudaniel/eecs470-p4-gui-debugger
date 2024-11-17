@@ -28,7 +28,7 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
 }) => {
   return (
     <div className={`${className} hover:shadow-2xl transition-shadow`}>
-      <Dtable className={`${RSData.occupied ? "bg-green-200" : "bg-red-200"}`}>
+      <Dtable className={`${RSData.occupied ? "bg-good" : "bg-bad"}`}>
         <Dthead>
           <Dtr>
             <DthLeft className="text-xs p-1" colSpan={2}>

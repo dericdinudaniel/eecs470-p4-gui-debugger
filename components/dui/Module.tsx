@@ -9,7 +9,7 @@ const ModuleBase = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        "bg-gray-500/[.15] rounded-lg shadow-lg p-3 inline-flex flex-col items-center",
+        "bg-card rounded-lg shadow-lg p-3 inline-flex flex-col items-center",
         className
       )}
       {...props}

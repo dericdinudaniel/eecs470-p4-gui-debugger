@@ -50,7 +50,7 @@ const DisplayRegPorts: React.FC<{
           const rowColor =
             ports_enable[port] ||
             (ports_idx[port] != 0 && !Number.isNaN(ports_idx[port]))
-              ? "bg-green-200"
+              ? "bg-good"
               : "";
 
           return (

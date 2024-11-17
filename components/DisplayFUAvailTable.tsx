@@ -67,10 +67,7 @@ const DisplayFUAvailTable: React.FC<FUTableProps> = ({
             <Dtr key={fu.name}>
               <Dtd className="">{fu.name}</Dtd>
               {fu.avail.map((value, i) => (
-                <Dtd
-                  key={i}
-                  className={`${value == 1 ? "bg-green-200" : "bg-red-200"}`}
-                >
+                <Dtd key={i} className={`${value == 1 ? "bg-good" : "bg-bad"}`}>
                   {Number.isNaN(value) ? "x" : value}
                 </Dtd>
               ))}

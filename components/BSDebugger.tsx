@@ -29,11 +29,7 @@ const DisplaySingleCheckpoint: React.FC<{
 
   // Define background color based on validity
   const backgroundColor =
-    valid !== undefined
-      ? valid
-        ? "bg-green-200"
-        : "bg-red-200"
-      : "bg-gray-200";
+    valid !== undefined ? (valid ? "bg-good" : "bg-bad") : "bg-gray-200";
 
   return (
     <div className={`${className}`}>

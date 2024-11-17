@@ -167,7 +167,7 @@ export default function Debugger() {
         handleKeyDown={handleKeyDown}
       />
       <div className="p-0">
-        <div className="bg-white">
+        <div className="bg-background">
           {signalData && (
             <>
               <div className="">

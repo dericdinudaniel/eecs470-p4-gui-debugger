@@ -28,9 +28,7 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
 }) => {
   return (
     <div className={`${className} hover:shadow-2xl transition-shadow`}>
-      <Dtable
-        className={`${RS_TO_FUData.valid ? "bg-green-200" : "bg-red-200"}`}
-      >
+      <Dtable className={`${RS_TO_FUData.valid ? "bg-good" : "bg-bad"}`}>
         <Dthead>
           <Dtr>
             <th className="text-xs p-1" colSpan={2}>

@@ -27,7 +27,7 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
 }) => {
   return (
     <div className={`${className} hover:shadow-2xl transition-shadow`}>
-      <Dtable className={`${FUData.valid ? "bg-green-200" : "bg-red-200"}`}>
+      <Dtable className={`${FUData.valid ? "bg-good" : "bg-bad"}`}>
         <Dthead>
           <Dtr>
             <Dth className="text-xs p-1" colSpan={2}>
