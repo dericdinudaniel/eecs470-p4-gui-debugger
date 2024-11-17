@@ -21,6 +21,7 @@ import {
   Dtbody,
   Dtable,
 } from "@/components/dui/DTable";
+import { ModuleBase } from "./dui/ModuleBase";
 
 type RegfileDebuggerProps = {
   className: string;
@@ -95,9 +96,7 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
 
   return (
     <>
-      <div
-        className={`${className} inline-flex flex-col items-center bg-gray-500/[.15] rounded-lg p-3 shadow-lg`}
-      >
+      <ModuleBase className={className}>
         <div className="justify-items-center">
           <div className="flex items-center">
             <h2 className="text-lg font-semibold">Physical Registers</h2>
@@ -159,7 +158,7 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
             ))}
           </div>
         </div>
-      </div>
+      </ModuleBase>
     </>
   );
 };

@@ -171,39 +171,39 @@ export default function Debugger() {
           {signalData && (
             <>
               <div className="">
-                <div className="flex">
+                <div className="mt-4 mx-4 flex gap-x-3">
                   <IBDebugger
-                    className="m-4"
+                    className=""
                     signalIB={cpu.children.instr_buffer}
                     signalCPU={cpu}
                   />
-                  <div className="justify-items-center">
+                  <div className="flex flex-col items-center gap-y-4">
                     <ROBDebugger
-                      className="m-4"
+                      className=""
                       signalData={DUT_ooo.children.DUT_rob}
                     />
                     <BSDebugger
-                      className="m-4"
+                      className=""
                       signalBS={DUT_ooo.children.DUT_branch_stack}
                     />
                   </div>
-                  <div>
+                  <div className="flex flex-col items-center gap-y-4">
                     <FNAFDebugger
-                      className="m-4"
+                      className=""
                       signalFNAF={DUT_ooo.children.DUT_freddy}
                     />
                     <RegfileDebugger
-                      className="mt-4"
+                      className=""
                       signalRegfile={DUT_ooo.children.DUT_regfile}
                     />
                   </div>
-                  <div className="justify-items-center">
+                  <div className="flex flex-col items-center gap-y-4">
                     <RSDebugger
-                      className="m-4"
+                      className=""
                       signalRS={DUT_ooo.children.DUT_rs}
                     />
                     <FUDebugger
-                      className="m-4"
+                      className=""
                       signalFU={DUT_ooo.children.DUT_fu}
                     />
                   </div>

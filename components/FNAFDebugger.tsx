@@ -1,6 +1,7 @@
 import React from "react";
-import { SignalType, SignalData, ScopeData } from "@/lib/tstypes";
+import { ScopeData } from "@/lib/tstypes";
 import { extractSignalValue, parseFreeList, parseReg_Map } from "@/lib/utils";
+import { ModuleBase } from "./dui/ModuleBase";
 import DisplayFrizzyList from "./DisplayFrizzyList";
 import DisplayMapTable from "./DisplayMapTable";
 
@@ -27,7 +28,7 @@ const FNAFDebugger: React.FC<FNAFDebuggerProps> = ({
 
   return (
     <>
-      <div className="bg-gray-500/[.15] p-4 pt-3 pb-1 rounded-lg shadow-lg mt-4 justify-items-center">
+      <ModuleBase className={className}>
         <div className="flex space-x-3 rounded-xl">
           <DisplayFrizzyList
             className=""
@@ -36,7 +37,7 @@ const FNAFDebugger: React.FC<FNAFDebuggerProps> = ({
           />
           <DisplayMapTable className="" mapTable={FNAF_reg_map} />
         </div>
-      </div>
+      </ModuleBase>
     </>
   );
 };

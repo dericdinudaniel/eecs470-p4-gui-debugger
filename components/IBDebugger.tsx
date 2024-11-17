@@ -10,6 +10,7 @@ import DisplayInstList from "./DisplayInstList";
 import { Toggle } from "./ui/toggle";
 import { ChevronUpIcon, ChevronDownIcon } from "lucide-react";
 import { reverseStr } from "@/lib/tsutils";
+import { ModuleBase } from "./dui/ModuleBase";
 
 type IBDebuggerProps = {
   className: string;
@@ -56,71 +57,69 @@ const IBDebugger: React.FC<IBDebuggerProps> = ({
 
   return (
     <>
-      <div className={`${className}`}>
-        <div className="bg-gray-500/[.15] rounded-lg shadow-lg p-2 inline-flex flex-col items-center">
-          <div className="flex items-center mb-2">
-            <h2 className="text-xl font-semibold">Inst Buffer</h2>
-            {/* small button to enable IBInputs, show only down or up arrow */}
-            <Toggle
-              pressed={showIBInputs}
-              onPressedChange={() => setShowIBInputs(!showIBInputs)}
-              className="ml-2"
-            >
-              {showIBInputs ? (
-                <ChevronUpIcon className="h-5 w-5" />
-              ) : (
-                <ChevronDownIcon className="h-5 w-5" />
-              )}
-            </Toggle>
-          </div>
-          <div className="justify-items-center space-y-2">
-            {/* inputs */}
-            {showIBInputs && (
-              <div>
-                <div className="text-md">
-                  <span className="font-semibold"># Dispatched: </span>
-                  {num_dispatched}
-                </div>
-                <div className="text-md">
-                  <span className="font-semibold"># Fetched: </span>
-                  {num_fetched}
-                </div>
-              </div>
+      <ModuleBase className={className}>
+        <div className="flex items-center mb-2">
+          <h2 className="text-xl font-semibold">Inst Buffer</h2>
+          {/* small button to enable IBInputs, show only down or up arrow */}
+          <Toggle
+            pressed={showIBInputs}
+            onPressedChange={() => setShowIBInputs(!showIBInputs)}
+            className="ml-2"
+          >
+            {showIBInputs ? (
+              <ChevronUpIcon className="h-5 w-5" />
+            ) : (
+              <ChevronDownIcon className="h-5 w-5" />
             )}
+          </Toggle>
+        </div>
+        <div className="justify-items-center space-y-2">
+          {/* inputs */}
+          {showIBInputs && (
             <div>
-              <DisplayInstList
-                className=""
-                instList={IB_input_id_ex_packet}
-                head={-1}
-                tail={-1}
-                isIB={false}
-              />
+              <div className="text-md">
+                <span className="font-semibold"># Dispatched: </span>
+                {num_dispatched}
+              </div>
+              <div className="text-md">
+                <span className="font-semibold"># Fetched: </span>
+                {num_fetched}
+              </div>
             </div>
-
-            {/* actual buffer */}
+          )}
+          <div>
             <DisplayInstList
               className=""
-              instList={IB_buffer}
-              validList={IB_valid}
-              head={head}
-              tail={tail}
-              isIB={true}
+              instList={IB_input_id_ex_packet}
+              head={-1}
+              tail={-1}
+              isIB={false}
             />
+          </div>
 
-            {/* outputs */}
-            <div className="justify-items-center font-semibold">
-              <p>Dispatched</p>
-              <DisplayInstList
-                className=""
-                instList={CPU_if_id_reg}
-                head={-1}
-                tail={-1}
-                isIB={false}
-              />
-            </div>
+          {/* actual buffer */}
+          <DisplayInstList
+            className=""
+            instList={IB_buffer}
+            validList={IB_valid}
+            head={head}
+            tail={tail}
+            isIB={true}
+          />
+
+          {/* outputs */}
+          <div className="justify-items-center font-semibold">
+            <p>Dispatched</p>
+            <DisplayInstList
+              className=""
+              instList={CPU_if_id_reg}
+              head={-1}
+              tail={-1}
+              isIB={false}
+            />
           </div>
         </div>
-      </div>
+      </ModuleBase>
     </>
   );
 };

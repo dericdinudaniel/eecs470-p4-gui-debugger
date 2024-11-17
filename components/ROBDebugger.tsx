@@ -5,11 +5,9 @@ import {
   parseROBData,
   parseCDBTags,
 } from "@/lib/utils";
-import * as Constants from "@/lib/constants";
-import * as Types from "@/lib/types";
-import { SignalType, SignalData, ScopeData } from "@/lib/tstypes";
+import { ScopeData } from "@/lib/tstypes";
 import DisplayROBData from "./DisplayROBData";
-import DisplayCDBData from "./DisplayCDBData";
+import { ModuleBase } from "./dui/ModuleBase";
 
 type ROBDebuggerProps = {
   className: string;
@@ -52,101 +50,99 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
 
   return (
     <>
-      <div className={`${className}`}>
-        <div className="bg-gray-500/[.15] rounded-lg shadow-lg p-4 pb-1 inline-flex flex-col items-center">
-          {/* header */}
-          <div className="flex items-center">
-            <h2 className="text-xl font-semibold">ROB</h2>
-            <p className="pl-3">
-              <span className="font-semibold">(Open Spots: </span>
-              {Number.isNaN(open_spots) ? "X" : open_spots})
-            </p>
-            {/* Toggle buttons */}
-            <div className="pl-3 space-x-2">
-              <button
-                className="bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600  text-xs"
-                onClick={() => setShowROBInputs(!showROBInputs)}
-              >
-                {showROBInputs ? "Hide ROB Inputs" : "Show ROB Inputs"}
-              </button>
-              <button
-                className="bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600  text-xs"
-                onClick={() => setShowROBInternals(!showROBInternals)}
-              >
-                {showROBInternals ? "Hide ROB Internals" : "Show ROB Internals"}
-              </button>
-            </div>
+      <ModuleBase className={className}>
+        {/* header */}
+        <div className="flex items-center">
+          <h2 className="text-xl font-semibold">ROB</h2>
+          <p className="pl-3">
+            <span className="font-semibold">(Open Spots: </span>
+            {Number.isNaN(open_spots) ? "X" : open_spots})
+          </p>
+          {/* Toggle buttons */}
+          <div className="pl-3 space-x-2">
+            <button
+              className="bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600  text-xs"
+              onClick={() => setShowROBInputs(!showROBInputs)}
+            >
+              {showROBInputs ? "Hide ROB Inputs" : "Show ROB Inputs"}
+            </button>
+            <button
+              className="bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600  text-xs"
+              onClick={() => setShowROBInternals(!showROBInternals)}
+            >
+              {showROBInternals ? "Hide ROB Internals" : "Show ROB Internals"}
+            </button>
           </div>
+        </div>
 
-          {/* display inputs */}
-          {showROBInputs && (
-            <div className="flex space-x-4 mb-2">
-              <div className="justify-items-center">
-                <p className="font-semibold">Dispatched Instructions</p>
-                <DisplayROBData
-                  className=""
-                  ROBData={ROB_dispatched_ins}
-                  head={-1}
-                  tail={-1}
-                  isROB={false}
-                />
-              </div>
-              {/* <div className="justify-items-center">
+        {/* display inputs */}
+        {showROBInputs && (
+          <div className="flex space-x-4 mb-2">
+            <div className="justify-items-center">
+              <p className="font-semibold">Dispatched Instructions</p>
+              <DisplayROBData
+                className=""
+                ROBData={ROB_dispatched_ins}
+                head={-1}
+                tail={-1}
+                isROB={false}
+              />
+            </div>
+            {/* <div className="justify-items-center">
                 <p>CDB</p>
                 <DisplayCDBData className="" CDBData={ROB_cdb} />
               </div> */}
-            </div>
-          )}
+          </div>
+        )}
 
-          {/* display ROB internals */}
-          {showROBInternals && (
-            <div className="flex space-x-4">
-              <div>
-                <p className="text-xs">
-                  <span className="font-bold">Available Spots:</span>{" "}
-                  {available_spots}
-                </p>
-                <p className="text-xs">
-                  <span className="font-bold">Retireable Count:</span>{" "}
-                  {retireable_cnt}
-                </p>
-              </div>
+        {/* display ROB internals */}
+        {showROBInternals && (
+          <div className="flex space-x-4">
+            <div>
               <p className="text-xs">
-                <span className="font-bold">Empty:</span> {empty}
+                <span className="font-bold">Available Spots:</span>{" "}
+                {available_spots}
               </p>
-              <div>
-                <p className="text-xs">
-                  <span className="font-bold">Head Growth:</span> {head_growth}
-                </p>
-                <p className="text-xs">
-                  <span className="font-bold">Tail Growth:</span> {tail_growth}
-                </p>
-              </div>
-              <div>
-                <p className="text-xs">
-                  <span className="font-bold">Next Dir:</span>{" "}
-                  {next_direction ? "SHRK" : "GROW"}
-                </p>
-                <p className="text-xs">
-                  <span className="font-bold">Last Dir:</span>{" "}
-                  {last_direction ? "SHRK" : "GROW"}
-                </p>
-              </div>
+              <p className="text-xs">
+                <span className="font-bold">Retireable Count:</span>{" "}
+                {retireable_cnt}
+              </p>
             </div>
-          )}
+            <p className="text-xs">
+              <span className="font-bold">Empty:</span> {empty}
+            </p>
+            <div>
+              <p className="text-xs">
+                <span className="font-bold">Head Growth:</span> {head_growth}
+              </p>
+              <p className="text-xs">
+                <span className="font-bold">Tail Growth:</span> {tail_growth}
+              </p>
+            </div>
+            <div>
+              <p className="text-xs">
+                <span className="font-bold">Next Dir:</span>{" "}
+                {next_direction ? "SHRK" : "GROW"}
+              </p>
+              <p className="text-xs">
+                <span className="font-bold">Last Dir:</span>{" "}
+                {last_direction ? "SHRK" : "GROW"}
+              </p>
+            </div>
+          </div>
+        )}
 
-          {/* display ROB entries */}
-          <DisplayROBData
-            className="py-2"
-            ROBData={ROB_entries}
-            head={head}
-            tail={tail}
-            isROB={true}
-          />
+        {/* display ROB entries */}
+        <DisplayROBData
+          className="py-2"
+          ROBData={ROB_entries}
+          head={head}
+          tail={tail}
+          isROB={true}
+        />
 
-          {/* output signals */}
-        </div>
-      </div>
+        {/* output signals */}
+      </ModuleBase>
     </>
   );
 };

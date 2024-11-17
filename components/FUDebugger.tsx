@@ -12,6 +12,7 @@ import {
 import DisplaySingleFU_DATA from "./DisplaySingleFU_DATA";
 import DisplayCDBData from "./DisplayCDBData";
 import { reverseStr } from "@/lib/tsutils";
+import { ModuleBase } from "./dui/ModuleBase";
 
 type FUDebuggerProps = {
   className: string;
@@ -58,110 +59,107 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
   const [showFUInputs, setShowFUInputs] = useState(true);
   return (
     <>
-      <div className={`${className} mt-4`}>
-        <div className="bg-gray-500/[.15] rounded-lg shadow-lg p-4 inline-flex flex-col items-center">
-          {/* header */}
-          <div className="flex items-center">
-            <h2 className="text-xl font-semibold">FUs</h2>
-            <button
-              className="ml-3 bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600  text-xs"
-              onClick={() => setShowFUInputs(!showFUInputs)}
-            >
-              {showFUInputs ? "Hide FU Inputs" : "Show RS Inputs"}
-            </button>
-            <DisplayCDBData
-              className="ml-4"
-              CDBTags={FU_cdb_tags}
-              CDBData={FU_cdb_values}
-              isEarlyCDB={false}
-            />
+      <ModuleBase className={className}>
+        {/* header */}
+        <div className="flex items-center">
+          <h2 className="text-xl font-semibold">FUs</h2>
+          <button
+            className="ml-3 bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600  text-xs"
+            onClick={() => setShowFUInputs(!showFUInputs)}
+          >
+            {showFUInputs ? "Hide FU Inputs" : "Show RS Inputs"}
+          </button>
+          <DisplayCDBData
+            className="ml-4"
+            CDBTags={FU_cdb_tags}
+            CDBData={FU_cdb_values}
+            isEarlyCDB={false}
+          />
 
-            <div className="ml-4">
-              <div
-                className={`${
-                  b_mask_mask_status ==
-                  Types.BRANCH_PREDICT_T.CORRECTLY_PREDICTED
-                    ? "bg-green-300"
-                    : b_mask_mask_status == Types.BRANCH_PREDICT_T.MISPREDICTED
-                    ? "bg-red-300"
-                    : ""
-                }`}
-              >
-                <span className="font-bold">Branch Resolve Status: </span>
-                {Types.getBranchPredictName(b_mask_mask_status)}
-              </div>
-              <div>
-                <span className="font-bold">B Mask Mask: </span>
-                {b_mask_mask}
-              </div>
+          <div className="ml-4">
+            <div
+              className={`${
+                b_mask_mask_status == Types.BRANCH_PREDICT_T.CORRECTLY_PREDICTED
+                  ? "bg-green-300"
+                  : b_mask_mask_status == Types.BRANCH_PREDICT_T.MISPREDICTED
+                  ? "bg-red-300"
+                  : ""
+              }`}
+            >
+              <span className="font-bold">Branch Resolve Status: </span>
+              {Types.getBranchPredictName(b_mask_mask_status)}
+            </div>
+            <div>
+              <span className="font-bold">B Mask Mask: </span>
+              {b_mask_mask}
             </div>
           </div>
+        </div>
 
-          {/* inputs from RS */}
-          {showFUInputs && (
-            <>
-              <div className="mt-2 justify-items-center">
-                <div className="flex space-x-4">
-                  {/* ALU */}
-                  <div className="justify-items-center">
-                    <p>ALU IN</p>
-                    <div className="flex space-x-1">
-                      {FU_alu_data.map((fu_data, idx) => (
-                        <div key={idx}>
-                          <DisplaySingleFU_DATA
-                            className=""
-                            FUIdx={idx}
-                            FUData={fu_data}
-                            fu_type={Types.FU_TYPE.ALU}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* MULT */}
-                  <div className="justify-items-center">
-                    <p>MULT IN</p>
-                    <div className="flex space-x-1">
-                      {FU_mult_data.map((fu_data, idx) => (
-                        <div key={idx}>
-                          <DisplaySingleFU_DATA
-                            className=""
-                            FUIdx={idx}
-                            FUData={fu_data}
-                            fu_type={Types.FU_TYPE.MUL}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* BRANCH */}
-                  <div className="justify-items-center">
-                    <p>BRANCH IN</p>
-                    <div className="flex space-x-1">
-                      {FU_branch_data.map((fu_data, idx) => (
-                        <div key={idx}>
-                          <DisplaySingleFU_DATA
-                            className=""
-                            FUIdx={idx}
-                            FUData={fu_data}
-                            fu_type={Types.FU_TYPE.BR}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                    <div>branch_results_out: {FU_branch_results_out}</div>
-                    <div>b_mask: {b_mask}</div>
+        {/* inputs from RS */}
+        {showFUInputs && (
+          <>
+            <div className="mt-2 justify-items-center">
+              <div className="flex space-x-4">
+                {/* ALU */}
+                <div className="justify-items-center">
+                  <p>ALU IN</p>
+                  <div className="flex space-x-1">
+                    {FU_alu_data.map((fu_data, idx) => (
+                      <div key={idx}>
+                        <DisplaySingleFU_DATA
+                          className=""
+                          FUIdx={idx}
+                          FUData={fu_data}
+                          fu_type={Types.FU_TYPE.ALU}
+                        />
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </div>
-            </>
-          )}
 
-          {/* FUs */}
-        </div>
-      </div>
+                {/* MULT */}
+                <div className="justify-items-center">
+                  <p>MULT IN</p>
+                  <div className="flex space-x-1">
+                    {FU_mult_data.map((fu_data, idx) => (
+                      <div key={idx}>
+                        <DisplaySingleFU_DATA
+                          className=""
+                          FUIdx={idx}
+                          FUData={fu_data}
+                          fu_type={Types.FU_TYPE.MUL}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* BRANCH */}
+                <div className="justify-items-center">
+                  <p>BRANCH IN</p>
+                  <div className="flex space-x-1">
+                    {FU_branch_data.map((fu_data, idx) => (
+                      <div key={idx}>
+                        <DisplaySingleFU_DATA
+                          className=""
+                          FUIdx={idx}
+                          FUData={fu_data}
+                          fu_type={Types.FU_TYPE.BR}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <div>branch_results_out: {FU_branch_results_out}</div>
+                  <div>b_mask: {b_mask}</div>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* FUs */}
+      </ModuleBase>
     </>
   );
 };
