@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import Image from "next/image";
 
 export default function Home() {
   const [fileContent, setFileContent] = useState("");
@@ -76,11 +77,20 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-card/50 flex items-center justify-center">
       <div className="bg-background p-8 rounded-lg shadow-md m-10 w-full max-w-4xl">
-        <div className="flex justify-center space-x-2">
-          <h1 className="text-2xl font-bold mb-6 text-center">
-            Verilog Debugger
-          </h1>
-          <ThemeToggle />
+        <div className="flex items-center justify-center gap-x-9 mb-6">
+          <Image
+            src="/bloons.png"
+            alt="btd6 dartling gunner"
+            width={80}
+            height={80}
+            className="rounded-lg"
+          />
+          <div className="flex items-center justify-center space-x-2">
+            <h1 className="text-2xl font-bold text-center">
+              System on Chimp Debugger
+            </h1>
+            <ThemeToggle className="w-12 h-12" />
+          </div>
         </div>
         <div
           {...getRootProps()}

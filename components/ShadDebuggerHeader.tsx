@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { DButton, DHeaderButton } from "./dui/DButton";
 import { ThemeToggle } from "./ThemeToggle";
+import Image from "next/image";
 
 interface DebuggerHeaderProps {
   verilogCycle: number;
@@ -99,9 +100,16 @@ export default function DebuggerHeader({
   handleKeyDown,
 }: DebuggerHeaderProps) {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-gray-800/[.15] bg-background/70 backdrop-blur-sm shadow-md">
+    <header className="sticky top-0 z-50 w-full border-b border-border/[.25] bg-background/70 backdrop-blur-sm shadow-md">
       <div className="flex h-14 items-center justify-between px-4 md:px-6">
         <div className="flex items-center space-x-4">
+          <Image
+            src="/bloons.png"
+            alt="btd6 dartling gunner"
+            width={40}
+            height={40}
+            className="rounded-lg"
+          />
           <span className="font-bold text-lg">Chimp Debugger</span>
           <Link
             href="/"

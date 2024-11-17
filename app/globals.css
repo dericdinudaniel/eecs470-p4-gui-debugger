@@ -55,7 +55,7 @@
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
     --card: 240 10% 13.9%;
-    --card-foreground: 0 0% 28%;
+    --card-foreground: 240 10% 23.9%;
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
     --primary: 213 93.9% 67.8%;
@@ -68,7 +68,7 @@
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 218 10.6% 54.9%;
+    --border: 218 10.6% 64.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
     --chart-1: 220 70% 50%;
@@ -79,14 +79,14 @@
 
     /* mine */
     --veryGood: #22c55e;
-    --good: #14532d;
+    --good: #215937;
     --med: #ca8a04;
-    --medLight: #a16207;
-    --neutral: #374151;
-    --bad: #450a0a;
+    --medLight: #a76c19;
+    --neutral: #2e3645;
+    --bad: #6e2121;
     --veryBad: #ef4444;
 
-    --tableHeader: #1e293b;
+    --tableHeader: #1d2532;
   }
 }
 
