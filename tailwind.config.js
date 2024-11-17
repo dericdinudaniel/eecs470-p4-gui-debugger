@@ -69,7 +69,7 @@ module.exports = {
           4: "hsl(var(--chart-4))",
           5: "hsl(var(--chart-5))",
         },
-        borderColor: "var(--borderColor)",
+
         veryGood: "var(--veryGood)",
         good: "var(--good)",
         med: "var(--med)",
@@ -77,10 +77,6 @@ module.exports = {
         neutral: "var(--neutral)",
         bad: "var(--bad)",
         veryBad: "var(--veryBad)",
-
-        dbgbtn: "var(--dbgbtn)",
-        dbgbtnHover: "var(--dbgbtnHover)",
-        dbgbtnPress: "var(--dbgbtnPress)",
       },
     },
   },

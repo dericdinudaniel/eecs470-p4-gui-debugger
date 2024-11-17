@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { DestructiveSwitch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { DButton, DHeaderButton } from "./dui/DButton";
 
 interface DebuggerHeaderProps {
   verilogCycle: number;
@@ -74,17 +75,9 @@ const DebuggerButton: React.FC<DebuggerButtonProps> = ({
   }, [shortcutKey]);
 
   return (
-    <Button
-      onClick={onClick}
-      size="sm"
-      className={`
-      text-white bg-dbgbtn hover:bg-dbgbtnHover
-        ${isPressed ? "bg-dbgbtnPress hover:bg-dbgbtnPress" : ""}
-        active:bg-dbgbtnPress
-      `}
-    >
-      <div className="underline-fade">{children}</div>
-    </Button>
+    <DHeaderButton isPressed={isPressed} onClick={onClick}>
+      {children}
+    </DHeaderButton>
   );
 };
 
@@ -130,7 +123,7 @@ export default function DebuggerHeader({
           <DebuggerButton onClick={handleEnd} shortcutKey="m">
             End (m)
           </DebuggerButton>
-          <Separator orientation="vertical" className="mx-2 h-8" />
+          <Separator orientation="vertical" className="bg-border/50 mx-2 h-8" />
           <div className="flex items-center space-x-2">
             <Input
               id="jumpCycleInput"
@@ -138,14 +131,14 @@ export default function DebuggerHeader({
               value={jumpCycle}
               onChange={(e) => setJumpCycle(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="w-28 h-8 text-xs"
+              className="w-28 h-9 text-xs"
               placeholder="Cycle #"
             />
             <DebuggerButton onClick={handleJumpToCycle} shortcutKey="j">
               Jump to Cycle (j)
             </DebuggerButton>
           </div>
-          <Separator orientation="vertical" className="mx-2 h-8" />
+          <Separator orientation="vertical" className="bg-border/50 mx-2 h-8" />
           <div className="flex flex-col items-center justify-center">
             <Label
               htmlFor="include-negedges"
@@ -187,7 +180,7 @@ export default function DebuggerHeader({
             </p>
             <div
               className={`px-3 h-10 rounded-lg text-white flex items-center justify-center text-2xl ${
-                isNegativeEdge ? "bg-destructive" : "bg-dbgbtnPress"
+                isNegativeEdge ? "bg-destructive" : "bg-primary"
               }`}
             >
               {currentCycle}

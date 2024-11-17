@@ -7,7 +7,7 @@ const Dthead = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <thead
     ref={ref}
-    className={cn("bg-slate-300 border-b border-borderColor", className)}
+    className={cn("bg-slate-300 border-b", className)}
     {...props}
   />
 ));
@@ -65,7 +65,7 @@ const Dtable = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref) => (
-  <div className="border-collapse w-full overflow-hidden rounded-lg border table-border-color">
+  <div className="border-collapse w-full overflow-hidden rounded-lg border">
     <table ref={ref} className={cn("", className)} {...props} />
   </div>
 ));
