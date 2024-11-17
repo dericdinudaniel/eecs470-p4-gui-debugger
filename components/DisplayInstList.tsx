@@ -60,7 +60,7 @@ const DisplayInstList: React.FC<DisplayInstListProps> = ({
               const entryNumber = idx.toString().padStart(2, "") + ":";
 
               // green if tail, red if head, yellow if both
-              let color = "bg-gray-200";
+              let color = "bg-neutral";
               if (isBoth) {
                 color = "bg-med";
               } else if (isHead) {

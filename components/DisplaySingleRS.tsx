@@ -55,7 +55,7 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
               !Number.isNaN(RSData.T_a) &&
               RSData.T_a != 0 &&
               EarlyCDB?.includes(RSData.T_a)
-                ? "bg-green-500"
+                ? "bg-veryGood"
                 : ""
             }`}
           >
@@ -71,7 +71,7 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
               !Number.isNaN(RSData.T_b) &&
               RSData.T_b != 0 &&
               EarlyCDB?.includes(RSData.T_b)
-                ? "bg-green-500"
+                ? "bg-veryGood"
                 : ""
             }`}
           >
@@ -84,9 +84,9 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
           <Dtr
             className={`${
               Number.isNaN(RSData.imm_value) && RSData.has_imm
-                ? "bg-red-500"
+                ? "bg-veryBad"
                 : !RSData.has_imm && RSData.occupied
-                ? "bg-gray-200"
+                ? "bg-neutral"
                 : ""
             }`}
           >

@@ -30,7 +30,7 @@ const DisplaySingleCheckpoint: React.FC<{
 
   // Define background color based on validity
   const backgroundColor =
-    valid !== undefined ? (valid ? "bg-good" : "bg-bad") : "bg-gray-200";
+    valid !== undefined ? (valid ? "bg-good" : "bg-bad") : "bg-neutral";
 
   return (
     <div className={`${className}`}>
@@ -216,9 +216,9 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
                     <div
                       className={`${
                         prediction == Types.BRANCH_PREDICT_T.CORRECTLY_PREDICTED
-                          ? "bg-green-300"
+                          ? "bg-veryGood"
                           : prediction == Types.BRANCH_PREDICT_T.MISPREDICTED
-                          ? "bg-red-300"
+                          ? "bg-veryBad"
                           : ""
                       }`}
                     >

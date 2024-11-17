@@ -52,7 +52,7 @@ const DisplayFUAvailTable: React.FC<FUTableProps> = ({
   return (
     <div className={`${className}`}>
       <Dtable>
-        <Dthead className="bg-slate-300">
+        <Dthead>
           <Dtr>
             <Dth className="p-2">FU Type</Dth>
             {[...Array(maxFUs)].map((_, i) => (
@@ -65,7 +65,7 @@ const DisplayFUAvailTable: React.FC<FUTableProps> = ({
         <Dtbody>
           {fuTypes.map((fu, rowIdx) => (
             <Dtr key={fu.name}>
-              <Dtd className="">{fu.name}</Dtd>
+              <Dtd>{fu.name}</Dtd>
               {fu.avail.map((value, i) => (
                 <Dtd key={i} className={`${value == 1 ? "bg-good" : "bg-bad"}`}>
                   {Number.isNaN(value) ? "x" : value}

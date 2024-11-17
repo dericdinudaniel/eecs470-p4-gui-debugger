@@ -8,7 +8,7 @@ const DButton = React.forwardRef<
   <button
     ref={ref}
     className={cn(
-      "bg-blue-500 text-white px-1 py-1 rounded hover:bg-blue-600  text-xs",
+      "bg-blue-500 text-primary-foreground px-1 py-1 rounded hover:bg-blue-600  text-xs",
       className
     )}
     {...props}

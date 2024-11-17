@@ -61,7 +61,7 @@ const DisplayFrizzyList: React.FC<DisplayFrizzyListProps> = ({
                   <Dtd
                     key={globalIdx}
                     className={`text-center text-sm  ${
-                      free === "1" ? "bg-good" : "bg-gray-200"
+                      free === "1" ? "bg-good" : "bg-neutral"
                     }`}
                   >
                     <div className="flex px-3 space-x-1">
@@ -129,7 +129,7 @@ export default DisplayFrizzyList;
 //                       <tr key={globalIdx} className="">
 //                         <td
 //                           className={`text-center text-sm border-t table-border-color ${
-//                             free === "1" ? "bg-good" : "bg-gray-200"
+//                             free === "1" ? "bg-good" : "bg-neutral"
 //                           }`}
 //                         >
 //                           <div className="flex px-3 space-x-1">

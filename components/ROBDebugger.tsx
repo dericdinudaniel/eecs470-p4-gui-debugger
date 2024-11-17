@@ -86,10 +86,6 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
                     isROB={false}
                   />
                 </div>
-                {/* <div className="justify-items-center">
-                <p>CDB</p>
-                <DisplayCDBData className="" CDBData={ROB_cdb} />
-                </div> */}
               </div>
             )}
 

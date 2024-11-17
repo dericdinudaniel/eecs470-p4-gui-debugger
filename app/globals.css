@@ -40,10 +40,13 @@
 
     /* mine */
     --borderColor: #1f2937;
+    --veryGood: #22c55e;
     --good: #bbf7d0;
     --med: #fef08a;
     --medLight: #fef9c3;
+    --neutral: #e5e7eb;
     --bad: #fecaca;
+    --veryBad: #ef4444;
 
     --dbgbtn: #3b82f6;
     --dbgbtnHover: #2563eb;

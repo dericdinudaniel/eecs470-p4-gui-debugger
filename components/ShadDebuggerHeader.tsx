@@ -78,7 +78,7 @@ const DebuggerButton: React.FC<DebuggerButtonProps> = ({
       onClick={onClick}
       size="sm"
       className={`
-        text-xs text-white transition-colors bg-dbgbtn hover:bg-dbgbtnHover
+      text-white bg-dbgbtn hover:bg-dbgbtnHover
         ${isPressed ? "bg-dbgbtnPress hover:bg-dbgbtnPress" : ""}
         active:bg-dbgbtnPress
       `}

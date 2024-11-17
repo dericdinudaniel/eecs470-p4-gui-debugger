@@ -70,10 +70,13 @@ module.exports = {
           5: "hsl(var(--chart-5))",
         },
         borderColor: "var(--borderColor)",
+        veryGood: "var(--veryGood)",
         good: "var(--good)",
         med: "var(--med)",
         medLight: "var(--medLight)",
+        neutral: "var(--neutral)",
         bad: "var(--bad)",
+        veryBad: "var(--veryBad)",
 
         dbgbtn: "var(--dbgbtn)",
         dbgbtnHover: "var(--dbgbtnHover)",

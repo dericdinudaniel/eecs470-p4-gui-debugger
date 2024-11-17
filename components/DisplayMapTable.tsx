@@ -40,10 +40,10 @@ const DisplayMapTable: React.FC<DisplayMapTableProps> = ({
             <Dtbody>
               {chunk.map((pr, idx) => (
                 <Dtr key={chunkIdx * chunkSize + idx}>
-                  <DtdLeft className="font-semibold bg-gray-200">
+                  <DtdLeft className="font-semibold bg-neutral">
                     {chunkIdx * chunkSize + idx}:
                   </DtdLeft>
-                  <Dtd className=" bg-gray-200">
+                  <Dtd className=" bg-neutral">
                     <div className="text-center">
                       <span>{displayValue(pr)}</span>
                     </div>

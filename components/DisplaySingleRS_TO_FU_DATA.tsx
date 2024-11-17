@@ -61,7 +61,7 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
               Number.isNaN(RS_TO_FUData.imm_value) && RS_TO_FUData.has_imm
                 ? "bg-red-500"
                 : !RS_TO_FUData.has_imm && RS_TO_FUData.valid
-                ? "bg-gray-200"
+                ? "bg-neutral"
                 : ""
             }`}
           >
