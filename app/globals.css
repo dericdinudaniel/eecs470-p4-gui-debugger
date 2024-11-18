@@ -8,7 +8,7 @@
   }
 
   * {
-    @apply font-jetbrains_mono border-border transition-all;
+    @apply font-jetbrains_mono border-border transition-colors;
   }
 }
 
