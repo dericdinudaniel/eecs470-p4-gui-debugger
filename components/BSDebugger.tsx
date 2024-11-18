@@ -223,21 +223,23 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
                       <span className="font-bold">Prediction: </span>
                       {Types.getBranchPredictName(prediction)}
                     </div>
-                    <div>
-                      <span className="font-bold">BMASK prev out: </span>
-                      {branch_mask_prev_out}
-                    </div>
-                    <div>
-                      <span className="font-bold">BMASK reg out: </span>
-                      {branch_mask_reg_out}
-                    </div>
-                    <div>
-                      <span className="font-bold">BMASK mask: </span>
-                      {b_mask_mask}
-                    </div>
-                    <div>
-                      <span className="font-bold">Full: </span>
-                      {full ? "True" : "False"}
+                    <div className="pl-1">
+                      <div>
+                        <span className="font-bold">BMASK prev out: </span>
+                        {branch_mask_prev_out}
+                      </div>
+                      <div>
+                        <span className="font-bold">BMASK reg out: </span>
+                        {branch_mask_reg_out}
+                      </div>
+                      <div>
+                        <span className="font-bold">BMASK mask: </span>
+                        {b_mask_mask}
+                      </div>
+                      <div>
+                        <span className="font-bold">Full: </span>
+                        {full ? "True" : "False"}
+                      </div>
                     </div>
                   </div>
                   <DisplaySingleCheckpoint

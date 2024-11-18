@@ -187,8 +187,10 @@ export default function DebuggerHeader({
           <div className="flex flex-row items-center space-x-1">
             <p className="text-sm font-mono">Current Cycle:</p>
             <div
-              className={`px-3 h-10 rounded-lg text-white flex items-center justify-center text-2xl ${
-                isNegativeEdge ? "bg-destructive" : "bg-primary"
+              className={`px-3 h-10 rounded-lg flex items-center justify-center text-2xl ${
+                isNegativeEdge
+                  ? "bg-destructive text-white"
+                  : "bg-primary text-primary-foreground"
               }`}
             >
               {currentCycle}

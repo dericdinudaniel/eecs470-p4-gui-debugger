@@ -92,7 +92,7 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
               <span className="font-bold">Branch Resolve Status: </span>
               {Types.getBranchPredictName(b_mask_mask_status)}
             </div>
-            <div>
+            <div className="pl-1">
               <span className="font-bold">B Mask Mask: </span>
               {b_mask_mask}
             </div>
