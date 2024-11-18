@@ -319,6 +319,9 @@ export const parseFU_DATA = (
   );
   accessIdx += Constants.NUM_CHECKPOINTS;
 
+  const PC = extractBits(binaryStr, accessIdx, Types.ADDR_WIDTH);
+  accessIdx += Types.ADDR_WIDTH;
+
   return {
     T_new,
     rs1,
@@ -326,6 +329,7 @@ export const parseFU_DATA = (
     valid,
     fu_func,
     b_mask,
+    PC,
   };
 };
 
@@ -395,67 +399,84 @@ export const parseRSData = (entries: string): Types.RS_DATA[] => {
     ) as Types.FU_TYPE;
     accessIdx += Types.FU_TYPE_WIDTH;
 
-    const fu_func = parseFU_FUNC(
-      binaryStr.slice(accessIdx, accessIdx + Types.FU_FUNC_WIDTH)
+    const rs_to_fu_data = parseRS_TO_FU_DATA(
+      binaryStr.slice(accessIdx, accessIdx + Types.RS_TO_FU_DATA_WIDTH),
+      fu
     );
-    accessIdx += Types.FU_FUNC_WIDTH;
-
-    const T_new = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
-    accessIdx += Types.PHYS_REG_TAG_WIDTH;
-
-    const T_a = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
-    accessIdx += Types.PHYS_REG_TAG_WIDTH;
+    accessIdx += Types.RS_TO_FU_DATA_WIDTH;
 
     const ready_ta = binaryStr[accessIdx] === "1";
     accessIdx += 1;
 
-    const T_b = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
-    accessIdx += Types.PHYS_REG_TAG_WIDTH;
-
     const ready_tb = binaryStr[accessIdx] === "1";
     accessIdx += 1;
-
-    const has_imm = binaryStr[accessIdx] === "1";
-    accessIdx += 1;
-
-    const imm_value = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
-    accessIdx += Types.DATA_WIDTH;
-
-    // b mask is array of boolean, so we need to extract each bit
-    // const b_mask: boolean[] = [];
-    // for (let j = Constants.NUM_CHECKPOINTS - 1; j >= 0; j--) {
-    //   const b_maskAccessIdx = accessIdx + j;
-    //   b_mask.push(binaryStr[b_maskAccessIdx] === "1");
-    // }
-    // accessIdx += Constants.NUM_CHECKPOINTS;
-    // console.log(b_mask);
-    const b_mask = binaryStr.slice(
-      accessIdx,
-      accessIdx + Constants.NUM_CHECKPOINTS
-    );
-    accessIdx += Constants.NUM_CHECKPOINTS;
-
-    const packet = parseID_EX_PACKET(
-      binaryStr.slice(accessIdx, accessIdx + Types.ID_EX_PACKET_WIDTH)
-    );
-    accessIdx += Types.ID_EX_PACKET_WIDTH;
 
     result.push({
       occupied,
       fu,
-      fu_func,
-      T_new,
-      T_a,
+      rs_to_fu_data,
       ready_ta,
-      T_b,
       ready_tb,
-      has_imm,
-      imm_value,
-      b_mask,
-      packet,
     });
   }
   return result;
+};
+
+export const parseRS_TO_FU_DATA = (
+  inputStr: string,
+  fu_type: Types.FU_TYPE
+): Types.RS_TO_FU_DATA => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  let accessIdx = 0;
+
+  const T_new = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
+  accessIdx += Types.PHYS_REG_TAG_WIDTH;
+
+  const T_a = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
+  accessIdx += Types.PHYS_REG_TAG_WIDTH;
+
+  const T_b = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
+  accessIdx += Types.PHYS_REG_TAG_WIDTH;
+
+  const valid = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  const fu_func = parseFU_FUNC(
+    binaryStr.slice(accessIdx, accessIdx + Types.FU_FUNC_WIDTH)
+  );
+  accessIdx += Types.FU_FUNC_WIDTH;
+
+  const has_imm = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  const imm_value = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
+  accessIdx += Types.DATA_WIDTH;
+
+  const b_mask = binaryStr.slice(
+    accessIdx,
+    accessIdx + Constants.NUM_CHECKPOINTS
+  );
+  accessIdx += Constants.NUM_CHECKPOINTS;
+
+  const PC = extractBits(binaryStr, accessIdx, Types.ADDR_WIDTH);
+  accessIdx += Types.ADDR_WIDTH;
+
+  const packet = parseID_EX_PACKET(
+    binaryStr.slice(accessIdx, accessIdx + Types.ID_EX_PACKET_WIDTH)
+  );
+
+  return {
+    T_new,
+    T_a,
+    T_b,
+    valid,
+    fu_func,
+    has_imm,
+    imm_value,
+    b_mask,
+    PC,
+    packet,
+  };
 };
 
 export const parseRS_TO_FU_DATA_List = (
@@ -471,52 +492,12 @@ export const parseRS_TO_FU_DATA_List = (
 
   for (let i = arrLen - 1; i >= 0; i--) {
     const startIdx = i * entryWidth;
-    let accessIdx = startIdx;
-
-    const T_new = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
-    accessIdx += Types.PHYS_REG_TAG_WIDTH;
-
-    const T_a = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
-    accessIdx += Types.PHYS_REG_TAG_WIDTH;
-
-    const T_b = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
-    accessIdx += Types.PHYS_REG_TAG_WIDTH;
-
-    const valid = binaryStr[accessIdx] === "1";
-    accessIdx += 1;
-
-    const fu_func = parseFU_FUNC(
-      binaryStr.slice(accessIdx, accessIdx + Types.FU_FUNC_WIDTH)
-    );
-    accessIdx += Types.FU_FUNC_WIDTH;
-
-    const has_imm = binaryStr[accessIdx] === "1";
-    accessIdx += 1;
-
-    const imm_value = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
-    accessIdx += Types.DATA_WIDTH;
-
-    const b_mask = binaryStr.slice(
-      accessIdx,
-      accessIdx + Constants.NUM_CHECKPOINTS
-    );
-    accessIdx += Constants.NUM_CHECKPOINTS;
-
-    const packet = parseID_EX_PACKET(
-      binaryStr.slice(accessIdx, accessIdx + Types.ID_EX_PACKET_WIDTH)
+    const rs_to_fu_data = parseRS_TO_FU_DATA(
+      binaryStr.slice(startIdx, startIdx + entryWidth),
+      fu_type
     );
 
-    result.push({
-      T_new,
-      T_a,
-      T_b,
-      valid,
-      fu_func,
-      has_imm,
-      imm_value,
-      b_mask,
-      packet,
-    });
+    result.push(rs_to_fu_data);
   }
 
   return result;
@@ -731,4 +712,31 @@ export const parseBoolArrToBoolArray = (inputStr: string): boolean[] => {
 export const parseBoolArrToString = (inputArr: string): string => {
   const binaryStr = inputArr.startsWith("b") ? inputArr.slice(1) : inputArr;
   return binaryStr;
+};
+
+export const parseFU_TO_BS_DATA = (inputStr: string): Types.FU_TO_BS_DATA => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  let accessIdx = 0;
+
+  const bmask = binaryStr.slice(
+    accessIdx,
+    accessIdx + Constants.NUM_CHECKPOINTS
+  );
+  accessIdx += Constants.NUM_CHECKPOINTS;
+
+  const taken = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  const is_jalr = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  const target = extractBits(binaryStr, accessIdx, Types.ADDR_WIDTH);
+  accessIdx += Types.ADDR_WIDTH;
+
+  return {
+    bmask,
+    taken,
+    is_jalr,
+    target,
+  };
 };

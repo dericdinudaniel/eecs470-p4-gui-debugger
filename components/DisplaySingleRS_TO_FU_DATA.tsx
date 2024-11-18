@@ -76,6 +76,12 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
             <DtdLeft className="text-xs p-1">BMASK:</DtdLeft>
             <Dtd className="text-xs p-1">{RS_TO_FUData.b_mask}</Dtd>
           </Dtr>
+          <Dtr>
+            <DtdLeft className="text-xs p-1">PC:</DtdLeft>
+            <Dtd className="text-xs p-1">
+              {displayValueHex(RS_TO_FUData.PC)}
+            </Dtd>
+          </Dtr>
 
           {/* func data */}
           <Dtr>

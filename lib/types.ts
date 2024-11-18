@@ -298,6 +298,7 @@ export type FU_DATA = {
   valid: boolean;
   fu_func: FU_FUNC;
   b_mask: string;
+  PC: ADDR;
 };
 export const FU_DATA_WIDTH =
   PHYS_REG_TAG_WIDTH + // T_new
@@ -305,7 +306,8 @@ export const FU_DATA_WIDTH =
   DATA_WIDTH + // rs2
   1 + // valid
   FU_FUNC_WIDTH + // fu_func
-  Constants.NUM_CHECKPOINTS; // b_mask
+  Constants.NUM_CHECKPOINTS + // b_mask
+  ADDR_WIDTH; // PC
 
 // Enum for operation types
 export enum FU_TYPE {
@@ -332,34 +334,6 @@ export interface ROB_DATA {
 }
 export const ROB_DATA_WIDTH =
   2 * PHYS_REG_TAG_WIDTH + REG_IDX_WIDTH + 3 + ADDR_WIDTH + ID_EX_PACKET_WIDTH;
-
-// RS Data packet
-export type RS_DATA = {
-  occupied: boolean;
-  fu: FU_TYPE;
-  fu_func: FU_FUNC;
-  T_new: PHYS_REG_TAG;
-  T_a: PHYS_REG_TAG;
-  ready_ta: boolean;
-  T_b: PHYS_REG_TAG;
-  ready_tb: boolean;
-  has_imm: boolean;
-  imm_value: DATA;
-  b_mask: string;
-  packet: ID_EX_PACKET;
-};
-export const RS_DATA_WIDTH =
-  1 + // occupied
-  FU_TYPE_WIDTH + // fu
-  FU_FUNC_WIDTH + // fu_func
-  2 * PHYS_REG_TAG_WIDTH + // T_new, T_a
-  1 + // ready_ta
-  PHYS_REG_TAG_WIDTH + // T_b
-  1 + // ready_tb
-  1 + // has_imm
-  DATA_WIDTH + // imm_value
-  Constants.NUM_CHECKPOINTS + // b_mask
-  ID_EX_PACKET_WIDTH; // packet
 
 // ready and free list. boolean for each physical register
 export type FRIZZY_DATA = {
@@ -395,6 +369,7 @@ export type RS_TO_FU_DATA = {
   has_imm: boolean;
   imm_value: DATA;
   b_mask: string;
+  PC: ADDR;
   packet: ID_EX_PACKET;
 };
 export const RS_TO_FU_DATA_WIDTH =
@@ -404,7 +379,23 @@ export const RS_TO_FU_DATA_WIDTH =
   1 + // has_imm
   DATA_WIDTH + // imm_value
   Constants.NUM_CHECKPOINTS + // b_mask
+  ADDR_WIDTH + // PC
   ID_EX_PACKET_WIDTH; // packet
+
+// RS Data packet
+export type RS_DATA = {
+  occupied: boolean;
+  fu: FU_TYPE;
+  rs_to_fu_data: RS_TO_FU_DATA;
+  ready_ta: boolean;
+  ready_tb: boolean;
+};
+export const RS_DATA_WIDTH =
+  1 + // occupied
+  FU_TYPE_WIDTH + // fu
+  RS_TO_FU_DATA_WIDTH + // rs_to_fu_data
+  1 + // ready_ta
+  1; // ready_tb
 
 export enum BRANCH_PREDICT_T {
   NOT_RESOLVING = 0b00,
@@ -431,3 +422,15 @@ export const CHECKPOINT_DATA_WIDTH =
   clog2(Constants.ROB_SZ + Constants.N) +
   FRIZZY_DATA_WIDTH +
   Constants.AR_NUM * PHYS_REG_TAG_WIDTH;
+
+export type FU_TO_BS_DATA = {
+  bmask: string;
+  taken: boolean;
+  is_jalr: boolean;
+  target: ADDR;
+};
+export const FU_TO_BS_DATA_WIDTH =
+  Constants.NUM_CHECKPOINTS + // bmask
+  1 + // taken
+  1 + // is_jalr
+  ADDR_WIDTH; // target

@@ -7,6 +7,7 @@ import {
   parseCDBTags,
   parseCHECKPOINT_DATA,
   parseCHECKPOINT_DATA_List,
+  parseFU_TO_BS_DATA,
 } from "@/lib/utils";
 import { ModuleBase, ModuleHeader } from "./dui/Module";
 import * as Types from "@/lib/types";
@@ -14,6 +15,7 @@ import DisplayFrizzyList from "./DisplayFrizzyList";
 import DisplayMapTable from "./DisplayMapTable";
 import DisplayCDBData from "./DisplayCDBData";
 import { DButton } from "./dui/DButton";
+import DisplayFU_TO_BS_DATA from "./DisplayFU_TO_BS_DATA";
 
 interface BSDebuggerProps {
   className: string;
@@ -86,9 +88,15 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
   );
 
   // inputs
-  const branch_mask_in = parseBoolArrToString(
-    extractSignalValue(signalBS, "branch_mask_in").value
-  );
+  // const branch_mask_in = parseBoolArrToString(
+  //   extractSignalValue(signalBS, "branch_mask_in").value
+  // );
+
+  const correct_branch_data = extractSignalValue(
+    signalBS,
+    "correct_branch_data"
+  ).value;
+  const BS_correct_branch_data = parseFU_TO_BS_DATA(correct_branch_data);
 
   const dispatch_valid = Boolean(
     extractSignalValueToInt(signalBS, "dispatch_valid")
@@ -164,11 +172,11 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
               <div className="bg-card-foreground p-2 rounded-lg shadow-lg mt-2">
                 <div className="flex space-x-3 items-center">
                   <div>
-                    <div>
-                      <span className="font-bold">BMASK in: </span>
-                      {branch_mask_in}
-                    </div>
-                    <div>
+                    <DisplayFU_TO_BS_DATA
+                      className=""
+                      data={BS_correct_branch_data}
+                    />
+                    <div className="mt-2">
                       <span className="font-bold">T_old: </span>
                       {T_old}
                     </div>
