@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DestructiveSwitch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { DButton, DHeaderButton } from "./dui/DButton";
-import { ThemeToggle } from "./ThemeToggle";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import Image from "next/image";
+import InfoDialog from "@/components/InfoDialog";
 
 interface DebuggerHeaderProps {
   verilogCycle: number;
@@ -118,6 +118,7 @@ export default function DebuggerHeader({
             ← Home
           </Link>
           <ThemeToggle />
+          <InfoDialog />
         </div>
 
         <div className="flex items-center justify-center space-x-2">
@@ -133,7 +134,9 @@ export default function DebuggerHeader({
           <DebuggerButton onClick={handleEnd} shortcutKey="m">
             End (m)
           </DebuggerButton>
+
           <Separator orientation="vertical" className="bg-border/50 mx-2 h-8" />
+
           <div className="flex items-center space-x-2">
             <Input
               id="jumpCycleInput"
@@ -148,7 +151,9 @@ export default function DebuggerHeader({
               Jump to Cycle (j)
             </DebuggerButton>
           </div>
+
           <Separator orientation="vertical" className="bg-border/50 mx-2 h-8" />
+
           <div className="flex flex-col items-center justify-center">
             <Label
               htmlFor="include-negedges"
@@ -174,20 +179,13 @@ export default function DebuggerHeader({
                 maxCycle
               )}
             </p>
-            {/* <p className="text-sm font-mono">
-              Current Cycle: {padWithSpaces(currentCycle, maxCycle)}
-              {isNegativeEdge ? "-" : "+"}
-            </p> */}
+
             <p className="text-sm font-mono">
               Num Cycles: {padWithSpaces(maxCycle + 1, maxCycle)}
             </p>
           </div>
           <div className="flex flex-row items-center space-x-1">
-            <p className="text-sm font-mono">
-              Current Cycle:
-              {/* {padWithSpaces(currentCycle, maxCycle)}
-              {isNegativeEdge ? "-" : "+"} */}
-            </p>
+            <p className="text-sm font-mono">Current Cycle:</p>
             <div
               className={`px-3 h-10 rounded-lg text-white flex items-center justify-center text-2xl ${
                 isNegativeEdge ? "bg-destructive" : "bg-primary"

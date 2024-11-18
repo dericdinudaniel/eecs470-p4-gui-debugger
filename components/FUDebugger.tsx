@@ -81,11 +81,11 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
 
           <div className="ml-4">
             <div
-              className={`${
+              className={`p-1 ${
                 b_mask_mask_status == Types.BRANCH_PREDICT_T.CORRECTLY_PREDICTED
-                  ? "bg-veryGood"
+                  ? "rounded-lg bg-veryGood"
                   : b_mask_mask_status == Types.BRANCH_PREDICT_T.MISPREDICTED
-                  ? "bg-veryBad"
+                  ? "rounded-lg bg-veryBad"
                   : ""
               }`}
             >

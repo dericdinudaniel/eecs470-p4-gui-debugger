@@ -78,13 +78,13 @@
     --chart-5: 340 75% 55%;
 
     /* mine */
-    --veryGood: #22c55e;
+    --veryGood: #1c9a4a;
     --good: #215937;
     --med: #ca8a04;
     --medLight: #a76c19;
     --neutral: #2e3645;
     --bad: #6e2121;
-    --veryBad: #ef4444;
+    --veryBad: #cd3c3c;
 
     --tableHeader: #1d2532;
   }

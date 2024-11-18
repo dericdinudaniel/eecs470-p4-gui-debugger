@@ -212,11 +212,11 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
                 <div className="flex space-x-3">
                   <div>
                     <div
-                      className={`${
+                      className={`p-1 ${
                         prediction == Types.BRANCH_PREDICT_T.CORRECTLY_PREDICTED
-                          ? "bg-veryGood"
+                          ? "rounded-lg bg-veryGood"
                           : prediction == Types.BRANCH_PREDICT_T.MISPREDICTED
-                          ? "bg-veryBad"
+                          ? "rounded-lg bg-veryBad"
                           : ""
                       }`}
                     >
