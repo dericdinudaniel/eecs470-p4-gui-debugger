@@ -93,6 +93,7 @@ const DisplaySingleSignal: React.FC<DisplaySingleSignalProps> = ({
             placeholder="Search signals"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => e.stopPropagation()} // Prevents shortcuts from triggering
             className="mb-2"
           />
           {filteredSignals.length > 0 ? (
