@@ -44,6 +44,13 @@ export const extractSignalValueToInt = (
     : parseInt(signalValue);
 };
 
+export const extractSignalValueToBool = (
+  signalData: ScopeData,
+  name: string
+): boolean => {
+  return Boolean(extractSignalValueToInt(signalData, name));
+};
+
 // Helper function to extract bits and convert to number
 const extractBits = (
   binaryStr: string,
@@ -739,4 +746,22 @@ export const parseFU_TO_BS_DATA = (inputStr: string): Types.FU_TO_BS_DATA => {
     is_jalr,
     target,
   };
+};
+
+export const parsePREDICTOR_STATE_T_List = (
+  inputStr: string
+): Types.PREDICTOR_STATE_T[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  const result: Types.PREDICTOR_STATE_T[] = [];
+
+  const entryWidth = Types.PREDICTOR_STATE_T_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
+
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+    const state = extractBits(binaryStr, startIdx, entryWidth);
+    result.push(state as Types.PREDICTOR_STATE_T);
+  }
+
+  return result;
 };

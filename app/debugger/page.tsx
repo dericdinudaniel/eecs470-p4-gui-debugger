@@ -14,6 +14,7 @@ import DisplaySingleSignal from "@/components/DisplaySingleSignal";
 import BSDebugger from "@/components/BSDebugger";
 import FUDebugger from "@/components/FUDebugger";
 import IBDebugger from "@/components/IBDebugger";
+import BPredDebugger from "@/components/BPredDebugger";
 
 export default function Debugger() {
   const [currentCycle, setCurrentCycle] = useState(0);
@@ -139,10 +140,10 @@ export default function Debugger() {
     }
   };
 
-  const verilogCycle = parseInt(
-    signalData?.signals.children.testbench.children.cycle_count.value.slice(1),
-    2
-  );
+  // const verilogCycle = parseInt(
+  //   signalData?.signals.children.testbench.children.cycle_count.value.slice(1),
+  //   2
+  // );
 
   const testbench = signalData?.signals.children.testbench;
   const cpu = testbench?.children.mustafa;
@@ -151,7 +152,7 @@ export default function Debugger() {
   return (
     <div className="min-h-screen bg-background">
       <ShadDebuggerHeader
-        verilogCycle={verilogCycle}
+        // verilogCycle={verilogCycle}
         currentCycle={currentCycle}
         isNegativeEdge={isNegativeEdge}
         includeNegativeEdges={includeNegativeEdges}
@@ -172,7 +173,11 @@ export default function Debugger() {
             <>
               <div className="">
                 <div className="mt-4 mx-4 flex gap-x-3">
-                  <IBDebugger
+                  <BPredDebugger
+                    className=""
+                    signalBP={testbench.children.DUT}
+                  />
+                  {/* <IBDebugger
                     className=""
                     signalIB={cpu.children.instr_buffer}
                     signalCPU={cpu}
@@ -206,7 +211,7 @@ export default function Debugger() {
                       className=""
                       signalFU={DUT_ooo.children.DUT_fu}
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <DisplaySingleSignal

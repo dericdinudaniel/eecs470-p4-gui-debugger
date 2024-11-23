@@ -72,10 +72,12 @@ module.exports = {
 
         veryGood: "var(--veryGood)",
         good: "var(--good)",
+        goodLight: "var(--goodLight)",
         med: "var(--med)",
         medLight: "var(--medLight)",
         neutral: "var(--neutral)",
         bad: "var(--bad)",
+        badLight: "var(--badLight)",
         veryBad: "var(--veryBad)",
 
         tableHeader: "var(--tableHeader)",
