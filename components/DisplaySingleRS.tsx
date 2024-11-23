@@ -42,64 +42,73 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
               className="text-xs p-1 text-center font-semibold w-40"
               colSpan={2}
             >
-              {parseInstruction(RSData.packet.inst.inst)}
+              {parseInstruction(RSData.rs_to_fu_data.packet.inst.inst)}
             </DtdLeft>
           </Dtr>
           <Dtr>
             <DtdLeft className="text-xs p-1">T_new:</DtdLeft>
-            <Dtd className="text-xs p-1">{displayValue(RSData.T_new)}</Dtd>
+            <Dtd className="text-xs p-1">
+              {displayValue(RSData.rs_to_fu_data.T_new)}
+            </Dtd>
           </Dtr>
           <Dtr
             className={`${
               RSData.occupied &&
-              !Number.isNaN(RSData.T_a) &&
-              RSData.T_a != 0 &&
-              EarlyCDB?.includes(RSData.T_a)
+              !Number.isNaN(RSData.rs_to_fu_data.T_a) &&
+              RSData.rs_to_fu_data.T_a != 0 &&
+              EarlyCDB?.includes(RSData.rs_to_fu_data.T_a)
                 ? "bg-veryGood"
                 : ""
             }`}
           >
             <DtdLeft className="text-xs p-1">T_a:</DtdLeft>
             <Dtd className="text-xs p-1">
-              {displayValue(RSData.T_a)}
+              {displayValue(RSData.rs_to_fu_data.T_a)}
               {RSData.ready_ta ? "+" : " "}
             </Dtd>
           </Dtr>
           <Dtr
             className={`${
               RSData.occupied &&
-              !Number.isNaN(RSData.T_b) &&
-              RSData.T_b != 0 &&
-              EarlyCDB?.includes(RSData.T_b)
+              !Number.isNaN(RSData.rs_to_fu_data.T_b) &&
+              RSData.rs_to_fu_data.T_b != 0 &&
+              EarlyCDB?.includes(RSData.rs_to_fu_data.T_b)
                 ? "bg-veryGood"
                 : ""
             }`}
           >
             <DtdLeft className="text-xs p-1">T_b:</DtdLeft>
             <Dtd className="text-xs p-1">
-              {displayValue(RSData.T_b)}
+              {displayValue(RSData.rs_to_fu_data.T_b)}
               {RSData.ready_tb ? "+" : " "}
             </Dtd>
           </Dtr>
           <Dtr
             className={`${
-              Number.isNaN(RSData.imm_value) && RSData.has_imm
+              Number.isNaN(RSData.rs_to_fu_data.imm_value) &&
+              RSData.rs_to_fu_data.has_imm
                 ? "bg-veryBad"
-                : !RSData.has_imm && RSData.occupied
+                : !RSData.rs_to_fu_data.has_imm && RSData.occupied
                 ? "bg-neutral"
                 : ""
             }`}
           >
             <DtdLeft className="text-xs p-1">Imm:</DtdLeft>
             <Dtd className="text-xs p-1">
-              {displayValueHex(RSData.imm_value)}
+              {displayValueHex(RSData.rs_to_fu_data.imm_value)}
             </Dtd>
           </Dtr>
 
           {/* EBR */}
           <Dtr>
             <DtdLeft className="text-xs p-1">BMASK:</DtdLeft>
-            <Dtd className="text-xs p-1">{RSData.b_mask}</Dtd>
+            <Dtd className="text-xs p-1">{RSData.rs_to_fu_data.b_mask}</Dtd>
+          </Dtr>
+          <Dtr>
+            <DtdLeft className="text-xs p-1">PC:</DtdLeft>
+            <Dtd className="text-xs p-1">
+              {displayValueHex(RSData.rs_to_fu_data.PC)}
+            </Dtd>
           </Dtr>
 
           {/* func data */}
@@ -114,15 +123,15 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
                 switch (RSData.fu) {
                   case Types.FU_TYPE.ALU:
                     return Types.getALUFuncName(
-                      RSData.fu_func as Types.ALU_FUNC
+                      RSData.rs_to_fu_data.fu_func as Types.ALU_FUNC
                     );
                   case Types.FU_TYPE.MUL:
                     return Types.getMULFuncName(
-                      RSData.fu_func as Types.MULT_FUNC
+                      RSData.rs_to_fu_data.fu_func as Types.MULT_FUNC
                     );
                   case Types.FU_TYPE.BR:
                     return Types.getBRFuncName(
-                      RSData.fu_func as Types.BRANCH_FUNC
+                      RSData.rs_to_fu_data.fu_func as Types.BRANCH_FUNC
                     );
                   default:
                     return "XXX";

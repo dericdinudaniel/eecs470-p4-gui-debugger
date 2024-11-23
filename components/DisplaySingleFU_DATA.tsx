@@ -58,6 +58,10 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
             <DtdLeft className="text-xs p-1">BMASK:</DtdLeft>
             <Dtd className="text-xs p-1">{FUData.b_mask}</Dtd>
           </Dtr>
+          <Dtr>
+            <DtdLeft className="text-xs p-1">PC:</DtdLeft>
+            <Dtd className="text-xs p-1">{displayValueHex(FUData.PC)}</Dtd>
+          </Dtr>
 
           {/* func data */}
           <Dtr>
