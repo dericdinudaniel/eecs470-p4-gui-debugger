@@ -48,9 +48,7 @@ const DebuggerOutput: React.FC<DebuggerOutputProps> = ({
     let displayValue = signal.value;
 
     if (displayFormat === DisplayFormat.HEX) {
-      displayValue = parseInt(signal.value, 2)
-        .toString(16)
-        .padStart(Math.ceil(signal.type.width / 4), "0");
+      displayValue = parseInt(signal.value, 2).toString(16);
     } else if (displayFormat === DisplayFormat.DECIMAL) {
       displayValue = parseInt(signal.value, 2).toString();
     }

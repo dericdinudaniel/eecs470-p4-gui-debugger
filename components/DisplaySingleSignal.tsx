@@ -113,7 +113,7 @@ const DisplaySingleSignal: React.FC<DisplaySingleSignalProps> = ({
       {selectedSignal && (
         <div className="mt-2 p-2 border rounded-md">
           <h4 className="font-semibold">{selectedSignal.path}</h4>
-          <p className="text-sm">Type: {selectedSignal.signal.type.sigType}</p>
+          {/* <p className="text-sm">Type: {selectedSignal.signal.type.sigType}</p> */}
           <p className="text-sm">Width: {selectedSignal.signal.type.width}</p>
           <p className="text-sm">Value: {selectedSignal.signal.value}</p>
         </div>
