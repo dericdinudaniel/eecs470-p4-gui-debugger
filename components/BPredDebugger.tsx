@@ -135,54 +135,63 @@ const BPredDebugger: React.FC<BPredDebuggerProps> = ({
   const pht = extractSignalValue(signalBP, "pht").value;
   const BP_pht = parsePREDICTOR_STATE_T_List(pht);
 
+  const [showBPred, setShowBPred] = useState(true);
+
   return (
     <>
       <ModuleBase className={className}>
         <div>
-          <ModuleHeader>Branch Predictor</ModuleHeader>
-        </div>
-        <div
-          className={`${
-            incoming_branch_valid ? "bg-good" : "bg-bad"
-          } rounded-lg p-1`}
-        >
-          <span className="font-semibold">Incoming PC: </span>
-          {displayValueHex(incoming_branch_PC)}
+          <ModuleHeader onClick={() => setShowBPred(!showBPred)}>
+            Branch Predictor
+          </ModuleHeader>
         </div>
 
-        {/* recovery interface */}
-        <div className="justify-items-center border rounded-lg p-1 mt-2">
-          <h3 className="font-semibold underline">Recovery Interface</h3>
-          <div className="">
-            <div>
-              <span className="font-semibold">Actual Branch Dir.: </span>
-              {predicted_direction ? "Taken" : "Not Taken"}
+        {showBPred && (
+          <>
+            <div
+              className={`${
+                incoming_branch_valid ? "bg-good" : "bg-bad"
+              } rounded-lg p-1 text-sm`}
+            >
+              <span className="font-semibold">Incoming PC: </span>
+              {displayValueHex(incoming_branch_PC)}
             </div>
-            <div>
-              <span className="font-semibold">Branch Resolution: </span>
-              {Types.getBranchPredictName(resolving_branch_status)}
-            </div>
-            <div>
-              <span className="font-semibold">Resolving PC: </span>
-              {displayValueHex(resolving_branch_PC)}
-            </div>
-            <div>
-              <span className="font-semibold">Checkpointed BHR: </span>
-              {checkpointed_bhr.slice(1)}
-            </div>
-          </div>
-        </div>
 
-        {/* internals (pht is an output but counts as internal) */}
-        <div className="mt-2">
-          <div>
-            <span className="font-semibold">Current BHR: </span>
-            {bhr.slice(1)}
-          </div>
-          <div>
-            <DisplayPHT className="" phtList={BP_pht} />
-          </div>
-        </div>
+            {/* recovery interface */}
+            <div className="justify-items-center border rounded-lg p-1 mt-2">
+              <h3 className="font-semibold underline">Recovery Interface</h3>
+              <div className="">
+                <div className="text-sm">
+                  <span className="font-semibold">Actual Branch Dir.: </span>
+                  {predicted_direction ? "Taken" : "Not Taken"}
+                </div>
+                <div className="text-sm">
+                  <span className="font-semibold">Branch Resolution: </span>
+                  {Types.getBranchPredictName(resolving_branch_status)}
+                </div>
+                <div className="text-sm">
+                  <span className="font-semibold">Resolving PC: </span>
+                  {displayValueHex(resolving_branch_PC)}
+                </div>
+                <div className="text-sm">
+                  <span className="font-semibold">Checkpointed BHR: </span>
+                  {checkpointed_bhr.slice(1)}
+                </div>
+              </div>
+            </div>
+
+            {/* internals (pht is an output but counts as internal) */}
+            <div className="mt-2">
+              <div>
+                <span className="font-semibold">Current BHR: </span>
+                {bhr.slice(1)}
+              </div>
+              <div>
+                <DisplayPHT className="" phtList={BP_pht} />
+              </div>
+            </div>
+          </>
+        )}
       </ModuleBase>
     </>
   );
