@@ -172,7 +172,7 @@ export default function DebuggerHeader({
         {/* cycle display */}
         <div className="flex items-center space-x-4">
           <div className="flex flex-col items-end">
-            {verilogCycle && (
+            {verilogCycle != undefined && (
               <p className="text-sm font-mono">
                 Verilog Cycle:{" "}
                 {padWithSpaces(
