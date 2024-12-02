@@ -710,7 +710,7 @@ export const parseCHECKPOINT_DATA_List = (
 export const parseBoolArrToBoolArray = (inputStr: string): boolean[] => {
   const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
   const result: boolean[] = [];
-  for (let i = 0; i < binaryStr.length; i++) {
+  for (let i = binaryStr.length - 1; i >= 0; i--) {
     result.push(binaryStr[i] === "1");
   }
   return result;
@@ -761,6 +761,80 @@ export const parsePREDICTOR_STATE_T_List = (
     const startIdx = i * entryWidth;
     const state = extractBits(binaryStr, startIdx, entryWidth);
     result.push(state as Types.PREDICTOR_STATE_T);
+  }
+
+  return result;
+};
+
+// I Cache
+export const parse_to_INST_List = (inputStr: string): number[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  const result: number[] = [];
+
+  const entryWidth = Types.INST_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
+
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+    const inst = extractBits(binaryStr, startIdx, entryWidth);
+    result.push(inst);
+  }
+
+  return result;
+};
+
+export const parseADDR_List = (inputStr: string): number[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  const result: number[] = [];
+
+  const entryWidth = Types.ADDR_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
+
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+    const addr = extractBits(binaryStr, startIdx, entryWidth);
+    result.push(addr);
+  }
+
+  return result;
+};
+
+export const parseMEM_COMMAND = (inputStr: string): Types.MEM_COMMAND => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  return extractBits(
+    binaryStr,
+    0,
+    Types.MEM_COMMAND_WIDTH
+  ) as Types.MEM_COMMAND;
+};
+
+export const parseI$_tags = (inputStr: string): number[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  const result: number[] = [];
+
+  const entryWidth = 12 - Constants.ICACHE_LINE_BITS + 1;
+  const arrLen = binaryStr.length / entryWidth;
+
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+    const tag = extractBits(binaryStr, startIdx, entryWidth);
+    result.push(tag);
+  }
+
+  return result;
+};
+
+export const parseI$_indexes = (inputStr: string): number[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  const result: number[] = [];
+
+  const entryWidth = Constants.ICACHE_LINE_BITS;
+  const arrLen = binaryStr.length / entryWidth;
+
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+    const index = extractBits(binaryStr, startIdx, entryWidth);
+    result.push(index);
   }
 
   return result;

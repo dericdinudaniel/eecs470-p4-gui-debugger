@@ -18,6 +18,7 @@ export const PHYS_REG_TAG_WIDTH = clog2(Constants.PHYS_REG_SZ_R10K);
 
 // MEM_TAG is a 4-bit value
 export type MEM_TAG = number; // 4-bit memory tag
+export const MEM_TAG_WIDTH = 4;
 
 // Enum-like structure for memory size
 export enum MEM_SIZE {
@@ -26,9 +27,7 @@ export enum MEM_SIZE {
   WORD = 0x2,
   DOUBLE = 0x3,
 }
-export const MEM_SIZE_WIDTH = clog2(
-  Object.keys(MEM_SIZE).filter((k) => isNaN(Number(k))).length
-);
+export const MEM_SIZE_WIDTH = 2;
 
 // Memory bus commands
 export enum MEM_COMMAND {
@@ -36,15 +35,17 @@ export enum MEM_COMMAND {
   MEM_LOAD = 0x1,
   MEM_STORE = 0x2,
 }
-export const MEM_COMMAND_WIDTH = clog2(
-  Object.keys(MEM_COMMAND).filter((k) => isNaN(Number(k))).length
-);
+export const MEM_COMMAND_WIDTH = 2;
+export function getMemCommandName(memCommand: MEM_COMMAND): string {
+  return MEM_COMMAND[memCommand] ? MEM_COMMAND[memCommand] : "XXX";
+}
 
 // ICACHE_TAG definition
 export type ICACHE_TAG = {
   tags: number; // Equivalent to `logic [12 - ICACHE_LINE_BITS:0]`
   valid: boolean;
 };
+export const ICACHE_TAG_WIDTH = 12 - Constants.ICACHE_LINE_BITS + 1 + 1;
 
 // Enum for exception codes
 export enum EXCEPTION_CODE {

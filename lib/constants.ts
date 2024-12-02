@@ -47,7 +47,7 @@ export const NUM_MEM_TAGS = 15;
 
 // ICache definitions
 export const ICACHE_LINES = 32;
-export const ICACHE_LINE_BITS = clog2(ICACHE_LINES);
+export const ICACHE_LINE_BITS = 5;
 
 // Memory specifications
 export const MEM_SIZE_IN_BYTES = 64 * 1024;

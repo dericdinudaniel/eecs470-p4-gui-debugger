@@ -27,7 +27,7 @@ const IBDebugger: React.FC<IBDebuggerProps> = ({
   const buffer = extractSignalValue(signalIB, "buffer").value;
   const IB_buffer = parseID_EX_PACKET_List(buffer);
 
-  const valid = reverseStr(extractSignalValue(signalIB, "valid").value);
+  const valid = extractSignalValue(signalIB, "valid").value;
   const IB_valid = parseBoolArrToBoolArray(valid);
 
   const head = extractSignalValueToInt(signalIB, "head");
