@@ -52,19 +52,19 @@ const MemInputs: React.FC<{
         <span className="font-semibold text-sm">Tran Tag: </span>
         <PaddedNum number={Imem2proc_transaction_tag} maxNumber={15} />
       </div>
-      <div className="justify-items-center border rounded-lg">
+      <div className="justify-items-center border rounded-lg p-1">
         <span className="font-semibold text-sm">Data Tag: </span>
         <PaddedNum number={Imem2proc_data_tag} maxNumber={15} />
         <Dtable>
           <Dthead>
             <Dtr>
-              <Dtd colSpan={2}>Insts.</Dtd>
+              <Dth colSpan={2}>Insts.</Dth>
             </Dtr>
           </Dthead>
           <Dtbody>
             {I$_Imem2proc_data.map((inst, idx) => (
-              <Dtr key={idx} className="text-sm p-1 bg-neutral">
-                <Dtd>{parseInstruction(inst)}</Dtd>
+              <Dtr key={idx} className="bg-neutral">
+                <Dtd className="px-1">{parseInstruction(inst)}</Dtd>
               </Dtr>
             ))}
           </Dtbody>
@@ -108,14 +108,14 @@ const FetchInputs: React.FC<{
       <Dtable>
         <Dthead>
           <Dtr>
-            <Dtd colSpan={2}>Addresses</Dtd>
+            <Dth colSpan={2}>Addresses</Dth>
           </Dtr>
         </Dthead>
         <Dtbody className="bg-neutral">
           {I$_proc2Icache_addr.map((addr, idx) => (
             <Dtr key={idx}>
-              <DtdLeft className="font-semibold p-1">{idx}:</DtdLeft>
-              <Dtd className="p-1 w-20">{displayValueHex(addr)}</Dtd>
+              <DtdLeft className="font-semibold pl-1">{idx}:</DtdLeft>
+              <Dtd className="w-20 text-sm">{displayValueHex(addr)}</Dtd>
             </Dtr>
           ))}
         </Dtbody>
@@ -180,13 +180,13 @@ const FetchOutputs: React.FC<{
         <Dtable>
           <Dthead>
             <Dtr>
-              <Dtd colSpan={2}>Insts.</Dtd>
+              <Dth colSpan={2}>Insts.</Dth>
             </Dtr>
           </Dthead>
           <Dtbody>
             {I$_Icache_data_out.map((inst, idx) => (
               <Dtr key={idx} className="text-sm p-1 bg-neutral">
-                <Dtd>{parseInstruction(inst)}</Dtd>
+                <Dtd className="px-1">{parseInstruction(inst)}</Dtd>
               </Dtr>
             ))}
           </Dtbody>
@@ -233,7 +233,7 @@ const DispayI$: React.FC<{
                     key={idx}
                     className={`${I$_Icache_valid[idx] ? "bg-good" : "bg-bad"}`}
                   >
-                    <DtdLeft>{idx}</DtdLeft>
+                    <DtdLeft className="font-semibold">{idx}:</DtdLeft>
                     <Dtd>{I$_tags[idx]}</Dtd>
                     <Dtd>{I$_indexes[idx]}</Dtd>
                     <Dtd>{I$_res[idx] ? "Yes" : "No"}</Dtd>
