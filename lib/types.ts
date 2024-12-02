@@ -434,3 +434,18 @@ export const FU_TO_BS_DATA_WIDTH =
   1 + // taken
   1 + // is_jalr
   ADDR_WIDTH; // target
+
+export enum PREDICTOR_STATE_T {
+  ST,
+  WT,
+  WNT,
+  SNT,
+}
+export const PREDICTOR_STATE_T_WIDTH = 2;
+export function getPredictorStateName(
+  predictorState: PREDICTOR_STATE_T
+): string {
+  return PREDICTOR_STATE_T[predictorState]
+    ? PREDICTOR_STATE_T[predictorState]
+    : "XXX";
+}

@@ -43,10 +43,12 @@
     /* mine */
     --veryGood: #22c55e;
     --good: #bbf7d0;
+    --goodLight: #d8f2e1;
     --med: #fef08a;
     --medLight: #fef9c3;
     --neutral: #e5e7eb;
     --bad: #fecaca;
+    --badLight: #f8dfdf;
     --veryBad: #ef4444;
 
     --tableHeader: #cbd5e1;
@@ -80,10 +82,12 @@
     /* mine */
     --veryGood: #1c9a4a;
     --good: #215937;
+    --goodLight: #356e4b;
     --med: #ca8a04;
     --medLight: #a76c19;
     --neutral: #2e3645;
     --bad: #6e2121;
+    --badLight: #7a4545;
     --veryBad: #cd3c3c;
 
     --tableHeader: #1d2532;

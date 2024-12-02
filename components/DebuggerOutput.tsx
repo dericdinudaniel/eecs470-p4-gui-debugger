@@ -16,6 +16,7 @@ type ScopeData = {
 };
 
 type DebuggerOutputProps = {
+  className: string;
   signalData: {
     cycle: string;
     endpoint: string;
@@ -31,7 +32,10 @@ const DisplayFormat = {
   DECIMAL: "DECIMAL",
 } as const;
 
-const DebuggerOutput: React.FC<DebuggerOutputProps> = ({ signalData }) => {
+const DebuggerOutput: React.FC<DebuggerOutputProps> = ({
+  signalData,
+  className,
+}) => {
   const [displayFormat, setDisplayFormat] = useState<
     keyof typeof DisplayFormat
   >(DisplayFormat.BINARY);
@@ -44,9 +48,7 @@ const DebuggerOutput: React.FC<DebuggerOutputProps> = ({ signalData }) => {
     let displayValue = signal.value;
 
     if (displayFormat === DisplayFormat.HEX) {
-      displayValue = parseInt(signal.value, 2)
-        .toString(16)
-        .padStart(Math.ceil(signal.type.width / 4), "0");
+      displayValue = parseInt(signal.value, 2).toString(16);
     } else if (displayFormat === DisplayFormat.DECIMAL) {
       displayValue = parseInt(signal.value, 2).toString();
     }
@@ -75,7 +77,7 @@ const DebuggerOutput: React.FC<DebuggerOutputProps> = ({ signalData }) => {
   };
 
   return (
-    <div className="p-4 bg-card rounded-lg">
+    <div className={`p-4 bg-card rounded-lg ${className}`}>
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">Cycle: {signalData.cycle}</h2>
         <div>

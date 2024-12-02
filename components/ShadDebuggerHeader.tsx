@@ -12,7 +12,7 @@ import Image from "next/image";
 import InfoDialog from "@/components/InfoDialog";
 
 interface DebuggerHeaderProps {
-  verilogCycle: number;
+  verilogCycle?: number;
   currentCycle: number;
   isNegativeEdge: boolean;
   includeNegativeEdges: boolean;
@@ -172,13 +172,15 @@ export default function DebuggerHeader({
         {/* cycle display */}
         <div className="flex items-center space-x-4">
           <div className="flex flex-col items-end">
-            <p className="text-sm font-mono">
-              Verilog Cycle:{" "}
-              {padWithSpaces(
-                Number.isNaN(verilogCycle) ? 0 : verilogCycle,
-                maxCycle
-              )}
-            </p>
+            {verilogCycle != undefined && (
+              <p className="text-sm font-mono">
+                Verilog Cycle:{" "}
+                {padWithSpaces(
+                  Number.isNaN(verilogCycle) ? 0 : verilogCycle,
+                  maxCycle
+                )}
+              </p>
+            )}
 
             <p className="text-sm font-mono">
               Num Cycles: {padWithSpaces(maxCycle + 1, maxCycle)}

@@ -31,8 +31,8 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
     "available_spots"
   );
   // pure internal signals
-  const head_growth = extractSignalValueToInt(signalData, "head_growth");
-  const tail_growth = extractSignalValueToInt(signalData, "tail_growth");
+  // const head_growth = extractSignalValueToInt(signalData, "head_growth");
+  // const tail_growth = extractSignalValueToInt(signalData, "tail_growth");
   const next_direction = extractSignalValueToInt(signalData, "next_direction");
   const last_direction = extractSignalValueToInt(signalData, "last_direction");
   const empty = extractSignalValueToInt(signalData, "empty");
@@ -105,7 +105,7 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
                 <p className="text-xs">
                   <span className="font-bold">Empty:</span> {empty}
                 </p>
-                <div>
+                {/* <div>
                   <p className="text-xs">
                     <span className="font-bold">Head Growth:</span>{" "}
                     {head_growth}
@@ -114,7 +114,7 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
                     <span className="font-bold">Tail Growth:</span>{" "}
                     {tail_growth}
                   </p>
-                </div>
+                </div> */}
                 <div>
                   <p className="text-xs">
                     <span className="font-bold">Next Dir:</span>{" "}

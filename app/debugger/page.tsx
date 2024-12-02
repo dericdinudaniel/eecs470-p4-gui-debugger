@@ -14,6 +14,8 @@ import DisplaySingleSignal from "@/components/DisplaySingleSignal";
 import BSDebugger from "@/components/BSDebugger";
 import FUDebugger from "@/components/FUDebugger";
 import IBDebugger from "@/components/IBDebugger";
+import BPredDebugger from "@/components/BPredDebugger";
+import SignalDebugger from "@/components/SignalDebugger";
 
 export default function Debugger() {
   const [currentCycle, setCurrentCycle] = useState(0);
@@ -172,6 +174,10 @@ export default function Debugger() {
             <>
               <div className="">
                 <div className="mt-4 mx-4 flex gap-x-3">
+                  {/* <BPredDebugger
+                    className=""
+                    signalBP={testbench.children.DUT}
+                  /> */}
                   <IBDebugger
                     className=""
                     signalIB={cpu.children.instr_buffer}
@@ -209,11 +215,13 @@ export default function Debugger() {
                   </div>
                 </div>
               </div>
-              <DisplaySingleSignal
-                className=""
+
+              {/* all signals */}
+              <SignalDebugger
+                className="mt-4"
                 signalData={signalData?.signals.children.testbench.children}
               />
-              <DebuggerOutput signalData={signalData} />
+              <DebuggerOutput className="mt-4" signalData={signalData} />
             </>
           )}
         </div>

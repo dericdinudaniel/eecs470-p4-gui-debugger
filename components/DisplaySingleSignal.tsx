@@ -82,10 +82,10 @@ const DisplaySingleSignal: React.FC<DisplaySingleSignalProps> = ({
   );
 
   return (
-    <div className={`${className} bg-card m-4 p-4 rounded-lg shadow-md`}>
-      <p className="text-lg font-semibold">Display Single Signal</p>
+    <div className={`${className} bg-card-foreground p-2 rounded-lg shadow-md`}>
+      {/* <p className="text-lg font-semibold">Display Single Signal</p> */}
       <DropdownMenu>
-        <DropdownMenuTrigger className="p-2 border rounded-md">
+        <DropdownMenuTrigger className="p-1 border rounded-md text-sm">
           {selectedSignal ? selectedSignal.path : "Select a signal"}
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-full p-4 max-h-64 overflow-y-auto">
@@ -111,11 +111,11 @@ const DisplaySingleSignal: React.FC<DisplaySingleSignalProps> = ({
         </DropdownMenuContent>
       </DropdownMenu>
       {selectedSignal && (
-        <div className="mt-4 p-2 border rounded-md">
-          <h4 className="text-lg font-semibold">{selectedSignal.path}</h4>
-          <p>Type: {selectedSignal.signal.type.sigType}</p>
-          <p>Width: {selectedSignal.signal.type.width}</p>
-          <p>Value: {selectedSignal.signal.value}</p>
+        <div className="mt-2 p-2 border rounded-md">
+          <h4 className="font-semibold">{selectedSignal.path}</h4>
+          {/* <p className="text-sm">Type: {selectedSignal.signal.type.sigType}</p> */}
+          <p className="text-sm">Width: {selectedSignal.signal.type.width}</p>
+          <p className="text-sm">Value: {selectedSignal.signal.value}</p>
         </div>
       )}
     </div>
