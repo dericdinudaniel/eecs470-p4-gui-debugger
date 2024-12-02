@@ -839,3 +839,44 @@ export const parseI$_indexes = (inputStr: string): number[] => {
 
   return result;
 };
+
+export const parseICACHE_TAG = (inputStr: string): Types.ICACHE_TAG => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+
+  let accessIdx = 0;
+
+  const tags = extractBits(
+    binaryStr,
+    accessIdx,
+    12 - Constants.ICACHE_LINE_BITS + 1
+  );
+  accessIdx += 12 - Constants.ICACHE_LINE_BITS + 1;
+
+  const valid = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  return {
+    tags,
+    valid,
+  };
+};
+
+export const parseICACHE_TAG_List = (inputStr: string): Types.ICACHE_TAG[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+
+  const result: Types.ICACHE_TAG[] = [];
+
+  const entryWidth = Types.ICACHE_TAG_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
+
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+    const tag = parseICACHE_TAG(
+      binaryStr.slice(startIdx, startIdx + entryWidth)
+    );
+
+    result.push(tag);
+  }
+
+  return result;
+};

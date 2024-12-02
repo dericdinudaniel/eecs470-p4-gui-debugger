@@ -21,6 +21,11 @@ ModuleBase.displayName = "ModuleBase";
 const ModuleHeader: React.FC<React.ComponentProps<"button">> = ({
   className,
   ...props
-}) => <button className={cn("text-xl font-semibold", className)} {...props} />;
+}) => (
+  <button
+    className={cn("text-xl font-semibold underline-fade", className)}
+    {...props}
+  />
+);
 
 export { ModuleBase, ModuleHeader };
