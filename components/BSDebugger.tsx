@@ -16,6 +16,7 @@ import DisplayMapTable from "./DisplayMapTable";
 import DisplayCDBData from "./DisplayCDBData";
 import { DButton } from "./dui/DButton";
 import DisplayFU_TO_BS_DATA from "./DisplayFU_TO_BS_DATA";
+import { CardBase } from "./dui/Card";
 
 interface BSDebuggerProps {
   className: string;
@@ -186,7 +187,7 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
           {/* display inputs */}
           {showBSInputs && (
             <>
-              <div className="bg-card-foreground p-2 rounded-lg shadow-lg mt-2">
+              <CardBase className="mt-2">
                 <div className="flex space-x-3">
                   <div>
                     <DisplayFU_TO_BS_DATA
@@ -209,13 +210,13 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
                   checkpoint={BS_checkpoint_in}
                   valid={dispatch_valid}
                 />
-              </div>
+              </CardBase>
             </>
           )}
 
           {/* BRANCH STACKS */}
-          <div className="mt-2 bg-card-foreground p-2 rounded-lg shadow-lg">
-            <div className="mt-2 grid grid-cols-2 gap-x-2 gap-y-2">
+          <CardBase className="mt-2">
+            <div className="p-1 grid grid-cols-2 gap-x-2 gap-y-2">
               {BS_branch_stacks.map((cp, idx) => {
                 return (
                   <div key={idx} className="">
@@ -228,12 +229,12 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
                 );
               })}
             </div>
-          </div>
+          </CardBase>
 
           {/* display outputs */}
           {showBSOutputs && (
             <>
-              <div className="mt-3 bg-card-foreground p-2 rounded-lg shadow-lg">
+              <CardBase className="mt-3">
                 <div className="flex space-x-3">
                   <div>
                     <div
@@ -272,7 +273,7 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
                     checkpoint={BS_checkpoint_out}
                   />
                 </div>
-              </div>
+              </CardBase>
             </>
           )}
         </>

@@ -13,6 +13,7 @@ import { ModuleBase, ModuleHeader } from "./dui/Module";
 import { chunkArray } from "@/lib/tsutils";
 import { Dtable, Dtbody, Dtd, DtdLeft, Dth, Dthead, Dtr } from "./dui/DTable";
 import { DButton } from "./dui/DButton";
+import { CardBase } from "./dui/Card";
 
 const DisplayPHT: React.FC<{
   className: string;
@@ -158,7 +159,7 @@ const BPredDebugger: React.FC<BPredDebuggerProps> = ({
             </div>
 
             {/* recovery interface */}
-            <div className="justify-items-center shadow-lg bg-card-foreground rounded-lg p-1 mt-2">
+            <CardBase className="mt-2">
               <h3 className="font-semibold underline">Recovery Interface</h3>
               <div className="">
                 <div className="text-sm">
@@ -178,7 +179,7 @@ const BPredDebugger: React.FC<BPredDebuggerProps> = ({
                   {checkpointed_bhr.slice(1)}
                 </div>
               </div>
-            </div>
+            </CardBase>
 
             {/* internals (pht is an output but counts as internal) */}
             <div className="mt-2">

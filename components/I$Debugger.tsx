@@ -27,6 +27,7 @@ import {
 import { chunkArray, parseInstruction } from "@/lib/tsutils";
 import PaddedNum from "./dui/PaddedNum";
 import * as Types from "@/lib/types";
+import { CardBase } from "./dui/Card";
 
 // Memory Inputs Component
 const MemInputs: React.FC<{
@@ -45,9 +46,7 @@ const MemInputs: React.FC<{
   const I$_Imem2proc_data = parse_to_INST_List(Imem2proc_data);
 
   return (
-    <div
-      className={`justify-items-center shadow-lg rounded-lg p-1 bg-card-foreground ${className}`}
-    >
+    <CardBase className={className}>
       <h2 className="text-lg underline">Mem Inputs</h2>
       <div>
         <span className="font-semibold text-sm">Tran Tag: </span>
@@ -73,7 +72,7 @@ const MemInputs: React.FC<{
           </Dtbody>
         </Dtable>
       </div>
-    </div>
+    </CardBase>
   );
 };
 
@@ -91,9 +90,7 @@ const FetchInputs: React.FC<{
   const take_branch = extractSignalValueToBool(signalI$, "take_branch");
 
   return (
-    <div
-      className={`justify-items-center shadow-lg rounded-lg p-1 bg-card-foreground ${className}`}
-    >
+    <CardBase className={className}>
       <h2 className="text-lg underline">Fetch Inputs</h2>
       <div className="justify-items-center">
         <div>
@@ -124,7 +121,7 @@ const FetchInputs: React.FC<{
         </Dtbody>
       </Dtable>
       <I$Request className="mt-2" signalI$={signalI$} />
-    </div>
+    </CardBase>
   );
 };
 
@@ -141,9 +138,7 @@ const MemOutputs: React.FC<{
   const proc2Imem_addr = extractSignalValueToInt(signalI$, "proc2Imem_addr");
 
   return (
-    <div
-      className={`justify-items-center shadow-lg rounded-lg p-1 bg-card-foreground ${className}`}
-    >
+    <CardBase className={className}>
       <h2 className="text-lg underline">Mem Outputs</h2>
       <div>
         <div>
@@ -155,7 +150,7 @@ const MemOutputs: React.FC<{
           {displayValueHex(proc2Imem_addr)}
         </div>
       </div>
-    </div>
+    </CardBase>
   );
 };
 
@@ -172,9 +167,7 @@ const FetchOutputs: React.FC<{
   );
 
   return (
-    <div
-      className={`justify-items-center shadow-lg rounded-lg p-1 bg-card-foreground ${className}`}
-    >
+    <CardBase className={className}>
       <h2 className="text-lg underline">Fetch Outputs</h2>
       <div className="justify-items-center">
         <div>
@@ -198,7 +191,7 @@ const FetchOutputs: React.FC<{
           </Dtbody>
         </Dtable>
       </div>
-    </div>
+    </CardBase>
   );
 };
 
@@ -228,7 +221,6 @@ const I$Request: React.FC<{
           <Dtable>
             <Dthead>
               <Dtr>
-                <DthLeft>#</DthLeft>
                 <Dth>Tag</Dth>
                 <Dth>Index</Dth>
                 <Dth>R EN</Dth>
@@ -238,20 +230,39 @@ const I$Request: React.FC<{
             <Dtbody>
               {Array.from({ length: I$_tags.length }).map((_, idx) => {
                 return (
-                  <Dtr
-                    key={idx}
-                    className={`${I$_Icache_valid[idx] ? "bg-good" : "bg-bad"}`}
-                  >
-                    <DtdLeft className="font-semibold">{idx}:</DtdLeft>
-                    <Dtd>{displayValueHex(I$_tags[idx])}</Dtd>
-                    <Dtd>{I$_indexes[idx]}</Dtd>
-                    <Dtd>{I$_res[idx] ? "Yes" : "No"}</Dtd>
-                    <Dtd>
-                      <div className="w-40">
-                        {parseInstruction(I$_Icache_data[idx])}
-                      </div>
-                    </Dtd>
-                  </Dtr>
+                  <React.Fragment key={idx}>
+                    <Dtr
+                      className={`${
+                        I$_Icache_valid[idx] ? "bg-good" : "bg-bad"
+                      }`}
+                    >
+                      <Dtd rowSpan={2} className="font-semibold text-base">
+                        {displayValueHex(I$_tags[idx])}
+                      </Dtd>
+                      <Dtd rowSpan={2} className="font-semibold text-base">
+                        {I$_indexes[idx]}
+                      </Dtd>
+                      <Dtd rowSpan={2} className="font-semibold text-base">
+                        {I$_res[idx] ? "Yes" : "No"}
+                      </Dtd>
+                      <Dtd>
+                        <div className="w-40">
+                          {parseInstruction(I$_Icache_data[idx * 2])}
+                        </div>
+                      </Dtd>
+                    </Dtr>
+                    <Dtr
+                      className={`${
+                        I$_Icache_valid[idx] ? "bg-good" : "bg-bad"
+                      }`}
+                    >
+                      <Dtd className="border-l">
+                        <div className="w-40">
+                          {parseInstruction(I$_Icache_data[idx * 2 + 1])}
+                        </div>
+                      </Dtd>
+                    </Dtr>
+                  </React.Fragment>
                 );
               })}
             </Dtbody>
@@ -280,9 +291,7 @@ const DisplayI$: React.FC<{
 
   return (
     <>
-      <div
-        className={`justify-items-center shadow-lg rounded-lg p-1 bg-card-foreground ${className}`}
-      >
+      <CardBase className={className}>
         <button
           className="font-semibold"
           onClick={() => {
@@ -298,9 +307,9 @@ const DisplayI$: React.FC<{
                 <Dtable key={chunkIdx}>
                   <Dthead>
                     <Dtr>
-                      {/* <DthLeft>#</DthLeft> */}
+                      <Dth className="px-2">#</Dth>
                       <Dth>Tag</Dth>
-                      <Dth>Data</Dth>
+                      <Dth>Inst.</Dth>
                     </Dtr>
                   </Dthead>
                   <Dtbody>
@@ -311,11 +320,17 @@ const DisplayI$: React.FC<{
                       return (
                         <React.Fragment key={idx}>
                           <Dtr className={`${valid ? "bg-good" : "bg-bad"}`}>
+                            <DtdLeft
+                              rowSpan={2}
+                              className="font-semibold text-base"
+                            >
+                              {tagIdx}:
+                            </DtdLeft>
                             <Dtd
                               rowSpan={2}
                               className="font-semibold text-base"
                             >
-                              {tag}:
+                              {tag}
                             </Dtd>
                             <Dtd>
                               <div className="w-40">
@@ -339,7 +354,7 @@ const DisplayI$: React.FC<{
             </div>
           </>
         )}
-      </div>
+      </CardBase>
     </>
   );
 };

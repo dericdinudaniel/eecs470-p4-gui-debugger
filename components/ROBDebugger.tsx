@@ -9,6 +9,7 @@ import { ScopeData } from "@/lib/tstypes";
 import DisplayROBData from "./DisplayROBData";
 import { ModuleBase, ModuleHeader } from "./dui/Module";
 import { DButton } from "./dui/DButton";
+import { CardBase } from "./dui/Card";
 
 type ROBDebuggerProps = {
   className: string;
@@ -76,7 +77,7 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
             {/* display inputs */}
             {showROBInputs && (
               <div className="flex space-x-4 mb-2 mt-2">
-                <div className="justify-items-center shadow-lg bg-card-foreground pt-0 p-2 rounded-lg">
+                <CardBase className="pt-0 mt-0">
                   <p className="font-semibold">Dispatched Instructions</p>
                   <DisplayROBData
                     className=""
@@ -85,13 +86,13 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
                     tail={-1}
                     isROB={false}
                   />
-                </div>
+                </CardBase>
               </div>
             )}
 
             {/* display ROB internals */}
             {showROBInternals && (
-              <div className="flex space-x-4 bg-card-foreground shadow-lg p-1 rounded-lg">
+              <CardBase className="flex space-x-4">
                 <div>
                   <p className="text-xs">
                     <span className="font-bold">Available Spots:</span>{" "}
@@ -125,7 +126,7 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
                     {last_direction ? "SHRK" : "GROW"}
                   </p>
                 </div>
-              </div>
+              </CardBase>
             )}
 
             {/* display ROB entries */}
