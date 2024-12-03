@@ -10,6 +10,7 @@ import { DButton, DHeaderButton } from "./dui/DButton";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import Image from "next/image";
 import InfoDialog from "@/components/InfoDialog";
+import PaddedNum from "./dui/PaddedNum";
 
 interface DebuggerHeaderProps {
   verilogCycle?: number;
@@ -175,15 +176,21 @@ export default function DebuggerHeader({
             {verilogCycle != undefined && (
               <p className="text-sm font-mono">
                 Verilog Cycle:{" "}
-                {padWithSpaces(
+                {/* {padWithSpaces(
                   Number.isNaN(verilogCycle) ? 0 : verilogCycle,
                   maxCycle
-                )}
+                )} */}
+                <PaddedNum
+                  number={Number.isNaN(verilogCycle) ? 0 : verilogCycle}
+                  maxNumber={maxCycle}
+                />
               </p>
             )}
 
             <p className="text-sm font-mono">
-              Num Cycles: {padWithSpaces(maxCycle + 1, maxCycle)}
+              {/* Num Cycles: {padWithSpaces(maxCycle + 1, maxCycle)} */}
+              Num Cycles:{" "}
+              <PaddedNum number={maxCycle + 1} maxNumber={maxCycle} />
             </p>
           </div>
           <div className="flex flex-row items-center space-x-1">

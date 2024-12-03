@@ -16,6 +16,7 @@ import FUDebugger from "@/components/FUDebugger";
 import IBDebugger from "@/components/IBDebugger";
 import BPredDebugger from "@/components/BPredDebugger";
 import SignalDebugger from "@/components/SignalDebugger";
+import I$Debugger from "@/components/I$Debugger";
 
 export default function Debugger() {
   const [currentCycle, setCurrentCycle] = useState(0);
@@ -148,7 +149,8 @@ export default function Debugger() {
 
   const testbench = signalData?.signals.children.testbench;
   const cpu = testbench?.children.mustafa;
-  const DUT_ooo = cpu?.children.ooo_core;
+  const Front_End = cpu?.children.Front_End;
+  const OoO_Core = cpu?.children.OoO_Core;
 
   return (
     <div className="min-h-screen bg-background">
@@ -173,44 +175,52 @@ export default function Debugger() {
           {signalData && (
             <>
               <div className="">
+                {/* not integrated yet so these are just wherever for now */}
                 <div className="mt-4 mx-4 flex gap-x-3">
-                  {/* <BPredDebugger
+                  <BPredDebugger
                     className=""
-                    signalBP={testbench.children.DUT}
-                  /> */}
-                  <IBDebugger
-                    className=""
-                    signalIB={cpu.children.instr_buffer}
-                    signalCPU={cpu}
+                    signalBP={Front_End.children.masonshare}
                   />
+                  <I$Debugger
+                    className=""
+                    signalI$={Front_End.children.fetcher.children.cacher}
+                  />
+                </div>
+                <div className="mt-4 mx-4 flex gap-x-3">
                   <div className="flex flex-col items-center gap-y-4">
-                    <ROBDebugger
+                    <IBDebugger
                       className=""
-                      signalData={DUT_ooo.children.DUT_rob}
+                      signalIB={cpu.children.Front_End.children.instr_buffer}
+                      signalFront_End={Front_End}
                     />
-                    <BSDebugger
-                      className=""
-                      signalBS={DUT_ooo.children.DUT_branch_stack}
-                    />
-                  </div>
-                  <div className="flex flex-col items-center gap-y-4">
                     <FNAFDebugger
                       className=""
-                      signalFNAF={DUT_ooo.children.DUT_freddy}
+                      signalFNAF={OoO_Core.children.DUT_freddy}
                     />
                     <RegfileDebugger
                       className=""
-                      signalRegfile={DUT_ooo.children.DUT_regfile}
+                      signalRegfile={OoO_Core.children.DUT_regfile}
                     />
                   </div>
                   <div className="flex flex-col items-center gap-y-4">
+                    <ROBDebugger
+                      className=""
+                      signalData={OoO_Core.children.DUT_rob}
+                    />
+                    <BSDebugger
+                      className=""
+                      signalBS={OoO_Core.children.DUT_branch_stack}
+                    />
+                  </div>
+
+                  <div className="flex flex-col items-center gap-y-4">
                     <RSDebugger
                       className=""
-                      signalRS={DUT_ooo.children.DUT_rs}
+                      signalRS={OoO_Core.children.DUT_rs}
                     />
                     <FUDebugger
                       className=""
-                      signalFU={DUT_ooo.children.DUT_fu}
+                      signalFU={OoO_Core.children.DUT_fu}
                     />
                   </div>
                 </div>
@@ -219,7 +229,7 @@ export default function Debugger() {
               {/* all signals */}
               <SignalDebugger
                 className="mt-4"
-                signalData={signalData?.signals.children.testbench.children}
+                signalData={testbench.children}
               />
               <DebuggerOutput className="mt-4" signalData={signalData} />
             </>

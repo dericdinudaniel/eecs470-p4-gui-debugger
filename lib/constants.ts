@@ -17,7 +17,7 @@ export const PHYS_REG_SZ_P6 = 32;
 export const PHYS_REG_SZ_R10K = 32 + ROB_SZ;
 
 // worry about these later
-export const BRANCH_PRED_SZ = 10; // Replace `NaN` with the appropriate value
+export const BRANCH_PRED_SZ = 3; // Replace `NaN` with the appropriate value
 export const LSQ_SZ = NaN; // Replace `NaN` with the appropriate value
 
 // Functional Units
@@ -47,7 +47,7 @@ export const NUM_MEM_TAGS = 15;
 
 // ICache definitions
 export const ICACHE_LINES = 32;
-export const ICACHE_LINE_BITS = clog2(ICACHE_LINES);
+export const ICACHE_LINE_BITS = 5;
 
 // Memory specifications
 export const MEM_SIZE_IN_BYTES = 64 * 1024;

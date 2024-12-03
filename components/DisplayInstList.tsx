@@ -71,6 +71,8 @@ const DisplayInstList: React.FC<DisplayInstListProps> = ({
                 color = entry.valid ? "bg-good" : "bg-bad";
               } else if (validList != undefined && validList[idx] && isIB) {
                 color = "bg-medLight";
+              } else {
+                color = "bg-neutral";
               }
 
               const headOrTailString =

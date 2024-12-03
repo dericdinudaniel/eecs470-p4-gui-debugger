@@ -15,19 +15,19 @@ import { ModuleBase, ModuleHeader } from "./dui/Module";
 type IBDebuggerProps = {
   className: string;
   signalIB: ScopeData;
-  signalCPU: ScopeData;
+  signalFront_End: ScopeData;
 };
 
 const IBDebugger: React.FC<IBDebuggerProps> = ({
   className,
   signalIB,
-  signalCPU,
+  signalFront_End,
 }) => {
   // buffer
   const buffer = extractSignalValue(signalIB, "buffer").value;
   const IB_buffer = parseID_EX_PACKET_List(buffer);
 
-  const valid = reverseStr(extractSignalValue(signalIB, "valid").value);
+  const valid = extractSignalValue(signalIB, "valid").value;
   const IB_valid = parseBoolArrToBoolArray(valid);
 
   const head = extractSignalValueToInt(signalIB, "head");
@@ -50,7 +50,7 @@ const IBDebugger: React.FC<IBDebuggerProps> = ({
   ).value;
   // const IB_output_id_ex_packet = parseID_EX_PACKET_List(output_id_ex_packet);
 
-  const if_id_reg = extractSignalValue(signalCPU, "if_id_reg").value;
+  const if_id_reg = extractSignalValue(signalFront_End, "if_id_reg").value;
   const CPU_if_id_reg = parseID_EX_PACKET_List(if_id_reg);
 
   const [showIBInputs, setShowIBInputs] = useState(true);

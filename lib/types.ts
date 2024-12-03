@@ -18,6 +18,7 @@ export const PHYS_REG_TAG_WIDTH = clog2(Constants.PHYS_REG_SZ_R10K);
 
 // MEM_TAG is a 4-bit value
 export type MEM_TAG = number; // 4-bit memory tag
+export const MEM_TAG_WIDTH = 4;
 
 // Enum-like structure for memory size
 export enum MEM_SIZE {
@@ -26,9 +27,7 @@ export enum MEM_SIZE {
   WORD = 0x2,
   DOUBLE = 0x3,
 }
-export const MEM_SIZE_WIDTH = clog2(
-  Object.keys(MEM_SIZE).filter((k) => isNaN(Number(k))).length
-);
+export const MEM_SIZE_WIDTH = 2;
 
 // Memory bus commands
 export enum MEM_COMMAND {
@@ -36,15 +35,17 @@ export enum MEM_COMMAND {
   MEM_LOAD = 0x1,
   MEM_STORE = 0x2,
 }
-export const MEM_COMMAND_WIDTH = clog2(
-  Object.keys(MEM_COMMAND).filter((k) => isNaN(Number(k))).length
-);
+export const MEM_COMMAND_WIDTH = 2;
+export function getMemCommandName(memCommand: MEM_COMMAND): string {
+  return MEM_COMMAND[memCommand] ? MEM_COMMAND[memCommand] : "XXX";
+}
 
 // ICACHE_TAG definition
 export type ICACHE_TAG = {
   tags: number; // Equivalent to `logic [12 - ICACHE_LINE_BITS:0]`
   valid: boolean;
 };
+export const ICACHE_TAG_WIDTH = 12 - Constants.ICACHE_LINE_BITS + 1 + 1;
 
 // Enum for exception codes
 export enum EXCEPTION_CODE {
@@ -206,16 +207,21 @@ export type ID_EX_PACKET = {
   inst: INST;
   PC: ADDR;
   NPC: ADDR;
+
   rs1_value: DATA;
   rs2_value: DATA;
+
   opa_select: ALU_OPA_SELECT;
   opb_select: ALU_OPB_SELECT;
+
   dest_reg_idx: REG_IDX;
   alu_func: ALU_FUNC;
   mult: boolean;
   rd_mem: boolean;
   wr_mem: boolean;
   cond_branch: boolean;
+  bhr: string; // BRANCH_PRED_SZ bits
+  predicted_direction: boolean;
   uncond_branch: boolean;
   halt: boolean;
   illegal: boolean;
@@ -223,14 +229,18 @@ export type ID_EX_PACKET = {
   valid: boolean;
 };
 export const ID_EX_PACKET_WIDTH =
-  INST_WIDTH +
-  2 * ADDR_WIDTH +
-  2 * DATA_WIDTH +
-  ALU_OPA_SELECT_WIDTH +
-  ALU_OPB_SELECT_WIDTH +
-  REG_IDX_WIDTH +
-  ALU_FUNC_WIDTH +
-  9 * 1;
+  INST_WIDTH + // inst
+  2 * ADDR_WIDTH + // PC, NPC
+  2 * DATA_WIDTH + // rs1_value, rs2_value
+  ALU_OPA_SELECT_WIDTH + // opa_select
+  ALU_OPB_SELECT_WIDTH + // opb_select
+  REG_IDX_WIDTH + // dest_reg_idx
+  ALU_FUNC_WIDTH + // alu_func
+  4 * 1 + // mult, rd_mem, wr_mem, cond_branch
+  Constants.BRANCH_PRED_SZ + // bhr
+  1 + // predicted_direction
+  1 + // uncond_branch
+  4 * 1; // halt, illegal, csr_op, valid
 
 // EX_MEM Packet
 export type EX_MEM_PACKET = {
@@ -410,18 +420,24 @@ export function getBranchPredictName(branchPredict: BRANCH_PREDICT_T): string {
 }
 
 export type CHECKPOINT_DATA = {
-  pc_checkpoint: ADDR;
-  bhr_checkpoint: string; // BRANCH_PRED_SZ bits
+  predicted_direction: boolean;
+  resolving_branch_direction: boolean;
+  recovery_target: ADDR;
+  branch_PC: ADDR;
+  checkpointed_bhr: string; // BRANCH_PRED_SZ bits
   rob_tail: number; // width = clog2(ROB_SZ + N)
   frizzy_checkpoint: FRIZZY_DATA;
   map_checkpoint: PHYS_REG_TAG[]; // array of size AR_NUM
 };
 export const CHECKPOINT_DATA_WIDTH =
-  ADDR_WIDTH +
-  Constants.BRANCH_PRED_SZ +
-  clog2(Constants.ROB_SZ + Constants.N) +
-  FRIZZY_DATA_WIDTH +
-  Constants.AR_NUM * PHYS_REG_TAG_WIDTH;
+  1 + // predicted_direction
+  1 + // resolving_branch_direction
+  ADDR_WIDTH + // recovery_target
+  ADDR_WIDTH + // branch_PC
+  Constants.BRANCH_PRED_SZ + // checkpointed_bhr
+  clog2(Constants.ROB_SZ + Constants.N) + // rob_tail
+  FRIZZY_DATA_WIDTH + // frizzy_checkpoint
+  Constants.AR_NUM * PHYS_REG_TAG_WIDTH; // map_checkpoint
 
 export type FU_TO_BS_DATA = {
   bmask: string;
