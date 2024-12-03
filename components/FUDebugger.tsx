@@ -16,6 +16,8 @@ import { reverseStr } from "@/lib/tsutils";
 import { ModuleBase, ModuleHeader } from "./dui/Module";
 import { DButton } from "./dui/DButton";
 import DisplayFU_TO_BS_DATA from "./DisplayFU_TO_BS_DATA";
+import { CardBase } from "./dui/Card";
+import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 
 type FUDebuggerProps = {
   className: string;
@@ -79,7 +81,8 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
           />
 
           <div className="ml-4">
-            <div
+            <SimpleValDisplay
+              label="Branch Resolve Status: "
               className={`p-1 ${
                 b_mask_mask_status == Types.BRANCH_PREDICT_T.CORRECT_PRED
                   ? "rounded-lg bg-veryGood"
@@ -87,15 +90,20 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
                   ? "rounded-lg bg-veryBad"
                   : ""
               }`}
+              labelClassName="text-base"
             >
-              <span className="font-bold">Branch Resolve Status: </span>
               {Types.getBranchPredictName(b_mask_mask_status)}
-            </div>
-            <div className="pl-1">
-              <span className="font-bold">B Mask Mask: </span>
+            </SimpleValDisplay>
+
+            <SimpleValDisplay
+              label="B Mask Mask: "
+              className="pl-1"
+              labelClassName=" text-base"
+            >
               {b_mask_mask}
-            </div>
+            </SimpleValDisplay>
           </div>
+          <DisplayFU_TO_BS_DATA className="ml-2" data={FU_branch_results} />
         </div>
 
         {showFU && (
@@ -104,7 +112,7 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
             {showFUInputs && (
               <>
                 <div className="mt-2 justify-items-center">
-                  <div className="flex space-x-4">
+                  <CardBase className="flex space-x-4">
                     {/* ALU */}
                     <div className="justify-items-center">
                       <p>ALU IN</p>
@@ -154,12 +162,8 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
                           </div>
                         ))}
                       </div>
-                      <DisplayFU_TO_BS_DATA
-                        className="mt-2"
-                        data={FU_branch_results}
-                      />
                     </div>
-                  </div>
+                  </CardBase>
                 </div>
               </>
             )}

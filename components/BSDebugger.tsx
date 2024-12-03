@@ -17,6 +17,7 @@ import DisplayCDBData from "./DisplayCDBData";
 import { DButton } from "./dui/DButton";
 import DisplayFU_TO_BS_DATA from "./DisplayFU_TO_BS_DATA";
 import { CardBase } from "./dui/Card";
+import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 
 interface BSDebuggerProps {
   className: string;
@@ -42,27 +43,26 @@ const DisplaySingleCheckpoint: React.FC<{
           <h2 className="text-md font-semibold text-center">Stack #{idx}</h2>
         )}
         <div className="flex items-center">
-          <div>
-            <div>
-              <span className="font-semibold">Branch PC: </span>
+          <div className="space-y-[-.35rem]">
+            <SimpleValDisplay label="Branch PC: ">
               {checkpoint.branch_PC}
-            </div>
-            <div>
-              <span className="font-semibold">BHR: </span>
+            </SimpleValDisplay>
+
+            <SimpleValDisplay label="BHR: ">
               {checkpoint.checkpointed_bhr}
-            </div>
-            <div>
-              <span className="font-semibold">ROB Tail: </span>
+            </SimpleValDisplay>
+
+            <SimpleValDisplay label="ROB Tail: ">
               {checkpoint.rob_tail}
-            </div>
-            <div>
-              <span className="font-semibold">Predicted Dir: </span>
+            </SimpleValDisplay>
+
+            <SimpleValDisplay label="Predicted Dir: ">
               {checkpoint.predicted_direction ? "T" : "NT"}
-            </div>
-            <div>
-              <span className="font-semibold">Resolved Dir: </span>
+            </SimpleValDisplay>
+
+            <SimpleValDisplay label="Resolved Dir: ">
               {checkpoint.resolving_branch_direction ? "T" : "NT"}
-            </div>
+            </SimpleValDisplay>
           </div>
           {/* Toggle Button */}
           <DButton
@@ -161,14 +161,14 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
           <ModuleHeader onClick={() => setShowBS(!showBS)}>
             Branch Stacks
           </ModuleHeader>
-          <div>
-            <span className="font-semibold">BMask Current: </span>
+
+          <SimpleValDisplay label="BMask Current: ">
             {bmask_current}
-          </div>
-          <div>
-            <span className="font-semibold">Taken Predict Bits: </span>
+          </SimpleValDisplay>
+
+          <SimpleValDisplay label="Taken Predict Bits: ">
             {taken_predict_bits}
-          </div>
+          </SimpleValDisplay>
         </div>
 
         {/* Toggle buttons */}
@@ -194,10 +194,10 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
                       className=""
                       data={BS_correct_branch_data}
                     />
-                    <div className="mt-2">
-                      <span className="font-bold">T_old: </span>
+
+                    <SimpleValDisplay label="T_old: " className="mt-1">
                       {T_old}
-                    </div>
+                    </SimpleValDisplay>
                   </div>
                   <DisplayCDBData
                     className=""
@@ -206,7 +206,7 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
                   />
                 </div>
                 <DisplaySingleCheckpoint
-                  className="mt-2"
+                  className="mt-1"
                   checkpoint={BS_checkpoint_in}
                   valid={dispatch_valid}
                 />
@@ -237,7 +237,8 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
               <CardBase className="mt-3">
                 <div className="flex space-x-3">
                   <div>
-                    <div
+                    <SimpleValDisplay
+                      label="Prediction: "
                       className={`p-1 ${
                         prediction == Types.BRANCH_PREDICT_T.CORRECT_PRED
                           ? "rounded-lg bg-veryGood"
@@ -245,27 +246,39 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
                           ? "rounded-lg bg-veryBad"
                           : ""
                       }`}
+                      labelClassName="text-base"
                     >
-                      <span className="font-bold">Prediction: </span>
                       {Types.getBranchPredictName(prediction)}
-                    </div>
+                    </SimpleValDisplay>
+
                     <div className="pl-1">
-                      <div>
-                        <span className="font-bold">BMASK prev out: </span>
+                      <SimpleValDisplay
+                        label="BMASK prev out: "
+                        labelClassName="text-base"
+                      >
                         {branch_mask_prev_out}
-                      </div>
-                      <div>
-                        <span className="font-bold">BMASK reg out: </span>
+                      </SimpleValDisplay>
+
+                      <SimpleValDisplay
+                        label="BMASK reg out: "
+                        labelClassName="text-base"
+                      >
                         {branch_mask_reg_out}
-                      </div>
-                      <div>
-                        <span className="font-bold">BMASK mask: </span>
+                      </SimpleValDisplay>
+
+                      <SimpleValDisplay
+                        label="BMASK mask: "
+                        labelClassName="text-base"
+                      >
                         {b_mask_mask}
-                      </div>
-                      <div>
-                        <span className="font-bold">Full: </span>
+                      </SimpleValDisplay>
+
+                      <SimpleValDisplay
+                        label="Full: "
+                        labelClassName="text-base"
+                      >
                         {full ? "True" : "False"}
-                      </div>
+                      </SimpleValDisplay>
                     </div>
                   </div>
                   <DisplaySingleCheckpoint

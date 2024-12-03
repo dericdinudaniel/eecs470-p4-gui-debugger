@@ -28,6 +28,7 @@ import { chunkArray, parseInstruction } from "@/lib/tsutils";
 import PaddedNum from "./dui/PaddedNum";
 import * as Types from "@/lib/types";
 import { CardBase } from "./dui/Card";
+import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 
 // Memory Inputs Component
 const MemInputs: React.FC<{
@@ -48,13 +49,15 @@ const MemInputs: React.FC<{
   return (
     <CardBase className={className}>
       <h2 className="text-lg underline">Mem Inputs</h2>
-      <div>
-        <span className="font-semibold text-sm">Tran Tag: </span>
+      <SimpleValDisplay label="Tran Tag: ">
         <PaddedNum number={Imem2proc_transaction_tag} maxNumber={15} />
-      </div>
+      </SimpleValDisplay>
+
       <div className="justify-items-center p-1">
-        <span className="font-semibold text-sm">Data Tag: </span>
-        <PaddedNum number={Imem2proc_data_tag} maxNumber={15} />
+        <SimpleValDisplay label="Data Tag: ">
+          <PaddedNum number={Imem2proc_data_tag} maxNumber={15} />
+        </SimpleValDisplay>
+
         <Dtable>
           <Dthead>
             <Dtr>
@@ -93,17 +96,15 @@ const FetchInputs: React.FC<{
     <CardBase className={className}>
       <h2 className="text-lg underline">Fetch Inputs</h2>
       <div className="justify-items-center">
-        <div>
-          <span className="font-semibold text-sm">Take Branch: </span>
+        <SimpleValDisplay label="Take Branch: ">
           {take_branch ? "Yes" : "No"}
-        </div>
-        <div>
-          <span className="font-semibold text-sm">Valid Fetches: </span>
+        </SimpleValDisplay>
+        <SimpleValDisplay label="Valid Fetches: ">
           <PaddedNum
             number={valid_fetches}
             maxNumber={I$_proc2Icache_addr.length}
           />
-        </div>
+        </SimpleValDisplay>
       </div>
       <Dtable>
         <Dthead>
@@ -141,14 +142,12 @@ const MemOutputs: React.FC<{
     <CardBase className={className}>
       <h2 className="text-lg underline">Mem Outputs</h2>
       <div>
-        <div>
-          <span className="font-semibold text-sm">Command: </span>
+        <SimpleValDisplay label="Command: ">
           {Types.getMemCommandName(I$_proc2Imem_command)}
-        </div>
-        <div>
-          <span className="font-semibold text-sm">Addr: </span>
+        </SimpleValDisplay>
+        <SimpleValDisplay label="Addr: ">
           {displayValueHex(proc2Imem_addr)}
-        </div>
+        </SimpleValDisplay>
       </div>
     </CardBase>
   );
@@ -170,10 +169,8 @@ const FetchOutputs: React.FC<{
     <CardBase className={className}>
       <h2 className="text-lg underline">Fetch Outputs</h2>
       <div className="justify-items-center">
-        <div>
-          <span className="font-semibold text-sm">Valid: </span>
-          {Icache_valid_out}
-        </div>
+        <SimpleValDisplay label="Valid: ">{Icache_valid_out}</SimpleValDisplay>
+
         <Dtable>
           <Dthead>
             <Dtr>
@@ -384,7 +381,7 @@ const I$Debugger: React.FC<I$DebuggerProps> = ({ className, signalI$ }) => {
           <>
             <div className="justify-items-center space-y-2">
               <div className="flex gap-x-3 items-start">
-                <div className="space-y-1">
+                <div className="justify-items-center space-y-1">
                   <MemInputs className="" signalI$={signalI$} />
                   <MemOutputs className="" signalI$={signalI$} />
                 </div>

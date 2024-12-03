@@ -11,6 +11,8 @@ import { Toggle } from "./ui/toggle";
 import { ChevronUpIcon, ChevronDownIcon } from "lucide-react";
 import { reverseStr } from "@/lib/tsutils";
 import { ModuleBase, ModuleHeader } from "./dui/Module";
+import { CardBase } from "./dui/Card";
+import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 
 type IBDebuggerProps = {
   className: string;
@@ -83,47 +85,56 @@ const IBDebugger: React.FC<IBDebuggerProps> = ({
               {/* inputs */}
               {showIBInputs && (
                 <div>
-                  <div className="text-md">
-                    <span className="font-semibold"># Dispatched: </span>
+                  <SimpleValDisplay
+                    label="# Dispatched: "
+                    labelClassName="text-md"
+                  >
                     {num_dispatched}
-                  </div>
-                  <div className="text-md">
-                    <span className="font-semibold"># Fetched: </span>
+                  </SimpleValDisplay>
+
+                  <SimpleValDisplay
+                    label="# Fetched: "
+                    labelClassName="text-md"
+                  >
                     {num_fetched}
-                  </div>
+                  </SimpleValDisplay>
                 </div>
               )}
-              <div>
+
+              <CardBase className="space-y-2">
+                <div className="justify-items-center">
+                  <p className="font-semibold">From Fetch</p>
+                  <DisplayInstList
+                    className=""
+                    instList={IB_input_id_ex_packet}
+                    head={-1}
+                    tail={-1}
+                    isIB={false}
+                  />
+                </div>
+
+                {/* actual buffer */}
                 <DisplayInstList
                   className=""
-                  instList={IB_input_id_ex_packet}
-                  head={-1}
-                  tail={-1}
-                  isIB={false}
+                  instList={IB_buffer}
+                  validList={IB_valid}
+                  head={head}
+                  tail={tail}
+                  isIB={true}
                 />
-              </div>
 
-              {/* actual buffer */}
-              <DisplayInstList
-                className=""
-                instList={IB_buffer}
-                validList={IB_valid}
-                head={head}
-                tail={tail}
-                isIB={true}
-              />
-
-              {/* outputs */}
-              <div className="justify-items-center font-semibold">
-                <p>Dispatched</p>
-                <DisplayInstList
-                  className=""
-                  instList={CPU_if_id_reg}
-                  head={-1}
-                  tail={-1}
-                  isIB={false}
-                />
-              </div>
+                {/* outputs */}
+                <div className="justify-items-center">
+                  <p className="font-semibold">Dispatched</p>
+                  <DisplayInstList
+                    className=""
+                    instList={CPU_if_id_reg}
+                    head={-1}
+                    tail={-1}
+                    isIB={false}
+                  />
+                </div>
+              </CardBase>
             </div>
           </>
         )}

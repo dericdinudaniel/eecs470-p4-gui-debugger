@@ -65,12 +65,16 @@ const DisplayFUAvailTable: React.FC<FUTableProps> = ({
         </Dthead>
         <Dtbody>
           {fuTypes.map((fu, rowIdx) => (
-            <Dtr key={fu.name}>
+            <Dtr key={fu.name} className="bg-neutral">
               <Dtd>{fu.name}</Dtd>
               {fu.avail.map((value, i) => (
                 <Dtd key={i} className={`${value == 1 ? "bg-good" : "bg-bad"}`}>
                   {Number.isNaN(value) ? "x" : value}
                 </Dtd>
+              ))}
+              {/* empty */}
+              {[...Array(maxFUs - fu.count)].map((_, i) => (
+                <Dtd key={i + fu.count} />
               ))}
             </Dtr>
           ))}

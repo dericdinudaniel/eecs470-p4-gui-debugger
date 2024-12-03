@@ -1,6 +1,7 @@
 import React from "react";
 import * as Types from "@/lib/types";
 import { Separator } from "./ui/separator";
+import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 
 type DisplayFU_TO_BS_DATAProps = {
   className: string;
@@ -22,25 +23,24 @@ const DisplayFU_TO_BS_DATA: React.FC<DisplayFU_TO_BS_DATAProps> = ({
             isValid ? "bg-good" : "bg-bad"
           }`}
         >
-          <p className="text-md font-semibold">Correct Branch Data</p>
-          <Separator />
-          <div className="flex flex-col items-center mt-2">
-            <div className="text-sm">
-              <span className="font-bold">BMASK: </span>
+          <p className="text-md font-semibold underline">Correct Branch Data</p>
+
+          <div className="flex flex-col items-center">
+            <SimpleValDisplay label="BMASK: " className="text-sm">
               {data.bmask}
-            </div>
-            <div className="text-sm">
-              <span className="font-bold">Taken: </span>
+            </SimpleValDisplay>
+
+            <SimpleValDisplay label="Taken: " className="text-sm">
               {data.taken ? "True" : "False"}
-            </div>
-            <div className="text-sm">
-              <span className="font-bold">Is Jalr: </span>
+            </SimpleValDisplay>
+
+            <SimpleValDisplay label="Is Jalr: " className="text-sm">
               {data.is_jalr ? "True" : "False"}
-            </div>
-            <div className="text-sm">
-              <span className="font-bold">Target: </span>
+            </SimpleValDisplay>
+
+            <SimpleValDisplay label="Target: " className="text-sm">
               {data.target}
-            </div>
+            </SimpleValDisplay>
           </div>
         </div>
       </div>

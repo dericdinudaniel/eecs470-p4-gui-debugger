@@ -10,6 +10,7 @@ import DisplayROBData from "./DisplayROBData";
 import { ModuleBase, ModuleHeader } from "./dui/Module";
 import { DButton } from "./dui/DButton";
 import { CardBase } from "./dui/Card";
+import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 
 type ROBDebuggerProps = {
   className: string;
@@ -61,6 +62,7 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
             <span className="font-semibold">(Open Spots: </span>
             {Number.isNaN(open_spots) ? "X" : open_spots})
           </p>
+
           {/* Toggle buttons */}
           <div className="pl-3 space-x-2">
             <DButton onClick={() => setShowROBInputs(!showROBInputs)}>
@@ -73,65 +75,51 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
         </div>
 
         {showROB && (
-          <>
+          <div className="justify-items-center space-y-2 mt-2">
             {/* display inputs */}
             {showROBInputs && (
-              <div className="flex space-x-4 mb-2 mt-2">
-                <CardBase className="pt-0 mt-0">
-                  <p className="font-semibold">Dispatched Instructions</p>
-                  <DisplayROBData
-                    className=""
-                    ROBData={ROB_dispatched_ins}
-                    head={-1}
-                    tail={-1}
-                    isROB={false}
-                  />
-                </CardBase>
-              </div>
+              <CardBase>
+                <p className="font-semibold">Dispatched Instructions</p>
+                <DisplayROBData
+                  className="shadow-none p-0"
+                  ROBData={ROB_dispatched_ins}
+                  head={-1}
+                  tail={-1}
+                  isROB={false}
+                />
+              </CardBase>
             )}
 
             {/* display ROB internals */}
             {showROBInternals && (
               <CardBase className="flex space-x-4">
                 <div>
-                  <p className="text-xs">
-                    <span className="font-bold">Available Spots:</span>{" "}
+                  <SimpleValDisplay label="Available Spots: ">
                     {available_spots}
-                  </p>
-                  <p className="text-xs">
-                    <span className="font-bold">Retireable Count:</span>{" "}
+                  </SimpleValDisplay>
+
+                  <SimpleValDisplay label="Retireable Count: ">
                     {retireable_cnt}
-                  </p>
+                  </SimpleValDisplay>
                 </div>
-                <p className="text-xs">
-                  <span className="font-bold">Empty:</span> {empty}
-                </p>
-                {/* <div>
-                  <p className="text-xs">
-                    <span className="font-bold">Head Growth:</span>{" "}
-                    {head_growth}
-                  </p>
-                  <p className="text-xs">
-                    <span className="font-bold">Tail Growth:</span>{" "}
-                    {tail_growth}
-                  </p>
-                </div> */}
+
+                <SimpleValDisplay label="Empty: ">{empty}</SimpleValDisplay>
+
                 <div>
-                  <p className="text-xs">
-                    <span className="font-bold">Next Dir:</span>{" "}
+                  <SimpleValDisplay label="Next Dir: ">
                     {next_direction ? "SHRK" : "GROW"}
-                  </p>
-                  <p className="text-xs">
-                    <span className="font-bold">Last Dir:</span>{" "}
+                  </SimpleValDisplay>
+
+                  <SimpleValDisplay label="Last Dir: ">
                     {last_direction ? "SHRK" : "GROW"}
-                  </p>
+                  </SimpleValDisplay>
                 </div>
               </CardBase>
             )}
 
             {/* display ROB entries */}
             <DisplayROBData
-              className="py-2"
+              className=""
               ROBData={ROB_entries}
               head={head}
               tail={tail}
@@ -139,7 +127,7 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
             />
 
             {/* output signals */}
-          </>
+          </div>
         )}
       </ModuleBase>
     </>

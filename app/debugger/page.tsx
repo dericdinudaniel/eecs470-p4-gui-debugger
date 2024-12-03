@@ -231,7 +231,7 @@ export default function Debugger() {
                 className="mt-4"
                 signalData={testbench.children}
               />
-              <DebuggerOutput className="mt-4" signalData={signalData} />
+              <DebuggerOutput className="m-4" signalData={signalData} />
             </>
           )}
         </div>

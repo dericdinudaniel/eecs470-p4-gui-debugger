@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { ScopeData } from "@/lib/tstypes";
 import * as Types from "@/lib/types";
 import {
-  displayValue,
   displayValueHex,
   extractSignalValue,
   extractSignalValueToBool,
@@ -14,6 +13,7 @@ import { chunkArray } from "@/lib/tsutils";
 import { Dtable, Dtbody, Dtd, DtdLeft, Dth, Dthead, Dtr } from "./dui/DTable";
 import { DButton } from "./dui/DButton";
 import { CardBase } from "./dui/Card";
+import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 
 const DisplayPHT: React.FC<{
   className: string;
@@ -67,11 +67,7 @@ const DisplayPHT: React.FC<{
                             {chunkIdx * chunkSize + idx}:
                           </DtdLeft>
                           <Dtd className={color}>
-                            <div className="text-center">
-                              <span>
-                                {Types.getPredictorStateName(phtSingle)}
-                              </span>
-                            </div>
+                            {Types.getPredictorStateName(phtSingle)}
                           </Dtd>
                         </Dtr>
                       );
@@ -149,47 +145,44 @@ const BPredDebugger: React.FC<BPredDebuggerProps> = ({
 
         {showBPred && (
           <>
-            <div
+            <SimpleValDisplay
+              label="Incoming PC: "
               className={`${
                 incoming_branch_valid ? "bg-good" : "bg-bad"
               } rounded-lg p-1 text-sm`}
             >
-              <span className="font-semibold">Incoming PC: </span>
               {displayValueHex(incoming_branch_PC)}
-            </div>
+            </SimpleValDisplay>
 
             {/* recovery interface */}
             <CardBase className="mt-2">
               <h3 className="font-semibold underline">Recovery Interface</h3>
-              <div className="">
-                <div className="text-sm">
-                  <span className="font-semibold">Actual Branch Dir.: </span>
+              <div className="space-y-[-.35rem]">
+                <SimpleValDisplay label="Actual Branch Dir.: ">
                   {predicted_direction ? "Taken" : "Not Taken"}
-                </div>
-                <div className="text-sm">
-                  <span className="font-semibold">Branch Resolution: </span>
+                </SimpleValDisplay>
+
+                <SimpleValDisplay label="Branch Resolution: ">
                   {Types.getBranchPredictName(resolving_branch_status)}
-                </div>
-                <div className="text-sm">
-                  <span className="font-semibold">Resolving PC: </span>
+                </SimpleValDisplay>
+
+                <SimpleValDisplay label="Resolving PC: ">
                   {displayValueHex(resolving_branch_PC)}
-                </div>
-                <div className="text-sm">
-                  <span className="font-semibold">Checkpointed BHR: </span>
+                </SimpleValDisplay>
+
+                <SimpleValDisplay label="Checkpointed BHR: ">
                   {checkpointed_bhr.slice(1)}
-                </div>
+                </SimpleValDisplay>
               </div>
             </CardBase>
 
             {/* internals (pht is an output but counts as internal) */}
             <div className="mt-2">
-              <div>
-                <span className="font-semibold">Current BHR: </span>
+              <SimpleValDisplay label="Current BHR: ">
                 {bhr.slice(1)}
-              </div>
-              <div>
-                <DisplayPHT className="" phtList={BP_pht} />
-              </div>
+              </SimpleValDisplay>
+
+              <DisplayPHT className="" phtList={BP_pht} />
             </div>
           </>
         )}

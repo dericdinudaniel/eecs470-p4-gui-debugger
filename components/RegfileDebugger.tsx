@@ -22,6 +22,7 @@ import {
 } from "@/components/dui/DTable";
 import { ModuleBase, ModuleHeader } from "./dui/Module";
 import { DButton } from "./dui/DButton";
+import { CardBase } from "./dui/Card";
 
 type RegfileDebuggerProps = {
   className: string;
@@ -117,31 +118,29 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
 
           {showReg && (
             <>
-              <div className="flex space-x-2 mb-2">
-                {showRegfilePorts && (
-                  <>
-                    {/* read ports */}
-                    <div className="justify-items-center">
-                      <h2 className="text-md font-semibold">Read Ports</h2>
-                      <DisplayRegPorts
-                        ports_idx={Reg_read_idx}
-                        ports_data={Ref_read_out}
-                      />
-                    </div>
+              {showRegfilePorts && (
+                <CardBase className="flex space-x-2 my-2">
+                  {/* read ports */}
+                  <div className="justify-items-center">
+                    <h2 className="text-md font-semibold">Read Ports</h2>
+                    <DisplayRegPorts
+                      ports_idx={Reg_read_idx}
+                      ports_data={Ref_read_out}
+                    />
+                  </div>
 
-                    {/* write ports */}
-                    <div className="justify-items-center">
-                      <h2 className="text-md font-semibold">Write Ports</h2>
-                      <DisplayRegPorts
-                        ports_idx={Reg_write_idx}
-                        ports_data={Ref_write_data}
-                        ports_enable={Reg_write_en}
-                      />
-                    </div>
-                  </>
-                )}
-              </div>
-              <div className="flex space-x-1">
+                  {/* write ports */}
+                  <div className="justify-items-center">
+                    <h2 className="text-md font-semibold">Write Ports</h2>
+                    <DisplayRegPorts
+                      ports_idx={Reg_write_idx}
+                      ports_data={Ref_write_data}
+                      ports_enable={Reg_write_en}
+                    />
+                  </div>
+                </CardBase>
+              )}
+              <CardBase className="flex space-x-1">
                 {regChunks.map((regChunk, chunkIdx) => (
                   <Dtable key={chunkIdx}>
                     <Dthead>
@@ -168,7 +167,7 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
                     </Dtbody>
                   </Dtable>
                 ))}
-              </div>
+              </CardBase>
             </>
           )}
         </div>
