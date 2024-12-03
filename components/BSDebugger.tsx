@@ -238,9 +238,9 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
                   <div>
                     <div
                       className={`p-1 ${
-                        prediction == Types.BRANCH_PREDICT_T.CORRECTLY_PREDICTED
+                        prediction == Types.BRANCH_PREDICT_T.CORRECT_PRED
                           ? "rounded-lg bg-veryGood"
-                          : prediction == Types.BRANCH_PREDICT_T.MISPREDICTED
+                          : prediction == Types.BRANCH_PREDICT_T.MISPREDICT
                           ? "rounded-lg bg-veryBad"
                           : ""
                       }`}

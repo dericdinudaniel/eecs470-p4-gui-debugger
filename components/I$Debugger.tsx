@@ -65,7 +65,9 @@ const MemInputs: React.FC<{
           <Dtbody>
             {I$_Imem2proc_data.map((inst, idx) => (
               <Dtr key={idx} className="bg-neutral">
-                <Dtd className="px-1">{parseInstruction(inst)}</Dtd>
+                <Dtd>
+                  <div className="w-40">{parseInstruction(inst)}</div>
+                </Dtd>
               </Dtr>
             ))}
           </Dtbody>
@@ -188,7 +190,9 @@ const FetchOutputs: React.FC<{
           <Dtbody>
             {I$_Icache_data_out.map((inst, idx) => (
               <Dtr key={idx} className="text-sm p-1 bg-neutral">
-                <Dtd className="px-1">{parseInstruction(inst)}</Dtd>
+                <Dtd>
+                  <div className="w-40">{parseInstruction(inst)}</div>
+                </Dtd>
               </Dtr>
             ))}
           </Dtbody>
@@ -208,6 +212,7 @@ const I$Request: React.FC<{
   const res = extractSignalValue(signalI$, "res").value;
   const Icache_valid = extractSignalValue(signalI$, "Icache_valid").value;
   const Icache_data = extractSignalValue(signalI$, "Icache_data").value;
+  const I$_Icache_data = parse_to_INST_List(Icache_data);
 
   const I$_tags = parseI$_tags(tags);
   const I$_indexes = parseI$_indexes(indexes);
@@ -227,6 +232,7 @@ const I$Request: React.FC<{
                 <Dth>Tag</Dth>
                 <Dth>Index</Dth>
                 <Dth>R EN</Dth>
+                <Dth>Inst.</Dth>
               </Dtr>
             </Dthead>
             <Dtbody>
@@ -240,6 +246,11 @@ const I$Request: React.FC<{
                     <Dtd>{displayValueHex(I$_tags[idx])}</Dtd>
                     <Dtd>{I$_indexes[idx]}</Dtd>
                     <Dtd>{I$_res[idx] ? "Yes" : "No"}</Dtd>
+                    <Dtd>
+                      <div className="w-40">
+                        {parseInstruction(I$_Icache_data[idx])}
+                      </div>
+                    </Dtd>
                   </Dtr>
                 );
               })}

@@ -408,9 +408,9 @@ export const RS_DATA_WIDTH =
   1; // ready_tb
 
 export enum BRANCH_PREDICT_T {
-  NOT_RESOLVING = 0b00,
-  CORRECTLY_PREDICTED = 0b01,
-  MISPREDICTED = 0b10,
+  NO_RESOLVE = 0b00,
+  CORRECT_PRED = 0b01,
+  MISPREDICT = 0b10,
 }
 export const BRANCH_PREDICT_T_WIDTH = 2;
 export function getBranchPredictName(branchPredict: BRANCH_PREDICT_T): string {

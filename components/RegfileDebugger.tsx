@@ -41,7 +41,7 @@ const DisplayRegPorts: React.FC<{
     <Dtable>
       <Dthead>
         <Dtr>
-          <DthLeft className="p-1">Port #</DthLeft>
+          <DthLeft className="p-1">#</DthLeft>
           <Dth>Idx</Dth>
           <Dth className="w-20">Data</Dth>
         </Dtr>
@@ -158,7 +158,9 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
 
                         return (
                           <Dtr key={globalIdx} className="bg-neutral">
-                            <Dtd className="font-semibold">{prNumber}:</Dtd>
+                            <DtdLeft className="font-semibold">
+                              {prNumber}:
+                            </DtdLeft>
                             <Dtd className="">{displayValueHex(value)}</Dtd>
                           </Dtr>
                         );
