@@ -16,8 +16,12 @@ const DisplayFU_TO_BS_DATA: React.FC<DisplayFU_TO_BS_DATAProps> = ({
 
   return (
     <>
-      <div className={`${className} ${isValid ? "bg-good" : "bg-bad"}`}>
-        <div className="border rounded-lg p-1 flex flex-col">
+      <div className={`${className}`}>
+        <div
+          className={`border rounded-lg p-1 flex flex-col ${
+            isValid ? "bg-good" : "bg-bad"
+          }`}
+        >
           <p className="text-md font-semibold">Correct Branch Data</p>
           <Separator />
           <div className="flex flex-col items-center mt-2">

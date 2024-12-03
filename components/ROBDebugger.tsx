@@ -75,8 +75,8 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
           <>
             {/* display inputs */}
             {showROBInputs && (
-              <div className="flex space-x-4 mb-2">
-                <div className="justify-items-center">
+              <div className="flex space-x-4 mb-2 mt-2">
+                <div className="justify-items-center shadow-lg bg-card-foreground pt-0 p-2 rounded-lg">
                   <p className="font-semibold">Dispatched Instructions</p>
                   <DisplayROBData
                     className=""
@@ -91,7 +91,7 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
 
             {/* display ROB internals */}
             {showROBInternals && (
-              <div className="flex space-x-4">
+              <div className="flex space-x-4 bg-card-foreground shadow-lg p-1 rounded-lg">
                 <div>
                   <p className="text-xs">
                     <span className="font-bold">Available Spots:</span>{" "}

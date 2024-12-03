@@ -46,7 +46,7 @@ const MemInputs: React.FC<{
 
   return (
     <div
-      className={`justify-items-center border rounded-lg p-1 bg-card-foreground ${className}`}
+      className={`justify-items-center shadow-lg rounded-lg p-1 bg-card-foreground ${className}`}
     >
       <h2 className="text-lg underline">Mem Inputs</h2>
       <div>
@@ -90,7 +90,7 @@ const FetchInputs: React.FC<{
 
   return (
     <div
-      className={`justify-items-center border rounded-lg p-1 bg-card-foreground ${className}`}
+      className={`justify-items-center shadow-lg rounded-lg p-1 bg-card-foreground ${className}`}
     >
       <h2 className="text-lg underline">Fetch Inputs</h2>
       <div className="justify-items-center">
@@ -140,7 +140,7 @@ const MemOutputs: React.FC<{
 
   return (
     <div
-      className={`justify-items-center border rounded-lg p-1 bg-card-foreground ${className}`}
+      className={`justify-items-center shadow-lg rounded-lg p-1 bg-card-foreground ${className}`}
     >
       <h2 className="text-lg underline">Mem Outputs</h2>
       <div>
@@ -171,7 +171,7 @@ const FetchOutputs: React.FC<{
 
   return (
     <div
-      className={`justify-items-center border rounded-lg p-1 bg-card-foreground ${className}`}
+      className={`justify-items-center shadow-lg rounded-lg p-1 bg-card-foreground ${className}`}
     >
       <h2 className="text-lg underline">Fetch Outputs</h2>
       <div className="justify-items-center">
@@ -270,7 +270,7 @@ const DisplayI$: React.FC<{
   return (
     <>
       <div
-        className={`justify-items-center border rounded-lg p-1 bg-card-foreground ${className}`}
+        className={`justify-items-center shadow-lg rounded-lg p-1 bg-card-foreground ${className}`}
       >
         <button
           className="font-semibold"

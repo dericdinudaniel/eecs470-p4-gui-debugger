@@ -187,7 +187,7 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
           {showBSInputs && (
             <>
               <div className="bg-card-foreground p-2 rounded-lg shadow-lg mt-2">
-                <div className="flex space-x-3 items-center">
+                <div className="flex space-x-3">
                   <div>
                     <DisplayFU_TO_BS_DATA
                       className=""

@@ -39,6 +39,9 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
     extractSignalValue(signalFU, "b_mask_mask").value
   );
 
+  const early_cdb_tags = extractSignalValue(signalFU, "early_cdb_tags").value;
+  const FU_early_cdb_tags = parseCDBTags(early_cdb_tags);
+
   const cdb_tags = extractSignalValue(signalFU, "cdb_tags").value;
   const FU_cdb_tags = parseCDBTags(cdb_tags);
 
@@ -63,6 +66,11 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
           >
             {showFUInputs ? "Hide FU Inputs" : "Show RS Inputs"}
           </DButton>
+          <DisplayCDBData
+            className="ml-4"
+            CDBTags={FU_early_cdb_tags}
+            isEarlyCDB={true}
+          />
           <DisplayCDBData
             className="ml-4"
             CDBTags={FU_cdb_tags}

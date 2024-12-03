@@ -88,25 +88,23 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
             {/* display inputs */}
             {showRSInputs && (
               <div>
-                <div className="flex space-x-2">
-                  <div className="justify-items-center">
-                    <p className="font-semibold">FU Avail</p>
-                    <DisplayFUAvailTable
-                      className=""
-                      aluAvail={reverseStr(alu_avail.value)}
-                      branchAvail={reverseStr(branch_avail.value)}
-                      multAvail={reverseStr(mult_avail.value)}
-                    />
+                <div className="flex space-x-2 items-start mt-2">
+                  <div className="justify-items-center bg-card-foreground rounded-lg p-1 shadow-lg">
+                    <div className="flex gap-x-2">
+                      <DisplayFUAvailTable
+                        className=""
+                        aluAvail={reverseStr(alu_avail.value)}
+                        branchAvail={reverseStr(branch_avail.value)}
+                        multAvail={reverseStr(mult_avail.value)}
+                      />
+                      <DisplayCDBData
+                        className=""
+                        CDBTags={RS_early_cdb}
+                        isEarlyCDB={true}
+                      />
+                    </div>
                   </div>
-                  <div className="justify-items-center">
-                    {/* <p>Early CDB</p> */}
-                    <DisplayCDBData
-                      className=""
-                      CDBTags={RS_early_cdb}
-                      isEarlyCDB={true}
-                    />
-                  </div>
-                  <div className="justify-items-center bg-card-foreground p-2 pt-0 mt-1 rounded-lg shadow-lg">
+                  <div className="justify-items-center bg-card-foreground p-2 pt-0 rounded-lg shadow-lg">
                     <p className="font-semibold">Decoded Instructions</p>
                     <div className="flex space-x-1">
                       {RS_decoded_instruction.map((rs, idx) => (

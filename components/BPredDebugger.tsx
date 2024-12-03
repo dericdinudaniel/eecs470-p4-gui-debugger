@@ -158,7 +158,7 @@ const BPredDebugger: React.FC<BPredDebuggerProps> = ({
             </div>
 
             {/* recovery interface */}
-            <div className="justify-items-center border rounded-lg p-1 mt-2">
+            <div className="justify-items-center shadow-lg bg-card-foreground rounded-lg p-1 mt-2">
               <h3 className="font-semibold underline">Recovery Interface</h3>
               <div className="">
                 <div className="text-sm">

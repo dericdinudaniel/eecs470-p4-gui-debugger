@@ -50,7 +50,8 @@ const DisplayFUAvailTable: React.FC<FUTableProps> = ({
   const maxFUs = Math.max(numAlu, numBranch, numMult);
 
   return (
-    <div className={`${className}`}>
+    <div className={`${className} justify-items-center`}>
+      <p className="font-semibold">FU Avail</p>
       <Dtable>
         <Dthead>
           <Dtr>
