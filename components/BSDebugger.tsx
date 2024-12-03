@@ -42,9 +42,26 @@ const DisplaySingleCheckpoint: React.FC<{
         )}
         <div className="flex items-center">
           <div>
-            <div>PC: {checkpoint.pc_checkpoint}</div>
-            <div>BHR: {checkpoint.bhr_checkpoint}</div>
-            <div>ROB Tail: {checkpoint.rob_tail}</div>
+            <div>
+              <span className="font-semibold">Branch PC: </span>
+              {checkpoint.branch_PC}
+            </div>
+            <div>
+              <span className="font-semibold">BHR: </span>
+              {checkpoint.checkpointed_bhr}
+            </div>
+            <div>
+              <span className="font-semibold">ROB Tail: </span>
+              {checkpoint.rob_tail}
+            </div>
+            <div>
+              <span className="font-semibold">Predicted Dir: </span>
+              {checkpoint.predicted_direction ? "T" : "NT"}
+            </div>
+            <div>
+              <span className="font-semibold">Resolved Dir: </span>
+              {checkpoint.resolving_branch_direction ? "T" : "NT"}
+            </div>
           </div>
           {/* Toggle Button */}
           <DButton

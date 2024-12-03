@@ -20,7 +20,7 @@ const DisplayPHT: React.FC<{
 }> = ({ className, phtList }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
-  const chunkSize = 4;
+  const chunkSize = 64;
   const phtChunks = chunkArray(phtList, chunkSize);
 
   return (

@@ -245,6 +245,12 @@ export const parseID_EX_PACKET = (packetStr: string): Types.ID_EX_PACKET => {
   accessIdx += 1;
   const cond_branch = binaryStr[accessIdx] === "1";
   accessIdx += 1;
+
+  const bhr = binaryStr.slice(accessIdx, accessIdx + Constants.BRANCH_PRED_SZ);
+  accessIdx += Constants.BRANCH_PRED_SZ;
+  const predicted_direction = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
   const uncond_branch = binaryStr[accessIdx] === "1";
   accessIdx += 1;
   const halt = binaryStr[accessIdx] === "1";
@@ -270,6 +276,8 @@ export const parseID_EX_PACKET = (packetStr: string): Types.ID_EX_PACKET => {
     rd_mem,
     wr_mem,
     cond_branch,
+    bhr,
+    predicted_direction,
     uncond_branch,
     halt,
     illegal,
@@ -634,14 +642,22 @@ export const parseCHECKPOINT_DATA = (
   const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
   let accessIdx = 0;
 
-  const pc_checkpoint = extractBits(binaryStr, 0, Types.ADDR_WIDTH);
+  const predicted_direction = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  const resolving_branch_direction = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  const recovery_target = extractBits(binaryStr, accessIdx, Types.ADDR_WIDTH);
   accessIdx += Types.ADDR_WIDTH;
 
-  const bhr_checkpoint_raw = binaryStr.slice(
+  const branch_PC = extractBits(binaryStr, 0, Types.ADDR_WIDTH);
+  accessIdx += Types.ADDR_WIDTH;
+
+  const checkpointed_bhr = binaryStr.slice(
     accessIdx,
     accessIdx + Constants.BRANCH_PRED_SZ
   );
-  const bhr_checkpoint = reverseStr(bhr_checkpoint_raw);
   accessIdx += Constants.BRANCH_PRED_SZ;
 
   const rob_tail = extractBits(
@@ -664,8 +680,11 @@ export const parseCHECKPOINT_DATA = (
   );
 
   return {
-    pc_checkpoint,
-    bhr_checkpoint,
+    predicted_direction,
+    resolving_branch_direction,
+    recovery_target,
+    branch_PC,
+    checkpointed_bhr,
     rob_tail,
     frizzy_checkpoint,
     map_checkpoint,

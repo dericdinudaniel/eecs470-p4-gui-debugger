@@ -2,6 +2,7 @@ import time
 from flask import jsonify
 from pprint import pprint
 
+# the full_parse function underwent several iterations for speedups, and i left all the main versions here for reference
 
 def after_parse_endpoint(parser, cache):
     try:
@@ -182,7 +183,14 @@ def full_parse3(cache, root_scope, num_clocks):
                 update_values(timestamp, child_result, current_path)
         else:
             if hasattr(scope, 'data'):
-                data = scope.data
+                # i know this looks really stupid, but the parsing package for some reason just gets messed up and the data goes into the vcdId field and the data is nonexistent for some signals
+                # so i have to check if the vcdId is a list or not, and get the data accordingly. really nonsensical shit
+                data = None
+                if (type(scope.vcdId) != str):
+                    print("vcdId is a list", "path:", path, "type:", type(scope.vcdId))
+                    data = scope.vcdId
+                else:
+                    data = scope.data
                 scope_path = path
 
                 # Initialize index for this signal if not already done

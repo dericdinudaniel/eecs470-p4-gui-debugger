@@ -300,7 +300,10 @@ const DisplayI$: React.FC<{
                       return (
                         <React.Fragment key={idx}>
                           <Dtr className={`${valid ? "bg-good" : "bg-bad"}`}>
-                            <Dtd rowSpan={2} className="font-semibold">
+                            <Dtd
+                              rowSpan={2}
+                              className="font-semibold text-base"
+                            >
                               {tag}:
                             </Dtd>
                             <Dtd>

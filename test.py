@@ -15,8 +15,16 @@ with open(fname) as vcd_file:
     vcd.parse(vcd_file)
 
     data = vcd.scope.children["testbench"].toJson()
-    print(json.dumps(data, indent=4, sort_keys=True))
+    # print(json.dumps(data, indent=4, sort_keys=True))
+    # test = vcd.scope.children["testbench"].children["mustafa"].children["Front_End"].children["fetcher"].children["cacher"].children["take_branch"].vcdId
+    reset = vcd.scope.children["testbench"].children["reset"];
+    print(type(reset.vcdId))
+    # test1 = test[0]
+    # time, value = test1
+    # print(vcd.scope.children["testbench"].children["mustafa"].children["Front_End"].children["fetcher"].children["cacher"].children["take_branch"].vcdId)
+    # print(vcd.scope.children["testbench"].children["mustafa"].children["Front_End"].children["fetcher"].children["cacher"].children["take_branch"]);
     
+    print("time, value")
 ############
 
 # scope
