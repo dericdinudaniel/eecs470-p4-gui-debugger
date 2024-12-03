@@ -5,7 +5,9 @@
   </a>
 </p>
 
-<img width="2021" alt="image" src="https://github.com/user-attachments/assets/6b26e214-9d3e-4b86-aba1-8a4b4a3f852e">
+<img width="2056" alt="image" src="https://github.com/user-attachments/assets/56fd68d1-881c-4bb1-a48c-c6ae8aaf989d">
+<img width="2056" alt="image" src="https://github.com/user-attachments/assets/094a568e-6562-4d39-a9fd-fa3bf29aa7f7">
+
 
 
 <p align="center">Simple Next.js boilerplate that uses <a href="https://flask.palletsprojects.com/">Flask</a> as the API backend.</p>
