@@ -13,7 +13,7 @@ const SignalDebugger: React.FC<SignalDebuggerProps> = ({
   className,
   signalData,
 }) => {
-  const [signalCount, setSignalCount] = useState(0);
+  const [signalCount, setSignalCount] = useState(1);
 
   const handleAddSignal = () => setSignalCount((prev) => prev + 1);
   const handleRemoveSignal = () =>
@@ -23,7 +23,7 @@ const SignalDebugger: React.FC<SignalDebuggerProps> = ({
   };
 
   return (
-    <ModuleBase className={`block ${className} mx-4`}>
+    <ModuleBase className={`block ${className}`}>
       <ModuleHeader className="mb-1">Signal Debugger</ModuleHeader>
       <div className="flex items-center gap-2">
         <Button

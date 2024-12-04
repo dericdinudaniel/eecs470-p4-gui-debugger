@@ -10,13 +10,13 @@ import RSDebugger from "@/components/RSDebugger";
 import FNAFDebugger from "@/components/FNAFDebugger";
 import RegfileDebugger from "@/components/RegfileDebugger";
 import ShadDebuggerHeader from "@/components/ShadDebuggerHeader";
-import DisplaySingleSignal from "@/components/DisplaySingleSignal";
 import BSDebugger from "@/components/BSDebugger";
 import FUDebugger from "@/components/FUDebugger";
 import IBDebugger from "@/components/IBDebugger";
 import BPredDebugger from "@/components/BPredDebugger";
 import SignalDebugger from "@/components/SignalDebugger";
 import I$Debugger from "@/components/I$Debugger";
+import MemCmdDebugger from "@/components/MemCmdDebugger";
 
 export default function Debugger() {
   const [currentCycle, setCurrentCycle] = useState(0);
@@ -142,15 +142,15 @@ export default function Debugger() {
     }
   };
 
-  const verilogCycle = parseInt(
-    signalData?.signals.children.testbench.children.cycle_count.value.slice(1),
-    2
-  );
-
   const testbench = signalData?.signals.children.testbench;
   const cpu = testbench?.children.mustafa;
   const Front_End = cpu?.children.Front_End;
   const OoO_Core = cpu?.children.OoO_Core;
+
+  const verilogCycle = parseInt(
+    testbench?.children.cycle_count.value.slice(1),
+    2
+  );
 
   return (
     <div className="min-h-screen bg-background">
@@ -170,23 +170,27 @@ export default function Debugger() {
         handleJumpToCycle={handleJumpToCycle}
         handleKeyDown={handleKeyDown}
       />
-      <div className="p-0">
-        <div className="">
+      <div className="m-4">
+        <div className="space-y-4">
           {signalData && (
             <>
-              <div className="">
+              <div className="space-y-4">
                 {/* not integrated yet so these are just wherever for now */}
-                <div className="mt-4 mx-4 flex gap-x-3">
-                  <BPredDebugger
-                    className=""
-                    signalBP={Front_End.children.masonshare}
-                  />
+                <div className="flex gap-x-2">
+                  <div className="flex flex-col items-center gap-y-4">
+                    <BPredDebugger
+                      className=""
+                      signalBP={Front_End.children.masonshare}
+                    />
+                    <MemCmdDebugger className="" signalCPU={cpu} />
+                  </div>
                   <I$Debugger
                     className=""
                     signalI$={Front_End.children.fetcher.children.cacher}
                   />
                 </div>
-                <div className="mt-4 mx-4 flex gap-x-3">
+
+                <div className="flex gap-x-2">
                   <div className="flex flex-col items-center gap-y-4">
                     <IBDebugger
                       className=""
@@ -202,6 +206,7 @@ export default function Debugger() {
                       signalRegfile={OoO_Core.children.DUT_regfile}
                     />
                   </div>
+
                   <div className="flex flex-col items-center gap-y-4">
                     <ROBDebugger
                       className=""
@@ -227,11 +232,10 @@ export default function Debugger() {
               </div>
 
               {/* all signals */}
-              <SignalDebugger
-                className="mt-4"
-                signalData={testbench.children}
-              />
-              <DebuggerOutput className="m-4" signalData={signalData} />
+              <div className="space-y-4">
+                <SignalDebugger className="" signalData={testbench.children} />
+                <DebuggerOutput className="" signalData={signalData} />
+              </div>
             </>
           )}
         </div>

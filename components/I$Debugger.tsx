@@ -46,6 +46,8 @@ const MemInputs: React.FC<{
   const Imem2proc_data = extractSignalValue(signalI$, "Imem2proc_data").value;
   const I$_Imem2proc_data = parse_to_INST_List(Imem2proc_data);
 
+  // const Imem2proc_addr = extractSignalValueToInt(signalI$, "Imem2proc_addr");
+
   return (
     <CardBase className={className}>
       <h2 className="text-lg underline">Mem Inputs</h2>
@@ -57,6 +59,9 @@ const MemInputs: React.FC<{
         <SimpleValDisplay label="Data Tag: ">
           <PaddedNum number={Imem2proc_data_tag} maxNumber={15} />
         </SimpleValDisplay>
+        {/* <SimpleValDisplay label="Addr: ">
+          {displayValueHex(Imem2proc_addr)}
+        </SimpleValDisplay> */}
 
         <Dtable>
           <Dthead>
