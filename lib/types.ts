@@ -193,6 +193,30 @@ export function getBRFuncName(brFunc: BRANCH_FUNC): string {
   return BRANCH_FUNC[brFunc] ? BRANCH_FUNC[brFunc] : "XXX";
 }
 
+// store function
+export enum STORE_FUNC {
+  S_SB = 0b0000,
+  S_SH = 0b0001,
+  S_SW = 0b0010,
+}
+export const STORE_FUNC_WIDTH = 4;
+export function getStoreFuncName(storeFunc: STORE_FUNC): string {
+  return STORE_FUNC[storeFunc] ? STORE_FUNC[storeFunc] : "XXX";
+}
+
+// load function
+export enum LOAD_FUNC {
+  L_LB = 0b0000,
+  L_LH = 0b0001,
+  L_LW = 0b0010,
+  L_LBU = 0b0100,
+  L_LHU = 0b0101,
+}
+export const LOAD_FUNC_WIDTH = 4;
+export function getLoadFuncName(loadFunc: LOAD_FUNC): string {
+  return LOAD_FUNC[loadFunc] ? LOAD_FUNC[loadFunc] : "XXX";
+}
+
 // IF_ID Packet
 export type IF_ID_PACKET = {
   inst: INST;
@@ -298,7 +322,12 @@ export type COMMIT_PACKET = {
 export const COMMIT_PACKET_WIDTH =
   ADDR_WIDTH + DATA_WIDTH + REG_IDX_WIDTH + 1 + 1 + 1;
 
-export type FU_FUNC = ALU_FUNC | MULT_FUNC | BRANCH_FUNC;
+export type FU_FUNC =
+  | ALU_FUNC
+  | MULT_FUNC
+  | BRANCH_FUNC
+  | STORE_FUNC
+  | LOAD_FUNC;
 export const FU_FUNC_WIDTH = 4;
 
 export type FU_DATA = {
@@ -465,3 +494,72 @@ export function getPredictorStateName(
     ? PREDICTOR_STATE_T[predictorState]
     : "XXX";
 }
+
+// lsq stuff
+export type SQ_DATA = {
+  T_new: PHYS_REG_TAG;
+  store_address: ADDR;
+  store_type: STORE_FUNC;
+  address_valid: boolean;
+  store_data: DATA;
+  valid: boolean;
+  ready_mem: boolean;
+};
+export const SQ_DATA_WIDTH =
+  PHYS_REG_TAG_WIDTH + // T_new
+  ADDR_WIDTH + // store_address
+  STORE_FUNC_WIDTH + // store_type
+  1 + // address_valid
+  DATA_WIDTH + // store_data
+  1 + // valid
+  1; // ready_mem
+
+export type SQ_IDX = number;
+export const SQ_IDX_WIDTH = clog2(Constants.LSQ_SZ + Constants.N);
+
+export type STR_CMPLT = {
+  address_valid: boolean;
+  index: number;
+  store_address: ADDR;
+  store_data: DATA;
+};
+export const STR_CMPLT_WIDTH =
+  1 + // address_valid
+  SQ_IDX_WIDTH + // index
+  ADDR_WIDTH + // store_address
+  DATA_WIDTH; // store_data
+
+export type SQ_RETIRE = {
+  valid: boolean;
+  store_address: ADDR;
+  store_data: DATA;
+};
+export const SQ_RETIRE_WIDTH = 1 + ADDR_WIDTH + DATA_WIDTH;
+
+export type RS_ADDRESS_CHECK = {
+  address_valid_req: boolean;
+  saved_tail: SQ_IDX;
+};
+export const RS_ADDRESS_CHECK_WIDTH = 1 + SQ_IDX_WIDTH;
+
+export type LOAF_FORWARD_REQ = {
+  load_data_req: boolean;
+  forwarding_address: ADDR;
+  load_type: LOAD_FUNC;
+  sq_tail: SQ_IDX;
+};
+export const LOAF_FORWARD_REQ_WIDTH =
+  1 + // load_data_req
+  ADDR_WIDTH + // forwarding_address
+  LOAD_FUNC_WIDTH + // load_type
+  SQ_IDX_WIDTH; // sq_tail
+
+export type LOAF_FORWARD_RESULT = {
+  forwarded_valid: boolean;
+  stall_LOAF: boolean;
+  forwarding_data: DATA;
+};
+export const LOAF_FORWARD_RESULT_WIDTH =
+  1 + // forwarded_valid
+  1 + // stall_LOAF
+  DATA_WIDTH; // forwarding_data

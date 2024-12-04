@@ -899,3 +899,177 @@ export const parseICACHE_TAG_List = (inputStr: string): Types.ICACHE_TAG[] => {
 
   return result;
 };
+
+export const parseSQ_DATA = (inputStr: string): Types.SQ_DATA => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  let accessIdx = 0;
+
+  const T_new = extractBits(binaryStr, accessIdx, Types.PHYS_REG_TAG_WIDTH);
+  accessIdx += Types.PHYS_REG_TAG_WIDTH;
+
+  const store_address = extractBits(binaryStr, accessIdx, Types.ADDR_WIDTH);
+  accessIdx += Types.ADDR_WIDTH;
+
+  const store_type = parseFU_FUNC(
+    binaryStr.slice(accessIdx, accessIdx + Types.FU_FUNC_WIDTH)
+  ) as Types.STORE_FUNC;
+  accessIdx += Types.FU_FUNC_WIDTH;
+
+  const address_valid = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  const store_data = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
+  accessIdx += Types.DATA_WIDTH;
+
+  const valid = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  const ready_mem = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  return {
+    T_new,
+    store_address,
+    store_type,
+    address_valid,
+    store_data,
+    valid,
+    ready_mem,
+  };
+};
+
+export const parseSQ_DATA_List = (inputStr: string): Types.SQ_DATA[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+
+  const result: Types.SQ_DATA[] = [];
+
+  const entryWidth = Types.SQ_DATA_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
+
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+    const sq_data = parseSQ_DATA(
+      binaryStr.slice(startIdx, startIdx + entryWidth)
+    );
+
+    result.push(sq_data);
+  }
+
+  return result;
+};
+
+export const parseSTR_CMPLT = (inputStr: string): Types.STR_CMPLT => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  let accessIdx = 0;
+
+  const address_valid = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  const index = extractBits(binaryStr, accessIdx, Types.SQ_IDX_WIDTH);
+  accessIdx += Types.SQ_IDX_WIDTH;
+
+  const store_address = extractBits(binaryStr, accessIdx, Types.ADDR_WIDTH);
+  accessIdx += Types.ADDR_WIDTH;
+
+  const store_data = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
+  accessIdx += Types.DATA_WIDTH;
+
+  return {
+    address_valid,
+    index,
+    store_address,
+    store_data,
+  };
+};
+
+export const parseSQ_RETIRE = (inputStr: string): Types.SQ_RETIRE => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  let accessIdx = 0;
+
+  const valid = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  const store_address = extractBits(binaryStr, accessIdx, Types.ADDR_WIDTH);
+  accessIdx += Types.ADDR_WIDTH;
+
+  const store_data = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
+  accessIdx += Types.DATA_WIDTH;
+
+  return {
+    valid,
+    store_address,
+    store_data,
+  };
+};
+
+export const parseRS_ADDRESS_CHECK = (
+  inputStr: string
+): Types.RS_ADDRESS_CHECK => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  let accessIdx = 0;
+
+  const address_valid_req = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  const saved_tail = extractBits(binaryStr, accessIdx, Types.SQ_IDX_WIDTH);
+  accessIdx += Types.SQ_IDX_WIDTH;
+
+  return {
+    address_valid_req,
+    saved_tail,
+  };
+};
+
+export const parseLOAF_FORWARD_REQ = (
+  inputStr: string
+): Types.LOAF_FORWARD_REQ => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  let accessIdx = 0;
+
+  const load_data_req = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  const forwarding_address = extractBits(
+    binaryStr,
+    accessIdx,
+    Types.ADDR_WIDTH
+  );
+  accessIdx += Types.ADDR_WIDTH;
+
+  const load_type = parseFU_FUNC(
+    binaryStr.slice(accessIdx, accessIdx + Types.FU_FUNC_WIDTH)
+  ) as Types.LOAD_FUNC;
+  accessIdx += Types.FU_FUNC_WIDTH;
+
+  const sq_tail = extractBits(binaryStr, accessIdx, Types.SQ_IDX_WIDTH);
+  accessIdx += Types.SQ_IDX_WIDTH;
+
+  return {
+    load_data_req,
+    forwarding_address,
+    load_type,
+    sq_tail,
+  };
+};
+
+export const parseLOAF_FORWARD_RESULT = (
+  inputStr: string
+): Types.LOAF_FORWARD_RESULT => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  let accessIdx = 0;
+
+  const forwarded_valid = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  const stall_LOAF = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  const forwarding_data = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
+  accessIdx += Types.DATA_WIDTH;
+
+  return {
+    forwarded_valid,
+    stall_LOAF,
+    forwarding_data,
+  };
+};
