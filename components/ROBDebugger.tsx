@@ -7,9 +7,9 @@ import {
 } from "@/lib/utils";
 import { ScopeData } from "@/lib/tstypes";
 import DisplayROBData from "./DisplayROBData";
-import { ModuleBase, ModuleHeader } from "./dui/Module";
+import { Module, ModuleHeader, ModuleContent } from "./dui/Module";
 import { DButton } from "./dui/DButton";
-import { CardBase } from "./dui/Card";
+import { Card } from "./dui/Card";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 
 type ROBDebuggerProps = {
@@ -50,14 +50,11 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
   // State to control visibility of stuff
   const [showROBInternals, setShowROBInternals] = useState(false);
   const [showROBInputs, setShowROBInputs] = useState(true);
-  const [showROB, setShowROB] = useState(true);
 
   return (
     <>
-      <ModuleBase className={className}>
-        {/* header */}
-        <div className="flex items-center">
-          <ModuleHeader onClick={() => setShowROB(!showROB)}>ROB</ModuleHeader>
+      <Module className={className}>
+        <ModuleHeader label="ROB">
           <p className="pl-3">
             <span className="font-semibold">(Open Spots: </span>
             {Number.isNaN(open_spots) ? "X" : open_spots})
@@ -72,64 +69,62 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
               {showROBInternals ? "Hide ROB Internals" : "Show ROB Internals"}
             </DButton>
           </div>
-        </div>
+        </ModuleHeader>
 
-        {showROB && (
-          <div className="justify-items-center space-y-2 mt-2">
-            {/* display inputs */}
-            {showROBInputs && (
-              <CardBase>
-                <p className="font-semibold">Dispatched Instructions</p>
-                <DisplayROBData
-                  className="shadow-none p-0"
-                  ROBData={ROB_dispatched_ins}
-                  head={-1}
-                  tail={-1}
-                  isROB={false}
-                />
-              </CardBase>
-            )}
+        <ModuleContent className="space-y-2 ">
+          {/* display inputs */}
+          {showROBInputs && (
+            <Card>
+              <p className="font-semibold">Dispatched Instructions</p>
+              <DisplayROBData
+                className="shadow-none p-0"
+                ROBData={ROB_dispatched_ins}
+                head={-1}
+                tail={-1}
+                isROB={false}
+              />
+            </Card>
+          )}
 
-            {/* display ROB internals */}
-            {showROBInternals && (
-              <CardBase className="flex space-x-4">
-                <div>
-                  <SimpleValDisplay label="Available Spots: ">
-                    {available_spots}
-                  </SimpleValDisplay>
+          {/* display ROB internals */}
+          {showROBInternals && (
+            <Card className="flex space-x-4">
+              <div>
+                <SimpleValDisplay label="Available Spots: ">
+                  {available_spots}
+                </SimpleValDisplay>
 
-                  <SimpleValDisplay label="Retireable Count: ">
-                    {retireable_cnt}
-                  </SimpleValDisplay>
-                </div>
+                <SimpleValDisplay label="Retireable Count: ">
+                  {retireable_cnt}
+                </SimpleValDisplay>
+              </div>
 
-                <SimpleValDisplay label="Empty: ">{empty}</SimpleValDisplay>
+              <SimpleValDisplay label="Empty: ">{empty}</SimpleValDisplay>
 
-                <div>
-                  <SimpleValDisplay label="Next Dir: ">
-                    {next_direction ? "SHRK" : "GROW"}
-                  </SimpleValDisplay>
+              <div>
+                <SimpleValDisplay label="Next Dir: ">
+                  {next_direction ? "SHRK" : "GROW"}
+                </SimpleValDisplay>
 
-                  <SimpleValDisplay label="Last Dir: ">
-                    {last_direction ? "SHRK" : "GROW"}
-                  </SimpleValDisplay>
-                </div>
-              </CardBase>
-            )}
+                <SimpleValDisplay label="Last Dir: ">
+                  {last_direction ? "SHRK" : "GROW"}
+                </SimpleValDisplay>
+              </div>
+            </Card>
+          )}
 
-            {/* display ROB entries */}
-            <DisplayROBData
-              className=""
-              ROBData={ROB_entries}
-              head={head}
-              tail={tail}
-              isROB={true}
-            />
+          {/* display ROB entries */}
+          <DisplayROBData
+            className=""
+            ROBData={ROB_entries}
+            head={head}
+            tail={tail}
+            isROB={true}
+          />
 
-            {/* output signals */}
-          </div>
-        )}
-      </ModuleBase>
+          {/* output signals */}
+        </ModuleContent>
+      </Module>
     </>
   );
 };

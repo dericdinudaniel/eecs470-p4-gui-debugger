@@ -1,7 +1,7 @@
 import React from "react";
 import * as Types from "@/lib/types";
 import DisplaySingleRS from "./DisplaySingleRS";
-import { CardBase } from "./dui/Card";
+import { Card } from "./dui/Card";
 
 type DisplayRSDataProps = {
   className: string;
@@ -16,7 +16,7 @@ const DisplayRSData: React.FC<DisplayRSDataProps> = ({
 }) => {
   return (
     <>
-      <CardBase className="mt-2 p-3">
+      <Card className="mt-2 p-3">
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-8 gap-1">
           {RSData.map((rs, idx) => (
             <div key={idx} className="items-center rounded-xl shadow-lg">
@@ -29,7 +29,7 @@ const DisplayRSData: React.FC<DisplayRSDataProps> = ({
             </div>
           ))}
         </div>
-      </CardBase>
+      </Card>
     </>
   );
 };

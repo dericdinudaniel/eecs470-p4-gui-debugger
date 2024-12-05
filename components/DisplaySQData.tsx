@@ -11,7 +11,7 @@ import {
   Dtbody,
   Dtable,
 } from "@/components/dui/DTable";
-import { CardBase } from "./dui/Card";
+import { Card } from "./dui/Card";
 
 type DisplaySQDataProps = {
   className: string;
@@ -29,7 +29,7 @@ const DisplaySQData: React.FC<DisplaySQDataProps> = ({
   isSQ,
 }) => {
   return (
-    <CardBase className={className}>
+    <Card className={className}>
       <Dtable>
         <Dthead>
           <Dtr>
@@ -102,7 +102,7 @@ const DisplaySQData: React.FC<DisplaySQDataProps> = ({
           })}
         </Dtbody>
       </Dtable>
-    </CardBase>
+    </Card>
   );
 };
 

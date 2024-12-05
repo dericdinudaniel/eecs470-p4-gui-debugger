@@ -13,7 +13,7 @@ import {
   parseMEM_COMMAND,
 } from "@/lib/utils";
 import { ScopeData } from "@/lib/tstypes";
-import { ModuleBase, ModuleHeader } from "./dui/Module";
+import { Module, ModuleHeader, ModuleContent } from "./dui/Module";
 import {
   Dthead,
   Dtd,
@@ -27,7 +27,7 @@ import {
 import { chunkArray, parseInstruction } from "@/lib/tsutils";
 import PaddedNum from "./dui/PaddedNum";
 import * as Types from "@/lib/types";
-import { CardBase, CardHeader, CardHeaderSmall } from "./dui/Card";
+import { Card, CardContent, CardHeader, CardHeaderSmall } from "./dui/Card";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 
 // Memory Inputs Component
@@ -49,38 +49,40 @@ const MemInputs: React.FC<{
   // const Imem2proc_addr = extractSignalValueToInt(signalI$, "Imem2proc_addr");
 
   return (
-    <CardBase className={className}>
-      <CardHeader>Mem Inputs</CardHeader>
-      <SimpleValDisplay label="Tran Tag: ">
-        <PaddedNum number={Imem2proc_transaction_tag} maxNumber={15} />
-      </SimpleValDisplay>
-
-      <div className="justify-items-center p-1">
-        <SimpleValDisplay label="Data Tag: ">
-          <PaddedNum number={Imem2proc_data_tag} maxNumber={15} />
+    <Card className={className}>
+      <CardHeader label="Mem Inputs" />
+      <CardContent>
+        <SimpleValDisplay label="Tran Tag: ">
+          <PaddedNum number={Imem2proc_transaction_tag} maxNumber={15} />
         </SimpleValDisplay>
-        {/* <SimpleValDisplay label="Addr: ">
+
+        <div className="justify-items-center p-1">
+          <SimpleValDisplay label="Data Tag: ">
+            <PaddedNum number={Imem2proc_data_tag} maxNumber={15} />
+          </SimpleValDisplay>
+          {/* <SimpleValDisplay label="Addr: ">
           {displayValueHex(Imem2proc_addr)}
         </SimpleValDisplay> */}
 
-        <Dtable>
-          <Dthead>
-            <Dtr>
-              <Dth colSpan={2}>Insts.</Dth>
-            </Dtr>
-          </Dthead>
-          <Dtbody>
-            {I$_Imem2proc_data.map((inst, idx) => (
-              <Dtr key={idx} className="bg-neutral">
-                <Dtd>
-                  <div className="w-40">{parseInstruction(inst)}</div>
-                </Dtd>
+          <Dtable>
+            <Dthead>
+              <Dtr>
+                <Dth colSpan={2}>Insts.</Dth>
               </Dtr>
-            ))}
-          </Dtbody>
-        </Dtable>
-      </div>
-    </CardBase>
+            </Dthead>
+            <Dtbody>
+              {I$_Imem2proc_data.map((inst, idx) => (
+                <Dtr key={idx} className="bg-neutral">
+                  <Dtd>
+                    <div className="w-40">{parseInstruction(inst)}</div>
+                  </Dtd>
+                </Dtr>
+              ))}
+            </Dtbody>
+          </Dtable>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 
@@ -98,36 +100,44 @@ const FetchInputs: React.FC<{
   const take_branch = extractSignalValueToBool(signalI$, "take_branch");
 
   return (
-    <CardBase className={className}>
-      <CardHeader>Fetch Inputs</CardHeader>
-      <div className="justify-items-center">
-        <SimpleValDisplay label="Take Branch: ">
-          {take_branch ? "Yes" : "No"}
-        </SimpleValDisplay>
-        <SimpleValDisplay label="Valid Fetches: ">
-          <PaddedNum
-            number={valid_fetches}
-            maxNumber={I$_proc2Icache_addr.length}
-          />
-        </SimpleValDisplay>
-      </div>
-      <Dtable>
-        <Dthead>
-          <Dtr>
-            <Dth colSpan={2}>Addresses</Dth>
-          </Dtr>
-        </Dthead>
-        <Dtbody className="bg-neutral">
-          {I$_proc2Icache_addr.map((addr, idx) => (
-            <Dtr key={idx}>
-              <DtdLeft className="font-semibold pl-1">{idx}:</DtdLeft>
-              <Dtd className="w-20 text-sm">{displayValueHex(addr)}</Dtd>
-            </Dtr>
-          ))}
-        </Dtbody>
-      </Dtable>
-      <I$Request className="mt-2" signalI$={signalI$} />
-    </CardBase>
+    <Card className={className}>
+      <CardHeader label="Fetch Inputs" />
+      <CardContent>
+        <div className="justify-items-center space-y-[-.35rem]">
+          <SimpleValDisplay label="Take Branch: ">
+            {take_branch ? "Yes" : "No"}
+          </SimpleValDisplay>
+          <SimpleValDisplay label="Valid Fetches: ">
+            <PaddedNum
+              number={valid_fetches}
+              maxNumber={(proc2Icache_addr.length - 1) / Types.ADDR_WIDTH} // calculate N width
+            />
+          </SimpleValDisplay>
+        </div>
+
+        <div className="flex items-start gap-x-2">
+          <div className="justify-items-center">
+            <CardHeaderSmall>Fetch Addrs</CardHeaderSmall>
+            <Dtable>
+              <Dthead>
+                <Dtr>
+                  <Dth colSpan={2}>Addresses</Dth>
+                </Dtr>
+              </Dthead>
+              <Dtbody className="bg-neutral">
+                {I$_proc2Icache_addr.map((addr, idx) => (
+                  <Dtr key={idx}>
+                    <DtdLeft className="font-semibold pl-1">{idx}:</DtdLeft>
+                    <Dtd className="w-20 text-sm">{displayValueHex(addr)}</Dtd>
+                  </Dtr>
+                ))}
+              </Dtbody>
+            </Dtable>
+          </div>
+          <I$Request className="" signalI$={signalI$} />
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 
@@ -144,17 +154,17 @@ const MemOutputs: React.FC<{
   const proc2Imem_addr = extractSignalValueToInt(signalI$, "proc2Imem_addr");
 
   return (
-    <CardBase className={className}>
-      <CardHeader>Mem Outputs</CardHeader>
-      <div>
+    <Card className={className}>
+      <CardHeader label="Mem Outputs" />
+      <CardContent>
         <SimpleValDisplay label="Command: ">
           {Types.getMemCommandName(I$_proc2Imem_command)}
         </SimpleValDisplay>
         <SimpleValDisplay label="Addr: ">
           {displayValueHex(proc2Imem_addr)}
         </SimpleValDisplay>
-      </div>
-    </CardBase>
+      </CardContent>
+    </Card>
   );
 };
 
@@ -171,9 +181,9 @@ const FetchOutputs: React.FC<{
   );
 
   return (
-    <CardBase className={className}>
-      <CardHeader>Fetch Outputs</CardHeader>
-      <div className="justify-items-center">
+    <Card className={className}>
+      <CardHeader label="Fetch Outputs" />
+      <CardContent>
         <SimpleValDisplay label="Valid: ">{Icache_valid_out}</SimpleValDisplay>
 
         <Dtable>
@@ -192,8 +202,8 @@ const FetchOutputs: React.FC<{
             ))}
           </Dtbody>
         </Dtable>
-      </div>
-    </CardBase>
+      </CardContent>
+    </Card>
   );
 };
 
@@ -217,7 +227,6 @@ const I$Request: React.FC<{
   return (
     <>
       <div className={`${className}`}>
-        {/* the big table ig */}
         <div className="justify-items-center">
           <CardHeaderSmall>I$ Req</CardHeaderSmall>
           <Dtable>
@@ -289,74 +298,61 @@ const DisplayI$: React.FC<{
   const chunkSize = 8; // Adjust the chunk size as needed
   const chunks = chunkArray(I$_icache_tags, chunkSize);
 
-  const [showCache, setShowCache] = useState(true);
-
   return (
     <>
-      <CardBase className={className}>
-        <button
-          className="font-semibold"
-          onClick={() => {
-            setShowCache(!showCache);
-          }}
-        >
-          Actual Cache
-        </button>
-        {showCache && (
-          <>
-            <div className="flex space-x-1">
-              {chunks.map((chunk, chunkIdx) => (
-                <Dtable key={chunkIdx}>
-                  <Dthead>
-                    <Dtr>
-                      <Dth className="px-2">#</Dth>
-                      <Dth>Tag</Dth>
-                      <Dth>Inst.</Dth>
-                    </Dtr>
-                  </Dthead>
-                  <Dtbody>
-                    {chunk.map((icache_tag, idx) => {
-                      const tagIdx = chunkIdx * chunkSize + idx;
-                      const tag = icache_tag.tags;
-                      const valid = icache_tag.valid;
-                      return (
-                        <React.Fragment key={idx}>
-                          <Dtr className={`${valid ? "bg-good" : "bg-bad"}`}>
-                            <DtdLeft
-                              rowSpan={2}
-                              className="font-semibold text-base"
-                            >
-                              {tagIdx}:
-                            </DtdLeft>
-                            <Dtd
-                              rowSpan={2}
-                              className="font-semibold text-base"
-                            >
-                              {tag}
-                            </Dtd>
-                            <Dtd>
-                              <div className="w-40">
-                                {parseInstruction(I$_memData[tagIdx * 2])}
-                              </div>
-                            </Dtd>
-                          </Dtr>
-                          <Dtr className={`${valid ? "bg-good" : "bg-bad"}`}>
-                            <Dtd className="border-l">
-                              <div className="w-40">
-                                {parseInstruction(I$_memData[tagIdx * 2 + 1])}
-                              </div>
-                            </Dtd>
-                          </Dtr>
-                        </React.Fragment>
-                      );
-                    })}
-                  </Dtbody>
-                </Dtable>
-              ))}
-            </div>
-          </>
-        )}
-      </CardBase>
+      <Card className={`${className} pt-1`}>
+        <CardHeader label="Actual Cache" />
+
+        <CardContent>
+          <div className="flex space-x-1">
+            {chunks.map((chunk, chunkIdx) => (
+              <Dtable key={chunkIdx}>
+                <Dthead>
+                  <Dtr>
+                    <Dth className="px-2">#</Dth>
+                    <Dth>Tag</Dth>
+                    <Dth>Inst.</Dth>
+                  </Dtr>
+                </Dthead>
+                <Dtbody>
+                  {chunk.map((icache_tag, idx) => {
+                    const tagIdx = chunkIdx * chunkSize + idx;
+                    const tag = icache_tag.tags;
+                    const valid = icache_tag.valid;
+                    return (
+                      <React.Fragment key={idx}>
+                        <Dtr className={`${valid ? "bg-good" : "bg-bad"}`}>
+                          <DtdLeft
+                            rowSpan={2}
+                            className="font-semibold text-base"
+                          >
+                            {tagIdx}:
+                          </DtdLeft>
+                          <Dtd rowSpan={2} className="font-semibold text-base">
+                            {tag}
+                          </Dtd>
+                          <Dtd>
+                            <div className="w-40">
+                              {parseInstruction(I$_memData[tagIdx * 2])}
+                            </div>
+                          </Dtd>
+                        </Dtr>
+                        <Dtr className={`${valid ? "bg-good" : "bg-bad"}`}>
+                          <Dtd className="border-l">
+                            <div className="w-40">
+                              {parseInstruction(I$_memData[tagIdx * 2 + 1])}
+                            </div>
+                          </Dtd>
+                        </Dtr>
+                      </React.Fragment>
+                    );
+                  })}
+                </Dtbody>
+              </Dtable>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </>
   );
 };
@@ -368,40 +364,29 @@ type I$DebuggerProps = {
 };
 
 const I$Debugger: React.FC<I$DebuggerProps> = ({ className, signalI$ }) => {
-  const [showI$, setShowI$] = useState(true);
-
   return (
     <>
-      <ModuleBase className={className}>
-        <ModuleHeader
-          className="mb-1"
-          onClick={() => {
-            setShowI$(!showI$);
-          }}
-        >
-          I-Cache
-        </ModuleHeader>
+      <Module className={className}>
+        <ModuleHeader label="I-Cache"></ModuleHeader>
 
-        {showI$ && (
-          <>
-            <div className="justify-items-center space-y-2">
-              <div className="flex gap-x-3 items-start">
-                <div className="justify-items-center space-y-1">
-                  <MemInputs className="" signalI$={signalI$} />
-                  <MemOutputs className="" signalI$={signalI$} />
-                </div>
-
-                <div className="flex space-x-1 items-start">
-                  <FetchInputs className="" signalI$={signalI$} />
-                  <FetchOutputs className="" signalI$={signalI$} />
-                </div>
+        <ModuleContent>
+          <div className="justify-items-center space-y-2">
+            <div className="flex gap-x-3 items-start">
+              <div className="justify-items-center space-y-1">
+                <MemInputs className="" signalI$={signalI$} />
+                <MemOutputs className="" signalI$={signalI$} />
               </div>
 
-              <DisplayI$ className="" signalI$={signalI$} />
+              <div className="flex space-x-1 items-start">
+                <FetchInputs className="" signalI$={signalI$} />
+                <FetchOutputs className="" signalI$={signalI$} />
+              </div>
             </div>
-          </>
-        )}
-      </ModuleBase>
+
+            <DisplayI$ className="" signalI$={signalI$} />
+          </div>
+        </ModuleContent>
+      </Module>
     </>
   );
 };

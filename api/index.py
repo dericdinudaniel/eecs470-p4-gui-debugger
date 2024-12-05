@@ -76,7 +76,7 @@ def parse_localvcd_content():
             header_data = {
                 "num_clock": num_clocks,
                 "num_cycles": num_cycles,
-                "time" : time
+                "parse_time" : time
             }
             return jsonify(header_data)
 

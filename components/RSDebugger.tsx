@@ -10,14 +10,14 @@ import {
 import { reverseStr } from "@/lib/tsutils";
 import * as Types from "@/lib/types";
 import { ScopeData } from "@/lib/tstypes";
-import { ModuleBase, ModuleHeader } from "./dui/Module";
+import { Module, ModuleHeader, ModuleContent } from "./dui/Module";
 import DisplayFUAvailTable from "./DisplayFUAvailTable";
 import DisplayCDBData from "./DisplayCDBData";
 import DisplayRSData from "./DisplayRSData";
 import DisplaySingleRS from "./DisplaySingleRS";
 import DisplaySingleRS_TO_FU_DATA from "./DisplaySingleRS_TO_FU_DATA";
 import { DButton } from "./dui/DButton";
-import { CardBase } from "./dui/Card";
+import { Card } from "./dui/Card";
 
 type RSDebuggerProps = {
   className: string;
@@ -57,20 +57,12 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
 
   const [showRSInputs, setShowRSInputs] = useState(true);
   const [showRSOutputs, setShowRSOutputs] = useState(true);
-  const [showRS, setShowRS] = useState(true);
 
   return (
     <>
-      <ModuleBase className={className}>
+      <Module className={className}>
         {/* header */}
-        <div className="flex items-center">
-          <ModuleHeader
-            onClick={() => {
-              setShowRS(!showRS);
-            }}
-          >
-            RS
-          </ModuleHeader>
+        <ModuleHeader label="RS">
           <p className="pl-3">
             <span className="font-semibold">(Open Spots: </span>
             {Number.isNaN(open_spots) ? "X" : open_spots})
@@ -84,116 +76,114 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
               {showRSOutputs ? "Hide RS Outputs" : "Show RS Outputs"}
             </DButton>
           </div>
-        </div>
+        </ModuleHeader>
 
-        {showRS && (
-          <>
-            {/* display inputs */}
-            {showRSInputs && (
-              <div className="flex space-x-2 items-start mt-2">
-                <CardBase>
-                  <div className="flex gap-x-2">
-                    <DisplayFUAvailTable
-                      className=""
-                      aluAvail={reverseStr(alu_avail.value)}
-                      branchAvail={reverseStr(branch_avail.value)}
-                      multAvail={reverseStr(mult_avail.value)}
-                      storeAvail={reverseStr(store_avail.value)}
-                      loadAvail={reverseStr(load_avail.value)}
-                    />
-                    <DisplayCDBData
-                      className=""
-                      CDBTags={RS_early_cdb}
-                      isEarlyCDB={true}
-                    />
-                  </div>
-                </CardBase>
-                <CardBase>
-                  <p className="font-semibold">Decoded Instructions</p>
+        <ModuleContent>
+          {/* display inputs */}
+          {showRSInputs && (
+            <div className="flex space-x-2 items-start mt-2">
+              <Card>
+                <div className="flex gap-x-2">
+                  <DisplayFUAvailTable
+                    className=""
+                    aluAvail={reverseStr(alu_avail.value)}
+                    branchAvail={reverseStr(branch_avail.value)}
+                    multAvail={reverseStr(mult_avail.value)}
+                    storeAvail={reverseStr(store_avail.value)}
+                    loadAvail={reverseStr(load_avail.value)}
+                  />
+                  <DisplayCDBData
+                    className=""
+                    CDBTags={RS_early_cdb}
+                    isEarlyCDB={true}
+                  />
+                </div>
+              </Card>
+              <Card>
+                <p className="font-semibold">Decoded Instructions</p>
+                <div className="flex space-x-1">
+                  {RS_decoded_instruction.map((rs, idx) => (
+                    <div key={idx}>
+                      <DisplaySingleRS className="" RSIdx={idx} RSData={rs} />
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            </div>
+          )}
+
+          {/* display RS entries */}
+          <DisplayRSData
+            className=""
+            RSData={RS_entries}
+            EarlyCDB={RS_early_cdb}
+          />
+
+          {/* display outputs */}
+          {showRSOutputs && (
+            <div className="mt-2 justify-items-center">
+              <Card className="flex space-x-4">
+                {/* ALU */}
+                <div className="justify-items-center">
+                  <p className="font-semibold">
+                    # ALU OUT: {getNumFUOut(RS_alu_out)}
+                  </p>
                   <div className="flex space-x-1">
-                    {RS_decoded_instruction.map((rs, idx) => (
+                    {RS_alu_out.map((fu_data, idx) => (
                       <div key={idx}>
-                        <DisplaySingleRS className="" RSIdx={idx} RSData={rs} />
+                        <DisplaySingleRS_TO_FU_DATA
+                          className=""
+                          FUIdx={idx}
+                          RS_TO_FUData={fu_data}
+                          fu_type={Types.FU_TYPE.ALU}
+                        />
                       </div>
                     ))}
                   </div>
-                </CardBase>
-              </div>
-            )}
+                </div>
 
-            {/* display RS entries */}
-            <DisplayRSData
-              className=""
-              RSData={RS_entries}
-              EarlyCDB={RS_early_cdb}
-            />
-
-            {/* display outputs */}
-            {showRSOutputs && (
-              <div className="mt-2 justify-items-center">
-                <CardBase className="flex space-x-4">
-                  {/* ALU */}
-                  <div className="justify-items-center">
-                    <p className="font-semibold">
-                      # ALU OUT: {getNumFUOut(RS_alu_out)}
-                    </p>
-                    <div className="flex space-x-1">
-                      {RS_alu_out.map((fu_data, idx) => (
-                        <div key={idx}>
-                          <DisplaySingleRS_TO_FU_DATA
-                            className=""
-                            FUIdx={idx}
-                            RS_TO_FUData={fu_data}
-                            fu_type={Types.FU_TYPE.ALU}
-                          />
-                        </div>
-                      ))}
-                    </div>
+                {/* MULT */}
+                <div className="justify-items-center">
+                  <p className="font-semibold">
+                    # MULT OUT: {getNumFUOut(RS_mult_out)}
+                  </p>
+                  <div className="flex space-x-1">
+                    {RS_mult_out.map((fu_data, idx) => (
+                      <div key={idx}>
+                        <DisplaySingleRS_TO_FU_DATA
+                          className=""
+                          FUIdx={idx}
+                          RS_TO_FUData={fu_data}
+                          fu_type={Types.FU_TYPE.MUL}
+                        />
+                      </div>
+                    ))}
                   </div>
+                </div>
 
-                  {/* MULT */}
-                  <div className="justify-items-center">
-                    <p className="font-semibold">
-                      # MULT OUT: {getNumFUOut(RS_mult_out)}
-                    </p>
-                    <div className="flex space-x-1">
-                      {RS_mult_out.map((fu_data, idx) => (
-                        <div key={idx}>
-                          <DisplaySingleRS_TO_FU_DATA
-                            className=""
-                            FUIdx={idx}
-                            RS_TO_FUData={fu_data}
-                            fu_type={Types.FU_TYPE.MUL}
-                          />
-                        </div>
-                      ))}
-                    </div>
+                {/* BRANCH */}
+                <div className="justify-items-center">
+                  <p className="font-semibold">
+                    # BR OUT: {getNumFUOut(RS_branch_out)}
+                  </p>
+                  <div className="flex space-x-1">
+                    {RS_branch_out.map((fu_data, idx) => (
+                      <div key={idx}>
+                        <DisplaySingleRS_TO_FU_DATA
+                          className=""
+                          FUIdx={idx}
+                          RS_TO_FUData={fu_data}
+                          fu_type={Types.FU_TYPE.BR}
+                        />
+                      </div>
+                    ))}
                   </div>
-
-                  {/* BRANCH */}
-                  <div className="justify-items-center">
-                    <p className="font-semibold">
-                      # BR OUT: {getNumFUOut(RS_branch_out)}
-                    </p>
-                    <div className="flex space-x-1">
-                      {RS_branch_out.map((fu_data, idx) => (
-                        <div key={idx}>
-                          <DisplaySingleRS_TO_FU_DATA
-                            className=""
-                            FUIdx={idx}
-                            RS_TO_FUData={fu_data}
-                            fu_type={Types.FU_TYPE.BR}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </CardBase>
-              </div>
-            )}
-          </>
-        )}
-      </ModuleBase>
+                </div>
+              </Card>
+            </div>
+          )}
+        </ModuleContent>
+      </Module>
     </>
   );
 };

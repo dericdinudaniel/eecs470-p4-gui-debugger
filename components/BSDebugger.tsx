@@ -10,14 +10,14 @@ import {
   parseCHECKPOINT_DATA_List,
   parseFU_TO_BS_DATA,
 } from "@/lib/utils";
-import { ModuleBase, ModuleHeader } from "./dui/Module";
+import { Module, ModuleHeader, ModuleContent } from "./dui/Module";
 import * as Types from "@/lib/types";
 import DisplayFrizzyList from "./DisplayFrizzyList";
 import DisplayMapTable from "./DisplayMapTable";
 import DisplayCDBData from "./DisplayCDBData";
 import { DButton } from "./dui/DButton";
 import DisplayFU_TO_BS_DATA from "./DisplayFU_TO_BS_DATA";
-import { CardBase } from "./dui/Card";
+import { Card } from "./dui/Card";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 
 interface BSDebuggerProps {
@@ -152,147 +152,143 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
 
   const [showBSInputs, setShowBSInputs] = useState(true);
   const [showBSOutputs, setShowBSOutputs] = useState(true);
-  const [showBS, setShowBS] = useState(true);
 
   return (
-    <ModuleBase className={className}>
+    <Module className={className}>
       {/* HEADER */}
-      <div className="flex items-center">
-        <div>
-          <ModuleHeader onClick={() => setShowBS(!showBS)}>
-            Branch Stacks
-          </ModuleHeader>
+      <ModuleHeader
+        label="Branch Stacks"
+        parentClassName="flex-col"
+        afterClassName="flex-none"
+      >
+        <div className="flex items-center">
+          <div className="space-y-[-.35rem]">
+            <SimpleValDisplay label="BMask Current: ">
+              {bmask_current}
+            </SimpleValDisplay>
 
-          <SimpleValDisplay label="BMask Current: ">
-            {bmask_current}
-          </SimpleValDisplay>
+            <SimpleValDisplay label="Taken Predict Bits: ">
+              {taken_predict_bits}
+            </SimpleValDisplay>
+          </div>
 
-          <SimpleValDisplay label="Taken Predict Bits: ">
-            {taken_predict_bits}
-          </SimpleValDisplay>
+          {/* Toggle buttons */}
+          <div className="pl-3 space-x-2">
+            <DButton onClick={() => setShowBSInputs(!showBSInputs)}>
+              {showBSInputs ? "Hide BS Inputs" : "Show BS Inputs"}
+            </DButton>
+            <DButton onClick={() => setShowBSOutputs(!showBSOutputs)}>
+              {showBSOutputs ? "Hide BS Outputs" : "Show BS Outputs"}
+            </DButton>
+          </div>
         </div>
+      </ModuleHeader>
 
-        {/* Toggle buttons */}
-        <div className="pl-3 space-x-2">
-          <DButton onClick={() => setShowBSInputs(!showBSInputs)}>
-            {showBSInputs ? "Hide BS Inputs" : "Show BS Inputs"}
-          </DButton>
-          <DButton onClick={() => setShowBSOutputs(!showBSOutputs)}>
-            {showBSOutputs ? "Hide BS Outputs" : "Show BS Outputs"}
-          </DButton>
-        </div>
-      </div>
-
-      {showBS && (
-        <>
-          {/* display inputs */}
-          {showBSInputs && (
-            <>
-              <CardBase className="mt-2">
-                <div className="flex space-x-3">
-                  <div>
-                    <DisplayFU_TO_BS_DATA
-                      className=""
-                      data={BS_correct_branch_data}
-                    />
-
-                    <SimpleValDisplay label="T_old: " className="mt-1">
-                      {T_old}
-                    </SimpleValDisplay>
-                  </div>
-                  <DisplayCDBData
+      <ModuleContent>
+        {/* display inputs */}
+        {showBSInputs && (
+          <>
+            <Card className="mt-2">
+              <div className="flex space-x-3">
+                <div>
+                  <DisplayFU_TO_BS_DATA
                     className=""
-                    CDBTags={BS_cdb}
-                    isEarlyCDB={true}
+                    data={BS_correct_branch_data}
                   />
+
+                  <SimpleValDisplay label="T_old: " className="mt-1">
+                    {T_old}
+                  </SimpleValDisplay>
                 </div>
-                <DisplaySingleCheckpoint
-                  className="mt-1"
-                  checkpoint={BS_checkpoint_in}
-                  valid={dispatch_valid}
+                <DisplayCDBData
+                  className=""
+                  CDBTags={BS_cdb}
+                  isEarlyCDB={true}
                 />
-              </CardBase>
-            </>
-          )}
+              </div>
+              <DisplaySingleCheckpoint
+                className="mt-1"
+                checkpoint={BS_checkpoint_in}
+                valid={dispatch_valid}
+              />
+            </Card>
+          </>
+        )}
 
-          {/* BRANCH STACKS */}
-          <CardBase className="mt-2">
-            <div className="p-1 grid grid-cols-2 gap-x-2 gap-y-2">
-              {BS_branch_stacks.map((cp, idx) => {
-                return (
-                  <div key={idx} className="">
-                    <DisplaySingleCheckpoint
-                      className=""
-                      checkpoint={cp}
-                      idx={idx}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </CardBase>
-
-          {/* display outputs */}
-          {showBSOutputs && (
-            <>
-              <CardBase className="mt-3">
-                <div className="flex space-x-3">
-                  <div>
-                    <SimpleValDisplay
-                      label="Prediction: "
-                      className={`p-1 ${
-                        prediction == Types.BRANCH_PREDICT_T.CORRECT_PRED
-                          ? "rounded-lg bg-veryGood"
-                          : prediction == Types.BRANCH_PREDICT_T.MISPREDICT
-                          ? "rounded-lg bg-veryBad"
-                          : ""
-                      }`}
-                      labelClassName="text-base"
-                    >
-                      {Types.getBranchPredictName(prediction)}
-                    </SimpleValDisplay>
-
-                    <div className="pl-1">
-                      <SimpleValDisplay
-                        label="BMASK prev out: "
-                        labelClassName="text-base"
-                      >
-                        {branch_mask_prev_out}
-                      </SimpleValDisplay>
-
-                      <SimpleValDisplay
-                        label="BMASK reg out: "
-                        labelClassName="text-base"
-                      >
-                        {branch_mask_reg_out}
-                      </SimpleValDisplay>
-
-                      <SimpleValDisplay
-                        label="BMASK mask: "
-                        labelClassName="text-base"
-                      >
-                        {b_mask_mask}
-                      </SimpleValDisplay>
-
-                      <SimpleValDisplay
-                        label="Full: "
-                        labelClassName="text-base"
-                      >
-                        {full ? "True" : "False"}
-                      </SimpleValDisplay>
-                    </div>
-                  </div>
+        {/* BRANCH STACKS */}
+        <Card className="mt-2">
+          <div className="p-1 grid grid-cols-2 gap-x-2 gap-y-2">
+            {BS_branch_stacks.map((cp, idx) => {
+              return (
+                <div key={idx} className="">
                   <DisplaySingleCheckpoint
                     className=""
-                    checkpoint={BS_checkpoint_out}
+                    checkpoint={cp}
+                    idx={idx}
                   />
                 </div>
-              </CardBase>
-            </>
-          )}
-        </>
-      )}
-    </ModuleBase>
+              );
+            })}
+          </div>
+        </Card>
+
+        {/* display outputs */}
+        {showBSOutputs && (
+          <>
+            <Card className="mt-3">
+              <div className="flex space-x-3">
+                <div>
+                  <SimpleValDisplay
+                    label="Prediction: "
+                    className={`p-1 ${
+                      prediction == Types.BRANCH_PREDICT_T.CORRECT_PRED
+                        ? "rounded-lg bg-veryGood"
+                        : prediction == Types.BRANCH_PREDICT_T.MISPREDICT
+                        ? "rounded-lg bg-veryBad"
+                        : ""
+                    }`}
+                    labelClassName="text-base"
+                  >
+                    {Types.getBranchPredictName(prediction)}
+                  </SimpleValDisplay>
+
+                  <div className="pl-1">
+                    <SimpleValDisplay
+                      label="BMASK prev out: "
+                      labelClassName="text-base"
+                    >
+                      {branch_mask_prev_out}
+                    </SimpleValDisplay>
+
+                    <SimpleValDisplay
+                      label="BMASK reg out: "
+                      labelClassName="text-base"
+                    >
+                      {branch_mask_reg_out}
+                    </SimpleValDisplay>
+
+                    <SimpleValDisplay
+                      label="BMASK mask: "
+                      labelClassName="text-base"
+                    >
+                      {b_mask_mask}
+                    </SimpleValDisplay>
+
+                    <SimpleValDisplay label="Full: " labelClassName="text-base">
+                      {full ? "True" : "False"}
+                    </SimpleValDisplay>
+                  </div>
+                </div>
+                <DisplaySingleCheckpoint
+                  className=""
+                  checkpoint={BS_checkpoint_out}
+                />
+              </div>
+            </Card>
+          </>
+        )}
+      </ModuleContent>
+    </Module>
   );
 };
 

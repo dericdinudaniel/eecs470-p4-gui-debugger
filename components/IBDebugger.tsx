@@ -9,9 +9,8 @@ import {
 import DisplayInstList from "./DisplayInstList";
 import { Toggle } from "./ui/toggle";
 import { ChevronUpIcon, ChevronDownIcon } from "lucide-react";
-import { reverseStr } from "@/lib/tsutils";
-import { ModuleBase, ModuleHeader } from "./dui/Module";
-import { CardBase } from "./dui/Card";
+import { Module, ModuleHeader, ModuleContent } from "./dui/Module";
+import { Card } from "./dui/Card";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 
 type IBDebuggerProps = {
@@ -56,15 +55,11 @@ const IBDebugger: React.FC<IBDebuggerProps> = ({
   const CPU_if_id_reg = parseID_EX_PACKET_List(if_id_reg);
 
   const [showIBInputs, setShowIBInputs] = useState(true);
-  const [showIB, setShowIB] = useState(true);
 
   return (
     <>
-      <ModuleBase className={className}>
-        <div className="flex items-center mb-2">
-          <ModuleHeader onClick={() => setShowIB(!showIB)}>
-            Inst Buffer
-          </ModuleHeader>
+      <Module className={className}>
+        <ModuleHeader label="Inst Buffer">
           {/* small button to enable IBInputs, show only down or up arrow */}
           <Toggle
             pressed={showIBInputs}
@@ -77,68 +72,63 @@ const IBDebugger: React.FC<IBDebuggerProps> = ({
               <ChevronDownIcon className="h-5 w-5" />
             )}
           </Toggle>
-        </div>
+        </ModuleHeader>
 
-        {showIB && (
-          <>
-            <div className="justify-items-center space-y-2">
-              {/* inputs */}
-              {showIBInputs && (
-                <div>
-                  <SimpleValDisplay
-                    label="# Dispatched: "
-                    labelClassName="text-md"
-                  >
-                    {num_dispatched}
-                  </SimpleValDisplay>
+        <ModuleContent>
+          <div className="justify-items-center space-y-2">
+            {/* inputs */}
+            {showIBInputs && (
+              <div>
+                <SimpleValDisplay
+                  label="# Dispatched: "
+                  labelClassName="text-md"
+                >
+                  {num_dispatched}
+                </SimpleValDisplay>
 
-                  <SimpleValDisplay
-                    label="# Fetched: "
-                    labelClassName="text-md"
-                  >
-                    {num_fetched}
-                  </SimpleValDisplay>
-                </div>
-              )}
+                <SimpleValDisplay label="# Fetched: " labelClassName="text-md">
+                  {num_fetched}
+                </SimpleValDisplay>
+              </div>
+            )}
 
-              <CardBase className="space-y-2">
-                <div className="justify-items-center">
-                  <p className="font-semibold">From Fetch</p>
-                  <DisplayInstList
-                    className=""
-                    instList={IB_input_id_ex_packet}
-                    head={-1}
-                    tail={-1}
-                    isIB={false}
-                  />
-                </div>
-
-                {/* actual buffer */}
+            <Card className="space-y-2">
+              <div className="justify-items-center">
+                <p className="font-semibold">From Fetch</p>
                 <DisplayInstList
                   className=""
-                  instList={IB_buffer}
-                  validList={IB_valid}
-                  head={head}
-                  tail={tail}
-                  isIB={true}
+                  instList={IB_input_id_ex_packet}
+                  head={-1}
+                  tail={-1}
+                  isIB={false}
                 />
+              </div>
 
-                {/* outputs */}
-                <div className="justify-items-center">
-                  <p className="font-semibold">Dispatched</p>
-                  <DisplayInstList
-                    className=""
-                    instList={CPU_if_id_reg}
-                    head={-1}
-                    tail={-1}
-                    isIB={false}
-                  />
-                </div>
-              </CardBase>
-            </div>
-          </>
-        )}
-      </ModuleBase>
+              {/* actual buffer */}
+              <DisplayInstList
+                className=""
+                instList={IB_buffer}
+                validList={IB_valid}
+                head={head}
+                tail={tail}
+                isIB={true}
+              />
+
+              {/* outputs */}
+              <div className="justify-items-center">
+                <p className="font-semibold">Dispatched</p>
+                <DisplayInstList
+                  className=""
+                  instList={CPU_if_id_reg}
+                  head={-1}
+                  tail={-1}
+                  isIB={false}
+                />
+              </div>
+            </Card>
+          </div>
+        </ModuleContent>
+      </Module>
     </>
   );
 };

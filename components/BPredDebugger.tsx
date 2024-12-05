@@ -8,11 +8,11 @@ import {
   extractSignalValueToInt,
   parsePREDICTOR_STATE_T_List,
 } from "@/lib/utils";
-import { ModuleBase, ModuleHeader } from "./dui/Module";
+import { Module, ModuleContent, ModuleHeader } from "./dui/Module";
 import { chunkArray } from "@/lib/tsutils";
 import { Dtable, Dtbody, Dtd, DtdLeft, Dth, Dthead, Dtr } from "./dui/DTable";
 import { DButton } from "./dui/DButton";
-import { CardBase } from "./dui/Card";
+import { Card, CardContent, CardHeader } from "./dui/Card";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 
 const DisplayPHT: React.FC<{
@@ -132,61 +132,53 @@ const BPredDebugger: React.FC<BPredDebuggerProps> = ({
   const pht = extractSignalValue(signalBP, "pht").value;
   const BP_pht = parsePREDICTOR_STATE_T_List(pht);
 
-  const [showBPred, setShowBPred] = useState(true);
-
   return (
     <>
-      <ModuleBase className={className}>
-        <div>
-          <ModuleHeader onClick={() => setShowBPred(!showBPred)}>
-            Branch Predictor
-          </ModuleHeader>
-        </div>
+      <Module className={className}>
+        <ModuleHeader label="Branch Predictor" />
 
-        {showBPred && (
-          <div className="mt-2 justify-items-center">
-            <SimpleValDisplay
-              label="Incoming PC: "
-              className={`${
-                incoming_branch_valid ? "bg-good" : "bg-bad"
-              } rounded-lg p-1 text-sm`}
-            >
-              {displayValueHex(incoming_branch_PC)}
-            </SimpleValDisplay>
+        <ModuleContent className="mt-2 justify-items-center">
+          <SimpleValDisplay
+            label="Incoming PC: "
+            className={`${
+              incoming_branch_valid ? "bg-good" : "bg-bad"
+            } rounded-lg p-1 text-sm`}
+          >
+            {displayValueHex(incoming_branch_PC)}
+          </SimpleValDisplay>
 
-            {/* recovery interface */}
-            <CardBase className="mt-2">
-              <h3 className="font-semibold underline">Recovery Interface</h3>
-              <div className="space-y-[-.35rem]">
-                <SimpleValDisplay label="Actual Branch Dir.: ">
-                  {predicted_direction ? "Taken" : "Not Taken"}
-                </SimpleValDisplay>
-
-                <SimpleValDisplay label="Branch Resolution: ">
-                  {Types.getBranchPredictName(resolving_branch_status)}
-                </SimpleValDisplay>
-
-                <SimpleValDisplay label="Resolving PC: ">
-                  {displayValueHex(resolving_branch_PC)}
-                </SimpleValDisplay>
-
-                <SimpleValDisplay label="Checkpointed BHR: ">
-                  {checkpointed_bhr.slice(1)}
-                </SimpleValDisplay>
-              </div>
-            </CardBase>
-
-            {/* internals (pht is an output but counts as internal) */}
-            <div className="mt-2">
-              <SimpleValDisplay label="Current BHR: ">
-                {bhr.slice(1)}
+          {/* recovery interface */}
+          <Card className="mt-2">
+            <CardHeader label="Recovery Interface" />
+            <CardContent className="space-y-[-.35rem]">
+              <SimpleValDisplay label="Actual Branch Dir.: ">
+                {predicted_direction ? "Taken" : "Not Taken"}
               </SimpleValDisplay>
 
-              <DisplayPHT className="" phtList={BP_pht} />
-            </div>
+              <SimpleValDisplay label="Branch Resolution: ">
+                {Types.getBranchPredictName(resolving_branch_status)}
+              </SimpleValDisplay>
+
+              <SimpleValDisplay label="Resolving PC: ">
+                {displayValueHex(resolving_branch_PC)}
+              </SimpleValDisplay>
+
+              <SimpleValDisplay label="Checkpointed BHR: ">
+                {checkpointed_bhr.slice(1)}
+              </SimpleValDisplay>
+            </CardContent>
+          </Card>
+
+          {/* internals (pht is an output but counts as internal) */}
+          <div className="mt-2">
+            <SimpleValDisplay label="Current BHR: ">
+              {bhr.slice(1)}
+            </SimpleValDisplay>
+
+            <DisplayPHT className="" phtList={BP_pht} />
           </div>
-        )}
-      </ModuleBase>
+        </ModuleContent>
+      </Module>
     </>
   );
 };

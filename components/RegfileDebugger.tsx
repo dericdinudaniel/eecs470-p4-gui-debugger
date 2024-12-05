@@ -20,9 +20,9 @@ import {
   Dtbody,
   Dtable,
 } from "@/components/dui/DTable";
-import { ModuleBase, ModuleHeader } from "./dui/Module";
+import { Module, ModuleHeader, ModuleContent } from "./dui/Module";
 import { DButton } from "./dui/DButton";
-import { CardBase } from "./dui/Card";
+import { Card } from "./dui/Card";
 
 type RegfileDebuggerProps = {
   className: string;
@@ -98,80 +98,67 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
 
   return (
     <>
-      <ModuleBase className={className}>
-        <div className="justify-items-center">
-          <div className="flex items-center">
-            <ModuleHeader
-              onClick={() => {
-                setShowReg(!showReg);
-              }}
-            >
-              Physical Registers
-            </ModuleHeader>
-            <DButton
-              className="ml-2"
-              onClick={() => setShowRegfilePorts(!showRegfilePorts)}
-            >
-              {showRegfilePorts ? "Hide Regfile Ports" : "Show Regfile Ports"}
-            </DButton>
-          </div>
+      <Module className={className}>
+        <ModuleHeader label="Physical Registers">
+          <DButton
+            className="ml-2"
+            onClick={() => setShowRegfilePorts(!showRegfilePorts)}
+          >
+            {showRegfilePorts ? "Hide Regfile Ports" : "Show Regfile Ports"}
+          </DButton>
+        </ModuleHeader>
 
-          {showReg && (
-            <>
-              {showRegfilePorts && (
-                <CardBase className="flex space-x-2 my-2">
-                  {/* read ports */}
-                  <div className="justify-items-center">
-                    <h2 className="text-md font-semibold">Read Ports</h2>
-                    <DisplayRegPorts
-                      ports_idx={Reg_read_idx}
-                      ports_data={Ref_read_out}
-                    />
-                  </div>
+        <ModuleContent>
+          {showRegfilePorts && (
+            <Card className="flex space-x-2">
+              {/* read ports */}
+              <div className="justify-items-center">
+                <h2 className="text-md font-semibold">Read Ports</h2>
+                <DisplayRegPorts
+                  ports_idx={Reg_read_idx}
+                  ports_data={Ref_read_out}
+                />
+              </div>
 
-                  {/* write ports */}
-                  <div className="justify-items-center">
-                    <h2 className="text-md font-semibold">Write Ports</h2>
-                    <DisplayRegPorts
-                      ports_idx={Reg_write_idx}
-                      ports_data={Ref_write_data}
-                      ports_enable={Reg_write_en}
-                    />
-                  </div>
-                </CardBase>
-              )}
-              <CardBase className="flex space-x-1">
-                {regChunks.map((regChunk, chunkIdx) => (
-                  <Dtable key={chunkIdx}>
-                    <Dthead>
-                      <Dtr>
-                        <Dth className="text-sm p-1">#</Dth>
-                        <Dth className="text-sm p-1 w-20">Value</Dth>
-                      </Dtr>
-                    </Dthead>
-                    <Dtbody>
-                      {regChunk.map((reg_data, idx) => {
-                        const globalIdx = chunkIdx * chunkSize + idx;
-                        const prNumber = globalIdx.toString();
-                        const value = regChunk[idx];
-
-                        return (
-                          <Dtr key={globalIdx} className="bg-neutral">
-                            <DtdLeft className="font-semibold">
-                              {prNumber}:
-                            </DtdLeft>
-                            <Dtd className="">{displayValueHex(value)}</Dtd>
-                          </Dtr>
-                        );
-                      })}
-                    </Dtbody>
-                  </Dtable>
-                ))}
-              </CardBase>
-            </>
+              {/* write ports */}
+              <div className="justify-items-center">
+                <h2 className="text-md font-semibold">Write Ports</h2>
+                <DisplayRegPorts
+                  ports_idx={Reg_write_idx}
+                  ports_data={Ref_write_data}
+                  ports_enable={Reg_write_en}
+                />
+              </div>
+            </Card>
           )}
-        </div>
-      </ModuleBase>
+          <Card className="flex space-x-1">
+            {regChunks.map((regChunk, chunkIdx) => (
+              <Dtable key={chunkIdx}>
+                <Dthead>
+                  <Dtr>
+                    <Dth className="text-sm p-1">#</Dth>
+                    <Dth className="text-sm p-1 w-20">Value</Dth>
+                  </Dtr>
+                </Dthead>
+                <Dtbody>
+                  {regChunk.map((reg_data, idx) => {
+                    const globalIdx = chunkIdx * chunkSize + idx;
+                    const prNumber = globalIdx.toString();
+                    const value = regChunk[idx];
+
+                    return (
+                      <Dtr key={globalIdx} className="bg-neutral">
+                        <DtdLeft className="font-semibold">{prNumber}:</DtdLeft>
+                        <Dtd className="">{displayValueHex(value)}</Dtd>
+                      </Dtr>
+                    );
+                  })}
+                </Dtbody>
+              </Dtable>
+            ))}
+          </Card>
+        </ModuleContent>
+      </Module>
     </>
   );
 };

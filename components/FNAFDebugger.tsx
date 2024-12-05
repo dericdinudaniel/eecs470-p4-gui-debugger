@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { ScopeData } from "@/lib/tstypes";
 import { extractSignalValue, parseFreeList, parseReg_Map } from "@/lib/utils";
-import { ModuleBase, ModuleHeader } from "./dui/Module";
+import { Module, ModuleHeader, ModuleContent } from "./dui/Module";
 import DisplayFrizzyList from "./DisplayFrizzyList";
 import DisplayMapTable from "./DisplayMapTable";
+import { Card } from "./dui/Card";
 
 type FNAFDebuggerProps = {
   className: string;
@@ -26,27 +27,21 @@ const FNAFDebugger: React.FC<FNAFDebuggerProps> = ({
   const reg_map = extractSignalValue(signalFNAF, "reg_map").value;
   const FNAF_reg_map = parseReg_Map(reg_map);
 
-  const [showFreddy, setShowFreddy] = useState(true);
-
   return (
     <>
-      <ModuleBase className={className}>
-        <ModuleHeader onClick={() => setShowFreddy(!showFreddy)}>
-          Freddy
-        </ModuleHeader>
-        {showFreddy && (
-          <>
-            <div className="flex space-x-3 rounded-xl">
-              <DisplayFrizzyList
-                className=""
-                freeList={FNAF_free_list}
-                readyBits={FNAF_ready_bits}
-              />
-              <DisplayMapTable className="" mapTable={FNAF_reg_map} />
-            </div>
-          </>
-        )}
-      </ModuleBase>
+      <Module className={className}>
+        <ModuleHeader label="Freddy" />
+        <ModuleContent className="">
+          <Card className="flex space-x-3 rounded-xl pt-1">
+            <DisplayFrizzyList
+              className=""
+              freeList={FNAF_free_list}
+              readyBits={FNAF_ready_bits}
+            />
+            <DisplayMapTable className="" mapTable={FNAF_reg_map} />
+          </Card>
+        </ModuleContent>
+      </Module>
     </>
   );
 };

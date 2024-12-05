@@ -187,7 +187,6 @@ def full_parse3(cache, root_scope, num_clocks):
                 # so i have to check if the vcdId is a list or not, and get the data accordingly. really nonsensical shit
                 data = None
                 if (type(scope.vcdId) != str):
-                    print("vcdId is a list", "path:", path, "type:", type(scope.vcdId))
                     data = scope.vcdId
                 else:
                     data = scope.data

@@ -1,4 +1,4 @@
-import { ModuleBase, ModuleHeader } from "./dui/Module";
+import { Module, ModuleHeader, ModuleContent } from "./dui/Module";
 import { ScopeData } from "@/lib/tstypes";
 import {
   displayValueHex,
@@ -6,7 +6,7 @@ import {
   extractSignalValueToInt,
   parseMEM_COMMAND,
 } from "@/lib/utils";
-import { CardBase } from "./dui/Card";
+import { Card } from "./dui/Card";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 import { getMemCommandName } from "@/lib/types";
 
@@ -28,17 +28,19 @@ const MemCmdDebugger: React.FC<MemCmdDebuggerProps> = ({
   const proc2mem_addr = extractSignalValueToInt(signalCPU, "proc2mem_addr");
   return (
     <>
-      <ModuleBase>
-        <ModuleHeader>Memory Command</ModuleHeader>
-        <CardBase className="mt-2">
-          <SimpleValDisplay label="Command: ">
-            {getMemCommandName(MC_proc2mem_command)}
-          </SimpleValDisplay>
-          <SimpleValDisplay label="Address: ">
-            {displayValueHex(proc2mem_addr)}
-          </SimpleValDisplay>
-        </CardBase>
-      </ModuleBase>
+      <Module className={className}>
+        <ModuleHeader label="Memory Command"></ModuleHeader>
+        <ModuleContent>
+          <Card>
+            <SimpleValDisplay label="Command: ">
+              {getMemCommandName(MC_proc2mem_command)}
+            </SimpleValDisplay>
+            <SimpleValDisplay label="Address: ">
+              {displayValueHex(proc2mem_addr)}
+            </SimpleValDisplay>
+          </Card>
+        </ModuleContent>
+      </Module>
     </>
   );
 };

@@ -12,7 +12,7 @@ import {
   Dtbody,
   Dtable,
 } from "@/components/dui/DTable";
-import { CardBase } from "./dui/Card";
+import { Card } from "./dui/Card";
 
 type DisplayROBDataProps = {
   className: string;
@@ -30,7 +30,7 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
   isROB,
 }) => {
   return (
-    <CardBase className={className}>
+    <Card className={className}>
       <Dtable>
         <Dthead>
           <Dtr>
@@ -103,7 +103,7 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
           })}
         </Dtbody>
       </Dtable>
-    </CardBase>
+    </Card>
   );
 };
 

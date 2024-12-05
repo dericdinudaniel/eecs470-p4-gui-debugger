@@ -1,5 +1,5 @@
 import { ScopeData } from "@/lib/tstypes";
-import { ModuleBase, ModuleHeader } from "./dui/Module";
+import { Module, ModuleContent, ModuleHeader } from "./dui/Module";
 import {
   displayValue,
   displayValueHex,
@@ -15,18 +15,20 @@ import {
   parseSTR_CMPLT_List,
 } from "@/lib/utils";
 import * as Types from "@/lib/types";
-import { CardBase, CardHeader, CardHeaderSmall } from "./dui/Card";
+import { Card, CardContent, CardHeader, CardHeaderSmall } from "./dui/Card";
 import { Dtable, Dtbody, Dtd, Dth, Dthead, DthLeft, Dtr } from "./dui/DTable";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 import PaddedNum from "./dui/PaddedNum";
 import { useState } from "react";
 import DisplaySQData from "./DisplaySQData";
+import { DButton } from "./dui/DButton";
 
 // Dispatch Interface Component
 const DispatchIF: React.FC<{
   className: string;
   signalSQ: ScopeData;
-}> = ({ className, signalSQ }) => {
+  display: boolean;
+}> = ({ className, signalSQ, display }) => {
   // DISPATCH INTERFACE
   // input signals
   const dispatched_stores = extractSignalValue(
@@ -40,13 +42,13 @@ const DispatchIF: React.FC<{
   const SQ_dispatch_tails = parseSQ_IDX_List(dispatch_tails);
 
   return (
-    <CardBase className={className}>
-      <CardHeader>Dispatch IF</CardHeader>
-      <div className="space-y-2">
+    <Card className={className} display={display}>
+      <CardHeader label="Dispatch IF" />
+      <CardContent className="flex space-x-2">
         <div className="justify-items-center">
           <CardHeaderSmall>Inputs</CardHeaderSmall>
           <DisplaySQData
-            className="shadow-none p-0 mt-1"
+            className="shadow-none p-0"
             SData={SQ_dispatched_stores}
             head={-1}
             tail={-1}
@@ -73,8 +75,8 @@ const DispatchIF: React.FC<{
             </Dtbody>
           </Dtable>
         </div>
-      </div>
-    </CardBase>
+      </CardContent>
+    </Card>
   );
 };
 
@@ -82,7 +84,8 @@ const DispatchIF: React.FC<{
 const ROBIF: React.FC<{
   className: string;
   signalSQ: ScopeData;
-}> = ({ className, signalSQ }) => {
+  display: boolean;
+}> = ({ className, signalSQ, display }) => {
   // ROB INTERFACE
   // input signals
   const rob_retire_valid = extractSignalValueToInt(
@@ -96,20 +99,20 @@ const ROBIF: React.FC<{
   );
 
   return (
-    <CardBase className={`${className}`}>
-      <CardHeader>ROB IF</CardHeader>
-      <div className="justify-items-center">
+    <Card className={className} display={display}>
+      <CardHeader label="ROB IF" />
+      <CardContent>
         <CardHeaderSmall>Valid Retires?</CardHeaderSmall>
         <div className="justify-items-center space-y-[-.35rem]">
-          <SimpleValDisplay label="ROB Retire Valid: ">
+          <SimpleValDisplay label="ROB Valid: ">
             {displayValue(rob_retire_valid)}
           </SimpleValDisplay>
-          <SimpleValDisplay label="STR Retire Valid: ">
+          <SimpleValDisplay label="STR Valid: ">
             {displayValue(str_retire_valid)}
           </SimpleValDisplay>
         </div>
-      </div>
-    </CardBase>
+      </CardContent>
+    </Card>
   );
 };
 
@@ -117,15 +120,16 @@ const ROBIF: React.FC<{
 const StoafIF: React.FC<{
   className: string;
   signalSQ: ScopeData;
-}> = ({ className, signalSQ }) => {
+  display: boolean;
+}> = ({ className, signalSQ, display }) => {
   // STORE FU INTERFACE
   const cmplt_str = extractSignalValue(signalSQ, "cmplt_str").value;
   const SQ_cmplt_str = parseSTR_CMPLT_List(cmplt_str);
 
   return (
-    <CardBase className={className}>
-      <CardHeader>Stoaf IF</CardHeader>
-      <div className="justify-items-center">
+    <Card className={className} display={display}>
+      <CardHeader label="Stoaf IF" />
+      <CardContent>
         <CardHeaderSmall>Completed Stores</CardHeaderSmall>
         <Dtable>
           <Dthead>
@@ -152,8 +156,8 @@ const StoafIF: React.FC<{
             ))}
           </Dtbody>
         </Dtable>
-      </div>
-    </CardBase>
+      </CardContent>
+    </Card>
   );
 };
 
@@ -161,7 +165,8 @@ const StoafIF: React.FC<{
 const RSLoadIF: React.FC<{
   className: string;
   signalSQ: ScopeData;
-}> = ({ className, signalSQ }) => {
+  display: boolean;
+}> = ({ className, signalSQ, display }) => {
   //
   // RS LOAD INTERFACE
   // output signals
@@ -171,11 +176,11 @@ const RSLoadIF: React.FC<{
   const any_complete = extractSignalValueToBool(signalSQ, "any_complete");
 
   return (
-    <CardBase className={className}>
-      <CardHeader>RS Load Issue IF</CardHeader>
-      <CardHeaderSmall>Outputs</CardHeaderSmall>
-      <div className="justify-items-center space-y-[-.35rem]">
-        <SimpleValDisplay label="Memory Ready Tail: ">
+    <Card className={className} display={display}>
+      <CardHeader label="RS Load IF" />
+      <CardContent className="space-y-[-.35rem]">
+        <CardHeaderSmall className="mb-1">Outputs</CardHeaderSmall>
+        <SimpleValDisplay label="Mem Ready Tail: ">
           {mem_ready_tail}
         </SimpleValDisplay>
         <SimpleValDisplay label="Output Head: ">{output_head}</SimpleValDisplay>
@@ -185,8 +190,8 @@ const RSLoadIF: React.FC<{
         <SimpleValDisplay label="Any Complete: ">
           {any_complete ? "Y" : "N"}
         </SimpleValDisplay>
-      </div>
-    </CardBase>
+      </CardContent>
+    </Card>
   );
 };
 
@@ -194,7 +199,8 @@ const RSLoadIF: React.FC<{
 const LoafIF: React.FC<{
   className: string;
   signalSQ: ScopeData;
-}> = ({ className, signalSQ }) => {
+  display: boolean;
+}> = ({ className, signalSQ, display }) => {
   // LOAF INTERFACE (store functional unit)
   const loaf_forward_req = extractSignalValue(
     signalSQ,
@@ -209,9 +215,9 @@ const LoafIF: React.FC<{
     parseLOAF_FORWARD_RESULT_List(loaf_forward_result);
 
   return (
-    <CardBase className={className}>
-      <CardHeader>Loaf IF</CardHeader>
-      <div className="justify-items-center space-y-1">
+    <Card className={className} display={display}>
+      <CardHeader label="Loaf IF" />
+      <CardContent className="space-y-1">
         {/* forward requests from load FU */}
         <div className="justify-items-center">
           <CardHeaderSmall>Forward Requests</CardHeaderSmall>
@@ -269,8 +275,8 @@ const LoafIF: React.FC<{
             </Dtbody>
           </Dtable>
         </div>
-      </div>
-    </CardBase>
+      </CardContent>
+    </Card>
   );
 };
 
@@ -278,20 +284,21 @@ const LoafIF: React.FC<{
 const LSArbIF: React.FC<{
   className: string;
   signalSQ: ScopeData;
-}> = ({ className, signalSQ }) => {
+  display: boolean;
+}> = ({ className, signalSQ, display }) => {
   // MASON MEMORY UNIT INTERFACE (actually the ls arbiter)
   const stall_sq = extractSignalValueToBool(signalSQ, "stall_sq");
   const retire_str = extractSignalValue(signalSQ, "retire_str").value;
   const SQ_retire_str = parseSQ_RETIRE_List(retire_str);
 
   return (
-    <CardBase className={className}>
-      <CardHeader>LS Arb IF</CardHeader>
-      <div className="justify-items-center space-y-1">
+    <Card className={className} display={display}>
+      <CardHeader label="LS Arb IF" />
+      <CardContent className="space-y-1">
         <div className="justify-items-center">
           <CardHeaderSmall>Inputs</CardHeaderSmall>
-          <SimpleValDisplay label="Stall SQ: ">
-            {stall_sq ? "Stall" : "No Stall"}
+          <SimpleValDisplay label="Stall SQ?: ">
+            {stall_sq ? "Y" : "N"}
           </SimpleValDisplay>
         </div>
 
@@ -316,8 +323,8 @@ const LSArbIF: React.FC<{
             </Dtbody>
           </Dtable>
         </div>
-      </div>
-    </CardBase>
+      </CardContent>
+    </Card>
   );
 };
 
@@ -325,7 +332,8 @@ const LSArbIF: React.FC<{
 const MispredIF: React.FC<{
   className: string;
   signalSQ: ScopeData;
-}> = ({ className, signalSQ }) => {
+  display: boolean;
+}> = ({ className, signalSQ, display }) => {
   // MISPREDICT RECOVERY INTERFACE
   const prediction = extractSignalValueToInt(
     signalSQ,
@@ -341,9 +349,9 @@ const MispredIF: React.FC<{
   );
 
   return (
-    <CardBase className={className}>
-      <CardHeader>Mispredict IF</CardHeader>
-      <div className="justify-items-center space-y-[-.35rem]">
+    <Card className={className} display={display}>
+      <CardHeader label="Mispred IF" />
+      <CardContent className="space-y-[-.35rem]">
         <SimpleValDisplay
           label="Prediction: "
           className={`p-1 ${
@@ -364,8 +372,8 @@ const MispredIF: React.FC<{
         <SimpleValDisplay label="SQ Checkpoint Tail: ">
           {sq_checkpoint_tail}
         </SimpleValDisplay>
-      </div>
-    </CardBase>
+      </CardContent>
+    </Card>
   );
 };
 
@@ -374,50 +382,41 @@ type SQDebuggerProps = {
   signalSQ: ScopeData;
 };
 const SQDebugger: React.FC<SQDebuggerProps> = ({ className, signalSQ }) => {
+  const open_spots = extractSignalValueToInt(signalSQ, "open_spots");
+
   const entries = extractSignalValue(signalSQ, "entries").value;
   const SQ_entries = parseSQ_DATA_List(entries);
 
   const head = extractSignalValueToInt(signalSQ, "head");
   const tail = extractSignalValueToInt(signalSQ, "tail");
 
-  const [showSQ, setShowSQ] = useState(true);
+  const [showSQInterfaces, setShowSQInterfaces] = useState(true);
 
   return (
     <>
-      <ModuleBase>
-        <ModuleHeader
-          className=""
-          onClick={() => {
-            setShowSQ(!showSQ);
-          }}
-        >
-          Store Queue
+      <Module>
+        <ModuleHeader label="Store Queue">
+          <p className="pl-3">
+            <span className="font-semibold">(Open Spots: </span>
+            {Number.isNaN(open_spots) ? "X" : open_spots})
+          </p>
+          {/* Toggle buttons */}
+          <div className="pl-3 space-x-2">
+            <DButton onClick={() => setShowSQInterfaces(!showSQInterfaces)}>
+              {showSQInterfaces ? "Hide SW Interfaces" : "Show SW Interfaces"}
+            </DButton>
+          </div>
         </ModuleHeader>
 
-        {showSQ && (
-          <div className="justify-items-center space-y-2 mt-2">
-            {/* Interfaces */}
-            <div className="flex gap-x-2 justify-items-center items-start">
-              <DispatchIF className="" signalSQ={signalSQ} />
-              <div className="justify-items-center space-y-2">
-                <ROBIF className="" signalSQ={signalSQ} />
-                <LSArbIF className="" signalSQ={signalSQ} />
-              </div>
-
-              <div className="justify-items-center space-y-2">
-                <StoafIF className="" signalSQ={signalSQ} />
-                <MispredIF className="" signalSQ={signalSQ} />
-              </div>
-
-              <div className="justify-items-center space-y-2">
-                <RSLoadIF className="" signalSQ={signalSQ} />
-                <LoafIF className="" signalSQ={signalSQ} />
-              </div>
-            </div>
-
-            {/* actual store queue */}
-            <div>
-              <DisplaySQData
+        <ModuleContent className="justify-items-center space-y-2 mt-2">
+          <div className="flex gap-x-2 justify-items-center items-start">
+            <div className="justify-items-center space-y-2">
+              <DispatchIF
+                className=""
+                display={showSQInterfaces}
+                signalSQ={signalSQ}
+              />
+              <DisplaySQData // Actual Store Queue
                 className=""
                 SData={SQ_entries}
                 head={head}
@@ -425,9 +424,44 @@ const SQDebugger: React.FC<SQDebuggerProps> = ({ className, signalSQ }) => {
                 isSQ={true}
               />
             </div>
+            <div className="justify-items-center space-y-2">
+              <ROBIF
+                className=""
+                display={showSQInterfaces}
+                signalSQ={signalSQ}
+              />
+              <RSLoadIF
+                className=""
+                display={showSQInterfaces}
+                signalSQ={signalSQ}
+              />
+              <LSArbIF
+                className=""
+                display={showSQInterfaces}
+                signalSQ={signalSQ}
+              />
+            </div>
+
+            <div className="justify-items-center space-y-2">
+              <StoafIF
+                className=""
+                display={showSQInterfaces}
+                signalSQ={signalSQ}
+              />
+              <MispredIF
+                className=""
+                display={showSQInterfaces}
+                signalSQ={signalSQ}
+              />
+              <LoafIF
+                className=""
+                display={showSQInterfaces}
+                signalSQ={signalSQ}
+              />
+            </div>
           </div>
-        )}
-      </ModuleBase>
+        </ModuleContent>
+      </Module>
     </>
   );
 };

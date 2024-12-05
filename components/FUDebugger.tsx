@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SignalType, SignalData, ScopeData } from "@/lib/tstypes";
+import { ScopeData } from "@/lib/tstypes";
 import * as Types from "@/lib/types";
 import {
   extractSignalValue,
@@ -12,11 +12,11 @@ import {
 } from "@/lib/utils";
 import DisplaySingleFU_DATA from "./DisplaySingleFU_DATA";
 import DisplayCDBData from "./DisplayCDBData";
-import { reverseStr } from "@/lib/tsutils";
-import { ModuleBase, ModuleHeader } from "./dui/Module";
+
+import { Module, ModuleHeader, ModuleContent } from "./dui/Module";
 import { DButton } from "./dui/DButton";
 import DisplayFU_TO_BS_DATA from "./DisplayFU_TO_BS_DATA";
-import { CardBase, CardHeaderSmall } from "./dui/Card";
+import { Card, CardHeaderSmall } from "./dui/Card";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 
 type FUDebuggerProps = {
@@ -58,10 +58,10 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
 
   return (
     <>
-      <ModuleBase className={className}>
+      <Module className={className}>
         {/* header */}
-        <div className="flex items-center">
-          <ModuleHeader onClick={() => setShowFU(!showFU)}>FUs</ModuleHeader>
+
+        <ModuleHeader label="FUs">
           <DButton
             className="ml-3"
             onClick={() => setShowFUInputs(!showFUInputs)}
@@ -104,74 +104,72 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
             </SimpleValDisplay>
           </div>
           <DisplayFU_TO_BS_DATA className="ml-2" data={FU_branch_results} />
-        </div>
+        </ModuleHeader>
 
-        {showFU && (
-          <>
-            {/* inputs from RS */}
-            {showFUInputs && (
-              <>
-                <div className="mt-2 justify-items-center">
-                  <CardBase className="flex space-x-4">
-                    {/* ALU */}
-                    <div className="justify-items-center">
-                      <CardHeaderSmall>ALU IN</CardHeaderSmall>
-                      <div className="flex space-x-1">
-                        {FU_alu_data.map((fu_data, idx) => (
-                          <div key={idx}>
-                            <DisplaySingleFU_DATA
-                              className=""
-                              FUIdx={idx}
-                              FUData={fu_data}
-                              fu_type={Types.FU_TYPE.ALU}
-                            />
-                          </div>
-                        ))}
-                      </div>
+        <ModuleContent>
+          {/* inputs from RS */}
+          {showFUInputs && (
+            <>
+              <div className="mt-2 justify-items-center">
+                <Card className="flex space-x-4">
+                  {/* ALU */}
+                  <div className="justify-items-center">
+                    <CardHeaderSmall>ALU IN</CardHeaderSmall>
+                    <div className="flex space-x-1">
+                      {FU_alu_data.map((fu_data, idx) => (
+                        <div key={idx}>
+                          <DisplaySingleFU_DATA
+                            className=""
+                            FUIdx={idx}
+                            FUData={fu_data}
+                            fu_type={Types.FU_TYPE.ALU}
+                          />
+                        </div>
+                      ))}
                     </div>
+                  </div>
 
-                    {/* MULT */}
-                    <div className="justify-items-center">
-                      <CardHeaderSmall>MULT IN</CardHeaderSmall>
-                      <div className="flex space-x-1">
-                        {FU_mult_data.map((fu_data, idx) => (
-                          <div key={idx}>
-                            <DisplaySingleFU_DATA
-                              className=""
-                              FUIdx={idx}
-                              FUData={fu_data}
-                              fu_type={Types.FU_TYPE.MUL}
-                            />
-                          </div>
-                        ))}
-                      </div>
+                  {/* MULT */}
+                  <div className="justify-items-center">
+                    <CardHeaderSmall>MULT IN</CardHeaderSmall>
+                    <div className="flex space-x-1">
+                      {FU_mult_data.map((fu_data, idx) => (
+                        <div key={idx}>
+                          <DisplaySingleFU_DATA
+                            className=""
+                            FUIdx={idx}
+                            FUData={fu_data}
+                            fu_type={Types.FU_TYPE.MUL}
+                          />
+                        </div>
+                      ))}
                     </div>
+                  </div>
 
-                    {/* BRANCH */}
-                    <div className="justify-items-center">
-                      <CardHeaderSmall>BRANCH IN</CardHeaderSmall>
-                      <div className="flex space-x-1">
-                        {FU_branch_data.map((fu_data, idx) => (
-                          <div key={idx}>
-                            <DisplaySingleFU_DATA
-                              className=""
-                              FUIdx={idx}
-                              FUData={fu_data}
-                              fu_type={Types.FU_TYPE.BR}
-                            />
-                          </div>
-                        ))}
-                      </div>
+                  {/* BRANCH */}
+                  <div className="justify-items-center">
+                    <CardHeaderSmall>BRANCH IN</CardHeaderSmall>
+                    <div className="flex space-x-1">
+                      {FU_branch_data.map((fu_data, idx) => (
+                        <div key={idx}>
+                          <DisplaySingleFU_DATA
+                            className=""
+                            FUIdx={idx}
+                            FUData={fu_data}
+                            fu_type={Types.FU_TYPE.BR}
+                          />
+                        </div>
+                      ))}
                     </div>
-                  </CardBase>
-                </div>
-              </>
-            )}
+                  </div>
+                </Card>
+              </div>
+            </>
+          )}
 
-            {/* FUs */}
-          </>
-        )}
-      </ModuleBase>
+          {/* FUs */}
+        </ModuleContent>
+      </Module>
     </>
   );
 };
