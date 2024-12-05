@@ -12,6 +12,7 @@ import {
   Dtbody,
   Dtable,
 } from "@/components/dui/DTable";
+import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 
 type DisplaySingleRS_TO_FU_DATAProps = {
   className: string;
@@ -38,7 +39,7 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
         </Dthead>
         <Dtbody>
           <Dtr>
-            <Dtd className="text-xs p-1 font-semibold w-40" colSpan={2}>
+            <Dtd className="text-xs p-1 font-semibold w-36" colSpan={2}>
               {parseInstruction(RS_TO_FUData.packet.inst.inst)}
             </Dtd>
           </Dtr>
@@ -48,26 +49,34 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
               {displayValue(RS_TO_FUData.T_new)}
             </Dtd>
           </Dtr>
+
           <Dtr>
-            <DtdLeft className="text-xs p-1">T_a:</DtdLeft>
-            <Dtd className="text-xs p-1">{displayValue(RS_TO_FUData.T_a)}</Dtd>
-          </Dtr>
-          <Dtr>
-            <DtdLeft className="text-xs p-1">T_b:</DtdLeft>
-            <Dtd className="text-xs p-1">{displayValue(RS_TO_FUData.T_b)}</Dtd>
-          </Dtr>
-          <Dtr
-            className={`${
-              Number.isNaN(RS_TO_FUData.imm_value) && RS_TO_FUData.has_imm
-                ? "bg-red-500"
-                : !RS_TO_FUData.has_imm && RS_TO_FUData.valid
-                ? "bg-neutral"
-                : ""
-            }`}
-          >
-            <DtdLeft className="text-xs p-1">Imm:</DtdLeft>
-            <Dtd className="text-xs p-1 w-20">
-              {displayValueHex(RS_TO_FUData.imm_value)}
+            <Dtd colSpan={2} className="p-0">
+              <div className="flex">
+                {/* Left column (T_a) */}
+                <div className="w-1/2">
+                  <SimpleValDisplay
+                    label="Ta: "
+                    className="py-[.1rem]"
+                    labelClassName="text-xs font-normal"
+                    dataClassName="text-xs"
+                  >
+                    {displayValue(RS_TO_FUData.T_a)}
+                  </SimpleValDisplay>
+                </div>
+
+                {/* Right column (T_b) */}
+                <div className="w-1/2 border-l">
+                  <SimpleValDisplay
+                    label="Tb: "
+                    className="py-[.1rem]"
+                    labelClassName="text-xs font-normal"
+                    dataClassName="text-xs"
+                  >
+                    {displayValue(RS_TO_FUData.T_b)}
+                  </SimpleValDisplay>
+                </div>
+              </div>
             </Dtd>
           </Dtr>
 
@@ -85,14 +94,9 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
 
           {/* func data */}
           <Dtr>
-            <DtdLeft className="text-xs p-1">FU Type:</DtdLeft>
-            <Dtd className="text-xs p-1 w-16">
+            <Dtd colSpan={2} className="text-xs p-1">
               {Types.getFUTypeName(fu_type)}
-            </Dtd>
-          </Dtr>
-          <Dtr>
-            <DtdLeft className="text-xs p-1">func:</DtdLeft>
-            <Dtd className="text-xs p-1">
+              {" | "}
               {(() => {
                 switch (fu_type) {
                   case Types.FU_TYPE.ALU:
@@ -107,6 +111,15 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
                     return Types.getBRFuncName(
                       RS_TO_FUData.fu_func as Types.BRANCH_FUNC
                     );
+                  case Types.FU_TYPE.LOAD:
+                    return Types.getLOADFuncName(
+                      RS_TO_FUData.fu_func as Types.LOAD_FUNC
+                    );
+                  case Types.FU_TYPE.STORE:
+                    return Types.getSTOREFuncName(
+                      RS_TO_FUData.fu_func as Types.STORE_FUNC
+                    );
+
                   default:
                     return "XXX";
                 }

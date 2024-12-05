@@ -71,14 +71,9 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
 
           {/* func data */}
           <Dtr>
-            <DtdLeft className="text-xs p-1">FU Type:</DtdLeft>
-            <Dtd className="text-xs p-1 w-16">
+            <Dtd colSpan={2} className="text-xs p-1">
               {Types.getFUTypeName(fu_type)}
-            </Dtd>
-          </Dtr>
-          <Dtr>
-            <DtdLeft className="text-xs p-1">func:</DtdLeft>
-            <Dtd className="text-xs p-1">
+              {" | "}
               {(() => {
                 switch (fu_type) {
                   case Types.FU_TYPE.ALU:
@@ -101,6 +96,7 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
                     return Types.getSTOREFuncName(
                       FUData.fu_func as Types.STORE_FUNC
                     );
+
                   default:
                     return "XXX";
                 }

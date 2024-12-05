@@ -12,6 +12,7 @@ import {
   Dtbody,
   Dtable,
 } from "@/components/dui/DTable";
+import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 
 type DisplaySingleRSProps = {
   className: string;
@@ -53,36 +54,53 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
           </Dtr>
 
           {/* source operands */}
-          <Dtr
-            className={`${
-              RSData.occupied &&
-              !Number.isNaN(RSData.rs_to_fu_data.T_a) &&
-              RSData.rs_to_fu_data.T_a != 0 &&
-              EarlyCDB?.includes(RSData.rs_to_fu_data.T_a)
-                ? "bg-veryGood"
-                : ""
-            }`}
-          >
-            <DtdLeft className="text-xs p-1">T_a:</DtdLeft>
-            <Dtd className="text-xs p-1">
-              {displayValue(RSData.rs_to_fu_data.T_a)}
-              {RSData.ready_ta ? "+" : " "}
-            </Dtd>
-          </Dtr>
-          <Dtr
-            className={`${
-              RSData.occupied &&
-              !Number.isNaN(RSData.rs_to_fu_data.T_b) &&
-              RSData.rs_to_fu_data.T_b != 0 &&
-              EarlyCDB?.includes(RSData.rs_to_fu_data.T_b)
-                ? "bg-veryGood"
-                : ""
-            }`}
-          >
-            <DtdLeft className="text-xs p-1">T_b:</DtdLeft>
-            <Dtd className="text-xs p-1">
-              {displayValue(RSData.rs_to_fu_data.T_b)}
-              {RSData.ready_tb ? "+" : " "}
+          <Dtr>
+            <Dtd colSpan={2} className="p-0">
+              <div className="flex">
+                {/* Left column (T_a) */}
+                <div
+                  className={`w-1/2 ${
+                    RSData.occupied &&
+                    !Number.isNaN(RSData.rs_to_fu_data.T_a) &&
+                    RSData.rs_to_fu_data.T_a !== 0 &&
+                    EarlyCDB?.includes(RSData.rs_to_fu_data.T_a)
+                      ? "bg-veryGood"
+                      : ""
+                  }`}
+                >
+                  <SimpleValDisplay
+                    label="Ta: "
+                    className="py-[.1rem]"
+                    labelClassName="text-xs font-normal"
+                    dataClassName="text-xs"
+                  >
+                    {displayValue(RSData.rs_to_fu_data.T_a)}
+                    {RSData.ready_ta ? "+" : " "}
+                  </SimpleValDisplay>
+                </div>
+
+                {/* Right column (T_b) */}
+                <div
+                  className={`w-1/2 border-l ${
+                    RSData.occupied &&
+                    !Number.isNaN(RSData.rs_to_fu_data.T_b) &&
+                    RSData.rs_to_fu_data.T_b !== 0 &&
+                    EarlyCDB?.includes(RSData.rs_to_fu_data.T_b)
+                      ? "bg-veryGood"
+                      : ""
+                  }`}
+                >
+                  <SimpleValDisplay
+                    label="Tb: "
+                    className="py-[.1rem]"
+                    labelClassName="text-xs font-normal"
+                    dataClassName="text-xs"
+                  >
+                    {displayValue(RSData.rs_to_fu_data.T_b)}
+                    {RSData.ready_tb ? "+" : " "}
+                  </SimpleValDisplay>
+                </div>
+              </div>
             </Dtd>
           </Dtr>
 
@@ -122,12 +140,9 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
 
           {/* func data */}
           <Dtr>
-            <DtdLeft className="text-xs p-1">FU Type:</DtdLeft>
-            <Dtd className="text-xs p-1">{Types.getFUTypeName(RSData.fu)}</Dtd>
-          </Dtr>
-          <Dtr>
-            <DtdLeft className="text-xs p-1">func:</DtdLeft>
-            <Dtd className="text-xs p-1 w-16">
+            <Dtd colSpan={2} className="text-xs p-1">
+              {Types.getFUTypeName(RSData.fu)}
+              {" | "}
               {(() => {
                 switch (RSData.fu) {
                   case Types.FU_TYPE.ALU:
