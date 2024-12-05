@@ -30,6 +30,87 @@ import * as Types from "@/lib/types";
 import { Card, CardContent, CardHeader, CardHeaderSmall } from "./dui/Card";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 
+// Memory Interface Component
+const MemIF: React.FC<{
+  className: string;
+  signalI$: ScopeData;
+}> = ({ className, signalI$ }) => {
+  // inputs
+  const Imem2proc_transaction_tag = extractSignalValueToInt(
+    signalI$,
+    "Imem2proc_transaction_tag"
+  );
+  const Imem2proc_data_tag = extractSignalValueToInt(
+    signalI$,
+    "Imem2proc_data_tag"
+  );
+  const Imem2proc_data = extractSignalValue(signalI$, "Imem2proc_data").value;
+  const I$_Imem2proc_data = parse_to_INST_List(Imem2proc_data);
+  // const Imem2proc_addr = extractSignalValueToInt(signalI$, "Imem2proc_addr");
+
+  // outputs
+  const proc2Imem_command = extractSignalValue(
+    signalI$,
+    "proc2Imem_command"
+  ).value;
+  const I$_proc2Imem_command = parseMEM_COMMAND(proc2Imem_command);
+  const proc2Imem_addr = extractSignalValueToInt(signalI$, "proc2Imem_addr");
+
+  return (
+    <Card>
+      <CardHeader label="Mem IF" />
+      <CardContent className="flex gap-x-3">
+        <div className="justify-items-center">
+          <CardHeaderSmall label="Inputs" />
+          <div className="justify-items-center">
+            <SimpleValDisplay label="Tran Tag: ">
+              <PaddedNum number={Imem2proc_transaction_tag} maxNumber={15} />
+            </SimpleValDisplay>
+
+            <div className="justify-items-center p-0">
+              <SimpleValDisplay label="Data Tag: ">
+                <PaddedNum number={Imem2proc_data_tag} maxNumber={15} />
+              </SimpleValDisplay>
+              {/* <SimpleValDisplay label="Addr: ">
+          {displayValueHex(Imem2proc_addr)}
+        </SimpleValDisplay> */}
+
+              <Dtable>
+                <Dthead>
+                  <Dtr>
+                    <Dth colSpan={2}>Insts.</Dth>
+                  </Dtr>
+                </Dthead>
+                <Dtbody>
+                  {I$_Imem2proc_data.map((inst, idx) => (
+                    <Dtr key={idx} className="bg-neutral">
+                      <Dtd>
+                        <div className="w-40">{parseInstruction(inst)}</div>
+                      </Dtd>
+                    </Dtr>
+                  ))}
+                </Dtbody>
+              </Dtable>
+            </div>
+          </div>
+        </div>
+
+        <div className="justify-items-center">
+          <CardHeaderSmall label="Outputs" />
+          <div className="justify-items-center">
+            <SimpleValDisplay label="Command: ">
+              {Types.getMemCommandName(I$_proc2Imem_command)}
+            </SimpleValDisplay>
+            <SimpleValDisplay label="Addr: ">
+              {displayValueHex(proc2Imem_addr)}
+            </SimpleValDisplay>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
 // Memory Inputs Component
 const MemInputs: React.FC<{
   className: string;
@@ -45,7 +126,6 @@ const MemInputs: React.FC<{
   );
   const Imem2proc_data = extractSignalValue(signalI$, "Imem2proc_data").value;
   const I$_Imem2proc_data = parse_to_INST_List(Imem2proc_data);
-
   // const Imem2proc_addr = extractSignalValueToInt(signalI$, "Imem2proc_addr");
 
   return (
@@ -56,7 +136,7 @@ const MemInputs: React.FC<{
           <PaddedNum number={Imem2proc_transaction_tag} maxNumber={15} />
         </SimpleValDisplay>
 
-        <div className="justify-items-center p-1">
+        <div className="justify-items-center p-0">
           <SimpleValDisplay label="Data Tag: ">
             <PaddedNum number={Imem2proc_data_tag} maxNumber={15} />
           </SimpleValDisplay>
@@ -80,61 +160,6 @@ const MemInputs: React.FC<{
               ))}
             </Dtbody>
           </Dtable>
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
-
-// Fetch Inputs Component
-const FetchInputs: React.FC<{
-  className: string;
-  signalI$: ScopeData;
-}> = ({ className, signalI$ }) => {
-  const proc2Icache_addr = extractSignalValue(
-    signalI$,
-    "proc2Icache_addr"
-  ).value;
-  const I$_proc2Icache_addr = parseADDR_List(proc2Icache_addr);
-  const valid_fetches = extractSignalValueToInt(signalI$, "valid_fetches");
-  const take_branch = extractSignalValueToBool(signalI$, "take_branch");
-
-  return (
-    <Card className={className}>
-      <CardHeader label="Fetch Inputs" />
-      <CardContent>
-        <div className="justify-items-center space-y-[-.35rem]">
-          <SimpleValDisplay label="Take Branch: ">
-            {take_branch ? "Yes" : "No"}
-          </SimpleValDisplay>
-          <SimpleValDisplay label="Valid Fetches: ">
-            <PaddedNum
-              number={valid_fetches}
-              maxNumber={(proc2Icache_addr.length - 1) / Types.ADDR_WIDTH} // calculate N width
-            />
-          </SimpleValDisplay>
-        </div>
-
-        <div className="flex items-start gap-x-2">
-          <div className="justify-items-center">
-            <CardHeaderSmall>Fetch Addrs</CardHeaderSmall>
-            <Dtable>
-              <Dthead>
-                <Dtr>
-                  <Dth colSpan={2}>Addresses</Dth>
-                </Dtr>
-              </Dthead>
-              <Dtbody className="bg-neutral">
-                {I$_proc2Icache_addr.map((addr, idx) => (
-                  <Dtr key={idx}>
-                    <DtdLeft className="font-semibold pl-1">{idx}:</DtdLeft>
-                    <Dtd className="w-20 text-sm">{displayValueHex(addr)}</Dtd>
-                  </Dtr>
-                ))}
-              </Dtbody>
-            </Dtable>
-          </div>
-          <I$Request className="" signalI$={signalI$} />
         </div>
       </CardContent>
     </Card>
@@ -168,11 +193,21 @@ const MemOutputs: React.FC<{
   );
 };
 
-// Fetch Outputs Component
-const FetchOutputs: React.FC<{
+// Fetch IF Component
+const FetchIF: React.FC<{
   className: string;
   signalI$: ScopeData;
 }> = ({ className, signalI$ }) => {
+  // inputs
+  const proc2Icache_addr = extractSignalValue(
+    signalI$,
+    "proc2Icache_addr"
+  ).value;
+  const I$_proc2Icache_addr = parseADDR_List(proc2Icache_addr);
+  const valid_fetches = extractSignalValueToInt(signalI$, "valid_fetches");
+  const take_branch = extractSignalValueToBool(signalI$, "take_branch");
+
+  // outputs
   const Icache_data_out = extractSignalValue(signalI$, "Icache_data_out").value;
   const I$_Icache_data_out = parse_to_INST_List(Icache_data_out);
   const Icache_valid_out = extractSignalValueToInt(
@@ -181,29 +216,87 @@ const FetchOutputs: React.FC<{
   );
 
   return (
-    <Card className={className}>
-      <CardHeader label="Fetch Outputs" />
-      <CardContent>
-        <SimpleValDisplay label="Valid: ">{Icache_valid_out}</SimpleValDisplay>
+    <>
+      <Card>
+        <CardHeader label="Fetch IF" />
+        <CardContent className="flex gap-x-3">
+          <div className="justify-items-center">
+            {/* inputs */}
+            <div className="justify-items-center">
+              <div className="flex gap-x-10">
+                <CardHeaderSmall label="Inputs" />
+                <div className="justify-items-center space-y-[-.35rem]">
+                  <SimpleValDisplay label="Take Branch: ">
+                    {take_branch ? "Yes" : "No"}
+                  </SimpleValDisplay>
+                  <SimpleValDisplay label="Valid Fetches: ">
+                    <PaddedNum
+                      number={valid_fetches}
+                      maxNumber={
+                        (proc2Icache_addr.length - 1) / Types.ADDR_WIDTH
+                      } // calculate N width
+                    />
+                  </SimpleValDisplay>
+                </div>
+              </div>
 
-        <Dtable>
-          <Dthead>
-            <Dtr>
-              <Dth colSpan={2}>Insts.</Dth>
-            </Dtr>
-          </Dthead>
-          <Dtbody>
-            {I$_Icache_data_out.map((inst, idx) => (
-              <Dtr key={idx} className="text-sm p-1 bg-neutral">
-                <Dtd>
-                  <div className="w-40">{parseInstruction(inst)}</div>
-                </Dtd>
-              </Dtr>
-            ))}
-          </Dtbody>
-        </Dtable>
-      </CardContent>
-    </Card>
+              <div className="flex items-start gap-x-2">
+                <div className="justify-items-center">
+                  <CardHeaderSmall label="Fetch Addrs" />
+                  <Dtable>
+                    <Dthead>
+                      <Dtr>
+                        <Dth colSpan={2}>Addresses</Dth>
+                      </Dtr>
+                    </Dthead>
+                    <Dtbody className="bg-neutral">
+                      {I$_proc2Icache_addr.map((addr, idx) => (
+                        <Dtr key={idx}>
+                          <DtdLeft className="font-semibold pl-1">
+                            {idx}:
+                          </DtdLeft>
+                          <Dtd className="w-20 text-sm">
+                            {displayValueHex(addr)}
+                          </Dtd>
+                        </Dtr>
+                      ))}
+                    </Dtbody>
+                  </Dtable>
+                </div>
+                <I$Request className="" signalI$={signalI$} />
+              </div>
+            </div>
+          </div>
+
+          {/* outputs */}
+          <div className="justify-items-center">
+            <CardHeaderSmall label="Outputs" />
+            <div className="justify-items-center">
+              <SimpleValDisplay label="Valid: ">
+                {Icache_valid_out}
+              </SimpleValDisplay>
+
+              <Dtable>
+                <Dthead>
+                  <Dtr>
+                    <Dth colSpan={2}>Insts.</Dth>
+                  </Dtr>
+                </Dthead>
+                <Dtbody>
+                  {I$_Icache_data_out.map((inst, idx) => (
+                    <Dtr key={idx} className="text-sm p-1 bg-neutral">
+                      <Dtd>
+                        <div className="w-40">{parseInstruction(inst)}</div>
+                      </Dtd>
+                    </Dtr>
+                  ))}
+                </Dtbody>
+              </Dtable>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </>
   );
 };
 
@@ -228,7 +321,7 @@ const I$Request: React.FC<{
     <>
       <div className={`${className}`}>
         <div className="justify-items-center">
-          <CardHeaderSmall>I$ Req</CardHeaderSmall>
+          <CardHeaderSmall label="I$ Req" />
           <Dtable>
             <Dthead>
               <Dtr>
@@ -373,13 +466,11 @@ const I$Debugger: React.FC<I$DebuggerProps> = ({ className, signalI$ }) => {
           <div className="justify-items-center space-y-2">
             <div className="flex gap-x-3 items-start">
               <div className="justify-items-center space-y-1">
-                <MemInputs className="" signalI$={signalI$} />
-                <MemOutputs className="" signalI$={signalI$} />
+                <MemIF className="" signalI$={signalI$} />
               </div>
 
               <div className="flex space-x-1 items-start">
-                <FetchInputs className="" signalI$={signalI$} />
-                <FetchOutputs className="" signalI$={signalI$} />
+                <FetchIF className="" signalI$={signalI$} />
               </div>
             </div>
 

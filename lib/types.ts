@@ -590,7 +590,7 @@ export enum DCACHE_T {
   DCACHE_STORE,
 }
 export const DCACHE_T_WIDTH = 2;
-export function getDCacheName(dcache: DCACHE_T): string {
+export function getDCacheTName(dcache: DCACHE_T): string {
   return DCACHE_T[dcache] ? DCACHE_T[dcache] : "XXX";
 }
 

@@ -65,13 +65,57 @@ const CardHeader = React.forwardRef<HTMLButtonElement, CardHeaderProps>(
 );
 CardHeader.displayName = "CardHeader";
 
+//////
+/////
+/////
+interface CardHeaderSmallProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  toggleContent?: () => void;
+  label: string; // Prop for the label text
+  afterClassName?: string; // Prop for the class name of the element after the label
+  parentClassName?: string; // Prop for the class name of the element after the label
+}
 const CardHeaderSmall = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <h2 ref={ref} className={cn("font-semibold", className)} {...props} />
-));
+  HTMLButtonElement,
+  CardHeaderSmallProps
+>(
+  (
+    {
+      label,
+      parentClassName,
+      afterClassName,
+      toggleContent,
+      className,
+      children,
+      ...props
+    },
+    ref
+  ) => (
+    <div className={cn("flex items-center", parentClassName)}>
+      <button
+        ref={ref}
+        className={cn("font-semibold", className)}
+        onClick={toggleContent}
+        {...props}
+      >
+        {label}
+      </button>
+      {children && (
+        <div className={cn("flex items-center", afterClassName)}>
+          {children}
+        </div>
+      )}
+    </div>
+  )
+);
 CardHeaderSmall.displayName = "CardHeaderSmall";
+// const CardHeaderSmall = React.forwardRef<
+//   HTMLDivElement,
+//   React.HTMLAttributes<HTMLDivElement>
+// >(({ className, ...props }, ref) => (
+//   <h3 ref={ref} className={cn("font-semibold", className)} {...props} />
+// ));
+// CardHeaderSmall.displayName = "CardHeaderSmall";
 
 interface CardContentProps extends React.HTMLAttributes<HTMLDivElement> {
   visible?: boolean; // Control visibility of the content

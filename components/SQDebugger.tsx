@@ -46,7 +46,7 @@ const DispatchIF: React.FC<{
       <CardHeader label="Dispatch IF" />
       <CardContent className="flex space-x-2">
         <div className="justify-items-center">
-          <CardHeaderSmall>Inputs</CardHeaderSmall>
+          <CardHeaderSmall label="Inputs" />
           <DisplaySQData
             className="shadow-none p-0"
             SData={SQ_dispatched_stores}
@@ -57,7 +57,7 @@ const DispatchIF: React.FC<{
         </div>
 
         <div className="justify-items-center">
-          <CardHeaderSmall>Outputs</CardHeaderSmall>
+          <CardHeaderSmall label="Outputs" />
           <Dtable>
             <Dthead>
               <Dtr>
@@ -102,7 +102,7 @@ const ROBIF: React.FC<{
     <Card className={className} display={display}>
       <CardHeader label="ROB IF" />
       <CardContent>
-        <CardHeaderSmall>Valid Retires?</CardHeaderSmall>
+        <CardHeaderSmall label="Valid Retires?" />
         <div className="justify-items-center space-y-[-.35rem]">
           <SimpleValDisplay label="ROB Valid: ">
             {displayValue(rob_retire_valid)}
@@ -130,7 +130,7 @@ const StoafIF: React.FC<{
     <Card className={className} display={display}>
       <CardHeader label="Stoaf IF" />
       <CardContent>
-        <CardHeaderSmall>Completed Stores</CardHeaderSmall>
+        <CardHeaderSmall label="Completed Stores" />
         <Dtable>
           <Dthead>
             <Dtr>
@@ -179,7 +179,8 @@ const RSLoadIF: React.FC<{
     <Card className={className} display={display}>
       <CardHeader label="RS Load IF" />
       <CardContent className="space-y-[-.35rem]">
-        <CardHeaderSmall className="mb-1">Outputs</CardHeaderSmall>
+        <CardHeaderSmall label="Outputs" />
+
         <SimpleValDisplay label="Mem Ready Tail: ">
           {mem_ready_tail}
         </SimpleValDisplay>
@@ -220,7 +221,7 @@ const LoafIF: React.FC<{
       <CardContent className="space-y-1">
         {/* forward requests from load FU */}
         <div className="justify-items-center">
-          <CardHeaderSmall>Forward Requests</CardHeaderSmall>
+          <CardHeaderSmall label="Forward Requests" />
           <Dtable>
             <Dthead>
               <Dtr>
@@ -250,7 +251,7 @@ const LoafIF: React.FC<{
 
         {/* forward results from load FU */}
         <div className="justify-items-center">
-          <CardHeaderSmall>Forward Results</CardHeaderSmall>
+          <CardHeaderSmall label="Forward Results" />
           <Dtable>
             <Dthead>
               <Dtr>
@@ -296,14 +297,15 @@ const LSArbIF: React.FC<{
       <CardHeader label="LS Arb IF" />
       <CardContent className="space-y-1">
         <div className="justify-items-center">
-          <CardHeaderSmall>Inputs</CardHeaderSmall>
+          <CardHeaderSmall label="Inputs" />
           <SimpleValDisplay label="Stall SQ?: ">
             {stall_sq ? "Y" : "N"}
           </SimpleValDisplay>
         </div>
 
         <div className="justify-items-center">
-          <CardHeaderSmall>Outputs</CardHeaderSmall>
+          <CardHeaderSmall label="Outputs" />
+
           <Dtable>
             <Dthead>
               <Dtr>
@@ -403,7 +405,7 @@ const SQDebugger: React.FC<SQDebuggerProps> = ({ className, signalSQ }) => {
           {/* Toggle buttons */}
           <div className="pl-3 space-x-2">
             <DButton onClick={() => setShowSQInterfaces(!showSQInterfaces)}>
-              {showSQInterfaces ? "Hide SW Interfaces" : "Show SW Interfaces"}
+              {showSQInterfaces ? "Hide SQ Interfaces" : "Show SQ Interfaces"}
             </DButton>
           </div>
         </ModuleHeader>
