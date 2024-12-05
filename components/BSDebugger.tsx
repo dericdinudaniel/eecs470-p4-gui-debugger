@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ScopeData } from "@/lib/tstypes";
 import {
+  displayValueHex,
   extractSignalValue,
   extractSignalValueToInt,
   parseBoolArrToString,
@@ -45,7 +46,7 @@ const DisplaySingleCheckpoint: React.FC<{
         <div className="flex items-center">
           <div className="space-y-[-.35rem]">
             <SimpleValDisplay label="Branch PC: ">
-              {checkpoint.branch_PC}
+              {displayValueHex(checkpoint.branch_PC)}
             </SimpleValDisplay>
 
             <SimpleValDisplay label="BHR: ">

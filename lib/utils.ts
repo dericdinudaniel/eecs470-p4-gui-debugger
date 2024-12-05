@@ -102,6 +102,9 @@ export const parseROBData = (entries: string): Types.ROB_DATA[] => {
     const halt = binaryStr[accessIdx] === "1";
     accessIdx += 1;
 
+    const store = binaryStr[accessIdx] === "1";
+    accessIdx += 1;
+
     const NPC = extractBits(binaryStr, accessIdx, Types.ADDR_WIDTH);
     accessIdx += Types.ADDR_WIDTH;
 
@@ -117,6 +120,7 @@ export const parseROBData = (entries: string): Types.ROB_DATA[] => {
       valid,
       retireable,
       halt,
+      store,
       NPC,
       packet,
     });
@@ -334,6 +338,9 @@ export const parseFU_DATA = (
   );
   accessIdx += Constants.NUM_CHECKPOINTS;
 
+  const saved_tail = extractBits(binaryStr, accessIdx, Types.SQ_IDX_WIDTH);
+  accessIdx += Types.SQ_IDX_WIDTH;
+
   const PC = extractBits(binaryStr, accessIdx, Types.ADDR_WIDTH);
   accessIdx += Types.ADDR_WIDTH;
 
@@ -344,6 +351,7 @@ export const parseFU_DATA = (
     valid,
     fu_func,
     b_mask,
+    saved_tail,
     PC,
   };
 };
@@ -434,6 +442,7 @@ export const parseRSData = (entries: string): Types.RS_DATA[] => {
       ready_tb,
     });
   }
+
   return result;
 };
 
@@ -476,6 +485,9 @@ export const parseRS_TO_FU_DATA = (
   const PC = extractBits(binaryStr, accessIdx, Types.ADDR_WIDTH);
   accessIdx += Types.ADDR_WIDTH;
 
+  const saved_tail = extractBits(binaryStr, accessIdx, Types.SQ_IDX_WIDTH);
+  accessIdx += Types.SQ_IDX_WIDTH;
+
   const packet = parseID_EX_PACKET(
     binaryStr.slice(accessIdx, accessIdx + Types.ID_EX_PACKET_WIDTH)
   );
@@ -490,6 +502,7 @@ export const parseRS_TO_FU_DATA = (
     imm_value,
     b_mask,
     PC,
+    saved_tail,
     packet,
   };
 };

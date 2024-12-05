@@ -47,6 +47,9 @@ export type ICACHE_TAG = {
 };
 export const ICACHE_TAG_WIDTH = 12 - Constants.ICACHE_LINE_BITS + 1 + 1;
 
+export type SQ_IDX = number;
+export const SQ_IDX_WIDTH = clog2(Constants.SQ_SZ + Constants.N);
+
 // Enum for exception codes
 export enum EXCEPTION_CODE {
   INST_ADDR_MISALIGN = 0x0,
@@ -200,7 +203,7 @@ export enum STORE_FUNC {
   S_SW = 0b0010,
 }
 export const STORE_FUNC_WIDTH = 4;
-export function getStoreFuncName(storeFunc: STORE_FUNC): string {
+export function getSTOREFuncName(storeFunc: STORE_FUNC): string {
   return STORE_FUNC[storeFunc] ? STORE_FUNC[storeFunc] : "XXX";
 }
 
@@ -213,7 +216,7 @@ export enum LOAD_FUNC {
   L_LHU = 0b0101,
 }
 export const LOAD_FUNC_WIDTH = 4;
-export function getLoadFuncName(loadFunc: LOAD_FUNC): string {
+export function getLOADFuncName(loadFunc: LOAD_FUNC): string {
   return LOAD_FUNC[loadFunc] ? LOAD_FUNC[loadFunc] : "XXX";
 }
 
@@ -337,6 +340,7 @@ export type FU_DATA = {
   valid: boolean;
   fu_func: FU_FUNC;
   b_mask: string;
+  saved_tail: SQ_IDX;
   PC: ADDR;
 };
 export const FU_DATA_WIDTH =
@@ -346,6 +350,7 @@ export const FU_DATA_WIDTH =
   1 + // valid
   FU_FUNC_WIDTH + // fu_func
   Constants.NUM_CHECKPOINTS + // b_mask
+  SQ_IDX_WIDTH + // saved_tail
   ADDR_WIDTH; // PC
 
 // Enum for operation types
@@ -353,9 +358,10 @@ export enum FU_TYPE {
   MUL,
   BR,
   ALU,
-  MEM,
+  LOAD,
+  STORE,
 }
-export const FU_TYPE_WIDTH = 2;
+export const FU_TYPE_WIDTH = 3;
 export function getFUTypeName(fuType: FU_TYPE): string {
   return FU_TYPE[fuType] ? FU_TYPE[fuType] : "XXX";
 }
@@ -368,11 +374,16 @@ export interface ROB_DATA {
   valid: boolean;
   retireable: boolean;
   halt: boolean;
+  store: boolean;
   NPC: ADDR;
   packet: ID_EX_PACKET;
 }
 export const ROB_DATA_WIDTH =
-  2 * PHYS_REG_TAG_WIDTH + REG_IDX_WIDTH + 3 + ADDR_WIDTH + ID_EX_PACKET_WIDTH;
+  2 * PHYS_REG_TAG_WIDTH + // T_old, T_new
+  REG_IDX_WIDTH + // R_dest
+  4 * 1 + // valid, retireable, halt, store
+  ADDR_WIDTH + // NPC
+  ID_EX_PACKET_WIDTH; // packet
 
 // ready and free list. boolean for each physical register
 export type FRIZZY_DATA = {
@@ -409,6 +420,7 @@ export type RS_TO_FU_DATA = {
   imm_value: DATA;
   b_mask: string;
   PC: ADDR;
+  saved_tail: SQ_IDX;
   packet: ID_EX_PACKET;
 };
 export const RS_TO_FU_DATA_WIDTH =
@@ -419,6 +431,7 @@ export const RS_TO_FU_DATA_WIDTH =
   DATA_WIDTH + // imm_value
   Constants.NUM_CHECKPOINTS + // b_mask
   ADDR_WIDTH + // PC
+  SQ_IDX_WIDTH + // saved_tail
   ID_EX_PACKET_WIDTH; // packet
 
 // RS Data packet
@@ -513,9 +526,6 @@ export const SQ_DATA_WIDTH =
   DATA_WIDTH + // store_data
   1 + // valid
   1; // ready_mem
-
-export type SQ_IDX = number;
-export const SQ_IDX_WIDTH = clog2(Constants.LSQ_SZ + Constants.N);
 
 export type STR_CMPLT = {
   address_valid: boolean;

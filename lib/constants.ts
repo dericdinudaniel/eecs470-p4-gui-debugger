@@ -18,7 +18,7 @@ export const PHYS_REG_SZ_R10K = 32 + ROB_SZ;
 
 // worry about these later
 export const BRANCH_PRED_SZ = 3; // Replace `NaN` with the appropriate value
-export const LSQ_SZ = NaN; // Replace `NaN` with the appropriate value
+export const SQ_SZ = 8; // Replace `NaN` with the appropriate value
 
 // Functional Units
 export const NUM_FU_ALU = 3;

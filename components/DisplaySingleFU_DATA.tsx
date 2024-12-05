@@ -63,6 +63,12 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
             <Dtd className="text-xs p-1">{displayValueHex(FUData.PC)}</Dtd>
           </Dtr>
 
+          {/* lsq */}
+          <Dtr>
+            <DtdLeft className="text-xs p-1">Saved Tail</DtdLeft>
+            <Dtd className="text-xs p-1">{FUData.saved_tail}</Dtd>
+          </Dtr>
+
           {/* func data */}
           <Dtr>
             <DtdLeft className="text-xs p-1">FU Type:</DtdLeft>
@@ -86,6 +92,14 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
                   case Types.FU_TYPE.BR:
                     return Types.getBRFuncName(
                       FUData.fu_func as Types.BRANCH_FUNC
+                    );
+                  case Types.FU_TYPE.LOAD:
+                    return Types.getLOADFuncName(
+                      FUData.fu_func as Types.LOAD_FUNC
+                    );
+                  case Types.FU_TYPE.STORE:
+                    return Types.getSTOREFuncName(
+                      FUData.fu_func as Types.STORE_FUNC
                     );
                   default:
                     return "XXX";

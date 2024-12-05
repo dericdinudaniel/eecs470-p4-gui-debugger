@@ -39,7 +39,7 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
         <Dtbody>
           <Dtr>
             <DtdLeft
-              className="text-xs p-1 text-center font-semibold w-40"
+              className="text-xs p-1 text-center font-semibold w-36"
               colSpan={2}
             >
               {parseInstruction(RSData.rs_to_fu_data.packet.inst.inst)}
@@ -51,6 +51,8 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
               {displayValue(RSData.rs_to_fu_data.T_new)}
             </Dtd>
           </Dtr>
+
+          {/* source operands */}
           <Dtr
             className={`${
               RSData.occupied &&
@@ -83,6 +85,7 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
               {RSData.ready_tb ? "+" : " "}
             </Dtd>
           </Dtr>
+
           <Dtr
             className={`${
               Number.isNaN(RSData.rs_to_fu_data.imm_value) &&
@@ -111,6 +114,12 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
             </Dtd>
           </Dtr>
 
+          {/* lsq */}
+          <Dtr>
+            <DtdLeft className="text-xs p-1">SQ IDX</DtdLeft>
+            <Dtd className="text-xs p-1">{RSData.rs_to_fu_data.saved_tail}</Dtd>
+          </Dtr>
+
           {/* func data */}
           <Dtr>
             <DtdLeft className="text-xs p-1">FU Type:</DtdLeft>
@@ -133,6 +142,15 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
                     return Types.getBRFuncName(
                       RSData.rs_to_fu_data.fu_func as Types.BRANCH_FUNC
                     );
+                  case Types.FU_TYPE.LOAD:
+                    return Types.getLOADFuncName(
+                      RSData.rs_to_fu_data.fu_func as Types.LOAD_FUNC
+                    );
+                  case Types.FU_TYPE.STORE:
+                    return Types.getSTOREFuncName(
+                      RSData.rs_to_fu_data.fu_func as Types.STORE_FUNC
+                    );
+
                   default:
                     return "XXX";
                 }

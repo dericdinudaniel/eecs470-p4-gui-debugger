@@ -43,6 +43,7 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
             <Dth>T_old</Dth>
             <Dth>Valid</Dth>
             <Dth>Ret?</Dth>
+            {/* {isROB && <Dth>Store?</Dth>} */}
             {isROB && <Dth>H/T</Dth>}
           </Dtr>
         </Dthead>
@@ -91,6 +92,7 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
                 <Dtd>{displayValue(entry.retireable ? "1" : "0")}</Dtd>
                 {isROB && (
                   <>
+                    {/* <Dtd>{entry.store ? "Y" : "N"}</Dtd> */}
                     <Dtd className="text-sm">
                       <div className="w-14">{isEither && headOrTailString}</div>
                     </Dtd>
