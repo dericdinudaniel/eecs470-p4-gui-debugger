@@ -2,6 +2,7 @@ import React from "react";
 import * as Types from "@/lib/types";
 import { Separator } from "./ui/separator";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
+import { displayValueHex } from "@/lib/utils";
 
 type DisplayFU_TO_BS_DATAProps = {
   className: string;
@@ -39,7 +40,7 @@ const DisplayFU_TO_BS_DATA: React.FC<DisplayFU_TO_BS_DATAProps> = ({
             </SimpleValDisplay>
 
             <SimpleValDisplay label="Target: " className="text-sm">
-              {data.target}
+              {displayValueHex(data.target)}
             </SimpleValDisplay>
           </div>
         </div>

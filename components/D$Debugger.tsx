@@ -283,7 +283,7 @@ const DisplayD$: React.FC<{
                   <Dtr>
                     <Dth className="px-2">#</Dth>
                     <Dth>Tag</Dth>
-                    <Dth>Inst.</Dth>
+                    <Dth>Data</Dth>
                   </Dtr>
                 </Dthead>
                 <Dtbody>
