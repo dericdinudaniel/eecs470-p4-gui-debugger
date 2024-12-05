@@ -144,7 +144,7 @@ const BPredDebugger: React.FC<BPredDebuggerProps> = ({
         </div>
 
         {showBPred && (
-          <>
+          <div className="mt-2 justify-items-center">
             <SimpleValDisplay
               label="Incoming PC: "
               className={`${
@@ -184,7 +184,7 @@ const BPredDebugger: React.FC<BPredDebuggerProps> = ({
 
               <DisplayPHT className="" phtList={BP_pht} />
             </div>
-          </>
+          </div>
         )}
       </ModuleBase>
     </>

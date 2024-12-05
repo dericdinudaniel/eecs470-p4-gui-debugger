@@ -1,6 +1,7 @@
 import { ScopeData } from "@/lib/tstypes";
 import { ModuleBase, ModuleHeader } from "./dui/Module";
 import {
+  displayValue,
   displayValueHex,
   extractSignalValue,
   extractSignalValueToBool,
@@ -15,7 +16,7 @@ import {
 } from "@/lib/utils";
 import * as Types from "@/lib/types";
 import { CardBase, CardHeader, CardHeaderSmall } from "./dui/Card";
-import { Dtable, Dtbody, Dtd, Dth, Dthead, Dtr } from "./dui/DTable";
+import { Dtable, Dtbody, Dtd, Dth, Dthead, DthLeft, Dtr } from "./dui/DTable";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 import PaddedNum from "./dui/PaddedNum";
 import { useState } from "react";
@@ -33,17 +34,46 @@ const DispatchIF: React.FC<{
     "dispatched_stores"
   ).value;
   const SQ_dispatched_stores = parseSQ_DATA_List(dispatched_stores);
-  const branch_idx = extractSignalValue(signalSQ, "branch_idx").value;
-  const SQ_branch_idx = parseBoolArrToBoolArray(branch_idx);
 
   // output signals
-  const open_spots = extractSignalValueToInt(signalSQ, "open_spots");
   const dispatch_tails = extractSignalValue(signalSQ, "dispatch_tails").value;
   const SQ_dispatch_tails = parseSQ_IDX_List(dispatch_tails);
 
   return (
     <CardBase className={className}>
       <CardHeader>Dispatch IF</CardHeader>
+      <div className="space-y-2">
+        <div className="justify-items-center">
+          <CardHeaderSmall>Inputs</CardHeaderSmall>
+          <DisplaySQData
+            className="shadow-none p-0 mt-1"
+            SData={SQ_dispatched_stores}
+            head={-1}
+            tail={-1}
+            isSQ={false}
+          />
+        </div>
+
+        <div className="justify-items-center">
+          <CardHeaderSmall>Outputs</CardHeaderSmall>
+          {/* <Dtable>
+            <Dthead>
+              <Dtr>
+                <Dth>#</Dth>
+                <Dth>Saved Tail</Dth>
+              </Dtr>
+            </Dthead>
+            <Dtbody>
+              {SQ_dispatch_tails.map((tail, idx) => (
+                <Dtr key={idx}>
+                  <Dtd>{idx}</Dtd>
+                  <Dtd>{tail}</Dtd>
+                </Dtr>
+              ))}
+            </Dtbody>
+          </Dtable> */}
+        </div>
+      </div>
     </CardBase>
   );
 };
@@ -53,7 +83,6 @@ const ROBIF: React.FC<{
   className: string;
   signalSQ: ScopeData;
 }> = ({ className, signalSQ }) => {
-  //
   // ROB INTERFACE
   // input signals
   const rob_retire_valid = extractSignalValueToInt(
@@ -67,8 +96,19 @@ const ROBIF: React.FC<{
   );
 
   return (
-    <CardBase className={className}>
+    <CardBase className={`${className}`}>
       <CardHeader>ROB IF</CardHeader>
+      <div className="justify-items-center">
+        <CardHeaderSmall>Valid Retires?</CardHeaderSmall>
+        <div className="justify-items-center space-y-[-.35rem]">
+          <SimpleValDisplay label="ROB Retire Valid: ">
+            {displayValue(rob_retire_valid)}
+          </SimpleValDisplay>
+          <SimpleValDisplay label="STR Retire Valid: ">
+            {displayValue(str_retire_valid)}
+          </SimpleValDisplay>
+        </div>
+      </div>
     </CardBase>
   );
 };
@@ -78,7 +118,6 @@ const StoafIF: React.FC<{
   className: string;
   signalSQ: ScopeData;
 }> = ({ className, signalSQ }) => {
-  //
   // STORE FU INTERFACE
   const cmplt_str = extractSignalValue(signalSQ, "cmplt_str").value;
   const SQ_cmplt_str = parseSTR_CMPLT_List(cmplt_str);
@@ -86,6 +125,34 @@ const StoafIF: React.FC<{
   return (
     <CardBase className={className}>
       <CardHeader>Stoaf IF</CardHeader>
+      <div className="justify-items-center">
+        <CardHeaderSmall>Completed Stores</CardHeaderSmall>
+        <Dtable>
+          <Dthead>
+            <Dtr>
+              <DthLeft>#</DthLeft>
+              <Dth>
+                <div className="w-14">SQ IDX</div>
+              </Dth>
+              <Dth>Addr</Dth>
+              <Dth>Data</Dth>
+            </Dtr>
+          </Dthead>
+          <Dtbody>
+            {SQ_cmplt_str.map((complete, idx) => (
+              <Dtr
+                key={idx}
+                className={complete.address_valid ? "bg-good" : "bg-bad"}
+              >
+                <Dtd>{idx}</Dtd>
+                <Dtd>{displayValue(complete.index)}</Dtd>
+                <Dtd>{displayValueHex(complete.store_address)}</Dtd>
+                <Dtd>{displayValueHex(complete.store_data)}</Dtd>
+              </Dtr>
+            ))}
+          </Dtbody>
+        </Dtable>
+      </div>
     </CardBase>
   );
 };
@@ -106,6 +173,19 @@ const RSLoadIF: React.FC<{
   return (
     <CardBase className={className}>
       <CardHeader>RS Load Issue IF</CardHeader>
+      <CardHeaderSmall>Outputs</CardHeaderSmall>
+      <div className="justify-items-center space-y-[-.35rem]">
+        <SimpleValDisplay label="Memory Ready Tail: ">
+          {mem_ready_tail}
+        </SimpleValDisplay>
+        <SimpleValDisplay label="Output Head: ">{output_head}</SimpleValDisplay>
+        <SimpleValDisplay label="Output Empty: ">
+          {output_empty ? "Yes" : "No"}
+        </SimpleValDisplay>
+        <SimpleValDisplay label="Any Complete: ">
+          {any_complete ? "Yes" : "No"}
+        </SimpleValDisplay>
+      </div>
     </CardBase>
   );
 };
@@ -131,7 +211,7 @@ const LoafIF: React.FC<{
   return (
     <CardBase className={className}>
       <CardHeader>Loaf IF</CardHeader>
-      <div className="justify-items-center">
+      <div className="justify-items-center space-y-1">
         {/* forward requests from load FU */}
         <div className="justify-items-center">
           <CardHeaderSmall>Forward Requests</CardHeaderSmall>
@@ -141,7 +221,9 @@ const LoafIF: React.FC<{
                 <Dth>#</Dth>
                 <Dth>Addr</Dth>
                 <Dth>Type</Dth>
-                <Dth>SQ IDX</Dth>
+                <Dth>
+                  <div className="w-14">SQ IDX</div>
+                </Dth>
               </Dtr>
             </Dthead>
             <Dtbody>
@@ -153,7 +235,7 @@ const LoafIF: React.FC<{
                   <Dtd>{idx}</Dtd>
                   <Dtd>{displayValueHex(req.forwarding_address)}</Dtd>
                   <Dtd>{Types.getLOADFuncName(req.load_type)}</Dtd>
-                  <Dtd>{req.sq_tail}</Dtd>
+                  <Dtd>{displayValue(req.sq_tail)}</Dtd>
                 </Dtr>
               ))}
             </Dtbody>
@@ -167,7 +249,9 @@ const LoafIF: React.FC<{
             <Dthead>
               <Dtr>
                 <Dth>#</Dth>
-                <Dth>Stall LOAF</Dth>
+                <Dth>
+                  <div className="w-24">Stall Loaf</div>
+                </Dth>
                 <Dth className="w-20">Data</Dth>
               </Dtr>
             </Dthead>
@@ -203,6 +287,36 @@ const LSArbIF: React.FC<{
   return (
     <CardBase className={className}>
       <CardHeader>LS Arb IF</CardHeader>
+      <div className="justify-items-center space-y-1">
+        <div className="justify-items-center">
+          <CardHeaderSmall>Inputs</CardHeaderSmall>
+          <SimpleValDisplay label="Stall SQ: ">
+            {stall_sq ? "Stall" : "No Stall"}
+          </SimpleValDisplay>
+        </div>
+
+        <div className="justify-items-center">
+          <CardHeaderSmall>Outputs</CardHeaderSmall>
+          <Dtable>
+            <Dthead>
+              <Dtr>
+                <DthLeft>#</DthLeft>
+                <Dth>Addr</Dth>
+                <Dth>Data</Dth>
+              </Dtr>
+            </Dthead>
+            <Dtbody>
+              {SQ_retire_str.map((retire, idx) => (
+                <Dtr key={idx} className={retire.valid ? "bg-good" : "bg-bad"}>
+                  <Dtd>{idx}</Dtd>
+                  <Dtd>{displayValueHex(retire.store_address)}</Dtd>
+                  <Dtd>{displayValueHex(retire.store_data)}</Dtd>
+                </Dtr>
+              ))}
+            </Dtbody>
+          </Dtable>
+        </div>
+      </div>
     </CardBase>
   );
 };
@@ -285,18 +399,26 @@ const SQDebugger: React.FC<SQDebuggerProps> = ({ className, signalSQ }) => {
             {/* Interfaces */}
             <div className="flex gap-x-2 justify-items-center items-start">
               <DispatchIF className="" signalSQ={signalSQ} />
-              <ROBIF className="" signalSQ={signalSQ} />
-              <StoafIF className="" signalSQ={signalSQ} />
-              <RSLoadIF className="" signalSQ={signalSQ} />
-              <LoafIF className="" signalSQ={signalSQ} />
-              <LSArbIF className="" signalSQ={signalSQ} />
-              <MispredIF className="" signalSQ={signalSQ} />
+              <div className="justify-items-center space-y-2">
+                <ROBIF className="" signalSQ={signalSQ} />
+                <LSArbIF className="" signalSQ={signalSQ} />
+              </div>
+
+              <div className="justify-items-center space-y-2">
+                <StoafIF className="" signalSQ={signalSQ} />
+                <MispredIF className="" signalSQ={signalSQ} />
+              </div>
+
+              <div className="justify-items-center space-y-2">
+                <RSLoadIF className="" signalSQ={signalSQ} />
+                <LoafIF className="" signalSQ={signalSQ} />
+              </div>
             </div>
 
             {/* actual store queue */}
             <div>
               <DisplaySQData
-                className="shadow-none p-0"
+                className=""
                 SData={SQ_entries}
                 head={head}
                 tail={tail}
