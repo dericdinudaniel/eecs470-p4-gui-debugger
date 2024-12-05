@@ -301,7 +301,7 @@ const DisplayI$: React.FC<{
   return (
     <>
       <Card className={`${className} pt-1`}>
-        <CardHeader label="Actual Cache" />
+        <CardHeader label="Actual ICache" />
 
         <CardContent>
           <div className="flex space-x-1">

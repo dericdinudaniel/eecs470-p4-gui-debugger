@@ -9,6 +9,9 @@ export const ADDR_WIDTH = 32;
 export type DATA = number; // 32-bit data
 export const DATA_WIDTH = 32;
 
+export type MEM_BLOCK = DATA[]; // 64-bit memory block
+export const MEM_BLOCK_WIDTH = 64;
+
 export type REG_IDX = number; // 5-bit register index
 export const REG_IDX_WIDTH = 5;
 
@@ -573,3 +576,42 @@ export const LOAF_FORWARD_RESULT_WIDTH =
   1 + // forwarded_valid
   1 + // stall_LOAF
   DATA_WIDTH; // forwarding_data
+
+// D Cache
+export type DCACHE_TAG = {
+  tags: number; // Equivalent to `logic [12 - DCACHE_LINE_BITS:0]`
+  valid: boolean;
+};
+export const DCACHE_TAG_WIDTH = 12 - Constants.DCACHE_LINE_BITS + 1 + 1;
+
+export enum DCACHE_T {
+  DCACHE_NONE,
+  DCACHE_LOAD,
+  DCACHE_STORE,
+}
+export const DCACHE_T_WIDTH = 2;
+export function getDCacheName(dcache: DCACHE_T): string {
+  return DCACHE_T[dcache] ? DCACHE_T[dcache] : "XXX";
+}
+
+export enum MSHR_TYPE {
+  INVALID,
+  READ,
+  WRITE,
+}
+export const MSHR_TYPE_WIDTH = 2;
+export function getMSHRTypeName(mshrType: MSHR_TYPE): string {
+  return MSHR_TYPE[mshrType] ? MSHR_TYPE[mshrType] : "XXX";
+}
+
+export type MSHR_DATA = {
+  block_addr: number; // 13 bits
+  data: MEM_BLOCK; // 64 bits
+  bitmask: string; // 9 bits
+  state: MSHR_TYPE;
+};
+export const MSHR_DATA_WIDTH =
+  13 + // block_addr
+  MEM_BLOCK_WIDTH + // data
+  9 + // bitmask
+  MSHR_TYPE_WIDTH; // state

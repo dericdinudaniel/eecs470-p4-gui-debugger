@@ -18,6 +18,7 @@ import SignalDebugger from "@/components/SignalDebugger";
 import I$Debugger from "@/components/I$Debugger";
 import MemCmdDebugger from "@/components/MemCmdDebugger";
 import SQDebugger from "@/components/SQDebugger";
+import D$Debugger from "@/components/D$Debugger";
 
 export default function Debugger() {
   const [currentCycle, setCurrentCycle] = useState(0);
@@ -176,6 +177,7 @@ export default function Debugger() {
           {signalData && (
             <>
               <div className="space-y-4">
+                <D$Debugger className="" signalD$={cpu.children.dcache} />
                 <div className="flex gap-x-2">
                   <div className="flex flex-col items-center gap-y-4">
                     <BPredDebugger

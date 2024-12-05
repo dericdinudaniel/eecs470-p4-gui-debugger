@@ -49,6 +49,10 @@ export const NUM_MEM_TAGS = 15;
 export const ICACHE_LINES = 32;
 export const ICACHE_LINE_BITS = 5;
 
+// DCache definitions
+export const DCACHE_LINES = 32;
+export const DCACHE_LINE_BITS = 5;
+
 // Memory specifications
 export const MEM_SIZE_IN_BYTES = 64 * 1024;
 export const MEM_64BIT_LINES = MEM_SIZE_IN_BYTES / 8;

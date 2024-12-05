@@ -1183,3 +1183,74 @@ export const parseSQ_IDX_List = (inputStr: string): Types.SQ_IDX[] => {
 
   return result;
 };
+
+// DCACHE
+// MEM_BLOCK is just an array of 2 DATA values
+export const parseMEM_BLOCK = (inputStr: string): Types.MEM_BLOCK => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  let accessIdx = 0;
+
+  const data1 = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
+  accessIdx += Types.DATA_WIDTH;
+
+  const data2 = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
+  accessIdx += Types.DATA_WIDTH;
+
+  return [data1, data2];
+};
+
+export const parseMEM_BLOCK_List = (inputStr: string): Types.MEM_BLOCK[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  const result: Types.MEM_BLOCK[] = [];
+
+  const entryWidth = Types.MEM_BLOCK_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
+
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+    const block = parseMEM_BLOCK(
+      binaryStr.slice(startIdx, startIdx + entryWidth)
+    );
+    result.push(block);
+  }
+
+  return result;
+};
+
+export const parseDCACHE_TAG = (inputStr: string): Types.DCACHE_TAG => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  let accessIdx = 0;
+
+  const tags = extractBits(
+    binaryStr,
+    accessIdx,
+    12 - Constants.DCACHE_LINE_BITS + 1
+  );
+  accessIdx += 12 - Constants.DCACHE_LINE_BITS + 1;
+
+  const valid = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  return {
+    tags,
+    valid,
+  };
+};
+
+export const parseDCACHE_TAG_List = (inputStr: string): Types.DCACHE_TAG[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  const result: Types.DCACHE_TAG[] = [];
+
+  const entryWidth = Types.DCACHE_TAG_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
+
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+    const tag = parseDCACHE_TAG(
+      binaryStr.slice(startIdx, startIdx + entryWidth)
+    );
+    result.push(tag);
+  }
+
+  return result;
+};
