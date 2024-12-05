@@ -65,7 +65,7 @@ const Dtable = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref) => (
-  <div className="overflow-hidden border rounded-lg">
+  <div className="overflow-hidden border rounded-lg w-fit">
     <table
       ref={ref}
       className={cn("w-full border-collapse", className)} // Apply width from className

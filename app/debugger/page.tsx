@@ -17,6 +17,7 @@ import BPredDebugger from "@/components/BPredDebugger";
 import SignalDebugger from "@/components/SignalDebugger";
 import I$Debugger from "@/components/I$Debugger";
 import MemCmdDebugger from "@/components/MemCmdDebugger";
+import SQDebugger from "@/components/SQDebugger";
 
 export default function Debugger() {
   const [currentCycle, setCurrentCycle] = useState(0);
@@ -175,7 +176,6 @@ export default function Debugger() {
           {signalData && (
             <>
               <div className="space-y-4">
-                {/* not integrated yet so these are just wherever for now */}
                 <div className="flex gap-x-2">
                   <div className="flex flex-col items-center gap-y-4">
                     <BPredDebugger
@@ -187,6 +187,10 @@ export default function Debugger() {
                   <I$Debugger
                     className=""
                     signalI$={Front_End.children.fetcher.children.cacher}
+                  />
+                  <SQDebugger
+                    className=""
+                    signalSQ={OoO_Core.children.DUT_sq}
                   />
                 </div>
 

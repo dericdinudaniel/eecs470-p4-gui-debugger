@@ -16,4 +16,20 @@ const CardBase = React.forwardRef<
 ));
 CardBase.displayName = "CardBase";
 
-export { CardBase };
+const CardHeader = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <h2 ref={ref} className={cn("font-semibold text-lg", className)} {...props} />
+));
+CardHeader.displayName = "CardHeader";
+
+const CardHeaderSmall = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <h2 ref={ref} className={cn("font-semibold", className)} {...props} />
+));
+CardHeaderSmall.displayName = "CardHeaderSmall";
+
+export { CardBase, CardHeader, CardHeaderSmall };

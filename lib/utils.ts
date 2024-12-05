@@ -995,6 +995,24 @@ export const parseSTR_CMPLT = (inputStr: string): Types.STR_CMPLT => {
   };
 };
 
+export const parseSTR_CMPLT_List = (inputStr: string): Types.STR_CMPLT[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  const result: Types.STR_CMPLT[] = [];
+
+  const entryWidth = Types.STR_CMPLT_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
+
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+    const str_cmplt = parseSTR_CMPLT(
+      binaryStr.slice(startIdx, startIdx + entryWidth)
+    );
+    result.push(str_cmplt);
+  }
+
+  return result;
+};
+
 export const parseSQ_RETIRE = (inputStr: string): Types.SQ_RETIRE => {
   const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
   let accessIdx = 0;
@@ -1013,6 +1031,24 @@ export const parseSQ_RETIRE = (inputStr: string): Types.SQ_RETIRE => {
     store_address,
     store_data,
   };
+};
+
+export const parseSQ_RETIRE_List = (inputStr: string): Types.SQ_RETIRE[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  const result: Types.SQ_RETIRE[] = [];
+
+  const entryWidth = Types.SQ_RETIRE_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
+
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+    const retire = parseSQ_RETIRE(
+      binaryStr.slice(startIdx, startIdx + entryWidth)
+    );
+    result.push(retire);
+  }
+
+  return result;
 };
 
 export const parseRS_ADDRESS_CHECK = (
@@ -1065,6 +1101,26 @@ export const parseLOAF_FORWARD_REQ = (
   };
 };
 
+export const parseLOAF_FORWARD_REQ_List = (
+  inputStr: string
+): Types.LOAF_FORWARD_REQ[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  const result: Types.LOAF_FORWARD_REQ[] = [];
+
+  const entryWidth = Types.LOAF_FORWARD_REQ_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
+
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+    const req = parseLOAF_FORWARD_REQ(
+      binaryStr.slice(startIdx, startIdx + entryWidth)
+    );
+    result.push(req);
+  }
+
+  return result;
+};
+
 export const parseLOAF_FORWARD_RESULT = (
   inputStr: string
 ): Types.LOAF_FORWARD_RESULT => {
@@ -1085,4 +1141,45 @@ export const parseLOAF_FORWARD_RESULT = (
     stall_LOAF,
     forwarding_data,
   };
+};
+
+export const parseLOAF_FORWARD_RESULT_List = (
+  inputStr: string
+): Types.LOAF_FORWARD_RESULT[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  const result: Types.LOAF_FORWARD_RESULT[] = [];
+
+  const entryWidth = Types.LOAF_FORWARD_RESULT_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
+
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+    const loaf_fwd_result = parseLOAF_FORWARD_RESULT(
+      binaryStr.slice(startIdx, startIdx + entryWidth)
+    );
+    result.push(loaf_fwd_result);
+  }
+
+  return result;
+};
+
+export const parseSQ_IDX = (inputStr: string): Types.SQ_IDX => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  return parseInt(binaryStr, 2) as Types.SQ_IDX;
+};
+
+export const parseSQ_IDX_List = (inputStr: string): Types.SQ_IDX[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  const result: Types.SQ_IDX[] = [];
+
+  const entryWidth = Types.SQ_IDX_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
+
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+    const idx = parseSQ_IDX(binaryStr.slice(startIdx, startIdx + entryWidth));
+    result.push(idx);
+  }
+
+  return result;
 };

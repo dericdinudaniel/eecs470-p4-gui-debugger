@@ -23,8 +23,8 @@ export const SQ_SZ = 8; // Replace `NaN` with the appropriate value
 // Functional Units
 export const NUM_FU_ALU = 3;
 export const NUM_FU_MULT = 2;
-export const NUM_FU_LOAD = 0;
-export const NUM_FU_STORE = 0;
+export const NUM_FU_LOAD = 1;
+export const NUM_FU_STORE = 1;
 export const NUM_FU_BRANCH = 1;
 
 export const NUM_FU =

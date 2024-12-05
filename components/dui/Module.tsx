@@ -23,7 +23,7 @@ const ModuleHeader: React.FC<React.ComponentProps<"button">> = ({
   ...props
 }) => (
   <button
-    className={cn("text-xl font-semibold underline-fade", className)}
+    className={cn("text-2xl font-semibold underline-fade", className)}
     {...props}
   />
 );

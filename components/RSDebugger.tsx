@@ -35,6 +35,8 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
   const alu_avail = extractSignalValue(signalRS, "alu_avail");
   const branch_avail = extractSignalValue(signalRS, "branch_avail");
   const mult_avail = extractSignalValue(signalRS, "mult_avail");
+  const store_avail = extractSignalValue(signalRS, "store_avail");
+  const load_avail = extractSignalValue(signalRS, "load_avail");
 
   const early_cdb = extractSignalValue(signalRS, "early_cdb").value;
   const RS_early_cdb = parseCDBTags(early_cdb);
@@ -96,6 +98,8 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
                       aluAvail={reverseStr(alu_avail.value)}
                       branchAvail={reverseStr(branch_avail.value)}
                       multAvail={reverseStr(mult_avail.value)}
+                      storeAvail={reverseStr(store_avail.value)}
+                      loadAvail={reverseStr(load_avail.value)}
                     />
                     <DisplayCDBData
                       className=""

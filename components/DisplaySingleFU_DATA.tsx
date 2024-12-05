@@ -65,7 +65,7 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
 
           {/* lsq */}
           <Dtr>
-            <DtdLeft className="text-xs p-1">Saved Tail</DtdLeft>
+            <DtdLeft className="text-xs p-1">SQ IDX</DtdLeft>
             <Dtd className="text-xs p-1">{FUData.saved_tail}</Dtd>
           </Dtr>
 

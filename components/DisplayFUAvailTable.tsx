@@ -16,6 +16,8 @@ interface FUTableProps {
   aluAvail: string;
   branchAvail: string;
   multAvail: string;
+  storeAvail: string;
+  loadAvail: string;
 }
 
 const DisplayFUAvailTable: React.FC<FUTableProps> = ({
@@ -23,10 +25,14 @@ const DisplayFUAvailTable: React.FC<FUTableProps> = ({
   aluAvail,
   branchAvail,
   multAvail,
+  storeAvail,
+  loadAvail,
 }) => {
   const numAlu = Constants.NUM_FU_ALU;
   const numBranch = Constants.NUM_FU_BRANCH;
   const numMult = Constants.NUM_FU_MULT;
+  const numStore = Constants.NUM_FU_STORE;
+  const numLoad = Constants.NUM_FU_LOAD;
 
   // Helper function to convert binary string to array of 1s and 0s
   const binaryToArray = (binary: string, length: number) => {
@@ -44,10 +50,16 @@ const DisplayFUAvailTable: React.FC<FUTableProps> = ({
       count: numBranch,
     },
     { name: "Mult", avail: binaryToArray(multAvail, numMult), count: numMult },
+    {
+      name: "Store",
+      avail: binaryToArray(storeAvail, numStore),
+      count: numStore,
+    },
+    { name: "Load", avail: binaryToArray(loadAvail, numLoad), count: numLoad },
   ];
 
   // Find the maximum number of FUs to determine number of columns
-  const maxFUs = Math.max(numAlu, numBranch, numMult);
+  const maxFUs = Math.max(numAlu, numBranch, numMult, numStore, numLoad);
 
   return (
     <div className={`${className} justify-items-center`}>
