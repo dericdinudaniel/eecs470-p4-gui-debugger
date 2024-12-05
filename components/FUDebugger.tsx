@@ -16,7 +16,7 @@ import { reverseStr } from "@/lib/tsutils";
 import { ModuleBase, ModuleHeader } from "./dui/Module";
 import { DButton } from "./dui/DButton";
 import DisplayFU_TO_BS_DATA from "./DisplayFU_TO_BS_DATA";
-import { CardBase } from "./dui/Card";
+import { CardBase, CardHeaderSmall } from "./dui/Card";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 
 type FUDebuggerProps = {
@@ -115,7 +115,7 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
                   <CardBase className="flex space-x-4">
                     {/* ALU */}
                     <div className="justify-items-center">
-                      <p>ALU IN</p>
+                      <CardHeaderSmall>ALU IN</CardHeaderSmall>
                       <div className="flex space-x-1">
                         {FU_alu_data.map((fu_data, idx) => (
                           <div key={idx}>
@@ -132,7 +132,7 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
 
                     {/* MULT */}
                     <div className="justify-items-center">
-                      <p>MULT IN</p>
+                      <CardHeaderSmall>MULT IN</CardHeaderSmall>
                       <div className="flex space-x-1">
                         {FU_mult_data.map((fu_data, idx) => (
                           <div key={idx}>
@@ -149,7 +149,7 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
 
                     {/* BRANCH */}
                     <div className="justify-items-center">
-                      <p>BRANCH IN</p>
+                      <CardHeaderSmall>BRANCH IN</CardHeaderSmall>
                       <div className="flex space-x-1">
                         {FU_branch_data.map((fu_data, idx) => (
                           <div key={idx}>

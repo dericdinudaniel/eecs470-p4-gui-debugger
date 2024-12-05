@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { Separator } from "../ui/separator";
 
 const CardBase = React.forwardRef<
   HTMLDivElement,
@@ -17,10 +18,20 @@ const CardBase = React.forwardRef<
 CardBase.displayName = "CardBase";
 
 const CardHeader = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  HTMLButtonElement,
+  React.ComponentProps<"button">
 >(({ className, ...props }, ref) => (
-  <h2 ref={ref} className={cn("font-semibold text-lg", className)} {...props} />
+  <button
+    ref={ref}
+    className={cn(
+      "font-semibold text-lg text-left flex flex-col items-start",
+      className
+    )}
+    {...props}
+  >
+    <span>{props.children}</span>
+    <Separator className="mt-[-.35rem]" />
+  </button>
 ));
 CardHeader.displayName = "CardHeader";
 

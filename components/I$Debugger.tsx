@@ -27,7 +27,7 @@ import {
 import { chunkArray, parseInstruction } from "@/lib/tsutils";
 import PaddedNum from "./dui/PaddedNum";
 import * as Types from "@/lib/types";
-import { CardBase } from "./dui/Card";
+import { CardBase, CardHeader, CardHeaderSmall } from "./dui/Card";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 
 // Memory Inputs Component
@@ -50,7 +50,7 @@ const MemInputs: React.FC<{
 
   return (
     <CardBase className={className}>
-      <h2 className="text-lg underline">Mem Inputs</h2>
+      <CardHeader>Mem Inputs</CardHeader>
       <SimpleValDisplay label="Tran Tag: ">
         <PaddedNum number={Imem2proc_transaction_tag} maxNumber={15} />
       </SimpleValDisplay>
@@ -99,7 +99,7 @@ const FetchInputs: React.FC<{
 
   return (
     <CardBase className={className}>
-      <h2 className="text-lg underline">Fetch Inputs</h2>
+      <CardHeader>Fetch Inputs</CardHeader>
       <div className="justify-items-center">
         <SimpleValDisplay label="Take Branch: ">
           {take_branch ? "Yes" : "No"}
@@ -145,7 +145,7 @@ const MemOutputs: React.FC<{
 
   return (
     <CardBase className={className}>
-      <h2 className="text-lg underline">Mem Outputs</h2>
+      <CardHeader>Mem Outputs</CardHeader>
       <div>
         <SimpleValDisplay label="Command: ">
           {Types.getMemCommandName(I$_proc2Imem_command)}
@@ -172,7 +172,7 @@ const FetchOutputs: React.FC<{
 
   return (
     <CardBase className={className}>
-      <h2 className="text-lg underline">Fetch Outputs</h2>
+      <CardHeader>Fetch Outputs</CardHeader>
       <div className="justify-items-center">
         <SimpleValDisplay label="Valid: ">{Icache_valid_out}</SimpleValDisplay>
 
@@ -219,7 +219,7 @@ const I$Request: React.FC<{
       <div className={`${className}`}>
         {/* the big table ig */}
         <div className="justify-items-center">
-          <h2 className="font-semibold">I$ Req</h2>
+          <CardHeaderSmall>I$ Req</CardHeaderSmall>
           <Dtable>
             <Dthead>
               <Dtr>

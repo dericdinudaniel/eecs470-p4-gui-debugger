@@ -56,7 +56,7 @@ const DispatchIF: React.FC<{
 
         <div className="justify-items-center">
           <CardHeaderSmall>Outputs</CardHeaderSmall>
-          {/* <Dtable>
+          <Dtable>
             <Dthead>
               <Dtr>
                 <Dth>#</Dth>
@@ -65,13 +65,13 @@ const DispatchIF: React.FC<{
             </Dthead>
             <Dtbody>
               {SQ_dispatch_tails.map((tail, idx) => (
-                <Dtr key={idx}>
+                <Dtr key={idx} className="bg-neutral">
                   <Dtd>{idx}</Dtd>
-                  <Dtd>{tail}</Dtd>
+                  <Dtd>{displayValue(tail)}</Dtd>
                 </Dtr>
               ))}
             </Dtbody>
-          </Dtable> */}
+          </Dtable>
         </div>
       </div>
     </CardBase>
@@ -180,10 +180,10 @@ const RSLoadIF: React.FC<{
         </SimpleValDisplay>
         <SimpleValDisplay label="Output Head: ">{output_head}</SimpleValDisplay>
         <SimpleValDisplay label="Output Empty: ">
-          {output_empty ? "Yes" : "No"}
+          {output_empty ? "Y" : "N"}
         </SimpleValDisplay>
         <SimpleValDisplay label="Any Complete: ">
-          {any_complete ? "Yes" : "No"}
+          {any_complete ? "Y" : "N"}
         </SimpleValDisplay>
       </div>
     </CardBase>

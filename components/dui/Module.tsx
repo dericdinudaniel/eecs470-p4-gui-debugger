@@ -27,5 +27,6 @@ const ModuleHeader: React.FC<React.ComponentProps<"button">> = ({
     {...props}
   />
 );
+ModuleHeader.displayName = "ModuleHeader";
 
 export { ModuleBase, ModuleHeader };
