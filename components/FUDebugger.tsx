@@ -18,6 +18,8 @@ import { DButton } from "./dui/DButton";
 import DisplayFU_TO_BS_DATA from "./DisplayFU_TO_BS_DATA";
 import { Card, CardHeaderSmall } from "./dui/Card";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
+import * as Constants from "@/lib/constants";
+import DisplayLoaf from "@/components/DisplayLoaf";
 
 type FUDebuggerProps = {
   className: string;
@@ -57,8 +59,18 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
   const branch_results = extractSignalValue(signalFU, "branch_results").value;
   const FU_branch_results = parseFU_TO_BS_DATA(branch_results);
 
-  const [showFUInputs, setShowFUInputs] = useState(true);
+  //
+  // Actual FUs
+  // LOAF
+  let fu_store = [];
+  for (let i = 0; i < Constants.NUM_FU_LOAD; i++) {
+    const loaf = (signalFU as any).children[
+      `load_gen[${i}].bread`
+    ] as ScopeData;
+    fu_store.push(loaf);
+  }
 
+  const [showFUInputs, setShowFUInputs] = useState(true);
   return (
     <>
       <Module className={className}>
@@ -209,6 +221,21 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
           )}
 
           {/* FUs */}
+          <div className="mt-2">
+            {/* loads */}
+            <Card className="pt-0">
+              <CardHeaderSmall label="Loads" />
+              <div className="flex gap-x-2">
+                {fu_store.map((load, idx) => {
+                  return (
+                    <div key={idx}>
+                      <DisplayLoaf className="" signalLoaf={load} />
+                    </div>
+                  );
+                })}
+              </div>
+            </Card>
+          </div>
         </ModuleContent>
       </Module>
     </>

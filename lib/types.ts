@@ -615,3 +615,15 @@ export const MSHR_DATA_WIDTH =
   MEM_BLOCK_WIDTH + // data
   9 + // bitmask
   MSHR_TYPE_WIDTH; // state
+
+export enum LOAF_STATE_T {
+  RECEIVE,
+  SQ_FORWARD,
+  D_CACHE,
+  CDB_ARB,
+  FINISH,
+}
+export const LOAF_STATE_T_WIDTH = 3;
+export function getLOAFStateName(loafState: LOAF_STATE_T): string {
+  return LOAF_STATE_T[loafState] ? LOAF_STATE_T[loafState] : "XXX";
+}

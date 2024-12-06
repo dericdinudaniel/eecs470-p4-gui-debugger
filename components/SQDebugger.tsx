@@ -256,9 +256,7 @@ const LoafIF: React.FC<{
             <Dthead>
               <Dtr>
                 <Dth>#</Dth>
-                <Dth>
-                  <div className="w-24">Stall Loaf</div>
-                </Dth>
+                <Dth>Stall?</Dth>
                 <Dth className="w-20">Data</Dth>
               </Dtr>
             </Dthead>
@@ -269,7 +267,7 @@ const LoafIF: React.FC<{
                   className={`${res.forwarded_valid ? "bg-good" : "bg-bad"}`}
                 >
                   <Dtd>{idx}</Dtd>
-                  <Dtd>{res.stall_LOAF ? "Stall" : "--"}</Dtd>
+                  <Dtd>{res.stall_LOAF ? "Yes" : "No"}</Dtd>
                   <Dtd>{displayValueHex(res.forwarding_data)}</Dtd>
                 </Dtr>
               ))}

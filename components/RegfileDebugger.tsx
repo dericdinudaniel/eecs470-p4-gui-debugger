@@ -131,7 +131,7 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
               </div>
             </Card>
           )}
-          <Card className="flex space-x-1">
+          <Card className="flex space-x-1 mt-2">
             {regChunks.map((regChunk, chunkIdx) => (
               <Dtable key={chunkIdx}>
                 <Dthead>
