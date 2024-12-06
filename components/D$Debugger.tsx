@@ -11,6 +11,7 @@ import {
   parseMEM_BLOCK,
   parseMEM_BLOCK_List,
   parseMEM_COMMAND,
+  parseMSHR_DATA_List,
 } from "@/lib/utils";
 import { ScopeData } from "@/lib/tstypes";
 import { Module, ModuleHeader, ModuleContent } from "./dui/Module";
@@ -344,6 +345,77 @@ const DisplayD$: React.FC<{
   );
 };
 
+const DisplayMSHRs: React.FC<{
+  className: string;
+  signalD$: any;
+}> = ({ className, signalD$ }) => {
+  const mshr = extractSignalValue(signalD$, "mshr").value;
+  const D$_mshr = parseMSHR_DATA_List(mshr);
+
+  return (
+    <>
+      <Card>
+        <CardHeader label="MSHRs" />
+        <CardContent>
+          <Dtable>
+            <Dthead>
+              <Dtr>
+                <Dth>#</Dth>
+                <Dth>Blk Addr</Dth>
+                <Dth>Bitmask</Dth>
+                <Dth>Data</Dth>
+                <Dth>State</Dth>
+              </Dtr>
+            </Dthead>
+            <Dtbody>
+              {D$_mshr.map((mshr, idx) => {
+                return (
+                  <React.Fragment key={idx}>
+                    <Dtr
+                      className={
+                        mshr.state != Types.MSHR_TYPE.INVALID
+                          ? "bg-good"
+                          : "bg-bad"
+                      }
+                    >
+                      <DtdLeft rowSpan={2} className="font-semibold text-base">
+                        {idx}:
+                      </DtdLeft>
+                      <Dtd rowSpan={2} className="font-semibold text-base">
+                        {displayValueHex(mshr.block_addr)}
+                      </Dtd>
+                      <Dtd rowSpan={2}>{mshr.bitmask}</Dtd>
+                      <Dtd>
+                        <div className="w-20">
+                          {displayValueHex(mshr.data[0])}
+                        </div>
+                      </Dtd>
+                      <Dtd rowSpan={2}>{Types.getMSHRTypeName(mshr.state)}</Dtd>
+                    </Dtr>
+                    <Dtr
+                      className={
+                        mshr.state != Types.MSHR_TYPE.INVALID
+                          ? "bg-good"
+                          : "bg-bad"
+                      }
+                    >
+                      <Dtd className="border-l">
+                        <div className="w-20">
+                          {displayValueHex(mshr.data[1])}
+                        </div>
+                      </Dtd>
+                    </Dtr>
+                  </React.Fragment>
+                );
+              })}
+            </Dtbody>
+          </Dtable>
+        </CardContent>
+      </Card>
+    </>
+  );
+};
+
 // Main D$Debugger Component
 type D$DebuggerProps = {
   className: string;
@@ -354,7 +426,7 @@ const D$Debugger: React.FC<D$DebuggerProps> = ({ className, signalD$ }) => {
 
   return (
     <>
-      <Module>
+      <Module className={className}>
         <ModuleHeader label="D-Cache">
           {/* Toggle buttons */}
           <div className="pl-3 space-x-2">
@@ -365,18 +437,23 @@ const D$Debugger: React.FC<D$DebuggerProps> = ({ className, signalD$ }) => {
         </ModuleHeader>
         <ModuleContent className="space-y-2">
           <div className="flex justify-items-center gap-x-2 items-start ">
-            <MemIF
-              className=""
-              signalD$={signalD$}
-              display={showD$Interfaces}
-            />
-            <LSArbIF
-              className=""
-              signalD$={signalD$}
-              display={showD$Interfaces}
-            />
+            <DisplayMSHRs className="" signalD$={signalD$} />
+            <div className="space-y-2 justify-items-center">
+              <DisplayD$ className="" signalD$={signalD$} />
+              <div className="flex justify-items-center gap-x-2 items-start ">
+                <MemIF
+                  className=""
+                  signalD$={signalD$}
+                  display={showD$Interfaces}
+                />
+                <LSArbIF
+                  className=""
+                  signalD$={signalD$}
+                  display={showD$Interfaces}
+                />
+              </div>
+            </div>
           </div>
-          <DisplayD$ className="" signalD$={signalD$} />
         </ModuleContent>
       </Module>
     </>

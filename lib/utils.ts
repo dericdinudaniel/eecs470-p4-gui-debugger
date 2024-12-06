@@ -1258,3 +1258,55 @@ export const parseDCACHE_TAG_List = (inputStr: string): Types.DCACHE_TAG[] => {
 
   return result;
 };
+
+export const parseMSHR_TYPE = (inputStr: string): Types.MSHR_TYPE => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+
+  return parseInt(binaryStr, 2) as Types.MSHR_TYPE;
+};
+
+export const parseMSHR_DATA = (inputStr: string): Types.MSHR_DATA => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  let accessIdx = 0;
+
+  const block_addr = extractBits(binaryStr, accessIdx, 14); // idk why rick chose magic number 14
+  accessIdx += 14;
+
+  const data = parseMEM_BLOCK(
+    binaryStr.slice(accessIdx, accessIdx + Types.MEM_BLOCK_WIDTH)
+  );
+  accessIdx += Types.MEM_BLOCK_WIDTH;
+
+  const bitmask = reverseStr(binaryStr.slice(accessIdx, accessIdx + 9)); // idk why rick chose magic number 9
+  accessIdx += 9;
+
+  const state = parseMSHR_TYPE(
+    binaryStr.slice(accessIdx, accessIdx + Types.MSHR_TYPE_WIDTH)
+  );
+  accessIdx += Types.MSHR_TYPE_WIDTH;
+
+  return {
+    block_addr,
+    data,
+    bitmask,
+    state,
+  };
+};
+
+export const parseMSHR_DATA_List = (inputStr: string): Types.MSHR_DATA[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  const result: Types.MSHR_DATA[] = [];
+
+  const entryWidth = Types.MSHR_DATA_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
+
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+    const mshr_data = parseMSHR_DATA(
+      binaryStr.slice(startIdx, startIdx + entryWidth)
+    );
+    result.push(mshr_data);
+  }
+
+  return result;
+};

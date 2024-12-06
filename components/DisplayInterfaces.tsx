@@ -32,10 +32,29 @@ import { parseInstruction } from "@/lib/tsutils";
 
 type IFProps = {
   className: string;
+  signal: ScopeData;
+  display: boolean;
+};
+// const IFBase: React.FC<React.PropsWithChildren<IFProps>> = ({
+//   className,
+//   signal,
+//   display,
+//   children,
+//   ...rest
+// }) => {
+//   return (
+//     <Card className={`${className}`} display={display} {...rest}>
+//       {display && <CardHeaderSmall label={signal.name} />}
+//       <div className="justify-items-center">{children}</div>
+//     </Card>
+//   );
+// };
+
+type IOProps = {
+  className: string;
   type: "input" | "output" | "none";
 };
-
-const IFBase: React.FC<React.PropsWithChildren<IFProps>> = ({
+const IOBase: React.FC<React.PropsWithChildren<IOProps>> = ({
   className,
   type,
   children,
@@ -52,14 +71,14 @@ const IFBase: React.FC<React.PropsWithChildren<IFProps>> = ({
 };
 
 const MemArbToI$: React.FC<
-  IFProps & {
+  IOProps & {
     transTag: number;
     dataTag: number;
     data: number[];
   }
 > = ({ className, type, transTag, dataTag, data }) => {
   return (
-    <IFBase className={className} type={type}>
+    <IOBase className={className} type={type}>
       <SimpleValDisplay label="Tran Tag: ">
         <PaddedNum number={transTag} maxNumber={15} />
       </SimpleValDisplay>
@@ -89,12 +108,12 @@ const MemArbToI$: React.FC<
           </Dtbody>
         </Dtable>
       </div>
-    </IFBase>
+    </IOBase>
   );
 };
 
 const I$ToMemArb: React.FC<
-  IFProps & {
+  IOProps & {
     memCommand: Types.MEM_COMMAND;
     memAddr: number;
     memBlock?: Types.MEM_BLOCK;
@@ -102,7 +121,7 @@ const I$ToMemArb: React.FC<
 > = ({ className, type, memCommand, memAddr, memBlock }) => {
   return (
     <>
-      <IFBase className={className} type={type}>
+      <IOBase className={className} type={type}>
         <SimpleValDisplay label="Command: ">
           {Types.getMemCommandName(memCommand)}
         </SimpleValDisplay>
@@ -134,13 +153,13 @@ const I$ToMemArb: React.FC<
             </Dtbody>
           </Dtable>
         )}
-      </IFBase>
+      </IOBase>
     </>
   );
 };
 
 const MemToMemArb: React.FC<
-  IFProps & {
+  IOProps & {
     transTag: number;
     dataTag: number;
     data: number[];
@@ -160,7 +179,7 @@ const MemToMemArb: React.FC<
 };
 
 const MemArbToMem: React.FC<
-  IFProps & {
+  IOProps & {
     memCommand: Types.MEM_COMMAND;
     memAddr: number;
     memBlock: Types.MEM_BLOCK;

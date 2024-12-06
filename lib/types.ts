@@ -607,13 +607,13 @@ export function getMSHRTypeName(mshrType: MSHR_TYPE): string {
 }
 
 export type MSHR_DATA = {
-  block_addr: number; // 13 bits
+  block_addr: number; // 14 bits
   data: MEM_BLOCK; // 64 bits
   bitmask: string; // 9 bits
   state: MSHR_TYPE;
 };
 export const MSHR_DATA_WIDTH =
-  13 + // block_addr
+  14 + // block_addr
   MEM_BLOCK_WIDTH + // data
   9 + // bitmask
   MSHR_TYPE_WIDTH; // state

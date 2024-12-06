@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   displayValueHex,
   extractSignalValue,
@@ -426,6 +426,8 @@ type I$DebuggerProps = {
 };
 
 const I$Debugger: React.FC<I$DebuggerProps> = ({ className, signalI$ }) => {
+  const [showI$Interfaces, setShowI$Interfaces] = useState(true);
+
   return (
     <>
       <Module className={className}>
