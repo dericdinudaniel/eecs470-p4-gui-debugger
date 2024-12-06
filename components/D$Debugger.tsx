@@ -361,10 +361,16 @@ const DisplayMSHRs: React.FC<{
             <Dthead>
               <Dtr>
                 <Dth>#</Dth>
-                <Dth>Blk Addr</Dth>
-                <Dth>Bitmask</Dth>
+                <Dth>
+                  <div className="w-20">Blk Addr</div>
+                </Dth>
+                <Dth>
+                  <div className="w-16">Bitmask</div>
+                </Dth>
                 <Dth>Data</Dth>
-                <Dth>State</Dth>
+                <Dth>
+                  <div className="w-14">State</div>
+                </Dth>
               </Dtr>
             </Dthead>
             <Dtbody>

@@ -15,40 +15,27 @@ import {
   Dtable,
 } from "@/components/dui/DTable";
 import { ScopeData } from "@/lib/tstypes";
-import {
-  displayValueHex,
-  extractSignalValue,
-  extractSignalValueToBool,
-  extractSignalValueToInt,
-  parse_to_INST_List,
-  parseADDR_List,
-  parseBoolArrToBoolArray,
-  parseI$_indexes,
-  parseI$_tags,
-  parseICACHE_TAG_List,
-  parseMEM_COMMAND,
-} from "@/lib/utils";
+import { displayValueHex } from "@/lib/utils";
 import { parseInstruction } from "@/lib/tsutils";
 
-type IFProps = {
+export type IFProps = {
   className: string;
   signal: ScopeData;
-  display: boolean;
+  display?: boolean;
 };
-// const IFBase: React.FC<React.PropsWithChildren<IFProps>> = ({
-//   className,
-//   signal,
-//   display,
-//   children,
-//   ...rest
-// }) => {
-//   return (
-//     <Card className={`${className}`} display={display} {...rest}>
-//       {display && <CardHeaderSmall label={signal.name} />}
-//       <div className="justify-items-center">{children}</div>
-//     </Card>
-//   );
-// };
+const IFBase: React.FC<React.PropsWithChildren<IFProps>> = ({
+  className,
+  signal,
+  display,
+  children,
+  ...rest
+}) => {
+  return (
+    <Card className={className} display={display} {...rest}>
+      {children}
+    </Card>
+  );
+};
 
 type IOProps = {
   className: string;
@@ -198,4 +185,5 @@ const MemArbToMem: React.FC<
   );
 };
 
+export { IFBase };
 export { MemArbToI$, I$ToMemArb, MemToMemArb, MemArbToMem };

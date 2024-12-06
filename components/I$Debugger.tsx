@@ -29,36 +29,34 @@ import PaddedNum from "./dui/PaddedNum";
 import * as Types from "@/lib/types";
 import { Card, CardContent, CardHeader, CardHeaderSmall } from "./dui/Card";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
-import { MemArbToI$, I$ToMemArb } from "./DisplayInterfaces";
+import { IFProps, MemArbToI$, I$ToMemArb } from "./DisplayInterfaces";
+import { DButton } from "./dui/DButton";
 
 // Memory Interface Component
-const MemIF: React.FC<{
-  className: string;
-  signalI$: ScopeData;
-}> = ({ className, signalI$ }) => {
+const MemIF: React.FC<IFProps> = ({ className, signal, display }) => {
   // inputs
   const Imem2proc_transaction_tag = extractSignalValueToInt(
-    signalI$,
+    signal,
     "Imem2proc_transaction_tag"
   );
   const Imem2proc_data_tag = extractSignalValueToInt(
-    signalI$,
+    signal,
     "Imem2proc_data_tag"
   );
-  const Imem2proc_data = extractSignalValue(signalI$, "Imem2proc_data").value;
+  const Imem2proc_data = extractSignalValue(signal, "Imem2proc_data").value;
   const I$_Imem2proc_data = parse_to_INST_List(Imem2proc_data);
-  // const Imem2proc_addr = extractSignalValueToInt(signalI$, "Imem2proc_addr");
+  // const Imem2proc_addr = extractSignalValueToInt(signal, "Imem2proc_addr");
 
   // outputs
   const proc2Imem_command = extractSignalValue(
-    signalI$,
+    signal,
     "proc2Imem_command"
   ).value;
   const I$_proc2Imem_command = parseMEM_COMMAND(proc2Imem_command);
-  const proc2Imem_addr = extractSignalValueToInt(signalI$, "proc2Imem_addr");
+  const proc2Imem_addr = extractSignalValueToInt(signal, "proc2Imem_addr");
 
   return (
-    <Card>
+    <Card className={className} display={display}>
       <CardHeader label="Mem IF" />
       <CardContent className="flex gap-x-3">
         <MemArbToI$
@@ -81,24 +79,21 @@ const MemIF: React.FC<{
 };
 
 // Memory Inputs Component
-const MemInputs: React.FC<{
-  className: string;
-  signalI$: ScopeData;
-}> = ({ className, signalI$ }) => {
+const MemInputs: React.FC<IFProps> = ({ className, signal, display }) => {
   const Imem2proc_transaction_tag = extractSignalValueToInt(
-    signalI$,
+    signal,
     "Imem2proc_transaction_tag"
   );
   const Imem2proc_data_tag = extractSignalValueToInt(
-    signalI$,
+    signal,
     "Imem2proc_data_tag"
   );
-  const Imem2proc_data = extractSignalValue(signalI$, "Imem2proc_data").value;
+  const Imem2proc_data = extractSignalValue(signal, "Imem2proc_data").value;
   const I$_Imem2proc_data = parse_to_INST_List(Imem2proc_data);
   // const Imem2proc_addr = extractSignalValueToInt(signalI$, "Imem2proc_addr");
 
   return (
-    <Card className={className}>
+    <Card className={className} display={display}>
       <CardHeader label="Mem Inputs" />
       <CardContent>
         <SimpleValDisplay label="Tran Tag: ">
@@ -136,19 +131,16 @@ const MemInputs: React.FC<{
 };
 
 // Memory Outputs Component
-const MemOutputs: React.FC<{
-  className: string;
-  signalI$: ScopeData;
-}> = ({ className, signalI$ }) => {
+const MemOutputs: React.FC<IFProps> = ({ className, signal, display }) => {
   const proc2Imem_command = extractSignalValue(
-    signalI$,
+    signal,
     "proc2Imem_command"
   ).value;
   const I$_proc2Imem_command = parseMEM_COMMAND(proc2Imem_command);
-  const proc2Imem_addr = extractSignalValueToInt(signalI$, "proc2Imem_addr");
+  const proc2Imem_addr = extractSignalValueToInt(signal, "proc2Imem_addr");
 
   return (
-    <Card className={className}>
+    <Card className={className} display={display}>
       <CardHeader label="Mem Outputs" />
       <CardContent>
         <SimpleValDisplay label="Command: ">
@@ -163,30 +155,21 @@ const MemOutputs: React.FC<{
 };
 
 // Fetch IF Component
-const FetchIF: React.FC<{
-  className: string;
-  signalI$: ScopeData;
-}> = ({ className, signalI$ }) => {
+const FetchIF: React.FC<IFProps> = ({ className, signal, display }) => {
   // inputs
-  const proc2Icache_addr = extractSignalValue(
-    signalI$,
-    "proc2Icache_addr"
-  ).value;
+  const proc2Icache_addr = extractSignalValue(signal, "proc2Icache_addr").value;
   const I$_proc2Icache_addr = parseADDR_List(proc2Icache_addr);
-  const valid_fetches = extractSignalValueToInt(signalI$, "valid_fetches");
-  const take_branch = extractSignalValueToBool(signalI$, "take_branch");
+  const valid_fetches = extractSignalValueToInt(signal, "valid_fetches");
+  const take_branch = extractSignalValueToBool(signal, "take_branch");
 
   // outputs
-  const Icache_data_out = extractSignalValue(signalI$, "Icache_data_out").value;
+  const Icache_data_out = extractSignalValue(signal, "Icache_data_out").value;
   const I$_Icache_data_out = parse_to_INST_List(Icache_data_out);
-  const Icache_valid_out = extractSignalValueToInt(
-    signalI$,
-    "Icache_valid_out"
-  );
+  const Icache_valid_out = extractSignalValueToInt(signal, "Icache_valid_out");
 
   return (
     <>
-      <Card>
+      <Card className={className} display={display}>
         <CardHeader label="Fetch IF" />
         <CardContent className="flex gap-x-3">
           <div className="justify-items-center">
@@ -232,7 +215,7 @@ const FetchIF: React.FC<{
                     </Dtbody>
                   </Dtable>
                 </div>
-                <I$Request className="" signalI$={signalI$} />
+                <I$Request className="" signal={signal} />
               </div>
             </div>
           </div>
@@ -270,15 +253,12 @@ const FetchIF: React.FC<{
 };
 
 // The actual icache display
-const I$Request: React.FC<{
-  className: string;
-  signalI$: ScopeData;
-}> = ({ className, signalI$ }) => {
-  const tags = extractSignalValue(signalI$, "tags").value;
-  const indexes = extractSignalValue(signalI$, "indexes").value;
-  const res = extractSignalValue(signalI$, "res").value;
-  const Icache_valid = extractSignalValue(signalI$, "Icache_valid").value;
-  const Icache_data = extractSignalValue(signalI$, "Icache_data").value;
+const I$Request: React.FC<IFProps> = ({ className, signal }) => {
+  const tags = extractSignalValue(signal, "tags").value;
+  const indexes = extractSignalValue(signal, "indexes").value;
+  const res = extractSignalValue(signal, "res").value;
+  const Icache_valid = extractSignalValue(signal, "Icache_valid").value;
+  const Icache_data = extractSignalValue(signal, "Icache_data").value;
   const I$_Icache_data = parse_to_INST_List(Icache_data);
 
   const I$_tags = parseI$_tags(tags);
@@ -431,17 +411,32 @@ const I$Debugger: React.FC<I$DebuggerProps> = ({ className, signalI$ }) => {
   return (
     <>
       <Module className={className}>
-        <ModuleHeader label="I-Cache"></ModuleHeader>
+        <ModuleHeader label="I-Cache">
+          {/* Toggle buttons */}
+          <div className="pl-3 space-x-2">
+            <DButton onClick={() => setShowI$Interfaces(!showI$Interfaces)}>
+              {showI$Interfaces ? "Hide I$ Interfaces" : "Show I$ Interfaces"}
+            </DButton>
+          </div>
+        </ModuleHeader>
 
         <ModuleContent>
           <div className="justify-items-center space-y-2">
             <div className="flex gap-x-3 items-start">
               <div className="justify-items-center space-y-1">
-                <MemIF className="" signalI$={signalI$} />
+                <MemIF
+                  className=""
+                  signal={signalI$}
+                  display={showI$Interfaces}
+                />
               </div>
 
               <div className="flex space-x-1 items-start">
-                <FetchIF className="" signalI$={signalI$} />
+                <FetchIF
+                  className=""
+                  signal={signalI$}
+                  display={showI$Interfaces}
+                />
               </div>
             </div>
 
