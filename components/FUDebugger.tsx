@@ -16,7 +16,7 @@ import DisplayCDBData from "./DisplayCDBData";
 import { Module, ModuleHeader, ModuleContent } from "./dui/Module";
 import { DButton } from "./dui/DButton";
 import DisplayFU_TO_BS_DATA from "./DisplayFU_TO_BS_DATA";
-import { Card, CardHeaderSmall } from "./dui/Card";
+import { Card, CardContent, CardHeader, CardHeaderSmall } from "./dui/Card";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 import * as Constants from "@/lib/constants";
 import DisplayLoaf from "@/components/DisplayLoaf";
@@ -224,8 +224,8 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
           <div className="mt-2">
             {/* loads */}
             <Card className="pt-0">
-              <CardHeaderSmall label="Loads" />
-              <div className="flex gap-x-2">
+              <CardHeader label="Loads" />
+              <CardContent className="flex gap-x-2">
                 {fu_store.map((load, idx) => {
                   return (
                     <div key={idx}>
@@ -233,7 +233,7 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
                     </div>
                   );
                 })}
-              </div>
+              </CardContent>
             </Card>
           </div>
         </ModuleContent>

@@ -59,7 +59,7 @@ const DisplayLoaf: React.FC<DisplayLoafProps> = ({ className, signalLoaf }) => {
         <div className="justify-items-center space-y-2">
           {/* Forwarding IF */}
           <div className="justify-items-center bg-card rounded-lg p-2 pt-0">
-            <CardHeader label="Forward?" />
+            <CardHeaderSmall label="Forward?" />
             <div className="justify-items-center space-y-1">
               <div className="justify-items-center border rounded-lg p-1 bg-neutral">
                 <CardHeaderSmall label="Forward Results" />
@@ -116,7 +116,7 @@ const DisplayLoaf: React.FC<DisplayLoafProps> = ({ className, signalLoaf }) => {
           </div>
 
           <div className="justify-items-center bg-card rounded-lg p-2 pt-0">
-            <CardHeader label="Cache" />
+            <CardHeaderSmall label="Cache" />
             <div className="justify-items-center space-y-1">
               <div
                 className={`justify-items-center border rounded-lg p-1 ${
@@ -140,7 +140,7 @@ const DisplayLoaf: React.FC<DisplayLoafProps> = ({ className, signalLoaf }) => {
 
           {/* Internals */}
           <div className="justify-items-center">
-            <CardHeader label="Internals" />
+            <CardHeaderSmall label="Internals" />
             <SimpleValDisplay label="State: ">
               {Types.getLOAFStateName(state)}
             </SimpleValDisplay>
