@@ -85,7 +85,9 @@ const DisplaySQData: React.FC<DisplaySQDataProps> = ({
                 <Dtd>{entry.T_new}</Dtd>
                 <Dtd>{Types.getSTOREFuncName(entry.store_type)}</Dtd>
                 <Dtd className={fwdColor}>
-                  {displayValueHex(entry.store_address)}
+                  <div className="w-20">
+                    {displayValueHex(entry.store_address)}
+                  </div>
                 </Dtd>
                 <Dtd className={fwdColor}>{displayValue(entry.store_data)}</Dtd>
                 <Dtd>{displayValue(entry.ready_mem ? "1" : "0")}</Dtd>

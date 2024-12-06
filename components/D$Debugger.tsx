@@ -340,7 +340,7 @@ const D$Debugger: React.FC<D$DebuggerProps> = ({ className, signalD$ }) => {
   return (
     <>
       <Module>
-        <ModuleHeader label="D$ Debugger">
+        <ModuleHeader label="D-Cache">
           {/* Toggle buttons */}
           <div className="pl-3 space-x-2">
             <DButton onClick={() => setShowD$Interfaces(!showD$Interfaces)}>

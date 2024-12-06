@@ -41,10 +41,12 @@ const DisplaySingleCheckpoint: React.FC<{
     <div className={`${className}`}>
       <div className={`p-2 pb-0 rounded-lg border ${backgroundColor}`}>
         {idx !== undefined && (
-          <h2 className="text-md font-semibold text-center">Stack #{idx}</h2>
+          <h2 className="text-md font-semibold text-center mb-1">
+            Stack #{idx}
+          </h2>
         )}
         <div className="flex items-center">
-          <div className="space-y-[-.35rem]">
+          <div className="space-y-[-.35rem] mt-[-.4rem]">
             <SimpleValDisplay label="Branch PC: ">
               {displayValueHex(checkpoint.branch_PC)}
             </SimpleValDisplay>
@@ -68,7 +70,7 @@ const DisplaySingleCheckpoint: React.FC<{
           {/* Toggle Button */}
           <DButton
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="h-10 ml-2"
+            className="h-8 ml-2"
           >
             {isCollapsed ? "Show ChckPt" : "Hide ChckPt"}
           </DButton>

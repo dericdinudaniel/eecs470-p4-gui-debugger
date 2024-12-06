@@ -177,15 +177,8 @@ export default function Debugger() {
           {signalData && (
             <>
               <div className="space-y-4">
-                <D$Debugger className="" signalD$={cpu.children.dcache} />
                 <div className="flex gap-x-2">
-                  <div className="flex flex-col items-center gap-y-4">
-                    <BPredDebugger
-                      className=""
-                      signalBP={Front_End.children.masonshare}
-                    />
-                    <MemCmdDebugger className="" signalCPU={cpu} />
-                  </div>
+                  <D$Debugger className="" signalD$={cpu.children.dcache} />
                   <I$Debugger
                     className=""
                     signalI$={Front_End.children.fetcher.children.cacher}
@@ -222,6 +215,13 @@ export default function Debugger() {
                       className=""
                       signalBS={OoO_Core.children.DUT_branch_stack}
                     />
+                    <div className="flex flex-col items-center gap-y-4">
+                      <BPredDebugger
+                        className=""
+                        signalBP={Front_End.children.masonshare}
+                      />
+                      <MemCmdDebugger className="" signalCPU={cpu} />
+                    </div>
                   </div>
 
                   <div className="flex flex-col items-center gap-y-4">
