@@ -17,7 +17,7 @@ import DisplayRSData from "./DisplayRSData";
 import DisplaySingleRS from "./DisplaySingleRS";
 import DisplaySingleRS_TO_FU_DATA from "./DisplaySingleRS_TO_FU_DATA";
 import { DButton } from "./dui/DButton";
-import { Card, CardHeaderSmall } from "./dui/Card";
+import { Card, CardContent, CardHeader, CardHeaderSmall } from "./dui/Card";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 
 type RSDebuggerProps = {
@@ -125,7 +125,7 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({
 
           {/* display RS entries */}
           <DisplayRSData
-            className=""
+            className="mt-2"
             RSData={RS_entries}
             EarlyCDB={RS_early_cdb}
             signalSQ={signalSQ}
@@ -134,108 +134,111 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({
           {/* display outputs */}
           {showRSOutputs && (
             <div className="mt-2 justify-items-center">
-              <Card className="space-y-2">
-                <div className="flex space-x-4">
-                  {/* ALU */}
-                  <div className="justify-items-center">
-                    <CardHeaderSmall
-                      label={`# ALU OUT: ${getNumFUOut(RS_alu_out)}`}
-                    />
-                    <div className="flex space-x-1">
-                      {RS_alu_out.map((fu_data, idx) => (
-                        <div key={idx}>
-                          <DisplaySingleRS_TO_FU_DATA
-                            className=""
-                            FUIdx={idx}
-                            RS_TO_FUData={fu_data}
-                            fu_type={Types.FU_TYPE.ALU}
-                          />
-                        </div>
-                      ))}
+              <Card>
+                <CardHeader label="FU Outs" className="text-sm no-underline" />
+                <CardContent className="mt-0 space-y-2">
+                  <div className="flex space-x-4">
+                    {/* ALU */}
+                    <div className="justify-items-center">
+                      <CardHeaderSmall
+                        label={`# ALU OUT: ${getNumFUOut(RS_alu_out)}`}
+                      />
+                      <div className="flex space-x-1">
+                        {RS_alu_out.map((fu_data, idx) => (
+                          <div key={idx}>
+                            <DisplaySingleRS_TO_FU_DATA
+                              className=""
+                              FUIdx={idx}
+                              RS_TO_FUData={fu_data}
+                              fu_type={Types.FU_TYPE.ALU}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* MULT */}
+                    <div className="justify-items-center">
+                      <CardHeaderSmall
+                        label={`# MULT OUT: ${getNumFUOut(RS_mult_out)}`}
+                      />
+
+                      <div className="flex space-x-1">
+                        {RS_mult_out.map((fu_data, idx) => (
+                          <div key={idx}>
+                            <DisplaySingleRS_TO_FU_DATA
+                              className=""
+                              FUIdx={idx}
+                              RS_TO_FUData={fu_data}
+                              fu_type={Types.FU_TYPE.MUL}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* BRANCH */}
+                    <div className="justify-items-center">
+                      <CardHeaderSmall
+                        label={`# BR OUT: ${getNumFUOut(RS_branch_out)}`}
+                      />
+
+                      <div className="flex space-x-1">
+                        {RS_branch_out.map((fu_data, idx) => (
+                          <div key={idx}>
+                            <DisplaySingleRS_TO_FU_DATA
+                              className=""
+                              FUIdx={idx}
+                              RS_TO_FUData={fu_data}
+                              fu_type={Types.FU_TYPE.BR}
+                            />
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
 
-                  {/* MULT */}
-                  <div className="justify-items-center">
-                    <CardHeaderSmall
-                      label={`# MULT OUT: ${getNumFUOut(RS_mult_out)}`}
-                    />
+                  <div className="flex space-x-4">
+                    {/* LOAD */}
+                    <div className="justify-items-center">
+                      <CardHeaderSmall
+                        label={`# LOAD OUT: ${getNumFUOut(RS_load_out)}`}
+                      />
+                      <div className="flex space-x-1">
+                        {RS_load_out.map((fu_data, idx) => (
+                          <div key={idx}>
+                            <DisplaySingleRS_TO_FU_DATA
+                              className=""
+                              FUIdx={idx}
+                              RS_TO_FUData={fu_data}
+                              fu_type={Types.FU_TYPE.LOAD}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
 
-                    <div className="flex space-x-1">
-                      {RS_mult_out.map((fu_data, idx) => (
-                        <div key={idx}>
-                          <DisplaySingleRS_TO_FU_DATA
-                            className=""
-                            FUIdx={idx}
-                            RS_TO_FUData={fu_data}
-                            fu_type={Types.FU_TYPE.MUL}
-                          />
-                        </div>
-                      ))}
+                    {/* STORE */}
+                    <div className="justify-items-center">
+                      <CardHeaderSmall
+                        label={`# STORE OUT: ${getNumFUOut(RS_store_out)}`}
+                      />
+
+                      <div className="flex space-x-1">
+                        {RS_store_out.map((fu_data, idx) => (
+                          <div key={idx}>
+                            <DisplaySingleRS_TO_FU_DATA
+                              className=""
+                              FUIdx={idx}
+                              RS_TO_FUData={fu_data}
+                              fu_type={Types.FU_TYPE.STORE}
+                            />
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
-
-                  {/* BRANCH */}
-                  <div className="justify-items-center">
-                    <CardHeaderSmall
-                      label={`# BR OUT: ${getNumFUOut(RS_branch_out)}`}
-                    />
-
-                    <div className="flex space-x-1">
-                      {RS_branch_out.map((fu_data, idx) => (
-                        <div key={idx}>
-                          <DisplaySingleRS_TO_FU_DATA
-                            className=""
-                            FUIdx={idx}
-                            RS_TO_FUData={fu_data}
-                            fu_type={Types.FU_TYPE.BR}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex space-x-4">
-                  {/* LOAD */}
-                  <div className="justify-items-center">
-                    <CardHeaderSmall
-                      label={`# LOAD OUT: ${getNumFUOut(RS_load_out)}`}
-                    />
-                    <div className="flex space-x-1">
-                      {RS_load_out.map((fu_data, idx) => (
-                        <div key={idx}>
-                          <DisplaySingleRS_TO_FU_DATA
-                            className=""
-                            FUIdx={idx}
-                            RS_TO_FUData={fu_data}
-                            fu_type={Types.FU_TYPE.LOAD}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* STORE */}
-                  <div className="justify-items-center">
-                    <CardHeaderSmall
-                      label={`# STORE OUT: ${getNumFUOut(RS_store_out)}`}
-                    />
-
-                    <div className="flex space-x-1">
-                      {RS_store_out.map((fu_data, idx) => (
-                        <div key={idx}>
-                          <DisplaySingleRS_TO_FU_DATA
-                            className=""
-                            FUIdx={idx}
-                            RS_TO_FUData={fu_data}
-                            fu_type={Types.FU_TYPE.STORE}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+                </CardContent>
               </Card>
             </div>
           )}
