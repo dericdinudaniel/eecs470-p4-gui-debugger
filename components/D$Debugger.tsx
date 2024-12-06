@@ -108,6 +108,11 @@ const MemIF: React.FC<{
               {displayValueHex(proc2Dmem_addr)}
             </SimpleValDisplay>
             <Dtable>
+              <Dthead>
+                <Dtr>
+                  <Dth>Data</Dth>
+                </Dtr>
+              </Dthead>
               <Dtbody
                 className={
                   proc2Dmem_command != Types.MEM_COMMAND.MEM_NONE
@@ -194,6 +199,11 @@ const LSArbIF: React.FC<{
               {displayValueHex(proc2Dcache_addr)}
             </SimpleValDisplay>
             <Dtable>
+              <Dthead>
+                <Dtr>
+                  <Dth>Data</Dth>
+                </Dtr>
+              </Dthead>
               <Dtbody
                 className={
                   Dcache_type != Types.DCACHE_T.DCACHE_NONE
@@ -233,6 +243,11 @@ const LSArbIF: React.FC<{
               </SimpleValDisplay>
             </div>
             <Dtable className="">
+              <Dthead>
+                <Dtr>
+                  <Dth>Data</Dth>
+                </Dtr>
+              </Dthead>
               <Dtbody className={Dcache_valid_out ? "bg-good" : "bg-bad"}>
                 <Dtr>
                   <Dtd>
