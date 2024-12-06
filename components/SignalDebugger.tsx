@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DisplaySingleSignal from "./DisplaySingleSignal";
 import { ScopeData } from "@/lib/tstypes";
-import { ModuleBase, ModuleContent, ModuleHeader } from "./dui/Module";
+import { Module, ModuleContent, ModuleHeader } from "./dui/Module";
 import { Button } from "./ui/button";
 
 type SignalDebuggerProps = {
@@ -23,7 +23,7 @@ const SignalDebugger: React.FC<SignalDebuggerProps> = ({
   };
 
   return (
-    <ModuleBase className={`block ${className}`}>
+    <Module className={`block ${className}`}>
       <ModuleHeader className="mb-1" label="Signal Debugger" />
       <ModuleContent className="justify-items-start">
         <div className="flex items-center gap-2">
@@ -60,7 +60,7 @@ const SignalDebugger: React.FC<SignalDebuggerProps> = ({
           ))}
         </div>
       </ModuleContent>
-    </ModuleBase>
+    </Module>
   );
 };
 
