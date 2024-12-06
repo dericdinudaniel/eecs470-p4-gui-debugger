@@ -42,7 +42,7 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({
   const branch_avail = extractSignalValue(signalRS, "branch_avail");
   const mult_avail = extractSignalValue(signalRS, "mult_avail");
   const store_avail = extractSignalValue(signalRS, "store_avail");
-  const load_avail = extractSignalValue(signalRS, "load_avail");
+  const load_avail = extractSignalValue(signalRS, "true_load_avail");
 
   const early_cdb = extractSignalValue(signalRS, "early_cdb").value;
   const RS_early_cdb = parseCDBTags(early_cdb);
