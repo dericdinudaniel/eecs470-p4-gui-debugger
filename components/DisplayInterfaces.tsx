@@ -15,7 +15,7 @@ import {
   Dtable,
 } from "@/components/dui/DTable";
 import { ScopeData } from "@/lib/tstypes";
-import { displayValueHex } from "@/lib/utils";
+import { displayValue, displayValueHex } from "@/lib/utils";
 import { parseInstruction } from "@/lib/tsutils";
 
 export type IFProps = {
@@ -67,12 +67,12 @@ const MemArbToI$: React.FC<
   return (
     <IOBase className={className} type={type}>
       <SimpleValDisplay label="Tran Tag: ">
-        <PaddedNum number={transTag} maxNumber={15} />
+        {displayValue(transTag)}
       </SimpleValDisplay>
 
       <div className="justify-items-center p-0">
         <SimpleValDisplay label="Data Tag: ">
-          <PaddedNum number={dataTag} maxNumber={15} />
+          {displayValue(dataTag)}
         </SimpleValDisplay>
         {/* <SimpleValDisplay label="Addr: ">
           {displayValueHex(Imem2proc_addr)}
