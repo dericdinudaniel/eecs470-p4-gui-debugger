@@ -10,6 +10,7 @@ import {
   extractSignalValueToInt,
   parseLOAF_FORWARD_REQ,
   parseLOAF_FORWARD_RESULT,
+  parseMEM_BLOCK,
 } from "@/lib/utils";
 import * as Types from "@/lib/types";
 import { Dtable, Dtbody, Dtd, Dth, Dthead, DthLeft, Dtr } from "./dui/DTable";
@@ -50,10 +51,8 @@ const DisplayLoaf: React.FC<DisplayLoafProps> = ({ className, signalLoaf }) => {
   ) as Types.DATA;
 
   const mem_complete = extractSignalValueToBool(signalLoaf, "mem_complete");
-  const mem_data = extractSignalValueToInt(
-    signalLoaf,
-    "mem_data"
-  ) as Types.DATA;
+  const mem_data = extractSignalValue(signalLoaf, "mem_data").value;
+  const LD_mem_data = parseMEM_BLOCK(mem_data);
   const mem_addr = extractSignalValueToInt(
     signalLoaf,
     "mem_addr"
@@ -141,8 +140,25 @@ const DisplayLoaf: React.FC<DisplayLoafProps> = ({ className, signalLoaf }) => {
                   mem_complete ? "bg-good" : "bg-bad"
                 }`}
               >
-                <CardHeaderSmall label="Result Addr" />
-                {displayValueHex(mem_data)}
+                <CardHeaderSmall label="Result Data" />
+                <Dtable>
+                  <Dtbody>
+                    <Dtr>
+                      <Dtd>
+                        <div className="w-20">
+                          {displayValueHex(LD_mem_data[0])}
+                        </div>
+                      </Dtd>
+                    </Dtr>
+                    <Dtr>
+                      <Dtd>
+                        <div className="w-20">
+                          {displayValueHex(LD_mem_data[1])}
+                        </div>
+                      </Dtd>
+                    </Dtr>
+                  </Dtbody>
+                </Dtable>
               </div>
             </div>
           </div>
