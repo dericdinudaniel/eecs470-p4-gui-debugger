@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   displayValueHex,
   extractSignalValue,
@@ -29,6 +29,7 @@ import PaddedNum from "./dui/PaddedNum";
 import * as Types from "@/lib/types";
 import { Card, CardContent, CardHeader, CardHeaderSmall } from "./dui/Card";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
+import { MemArbToI$, I$ToMemArb } from "./DisplayInterfaces";
 
 // Memory Interface Component
 const MemIF: React.FC<{
@@ -60,52 +61,20 @@ const MemIF: React.FC<{
     <Card>
       <CardHeader label="Mem IF" />
       <CardContent className="flex gap-x-3">
-        <div className="justify-items-center">
-          <CardHeaderSmall label="Inputs" />
-          <div className="justify-items-center">
-            <SimpleValDisplay label="Tran Tag: ">
-              <PaddedNum number={Imem2proc_transaction_tag} maxNumber={15} />
-            </SimpleValDisplay>
+        <MemArbToI$
+          type="input"
+          className=""
+          transTag={Imem2proc_transaction_tag}
+          dataTag={Imem2proc_data_tag}
+          data={I$_Imem2proc_data}
+        />
 
-            <div className="justify-items-center p-0">
-              <SimpleValDisplay label="Data Tag: ">
-                <PaddedNum number={Imem2proc_data_tag} maxNumber={15} />
-              </SimpleValDisplay>
-              {/* <SimpleValDisplay label="Addr: ">
-          {displayValueHex(Imem2proc_addr)}
-        </SimpleValDisplay> */}
-
-              <Dtable>
-                <Dthead>
-                  <Dtr>
-                    <Dth colSpan={2}>Insts.</Dth>
-                  </Dtr>
-                </Dthead>
-                <Dtbody>
-                  {I$_Imem2proc_data.map((inst, idx) => (
-                    <Dtr key={idx} className="bg-neutral">
-                      <Dtd>
-                        <div className="w-40">{parseInstruction(inst)}</div>
-                      </Dtd>
-                    </Dtr>
-                  ))}
-                </Dtbody>
-              </Dtable>
-            </div>
-          </div>
-        </div>
-
-        <div className="justify-items-center">
-          <CardHeaderSmall label="Outputs" />
-          <div className="justify-items-center">
-            <SimpleValDisplay label="Command: ">
-              {Types.getMemCommandName(I$_proc2Imem_command)}
-            </SimpleValDisplay>
-            <SimpleValDisplay label="Addr: ">
-              {displayValueHex(proc2Imem_addr)}
-            </SimpleValDisplay>
-          </div>
-        </div>
+        <I$ToMemArb
+          type="output"
+          className=""
+          memCommand={I$_proc2Imem_command}
+          memAddr={proc2Imem_addr}
+        />
       </CardContent>
     </Card>
   );

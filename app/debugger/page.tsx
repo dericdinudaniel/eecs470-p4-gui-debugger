@@ -16,7 +16,7 @@ import IBDebugger from "@/components/IBDebugger";
 import BPredDebugger from "@/components/BPredDebugger";
 import SignalDebugger from "@/components/SignalDebugger";
 import I$Debugger from "@/components/I$Debugger";
-import MemCmdDebugger from "@/components/MemCmdDebugger";
+import MemDebugger from "@/components/MemDebugger";
 import SQDebugger from "@/components/SQDebugger";
 import D$Debugger from "@/components/D$Debugger";
 
@@ -204,6 +204,10 @@ export default function Debugger() {
                       className=""
                       signalRegfile={OoO_Core.children.DUT_regfile}
                     />
+                    <BPredDebugger
+                      className=""
+                      signalBP={Front_End.children.masonshare}
+                    />
                   </div>
 
                   <div className="flex flex-col items-center gap-y-4">
@@ -216,11 +220,12 @@ export default function Debugger() {
                       signalBS={OoO_Core.children.DUT_branch_stack}
                     />
                     <div className="flex flex-col items-center gap-y-4">
-                      <BPredDebugger
+                      <MemDebugger
                         className=""
-                        signalBP={Front_End.children.masonshare}
+                        signalCPU={cpu}
+                        signalMem={testbench.children.memory}
+                        signalMemArb={cpu.children.mem_arbiter}
                       />
-                      <MemCmdDebugger className="" signalCPU={cpu} />
                     </div>
                   </div>
 

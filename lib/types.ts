@@ -345,6 +345,7 @@ export type FU_DATA = {
   b_mask: string;
   saved_tail: SQ_IDX;
   PC: ADDR;
+  imm: DATA;
 };
 export const FU_DATA_WIDTH =
   PHYS_REG_TAG_WIDTH + // T_new
@@ -354,7 +355,8 @@ export const FU_DATA_WIDTH =
   FU_FUNC_WIDTH + // fu_func
   Constants.NUM_CHECKPOINTS + // b_mask
   SQ_IDX_WIDTH + // saved_tail
-  ADDR_WIDTH; // PC
+  ADDR_WIDTH + // PC
+  DATA_WIDTH; // imm
 
 // Enum for operation types
 export enum FU_TYPE {

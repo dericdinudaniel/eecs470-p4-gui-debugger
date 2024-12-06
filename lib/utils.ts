@@ -344,6 +344,9 @@ export const parseFU_DATA = (
   const PC = extractBits(binaryStr, accessIdx, Types.ADDR_WIDTH);
   accessIdx += Types.ADDR_WIDTH;
 
+  const imm = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
+  accessIdx += Types.DATA_WIDTH;
+
   return {
     T_new,
     rs1,
@@ -353,6 +356,7 @@ export const parseFU_DATA = (
     b_mask,
     saved_tail,
     PC,
+    imm,
   };
 };
 
