@@ -60,7 +60,7 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
         }
       }
 
-      return true && RSData.occupied;
+      return true && RSData.occupied && RSData.fu === Types.FU_TYPE.LOAD;
     }
 
     return false;
