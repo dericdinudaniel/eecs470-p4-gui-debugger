@@ -92,6 +92,12 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
             </Dtd>
           </Dtr>
 
+          {/* lsq */}
+          <Dtr>
+            <DtdLeft className="text-xs p-1">SQ IDX</DtdLeft>
+            <Dtd className="text-xs p-1">{RS_TO_FUData.saved_tail}</Dtd>
+          </Dtr>
+
           {/* func data */}
           <Dtr>
             <Dtd colSpan={2} className="text-xs p-1">
