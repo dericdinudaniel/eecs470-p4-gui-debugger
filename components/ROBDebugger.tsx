@@ -44,9 +44,6 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
   const entries = extractSignalValue(signalData, "entries").value;
   const ROB_entries = parseROBData(entries);
 
-  // output signals
-  const open_spots = extractSignalValueToInt(signalData, "open_spots");
-
   // State to control visibility of stuff
   const [showROBInternals, setShowROBInternals] = useState(false);
   const [showROBInputs, setShowROBInputs] = useState(true);
@@ -55,10 +52,10 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
     <>
       <Module className={className}>
         <ModuleHeader label="ROB">
-          <p className="pl-3">
-            <span className="font-semibold">(Open Spots: </span>
-            {Number.isNaN(open_spots) ? "X" : open_spots})
-          </p>
+          <SimpleValDisplay label="(Avail. Spots: " className="pl-3">
+            {Number.isNaN(available_spots) ? "X" : available_spots}
+            {")"}
+          </SimpleValDisplay>
 
           {/* Toggle buttons */}
           <div className="pl-3 space-x-2">
@@ -90,10 +87,6 @@ const ROBDebugger: React.FC<ROBDebuggerProps> = ({ className, signalData }) => {
           {showROBInternals && (
             <Card className="flex space-x-4">
               <div>
-                <SimpleValDisplay label="Available Spots: ">
-                  {available_spots}
-                </SimpleValDisplay>
-
                 <SimpleValDisplay label="Retireable Count: ">
                   {retireable_cnt}
                 </SimpleValDisplay>

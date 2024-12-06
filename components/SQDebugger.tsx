@@ -382,7 +382,7 @@ type SQDebuggerProps = {
   signalSQ: ScopeData;
 };
 const SQDebugger: React.FC<SQDebuggerProps> = ({ className, signalSQ }) => {
-  const open_spots = extractSignalValueToInt(signalSQ, "open_spots");
+  const available_spots = extractSignalValueToInt(signalSQ, "available_spots");
 
   const entries = extractSignalValue(signalSQ, "entries").value;
   const SQ_entries = parseSQ_DATA_List(entries);
@@ -396,10 +396,11 @@ const SQDebugger: React.FC<SQDebuggerProps> = ({ className, signalSQ }) => {
     <>
       <Module>
         <ModuleHeader label="Store Queue">
-          <p className="pl-3">
-            <span className="font-semibold">(Open Spots: </span>
-            {Number.isNaN(open_spots) ? "X" : open_spots})
-          </p>
+          <SimpleValDisplay label="(Avail. Spots: " className="pl-3">
+            {Number.isNaN(available_spots) ? "X" : available_spots}
+            {")"}
+          </SimpleValDisplay>
+
           {/* Toggle buttons */}
           <div className="pl-3 space-x-2">
             <DButton onClick={() => setShowSQInterfaces(!showSQInterfaces)}>
@@ -416,29 +417,29 @@ const SQDebugger: React.FC<SQDebuggerProps> = ({ className, signalSQ }) => {
                 display={showSQInterfaces}
                 signalSQ={signalSQ}
               />
+              <div className="justify-items-center flex gap-x-2 items-start">
+                <ROBIF
+                  className=""
+                  display={showSQInterfaces}
+                  signalSQ={signalSQ}
+                />
+                <RSLoadIF
+                  className=""
+                  display={showSQInterfaces}
+                  signalSQ={signalSQ}
+                />
+                <LSArbIF
+                  className=""
+                  display={showSQInterfaces}
+                  signalSQ={signalSQ}
+                />
+              </div>
               <DisplaySQData // Actual Store Queue
                 className=""
                 SData={SQ_entries}
                 head={head}
                 tail={tail}
                 isSQ={true}
-              />
-            </div>
-            <div className="justify-items-center space-y-2">
-              <ROBIF
-                className=""
-                display={showSQInterfaces}
-                signalSQ={signalSQ}
-              />
-              <RSLoadIF
-                className=""
-                display={showSQInterfaces}
-                signalSQ={signalSQ}
-              />
-              <LSArbIF
-                className=""
-                display={showSQInterfaces}
-                signalSQ={signalSQ}
               />
             </div>
 

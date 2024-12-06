@@ -18,6 +18,7 @@ import DisplaySingleRS from "./DisplaySingleRS";
 import DisplaySingleRS_TO_FU_DATA from "./DisplaySingleRS_TO_FU_DATA";
 import { DButton } from "./dui/DButton";
 import { Card, CardHeaderSmall } from "./dui/Card";
+import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 
 type RSDebuggerProps = {
   className: string;
@@ -57,7 +58,8 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
   const RS_load_out = parseRS_TO_FU_DATA_List(load_out, Types.FU_TYPE.LOAD);
   const RS_store_out = parseRS_TO_FU_DATA_List(store_out, Types.FU_TYPE.STORE);
 
-  const open_spots = extractSignalValueToInt(signalRS, "open_spots");
+  const entries_cnt = extractSignalValueToInt(signalRS, "entries_cnt");
+  const available_spots = RS_entries.length - entries_cnt;
 
   const [showRSInputs, setShowRSInputs] = useState(true);
   const [showRSOutputs, setShowRSOutputs] = useState(true);
@@ -67,10 +69,10 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
       <Module className={className}>
         {/* header */}
         <ModuleHeader label="RS">
-          <p className="pl-3">
-            <span className="font-semibold">(Open Spots: </span>
-            {Number.isNaN(open_spots) ? "X" : open_spots})
-          </p>
+          <SimpleValDisplay label="(Avail. Spots: " className="pl-3">
+            {Number.isNaN(available_spots) ? "X" : available_spots}
+            {")"}
+          </SimpleValDisplay>
           {/* Toggle buttons */}
           <div className="pl-3 space-x-2">
             <DButton onClick={() => setShowRSInputs(!showRSInputs)}>
@@ -104,7 +106,7 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
                 </div>
               </Card>
               <Card>
-                <p className="font-semibold">Decoded Instructions</p>
+                <p className="font-semibold">Dispatched Instructions</p>
                 <div className="flex space-x-1">
                   {RS_decoded_instruction.map((rs, idx) => (
                     <div key={idx}>
