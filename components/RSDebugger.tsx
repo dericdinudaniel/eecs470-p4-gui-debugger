@@ -23,9 +23,14 @@ import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 type RSDebuggerProps = {
   className: string;
   signalRS: ScopeData;
+  signalSQ: ScopeData;
 };
 
-const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
+const RSDebugger: React.FC<RSDebuggerProps> = ({
+  className,
+  signalRS,
+  signalSQ,
+}) => {
   // inputs
   const decoded_instruction = extractSignalValue(
     signalRS,
@@ -123,6 +128,7 @@ const RSDebugger: React.FC<RSDebuggerProps> = ({ className, signalRS }) => {
             className=""
             RSData={RS_entries}
             EarlyCDB={RS_early_cdb}
+            signalSQ={signalSQ}
           />
 
           {/* display outputs */}

@@ -19,6 +19,9 @@ type DisplaySingleRSProps = {
   RSIdx: number;
   RSData: Types.RS_DATA;
   EarlyCDB?: Types.PHYS_REG_TAG[];
+  SQ_entries?: Types.SQ_DATA[];
+  SQ_head?: number;
+  SQ_empty?: boolean;
 };
 
 const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
@@ -26,7 +29,43 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
   RSIdx,
   RSData,
   EarlyCDB,
+  SQ_entries,
+  SQ_head,
+  SQ_empty,
 }) => {
+  function checkSQ(): boolean {
+    // loop over SQ_entries from head to saved_tail, and if all of the SQ entries have address_valid, then highlight the entry
+    // remember to go to beginning after reaching the end
+
+    if (SQ_entries != undefined && SQ_head != undefined) {
+      const saved_tail = RSData.rs_to_fu_data.saved_tail;
+      let i = SQ_head;
+
+      if (SQ_empty) {
+        return false;
+      }
+
+      while (i != saved_tail) {
+        if (SQ_entries[i].valid === false) {
+          return false;
+        }
+        if (SQ_entries[i].address_valid === false) {
+          return false;
+        }
+
+        i = (i + 1) % SQ_entries.length;
+
+        if (i === saved_tail) {
+          break;
+        }
+      }
+
+      return true && RSData.occupied;
+    }
+
+    return false;
+  }
+
   return (
     <div className={`${className} hover:shadow-2xl transition-shadow`}>
       <Dtable className={`${RSData.occupied ? "bg-good" : "bg-bad"}`}>
@@ -133,7 +172,7 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
           </Dtr>
 
           {/* lsq */}
-          <Dtr>
+          <Dtr className={checkSQ() ? "bg-veryGood" : ""}>
             <DtdLeft className="text-xs p-1">SQ IDX</DtdLeft>
             <Dtd className="text-xs p-1">{RSData.rs_to_fu_data.saved_tail}</Dtd>
           </Dtr>

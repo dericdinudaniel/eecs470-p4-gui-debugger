@@ -228,6 +228,7 @@ export default function Debugger() {
                     <RSDebugger
                       className=""
                       signalRS={OoO_Core.children.DUT_rs}
+                      signalSQ={OoO_Core.children.DUT_sq}
                     />
                     <FUDebugger
                       className=""
