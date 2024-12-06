@@ -21,6 +21,15 @@ type DisplayLoafProps = {
 };
 
 const DisplayLoaf: React.FC<DisplayLoafProps> = ({ className, signalLoaf }) => {
+  try {
+    const test = extractSignalValueToInt(
+      signalLoaf,
+      "state"
+    ) as Types.LOAF_STATE_T;
+  } catch (e) {
+    throw new Error("Check Constants.ts & sysdefs.h: NUM_FU_LOAD");
+  }
+
   const state = extractSignalValueToInt(
     signalLoaf,
     "state"
