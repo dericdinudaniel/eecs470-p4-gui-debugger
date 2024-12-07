@@ -7,7 +7,7 @@ const clog2 = (x: number): number => Math.ceil(Math.log2(x));
 export const AR_NUM = 32; // number of architectural registers
 
 // Superscalar width
-export const N = 3;
+export const N = 8;
 export const CDB_SZ = N; // This MUST match your superscalar width
 
 // Sizes

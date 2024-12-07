@@ -354,7 +354,7 @@ const MispredIF: React.FC<{
       <CardContent className="space-y-[-.35rem]">
         <SimpleValDisplay
           label="Prediction: "
-          className={`p-1 ${
+          className={`p-1 mb-1 ${
             prediction == Types.BRANCH_PREDICT_T.CORRECT_PRED
               ? "rounded-lg bg-veryGood"
               : prediction == Types.BRANCH_PREDICT_T.MISPREDICT

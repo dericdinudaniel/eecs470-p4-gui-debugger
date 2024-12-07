@@ -109,6 +109,9 @@ export const parseROBData = (entries: string): Types.ROB_DATA[] => {
     const store = binaryStr[accessIdx] === "1";
     accessIdx += 1;
 
+    const branch = binaryStr[accessIdx] === "1";
+    accessIdx += 1;
+
     const NPC = extractBits(binaryStr, accessIdx, Types.ADDR_WIDTH);
     accessIdx += Types.ADDR_WIDTH;
 
@@ -125,6 +128,7 @@ export const parseROBData = (entries: string): Types.ROB_DATA[] => {
       retireable,
       halt,
       store,
+      branch,
       NPC,
       packet,
     });

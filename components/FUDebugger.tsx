@@ -241,7 +241,7 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
                 <div className="flex space-x-4">
                   {/* ALU */}
                   <div className="justify-items-center">
-                    <CardHeaderSmall label="ALU IN" />
+                    <CardHeaderSmall label="ALU REGs" />
                     <div className="flex space-x-1">
                       {FU_alu_reg.map((fu_data, idx) => (
                         <div key={idx}>
@@ -258,7 +258,7 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
 
                   {/* MULT */}
                   <div className="justify-items-center">
-                    <CardHeaderSmall label="MULT IN" />
+                    <CardHeaderSmall label="MULT REGs" />
                     <div className="flex space-x-1">
                       {FU_mult_reg.map((fu_data, idx) => (
                         <div key={idx}>
@@ -275,7 +275,7 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
 
                   {/* BRANCH */}
                   <div className="justify-items-center">
-                    <CardHeaderSmall label="BRANCH IN" />
+                    <CardHeaderSmall label="BRANCH REGs" />
                     <div className="flex space-x-1">
                       {FU_branch_reg.map((fu_data, idx) => (
                         <div key={idx}>
@@ -294,7 +294,7 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
                 <div className="flex space-x-4">
                   {/* LOAD */}
                   <div className="justify-items-center">
-                    <CardHeaderSmall label="LOAD IN" />
+                    <CardHeaderSmall label="LOAD REGs" />
                     <div className="flex space-x-1">
                       {FU_load_reg.map((fu_data, idx) => (
                         <div key={idx}>
@@ -311,7 +311,7 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
 
                   {/* STORE */}
                   <div className="justify-items-center">
-                    <CardHeaderSmall label="STORE IN" />
+                    <CardHeaderSmall label="STORE REGs" />
                     <div className="flex space-x-1">
                       {FU_store_reg.map((fu_data, idx) => (
                         <div key={idx}>

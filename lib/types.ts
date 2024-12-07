@@ -384,13 +384,14 @@ export interface ROB_DATA {
   retireable: boolean;
   halt: boolean;
   store: boolean;
+  branch: boolean;
   NPC: ADDR;
   packet: ID_EX_PACKET;
 }
 export const ROB_DATA_WIDTH =
   2 * PHYS_REG_TAG_WIDTH + // T_old, T_new
   REG_IDX_WIDTH + // R_dest
-  4 * 1 + // valid, retireable, halt, store
+  5 * 1 + // valid, retireable, halt, store, branch
   ADDR_WIDTH + // NPC
   ID_EX_PACKET_WIDTH; // packet
 
