@@ -12,6 +12,7 @@ import {
   Dtable,
 } from "@/components/dui/DTable";
 import { Card } from "./dui/Card";
+import { useTagSearchContext } from "./TagSearch";
 
 type DisplaySQDataProps = {
   className: string;
@@ -28,6 +29,8 @@ const DisplaySQData: React.FC<DisplaySQDataProps> = ({
   tail,
   isSQ,
 }) => {
+  const { tag } = useTagSearchContext();
+
   return (
     <Card className={className}>
       {Number.isNaN(head) && (
@@ -88,7 +91,13 @@ const DisplaySQData: React.FC<DisplaySQDataProps> = ({
             return (
               <Dtr key={idx} className={`${bgColor}`}>
                 <DtdLeft className="font-semibold">{entryNumber}</DtdLeft>
-                <Dtd>{entry.T_new}</Dtd>
+                <Dtd
+                  className={
+                    entry.valid && tag == entry.T_new ? "bg-tagSearchHit" : ""
+                  }
+                >
+                  {entry.T_new}
+                </Dtd>
                 <Dtd>{Types.getSTOREFuncName(entry.store_type)}</Dtd>
                 <Dtd className={fwdColor}>
                   <div className="w-20">

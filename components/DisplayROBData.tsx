@@ -99,12 +99,18 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
                   <Dtd>{"r" + displayValue(entry.R_dest)}</Dtd>
                   <Dtd
                     className={
-                      entry.valid && tag == entry.T_new ? "bg-veryGood" : ""
+                      entry.valid && tag == entry.T_new ? "bg-tagSearchHit" : ""
                     }
                   >
                     {"p" + displayValue(entry.T_new)}
                   </Dtd>
-                  <Dtd>{"p" + displayValue(entry.T_old)}</Dtd>
+                  <Dtd
+                    className={
+                      entry.valid && tag == entry.T_old ? "bg-tagSearchHit" : ""
+                    }
+                  >
+                    {"p" + displayValue(entry.T_old)}
+                  </Dtd>
                   <Dtd>{displayValue(entry.valid ? "1" : "0")}</Dtd>
                   <Dtd>{displayValue(entry.retireable ? "1" : "0")}</Dtd>
                   {isROB && (

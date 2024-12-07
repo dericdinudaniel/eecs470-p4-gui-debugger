@@ -41,6 +41,7 @@
     --chart-5: 27 87% 67%;
 
     /* mine */
+    --tagSearchHit: #c48aff;
     --veryGood: #22c55e;
     --good: #bbf7d0;
     --goodLight: #d8f2e1;
@@ -80,6 +81,7 @@
     --chart-5: 340 75% 55%;
 
     /* mine */
+    --tagSearchHit: #7517d3;
     --veryGood: #1c9a4a;
     --good: #215937;
     --goodLight: #356e4b;

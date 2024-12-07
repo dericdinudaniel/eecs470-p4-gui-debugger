@@ -40,7 +40,9 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
         </Dthead>
         <Dtbody>
           <Dtr
-            className={FUData.valid && tag == FUData.T_new ? "bg-veryGood" : ""}
+            className={
+              FUData.valid && tag == FUData.T_new ? "bg-tagSearchHit" : ""
+            }
           >
             <DtdLeft className="text-xs p-1">T_new:</DtdLeft>
             <Dtd className="text-xs p-1">p{displayValue(FUData.T_new)}</Dtd>

@@ -70,6 +70,7 @@ module.exports = {
           5: "hsl(var(--chart-5))",
         },
 
+        tagSearchHit: "var(--tagSearchHit)",
         veryGood: "var(--veryGood)",
         good: "var(--good)",
         goodLight: "var(--goodLight)",

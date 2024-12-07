@@ -91,7 +91,7 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
           <Dtr
             className={
               RSData.occupied && tag == RSData.rs_to_fu_data.T_new
-                ? "bg-veryGood"
+                ? "bg-tagSearchHit"
                 : ""
             }
           >

@@ -47,7 +47,9 @@ const DisplayMapTable: React.FC<DisplayMapTableProps> = ({
                     {chunkIdx * chunkSize + idx}:
                   </DtdLeft>
                   <Dtd
-                    className={`${tag == pr ? "bg-veryGood" : "bg-neutral"}`}
+                    className={`${
+                      tag == pr ? "bg-tagSearchHit" : "bg-neutral"
+                    }`}
                   >
                     <div className="text-center">
                       <span>{displayValue(pr)}</span>

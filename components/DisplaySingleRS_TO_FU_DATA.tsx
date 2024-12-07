@@ -49,7 +49,7 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
           <Dtr
             className={
               RS_TO_FUData.valid && tag == RS_TO_FUData.T_new
-                ? "bg-veryGood"
+                ? "bg-tagSearchHit"
                 : ""
             }
           >

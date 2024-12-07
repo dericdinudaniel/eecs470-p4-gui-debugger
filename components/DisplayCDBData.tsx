@@ -50,7 +50,7 @@ const DisplayCDBData: React.FC<DisplayCDBDataProps> = ({
             const valid = !(Number.isNaN(cdbTag) || cdbTag == 0);
             let color = valid ? "bg-good" : "bg-bad";
             if (valid && tag == cdbTag) {
-              color = "bg-veryGood";
+              color = "bg-tagSearchHit";
             }
 
             return (

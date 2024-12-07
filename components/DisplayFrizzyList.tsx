@@ -70,7 +70,7 @@ const DisplayFrizzyList: React.FC<DisplayFrizzyListProps> = ({
                     <div className="flex px-3 space-x-1">
                       <span
                         className={`w-4 ${
-                          tag == prNumber ? "bg-veryGood" : ""
+                          tag == prNumber ? "bg-tagSearchHit" : ""
                         }`}
                       >
                         {prNumber}
