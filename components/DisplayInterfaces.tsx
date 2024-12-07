@@ -62,8 +62,10 @@ const MemArbToI$: React.FC<
     transTag: number;
     dataTag: number;
     data: number[];
+    dataAddr: Types.ADDR;
+    cacheType: "i" | "d";
   }
-> = ({ className, type, transTag, dataTag, data }) => {
+> = ({ className, type, transTag, dataTag, data, dataAddr, cacheType }) => {
   return (
     <IOBase className={className} type={type}>
       <SimpleValDisplay label="Tran Tag: ">
@@ -81,14 +83,18 @@ const MemArbToI$: React.FC<
         <Dtable>
           <Dthead>
             <Dtr>
-              <Dth colSpan={2}>Insts.</Dth>
+              <Dth colSpan={2}>{`Addr: ${displayValueHex(dataAddr)}`}</Dth>
             </Dtr>
           </Dthead>
-          <Dtbody>
-            {data.map((inst, idx) => (
-              <Dtr key={idx} className="bg-neutral">
+          <Dtbody className={dataTag != 0 ? "bg-good" : "bg-bad"}>
+            {data.map((d, idx) => (
+              <Dtr key={idx}>
                 <Dtd>
-                  <div className="w-40">{parseInstruction(inst)}</div>
+                  <div className="w-40">
+                    {cacheType == "i"
+                      ? parseInstruction(d)
+                      : displayValueHex(d)}
+                  </div>
                 </Dtd>
               </Dtr>
             ))}
@@ -150,8 +156,9 @@ const MemToMemArb: React.FC<
     transTag: number;
     dataTag: number;
     data: number[];
+    dataAddr: Types.ADDR;
   }
-> = ({ className, type, transTag, dataTag, data }) => {
+> = ({ className, type, transTag, dataTag, data, dataAddr }) => {
   return (
     <>
       <MemArbToI$
@@ -160,6 +167,8 @@ const MemToMemArb: React.FC<
         transTag={transTag}
         dataTag={dataTag}
         data={data}
+        dataAddr={dataAddr}
+        cacheType="d"
       />
     </>
   );

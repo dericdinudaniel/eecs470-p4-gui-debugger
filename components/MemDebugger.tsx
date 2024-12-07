@@ -75,7 +75,7 @@ const D$IF: React.FC<{
   return (
     <>
       <Card className={className} display={display}>
-        <CardHeader label="D$IF" />
+        <CardHeader label="D$ IF" />
         <CardContent className="flex gap-x-3">
           {/* inputs */}
           <div className="justify-items-center">
@@ -187,11 +187,15 @@ const I$IF: React.FC<{
     signalMemArb,
     "mem2Icache_data_tag"
   );
+  const mem2Icache_addr = extractSignalValueToInt(
+    signalMemArb,
+    "mem2Icache_addr"
+  ) as Types.ADDR;
 
   return (
     <>
       <Card className={className} display={display}>
-        <CardHeader label="I$IF" />
+        <CardHeader label="I$ IF" />
         <CardContent className="flex gap-x-3">
           <I$ToMemArb
             type="input"
@@ -206,6 +210,8 @@ const I$IF: React.FC<{
             transTag={mem2Icache_transaction_tag}
             dataTag={mem2Icache_data_tag}
             data={MA_mem2Icache_data}
+            dataAddr={mem2Icache_addr}
+            cacheType="i"
           />
         </CardContent>
       </Card>
@@ -242,9 +248,15 @@ const MemIF: React.FC<{
     signalMemArb,
     "mem2proc_data_tag"
   );
+  const mem2Icache_addr = extractSignalValueToInt(
+    signalMemArb,
+    "mem2Icache_addr"
+  ) as Types.ADDR;
+
   return (
     <>
       <Card>
+        <CardHeader label="Mem IF" />
         <CardContent className="flex gap-x-2">
           <MemToMemArb
             type="output"
@@ -252,6 +264,7 @@ const MemIF: React.FC<{
             transTag={mem2proc_transaction_tag}
             dataTag={mem2proc_data_tag}
             data={MA_mem2Icache_data}
+            dataAddr={mem2Icache_addr}
           />
           <MemArbToMem
             type="input"

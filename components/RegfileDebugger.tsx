@@ -22,7 +22,7 @@ import {
 } from "@/components/dui/DTable";
 import { Module, ModuleHeader, ModuleContent } from "./dui/Module";
 import { DButton } from "./dui/DButton";
-import { Card } from "./dui/Card";
+import { Card, CardContent, CardHeader } from "./dui/Card";
 
 type RegfileDebuggerProps = {
   className: string;
@@ -131,31 +131,36 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
               </div>
             </Card>
           )}
-          <Card className="flex space-x-1 mt-2">
-            {regChunks.map((regChunk, chunkIdx) => (
-              <Dtable key={chunkIdx}>
-                <Dthead>
-                  <Dtr>
-                    <Dth className="text-sm p-1">#</Dth>
-                    <Dth className="text-sm p-1 w-20">Value</Dth>
-                  </Dtr>
-                </Dthead>
-                <Dtbody>
-                  {regChunk.map((reg_data, idx) => {
-                    const globalIdx = chunkIdx * chunkSize + idx;
-                    const prNumber = globalIdx.toString();
-                    const value = regChunk[idx];
+          <Card className="mt-2">
+            <CardHeader label="Registers" className="text-sm no-underline" />
+            <CardContent className="flex space-x-1 mt-1">
+              {regChunks.map((regChunk, chunkIdx) => (
+                <Dtable key={chunkIdx}>
+                  <Dthead>
+                    <Dtr>
+                      <Dth className="text-sm p-1">#</Dth>
+                      <Dth className="text-sm p-1 w-20">Value</Dth>
+                    </Dtr>
+                  </Dthead>
+                  <Dtbody>
+                    {regChunk.map((reg_data, idx) => {
+                      const globalIdx = chunkIdx * chunkSize + idx;
+                      const prNumber = globalIdx.toString();
+                      const value = regChunk[idx];
 
-                    return (
-                      <Dtr key={globalIdx} className="bg-neutral">
-                        <DtdLeft className="font-semibold">{prNumber}:</DtdLeft>
-                        <Dtd className="">{displayValueHex(value)}</Dtd>
-                      </Dtr>
-                    );
-                  })}
-                </Dtbody>
-              </Dtable>
-            ))}
+                      return (
+                        <Dtr key={globalIdx} className="bg-neutral">
+                          <DtdLeft className="font-semibold">
+                            {prNumber}:
+                          </DtdLeft>
+                          <Dtd className="">{displayValueHex(value)}</Dtd>
+                        </Dtr>
+                      );
+                    })}
+                  </Dtbody>
+                </Dtable>
+              ))}
+            </CardContent>
           </Card>
         </ModuleContent>
       </Module>

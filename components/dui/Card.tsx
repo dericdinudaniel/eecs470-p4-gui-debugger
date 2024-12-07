@@ -88,13 +88,13 @@ const CardHeaderSmall = React.forwardRef<
     { label, parentClassName, afterClassName, className, children, ...props },
     ref
   ) => {
-    const { toggleContent } = useCardContext(); // Get toggleContent from context
+    // const { toggleContent } = useCardContext(); // Get toggleContent from context
     return (
       <div className={cn("flex items-center", parentClassName)}>
         <button
           ref={ref}
           className={cn("font-semibold", className)}
-          onClick={toggleContent}
+          // onClick={toggleContent}
           {...props}
         >
           {label}

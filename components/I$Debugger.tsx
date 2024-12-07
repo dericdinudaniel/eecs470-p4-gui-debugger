@@ -45,7 +45,10 @@ const MemIF: React.FC<IFProps> = ({ className, signal, display }) => {
   );
   const Imem2proc_data = extractSignalValue(signal, "Imem2proc_data").value;
   const I$_Imem2proc_data = parse_to_INST_List(Imem2proc_data);
-  // const Imem2proc_addr = extractSignalValueToInt(signal, "Imem2proc_addr");
+  const Imem2proc_addr = extractSignalValueToInt(
+    signal,
+    "Imem2proc_addr"
+  ) as Types.ADDR;
 
   // outputs
   const proc2Imem_command = extractSignalValue(
@@ -65,6 +68,8 @@ const MemIF: React.FC<IFProps> = ({ className, signal, display }) => {
           transTag={Imem2proc_transaction_tag}
           dataTag={Imem2proc_data_tag}
           data={I$_Imem2proc_data}
+          dataAddr={Imem2proc_addr}
+          cacheType="i"
         />
 
         <I$ToMemArb
@@ -181,7 +186,12 @@ const FetchIF: React.FC<IFProps> = ({ className, signal, display }) => {
                   <SimpleValDisplay label="Take Branch: ">
                     {take_branch ? "Yes" : "No"}
                   </SimpleValDisplay>
-                  <SimpleValDisplay label="Valid Fetches: ">
+                </div>
+              </div>
+
+              <div className="flex items-start gap-x-2">
+                <div className="justify-items-center">
+                  <SimpleValDisplay label="Valid: ">
                     <PaddedNum
                       number={valid_fetches}
                       maxNumber={
@@ -189,11 +199,6 @@ const FetchIF: React.FC<IFProps> = ({ className, signal, display }) => {
                       } // calculate N width
                     />
                   </SimpleValDisplay>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-x-2">
-                <div className="justify-items-center">
                   <CardHeaderSmall label="Fetch Addrs" />
                   <Dtable>
                     <Dthead>
@@ -252,7 +257,7 @@ const FetchIF: React.FC<IFProps> = ({ className, signal, display }) => {
   );
 };
 
-// The actual icache display
+// I$ Requests
 const I$Request: React.FC<IFProps> = ({ className, signal }) => {
   const tags = extractSignalValue(signal, "tags").value;
   const indexes = extractSignalValue(signal, "indexes").value;
@@ -275,7 +280,7 @@ const I$Request: React.FC<IFProps> = ({ className, signal }) => {
             <Dthead>
               <Dtr>
                 <Dth>Tag</Dth>
-                <Dth>Index</Dth>
+                <Dth>Idx</Dth>
                 <Dth>R EN</Dth>
                 <Dth>Inst.</Dth>
               </Dtr>

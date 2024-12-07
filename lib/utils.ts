@@ -1192,15 +1192,22 @@ export const parseSQ_IDX_List = (inputStr: string): Types.SQ_IDX[] => {
 // MEM_BLOCK is just an array of 2 DATA values
 export const parseMEM_BLOCK = (inputStr: string): Types.MEM_BLOCK => {
   const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
-  let accessIdx = 0;
+  const result: Types.MEM_BLOCK = [];
 
-  const data1 = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
-  accessIdx += Types.DATA_WIDTH;
+  const entryWidth = Types.DATA_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
 
-  const data2 = extractBits(binaryStr, accessIdx, Types.DATA_WIDTH);
-  accessIdx += Types.DATA_WIDTH;
+  if (arrLen !== 2) {
+    throw new Error(`Invalid MEM_BLOCK length: ${arrLen}`);
+  }
 
-  return [data1, data2];
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+    const data = extractBits(binaryStr, startIdx, entryWidth);
+    result.push(data);
+  }
+
+  return result;
 };
 
 export const parseMEM_BLOCK_List = (inputStr: string): Types.MEM_BLOCK[] => {

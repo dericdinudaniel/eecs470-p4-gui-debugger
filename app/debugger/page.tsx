@@ -196,37 +196,31 @@ export default function Debugger() {
                       signalIB={cpu.children.Front_End.children.instr_buffer}
                       signalFront_End={Front_End}
                     />
-                    <FNAFDebugger
-                      className=""
-                      signalFNAF={OoO_Core.children.DUT_freddy}
-                    />
                     <RegfileDebugger
                       className=""
                       signalRegfile={OoO_Core.children.DUT_regfile}
                     />
+                  </div>
+
+                  <div className="flex flex-col items-center gap-y-4">
                     <BPredDebugger
                       className=""
                       signalBP={Front_End.children.masonshare}
                     />
-                  </div>
-
-                  <div className="flex flex-col items-center gap-y-4">
                     <ROBDebugger
                       className=""
                       signalData={OoO_Core.children.DUT_rob}
                     />
-                    <BSDebugger
+                    <MemDebugger
                       className=""
-                      signalBS={OoO_Core.children.DUT_branch_stack}
+                      signalCPU={cpu}
+                      signalMem={testbench.children.memory}
+                      signalMemArb={cpu.children.mem_arbiter}
                     />
-                    <div className="flex flex-col items-center gap-y-4">
-                      <MemDebugger
-                        className=""
-                        signalCPU={cpu}
-                        signalMem={testbench.children.memory}
-                        signalMemArb={cpu.children.mem_arbiter}
-                      />
-                    </div>
+                    <FNAFDebugger
+                      className=""
+                      signalFNAF={OoO_Core.children.DUT_freddy}
+                    />
                   </div>
 
                   <div className="flex flex-col items-center gap-y-4">
@@ -235,10 +229,16 @@ export default function Debugger() {
                       signalRS={OoO_Core.children.DUT_rs}
                       signalSQ={OoO_Core.children.DUT_sq}
                     />
-                    <FUDebugger
-                      className=""
-                      signalFU={OoO_Core.children.DUT_fu}
-                    />
+                    <div className="flex gap-x-2">
+                      <BSDebugger
+                        className=""
+                        signalBS={OoO_Core.children.DUT_branch_stack}
+                      />
+                      <FUDebugger
+                        className=""
+                        signalFU={OoO_Core.children.DUT_fu}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

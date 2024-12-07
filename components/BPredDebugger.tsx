@@ -137,25 +137,16 @@ const BPredDebugger: React.FC<BPredDebuggerProps> = ({
       <Module className={className}>
         <ModuleHeader label="Branch Predictor" />
 
-        <ModuleContent className="mt-2 justify-items-center">
-          <SimpleValDisplay
-            label="Incoming PC: "
-            className={`${
-              incoming_branch_valid ? "bg-good" : "bg-bad"
-            } rounded-lg p-1 text-sm`}
-          >
-            {displayValueHex(incoming_branch_PC)}
-          </SimpleValDisplay>
-
+        <ModuleContent className="mt-2 flex gap-x-2 items-start">
           {/* recovery interface */}
-          <Card className="mt-2">
+          <Card>
             <CardHeader label="Recovery Interface" />
             <CardContent className="space-y-[-.35rem]">
-              <SimpleValDisplay label="Actual Branch Dir.: ">
+              <SimpleValDisplay label="Real Branch Dir.: ">
                 {predicted_direction ? "Taken" : "Not Taken"}
               </SimpleValDisplay>
 
-              <SimpleValDisplay label="Branch Resolution: ">
+              <SimpleValDisplay label="Branch Resolve?: ">
                 {Types.getBranchPredictName(resolving_branch_status)}
               </SimpleValDisplay>
 
@@ -163,19 +154,28 @@ const BPredDebugger: React.FC<BPredDebuggerProps> = ({
                 {displayValueHex(resolving_branch_PC)}
               </SimpleValDisplay>
 
-              <SimpleValDisplay label="Checkpointed BHR: ">
+              <SimpleValDisplay label="Checkptd. BHR: ">
                 {checkpointed_bhr.slice(1)}
               </SimpleValDisplay>
             </CardContent>
           </Card>
-
-          {/* internals (pht is an output but counts as internal) */}
-          <div className="mt-2">
-            <SimpleValDisplay label="Current BHR: ">
-              {bhr.slice(1)}
+          <div className="justify-items-center">
+            <SimpleValDisplay
+              label="Incoming PC: "
+              className={`${
+                incoming_branch_valid ? "bg-good" : "bg-bad"
+              } rounded-lg p-1 text-sm`}
+            >
+              {displayValueHex(incoming_branch_PC)}
             </SimpleValDisplay>
+            {/* internals (pht is an output but counts as internal) */}
+            <div className="mt-2">
+              <SimpleValDisplay label="Current BHR: ">
+                {bhr.slice(1)}
+              </SimpleValDisplay>
 
-            <DisplayPHT className="" phtList={BP_pht} />
+              <DisplayPHT className="" phtList={BP_pht} />
+            </div>
           </div>
         </ModuleContent>
       </Module>
