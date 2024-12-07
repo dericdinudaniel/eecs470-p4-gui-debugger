@@ -32,12 +32,22 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
   const branch_data = extractSignalValue(signalFU, "branch_data").value;
   const load_data = extractSignalValue(signalFU, "load_data").value;
   const store_data = extractSignalValue(signalFU, "store_data").value;
-
   const FU_alu_data = parseFU_DATA_List(alu_data, Types.FU_TYPE.ALU);
   const FU_mult_data = parseFU_DATA_List(mult_data, Types.FU_TYPE.MUL);
   const FU_branch_data = parseFU_DATA_List(branch_data, Types.FU_TYPE.BR);
   const FU_load_data = parseFU_DATA_List(load_data, Types.FU_TYPE.LOAD);
   const FU_store_data = parseFU_DATA_List(store_data, Types.FU_TYPE.STORE);
+
+  const alu_reg = extractSignalValue(signalFU, "alu_reg").value;
+  const mult_reg = extractSignalValue(signalFU, "mult_reg").value;
+  const branch_reg = extractSignalValue(signalFU, "branch_reg").value;
+  const load_reg = extractSignalValue(signalFU, "load_reg").value;
+  const store_reg = extractSignalValue(signalFU, "store_reg").value;
+  const FU_alu_reg = parseFU_DATA_List(alu_reg, Types.FU_TYPE.ALU);
+  const FU_mult_reg = parseFU_DATA_List(mult_reg, Types.FU_TYPE.MUL);
+  const FU_branch_reg = parseFU_DATA_List(branch_reg, Types.FU_TYPE.BR);
+  const FU_load_reg = parseFU_DATA_List(load_reg, Types.FU_TYPE.LOAD);
+  const FU_store_reg = parseFU_DATA_List(store_reg, Types.FU_TYPE.STORE);
 
   const b_mask_mask_status = extractSignalValueToInt(
     signalFU,
@@ -222,6 +232,103 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
               </div>
             </>
           )}
+
+          {/* FU Regs */}
+          <div className="mt-2 justify-items-center">
+            <Card className="space-y-2">
+              <CardHeader label="FU Regs" className="text-sm no-underline" />
+              <CardContent className="mt-0 space-y-2">
+                <div className="flex space-x-4">
+                  {/* ALU */}
+                  <div className="justify-items-center">
+                    <CardHeaderSmall label="ALU IN" />
+                    <div className="flex space-x-1">
+                      {FU_alu_reg.map((fu_data, idx) => (
+                        <div key={idx}>
+                          <DisplaySingleFU_DATA
+                            className=""
+                            FUIdx={idx}
+                            FUData={fu_data}
+                            fu_type={Types.FU_TYPE.ALU}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* MULT */}
+                  <div className="justify-items-center">
+                    <CardHeaderSmall label="MULT IN" />
+                    <div className="flex space-x-1">
+                      {FU_mult_reg.map((fu_data, idx) => (
+                        <div key={idx}>
+                          <DisplaySingleFU_DATA
+                            className=""
+                            FUIdx={idx}
+                            FUData={fu_data}
+                            fu_type={Types.FU_TYPE.MUL}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* BRANCH */}
+                  <div className="justify-items-center">
+                    <CardHeaderSmall label="BRANCH IN" />
+                    <div className="flex space-x-1">
+                      {FU_branch_reg.map((fu_data, idx) => (
+                        <div key={idx}>
+                          <DisplaySingleFU_DATA
+                            className=""
+                            FUIdx={idx}
+                            FUData={fu_data}
+                            fu_type={Types.FU_TYPE.BR}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex space-x-4">
+                  {/* LOAD */}
+                  <div className="justify-items-center">
+                    <CardHeaderSmall label="LOAD IN" />
+                    <div className="flex space-x-1">
+                      {FU_load_reg.map((fu_data, idx) => (
+                        <div key={idx}>
+                          <DisplaySingleFU_DATA
+                            className=""
+                            FUIdx={idx}
+                            FUData={fu_data}
+                            fu_type={Types.FU_TYPE.LOAD}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* STORE */}
+                  <div className="justify-items-center">
+                    <CardHeaderSmall label="STORE IN" />
+                    <div className="flex space-x-1">
+                      {FU_store_reg.map((fu_data, idx) => (
+                        <div key={idx}>
+                          <DisplaySingleFU_DATA
+                            className=""
+                            FUIdx={idx}
+                            FUData={fu_data}
+                            fu_type={Types.FU_TYPE.STORE}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
           {/* FUs */}
           <div className="mt-2">
