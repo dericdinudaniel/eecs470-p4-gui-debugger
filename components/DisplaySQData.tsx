@@ -95,7 +95,9 @@ const DisplaySQData: React.FC<DisplaySQDataProps> = ({
                     {displayValueHex(entry.store_address)}
                   </div>
                 </Dtd>
-                <Dtd className={fwdColor}>{displayValue(entry.store_data)}</Dtd>
+                <Dtd className={fwdColor}>
+                  {displayValueHex(entry.store_data)}
+                </Dtd>
                 <Dtd>{displayValue(entry.ready_mem ? "1" : "0")}</Dtd>
                 {isSQ && (
                   <>
