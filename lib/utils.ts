@@ -16,6 +16,10 @@ export const clog2 = (x: number): number => Math.ceil(Math.log2(x));
 
 export function binaryStringToInt(binaryString: string): number {
   // Remove the leading 'b' and parse the rest as a binary number
+
+  // if an 'x' is present, return NaN
+  if (binaryString.includes("x")) return NaN;
+
   return parseInt(binaryString.slice(1), 2);
 }
 
