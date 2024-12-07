@@ -45,10 +45,10 @@ const IBDebugger: React.FC<IBDebuggerProps> = ({
   const IB_input_id_ex_packet = parseID_EX_PACKET_List(input_id_ex_packet);
 
   // outputs
-  const output_id_ex_packet = extractSignalValue(
-    signalIB,
-    "output_id_ex_packet"
-  ).value;
+  // const output_id_ex_packet = extractSignalValue(
+  //   signalIB,
+  //   "output_id_ex_packet"
+  // ).value;
   // const IB_output_id_ex_packet = parseID_EX_PACKET_List(output_id_ex_packet);
 
   const if_id_reg = extractSignalValue(signalFront_End, "if_id_reg").value;

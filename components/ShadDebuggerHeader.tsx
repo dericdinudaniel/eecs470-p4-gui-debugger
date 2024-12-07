@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { DestructiveSwitch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { DButton, DHeaderButton } from "./dui/DButton";
+import { DHeaderButton } from "./dui/DButton";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import Image from "next/image";
 import InfoDialog from "@/components/InfoDialog";
@@ -30,19 +30,6 @@ interface DebuggerHeaderProps {
   handleEnd: () => void;
   handleJumpToCycle: () => void;
   handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-}
-
-function padWithSpaces(number: number, maxNumber: number): JSX.Element {
-  const maxDigits = String(maxNumber).length;
-  const currentDigits = String(number).length;
-  const paddingNeeded = maxDigits - currentDigits;
-  const padding = Array(paddingNeeded).fill("\u00A0");
-  return (
-    <span>
-      {padding.join("")}
-      {number}
-    </span>
-  );
 }
 
 interface DebuggerButtonProps {
@@ -200,10 +187,6 @@ export default function DebuggerHeader({
             {verilogCycle != undefined && (
               <p className="text-sm font-mono">
                 Verilog Cycle:{" "}
-                {/* {padWithSpaces(
-                  Number.isNaN(verilogCycle) ? 0 : verilogCycle,
-                  maxCycle
-                )} */}
                 <PaddedNum
                   number={Number.isNaN(verilogCycle) ? 0 : verilogCycle}
                   maxNumber={maxCycle}
