@@ -177,7 +177,6 @@ export default function DebuggerHeader({
             <Input
               id="searchTag"
               type="number"
-              value={tag}
               onChange={(e) => setTag(Number(e.target.value))}
               className="w-28 h-9 text-xs"
               placeholder="Tag #"
