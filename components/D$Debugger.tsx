@@ -215,14 +215,14 @@ const LSArbIF: React.FC<{
                 <Dtr>
                   <Dtd>
                     <div className="w-20">
-                      {displayValue(D$_proc2Dcache_data[0])}
+                      {displayValueHex(D$_proc2Dcache_data[0])}
                     </div>
                   </Dtd>
                 </Dtr>
                 <Dtr>
                   <Dtd>
                     <div className="w-20">
-                      {displayValue(D$_proc2Dcache_data[0])}
+                      {displayValueHex(D$_proc2Dcache_data[0])}
                     </div>
                   </Dtd>
                 </Dtr>
