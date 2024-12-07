@@ -53,6 +53,15 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
             </Dtd>
           </Dtr>
 
+          <Dtr>
+            <DtdLeft className="text-xs p-1">PC:</DtdLeft>
+            <Dtd className="text-xs p-1 w-20">{displayValueHex(FUData.PC)}</Dtd>
+          </Dtr>
+          <Dtr>
+            <DtdLeft className="text-xs p-1">Imm:</DtdLeft>
+            <Dtd className="text-xs p-1">{displayValueHex(FUData.imm)}</Dtd>
+          </Dtr>
+
           {/* EBR */}
           <Dtr>
             <DtdLeft className="text-xs p-1">BMASK:</DtdLeft>

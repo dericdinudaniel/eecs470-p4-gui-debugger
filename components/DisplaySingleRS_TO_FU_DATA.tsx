@@ -80,6 +80,21 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
             </Dtd>
           </Dtr>
 
+          <Dtr
+            className={`${
+              Number.isNaN(RS_TO_FUData.imm_value) && RS_TO_FUData.has_imm
+                ? "bg-veryBad"
+                : !RS_TO_FUData.has_imm && RS_TO_FUData.valid
+                ? "bg-neutral"
+                : ""
+            }`}
+          >
+            <DtdLeft className="text-xs p-1">Imm:</DtdLeft>
+            <Dtd className="text-xs p-1">
+              {displayValueHex(RS_TO_FUData.imm_value)}
+            </Dtd>
+          </Dtr>
+
           {/* EBR */}
           <Dtr>
             <DtdLeft className="text-xs p-1">BMASK:</DtdLeft>
