@@ -261,14 +261,12 @@ const FetchIF: React.FC<IFProps> = ({ className, signal, display }) => {
 const I$Request: React.FC<IFProps> = ({ className, signal }) => {
   const tags = extractSignalValue(signal, "tags").value;
   const indexes = extractSignalValue(signal, "indexes").value;
-  const res = extractSignalValue(signal, "res").value;
   const Icache_valid = extractSignalValue(signal, "Icache_valid").value;
   const Icache_data = extractSignalValue(signal, "Icache_data").value;
   const I$_Icache_data = parse_to_INST_List(Icache_data);
 
   const I$_tags = parseI$_tags(tags);
   const I$_indexes = parseI$_indexes(indexes);
-  const I$_res = parseBoolArrToBoolArray(res);
   const I$_Icache_valid = parseBoolArrToBoolArray(Icache_valid);
 
   return (
@@ -281,7 +279,6 @@ const I$Request: React.FC<IFProps> = ({ className, signal }) => {
               <Dtr>
                 <Dth>Tag</Dth>
                 <Dth>Idx</Dth>
-                <Dth>R EN</Dth>
                 <Dth>Inst.</Dth>
               </Dtr>
             </Dthead>
@@ -299,9 +296,6 @@ const I$Request: React.FC<IFProps> = ({ className, signal }) => {
                       </Dtd>
                       <Dtd rowSpan={2} className="font-semibold text-base">
                         {I$_indexes[idx]}
-                      </Dtd>
-                      <Dtd rowSpan={2} className="font-semibold text-base">
-                        {I$_res[idx] ? "Yes" : "No"}
                       </Dtd>
                       <Dtd>
                         <div className="w-40">
