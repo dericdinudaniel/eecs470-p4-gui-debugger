@@ -33,6 +33,8 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
     <Card className={className}>
       {isROB && <CardHeader label="ROB" className="text-sm no-underline" />}
       <CardContent className="mt-1">
+        {Number.isNaN(head) && <h2 className="p-1 bg-veryBad">HEAD IS X</h2>}
+        {Number.isNaN(tail) && <h2 className="p-1 bg-veryBad">TAIL IS X</h2>}
         <Dtable>
           <Dthead>
             <Dtr>
