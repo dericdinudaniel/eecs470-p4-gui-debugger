@@ -167,6 +167,8 @@ export enum ALU_FUNC {
   ALU_SLL = 0x7,
   ALU_SRL = 0x8,
   ALU_SRA = 0x9,
+  ALU_AUIPC = 0xa,
+  ALU_LUI = 0xb,
 }
 export const ALU_FUNC_WIDTH = 4;
 export function getALUFuncName(aluFunc: ALU_FUNC): string {
