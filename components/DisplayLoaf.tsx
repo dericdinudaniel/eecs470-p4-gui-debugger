@@ -59,6 +59,11 @@ const DisplayLoaf: React.FC<DisplayLoafProps> = ({ className, signalLoaf }) => {
   ) as Types.ADDR;
   const mem_valid = extractSignalValueToBool(signalLoaf, "mem_valid");
 
+  const sload_type = extractSignalValueToInt(
+    signalLoaf,
+    "load_type"
+  ) as Types.LOAD_FUNC;
+
   return (
     <>
       <div
@@ -164,10 +169,13 @@ const DisplayLoaf: React.FC<DisplayLoafProps> = ({ className, signalLoaf }) => {
           </div>
 
           {/* Internals */}
-          <div className="justify-items-center">
+          <div className="justify-items-center space-y-[-.35rem]">
             <CardHeaderSmall label="Internals" />
             <SimpleValDisplay label="State: ">
               {Types.getLOAFStateName(state)}
+            </SimpleValDisplay>
+            <SimpleValDisplay label="Load Type: ">
+              {Types.getLOADFuncName(sload_type)}
             </SimpleValDisplay>
           </div>
 
