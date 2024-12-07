@@ -478,6 +478,7 @@ export type CHECKPOINT_DATA = {
   branch_PC: ADDR;
   checkpointed_bhr: string; // BRANCH_PRED_SZ bits
   rob_tail: number; // width = clog2(ROB_SZ + N)
+  sq_tail: SQ_IDX;
   frizzy_checkpoint: FRIZZY_DATA;
   map_checkpoint: PHYS_REG_TAG[]; // array of size AR_NUM
 };
@@ -489,6 +490,7 @@ export const CHECKPOINT_DATA_WIDTH =
   ADDR_WIDTH + // branch_PC
   Constants.BRANCH_PRED_SZ + // checkpointed_bhr
   clog2(Constants.ROB_SZ + Constants.N) + // rob_tail
+  SQ_IDX_WIDTH + // sq_tail
   FRIZZY_DATA_WIDTH + // frizzy_checkpoint
   Constants.AR_NUM * PHYS_REG_TAG_WIDTH; // map_checkpoint
 

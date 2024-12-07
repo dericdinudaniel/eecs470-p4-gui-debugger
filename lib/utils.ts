@@ -694,6 +694,9 @@ export const parseCHECKPOINT_DATA = (
   );
   accessIdx += clog2(Constants.ROB_SZ + Constants.N);
 
+  const sq_tail = extractBits(binaryStr, accessIdx, Types.SQ_IDX_WIDTH);
+  accessIdx += Types.SQ_IDX_WIDTH;
+
   const frizzy_checkpoint = parseFRIZZY_DATA(
     binaryStr.slice(accessIdx, accessIdx + Types.FRIZZY_DATA_WIDTH)
   );
@@ -714,6 +717,7 @@ export const parseCHECKPOINT_DATA = (
     branch_PC,
     checkpointed_bhr,
     rob_tail,
+    sq_tail,
     frizzy_checkpoint,
     map_checkpoint,
   };

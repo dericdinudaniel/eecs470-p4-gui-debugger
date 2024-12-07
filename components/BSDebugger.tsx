@@ -59,6 +59,10 @@ const DisplaySingleCheckpoint: React.FC<{
               {checkpoint.rob_tail}
             </SimpleValDisplay>
 
+            <SimpleValDisplay label="SQ Tail: ">
+              {checkpoint.sq_tail}
+            </SimpleValDisplay>
+
             <SimpleValDisplay label="Pred. Dir: ">
               {checkpoint.predicted_direction ? "T" : "NT"}
             </SimpleValDisplay>
