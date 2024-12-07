@@ -74,31 +74,7 @@ const DisplayLoaf: React.FC<DisplayLoafProps> = ({ className, signalLoaf }) => {
           <div className="justify-items-center bg-card rounded-lg p-2 pt-0">
             <CardHeaderSmall label="Forward?" />
             <div className="justify-items-center space-y-1">
-              <div className="justify-items-center border rounded-lg p-1 bg-neutral">
-                <CardHeaderSmall label="Forward Results" />
-                <Dtable>
-                  <Dthead>
-                    <Dtr>
-                      <Dth>Stall?</Dth>
-                      <Dth className="w-20">Data</Dth>
-                    </Dtr>
-                  </Dthead>
-                  <Dtbody>
-                    <Dtr
-                      className={`${
-                        LD_fwd_result.forwarded_valid ? "bg-good" : "bg-bad"
-                      }`}
-                    >
-                      <Dtd>{LD_fwd_result.stall_LOAF ? "Yes" : "No"}</Dtd>
-                      <Dtd>
-                        {displayValueHex(LD_fwd_result.forwarding_data)}
-                      </Dtd>
-                    </Dtr>
-                  </Dtbody>
-                </Dtable>
-              </div>
-
-              <div className="justify-items-center border rounded-lg p-1 bg-neutral">
+              <div className="justify-items-center rounded-lg p-1 bg-neutral">
                 <CardHeaderSmall label="Forward Req" />
                 <Dtable>
                   <Dthead>
@@ -121,6 +97,30 @@ const DisplayLoaf: React.FC<DisplayLoafProps> = ({ className, signalLoaf }) => {
                       </Dtd>
                       <Dtd>{Types.getLOADFuncName(LD_fwd_req.load_type)}</Dtd>
                       <Dtd>{displayValue(LD_fwd_req.sq_tail)}</Dtd>
+                    </Dtr>
+                  </Dtbody>
+                </Dtable>
+              </div>
+
+              <div className="justify-items-center rounded-lg p-1 bg-neutral">
+                <CardHeaderSmall label="Forward Res" />
+                <Dtable>
+                  <Dthead>
+                    <Dtr>
+                      <Dth>Stall?</Dth>
+                      <Dth className="w-20">Data</Dth>
+                    </Dtr>
+                  </Dthead>
+                  <Dtbody>
+                    <Dtr
+                      className={`${
+                        LD_fwd_result.forwarded_valid ? "bg-good" : "bg-bad"
+                      }`}
+                    >
+                      <Dtd>{LD_fwd_result.stall_LOAF ? "Yes" : "No"}</Dtd>
+                      <Dtd>
+                        {displayValueHex(LD_fwd_result.forwarding_data)}
+                      </Dtd>
                     </Dtr>
                   </Dtbody>
                 </Dtable>

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Input } from "@/components/ui/input";
+import { Input, TagSearchInput } from "@/components/ui/input";
 import { DestructiveSwitch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -171,11 +171,11 @@ export default function DebuggerHeader({
           <Separator orientation="vertical" className="bg-border/50 mx-2 h-8" />
 
           <div>
-            <Input
+            <TagSearchInput
               id="searchTag"
               type="number"
               onChange={(e) => setTag(Number(e.target.value))}
-              className="w-28 h-9 text-xs"
+              className="w-28 h-9 text-xs text-red"
               placeholder="Tag #"
             />
           </div>
