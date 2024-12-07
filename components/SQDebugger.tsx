@@ -184,11 +184,11 @@ const RSLoadIF: React.FC<{
         <SimpleValDisplay label="Mem Ready Tail: ">
           {mem_ready_tail}
         </SimpleValDisplay>
-        <SimpleValDisplay label="Output Head: ">{output_head}</SimpleValDisplay>
-        <SimpleValDisplay label="Output Empty: ">
+        <SimpleValDisplay label="Out Head: ">{output_head}</SimpleValDisplay>
+        <SimpleValDisplay label="Out Empty: ">
           {output_empty ? "Y" : "N"}
         </SimpleValDisplay>
-        <SimpleValDisplay label="Any Complete: ">
+        <SimpleValDisplay label="Any Cmplte: ">
           {any_complete ? "Y" : "N"}
         </SimpleValDisplay>
       </CardContent>

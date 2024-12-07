@@ -38,13 +38,19 @@ export default function Debugger() {
         case "n":
           handleNextCycle();
           break;
+        case "m":
+          handleNext10Cycles();
+          break;
         case "b":
           handlePreviousCycle();
           break;
         case "v":
+          handlePrevious10Cycles();
+          break;
+        case "c":
           handleStart();
           break;
-        case "m":
+        case ",":
           handleEnd();
           break;
         case "j":
@@ -105,6 +111,22 @@ export default function Debugger() {
       fetchSignalData(Math.min(currentCycle + 1, maxCycle), "pos");
     }
   };
+  const handleNext10Cycles = () => {
+    if (includeNegativeEdges) {
+      if (!isNegativeEdge) {
+        setIsNegativeEdge(true);
+        fetchSignalData(currentCycle, "neg");
+      } else {
+        setIsNegativeEdge(false);
+        setCurrentCycle((prev) => Math.min(prev + 10, maxCycle));
+        fetchSignalData(Math.min(currentCycle + 10, maxCycle), "pos");
+      }
+    } else {
+      setCurrentCycle((prev) => Math.min(prev + 10, maxCycle));
+      setIsNegativeEdge(false);
+      fetchSignalData(Math.min(currentCycle + 10, maxCycle), "pos");
+    }
+  };
 
   const handlePreviousCycle = () => {
     if (includeNegativeEdges) {
@@ -120,6 +142,22 @@ export default function Debugger() {
       setCurrentCycle((prev) => Math.max(prev - 1, 0));
       setIsNegativeEdge(false);
       fetchSignalData(Math.max(currentCycle - 1, 0), "pos");
+    }
+  };
+  const handlePrevious10Cycles = () => {
+    if (includeNegativeEdges) {
+      if (isNegativeEdge) {
+        setIsNegativeEdge(false);
+        fetchSignalData(currentCycle, "pos");
+      } else if (currentCycle > 0 || (currentCycle === 0 && isNegativeEdge)) {
+        setIsNegativeEdge(true);
+        setCurrentCycle((prev) => Math.max(prev - 10, -1));
+        fetchSignalData(Math.max(currentCycle - 10, -1), "neg");
+      }
+    } else {
+      setCurrentCycle((prev) => Math.max(prev - 10, 0));
+      setIsNegativeEdge(false);
+      fetchSignalData(Math.max(currentCycle - 10, 0), "pos");
     }
   };
 
@@ -170,7 +208,9 @@ export default function Debugger() {
           setJumpCycle={setJumpCycle}
           handleStart={handleStart}
           handlePreviousCycle={handlePreviousCycle}
+          handlePrevious10Cycles={handlePrevious10Cycles}
           handleNextCycle={handleNextCycle}
+          handleNext10Cycles={handleNext10Cycles}
           handleEnd={handleEnd}
           handleJumpToCycle={handleJumpToCycle}
           handleKeyDown={handleKeyDown}

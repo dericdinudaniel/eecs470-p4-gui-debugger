@@ -18,7 +18,7 @@ const DHeaderButton = React.forwardRef<HTMLButtonElement, DHeaderButtonProps>(
       )}
       {...props}
     >
-      <div className="underline-fade-button p-2">{props.children}</div>
+      <div className="underline-fade-button">{props.children}</div>
     </Button>
   )
 );

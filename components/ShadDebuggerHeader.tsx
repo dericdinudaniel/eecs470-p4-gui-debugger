@@ -24,7 +24,9 @@ interface DebuggerHeaderProps {
   setJumpCycle: (value: string) => void;
   handleStart: () => void;
   handlePreviousCycle: () => void;
+  handlePrevious10Cycles: () => void;
   handleNextCycle: () => void;
+  handleNext10Cycles: () => void;
   handleEnd: () => void;
   handleJumpToCycle: () => void;
   handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
@@ -96,7 +98,9 @@ export default function DebuggerHeader({
   setJumpCycle,
   handleStart,
   handlePreviousCycle,
+  handlePrevious10Cycles,
   handleNextCycle,
+  handleNext10Cycles,
   handleEnd,
   handleJumpToCycle,
   handleKeyDown,
@@ -125,17 +129,23 @@ export default function DebuggerHeader({
         </div>
 
         <div className="flex items-center justify-center space-x-2">
-          <DebuggerButton onClick={handleStart} shortcutKey="v">
-            Start (v)
+          <DebuggerButton onClick={handleStart} shortcutKey="c">
+            Start (c)
+          </DebuggerButton>
+          <DebuggerButton onClick={handlePrevious10Cycles} shortcutKey="v">
+            -10 (v)
           </DebuggerButton>
           <DebuggerButton onClick={handlePreviousCycle} shortcutKey="b">
-            Prev Cycle (b)
+            -1 (b)
           </DebuggerButton>
           <DebuggerButton onClick={handleNextCycle} shortcutKey="n">
-            Next Cycle (n)
+            +1 (n)
           </DebuggerButton>
-          <DebuggerButton onClick={handleEnd} shortcutKey="m">
-            End (m)
+          <DebuggerButton onClick={handleNext10Cycles} shortcutKey="m">
+            +10 (m)
+          </DebuggerButton>
+          <DebuggerButton onClick={handleEnd} shortcutKey=",">
+            End (,)
           </DebuggerButton>
 
           <Separator orientation="vertical" className="bg-border/50 mx-2 h-8" />
@@ -151,7 +161,7 @@ export default function DebuggerHeader({
               placeholder="Cycle #"
             />
             <DebuggerButton onClick={handleJumpToCycle} shortcutKey="j">
-              Jump to Cycle (j)
+              Jump (j)
             </DebuggerButton>
           </div>
 
