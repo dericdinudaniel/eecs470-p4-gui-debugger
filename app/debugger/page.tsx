@@ -226,14 +226,20 @@ export default function Debugger() {
                     className=""
                     signalI$={Front_End.children.fetcher.children.cacher}
                   />
-                  <SQDebugger
-                    className=""
-                    signalSQ={OoO_Core.children.DUT_sq}
-                  />
+                  <div className="justify-items-center space-y-4">
+                    <SQDebugger
+                      className=""
+                      signalSQ={OoO_Core.children.DUT_sq}
+                    />
+                    <BPredDebugger
+                      className=""
+                      signalBP={Front_End.children.masonshare}
+                    />
+                  </div>
                 </div>
 
                 <div className="flex gap-x-2">
-                  <div className="flex flex-col items-center gap-y-4">
+                  <div className="justify-items-center space-y-4">
                     <IBDebugger
                       className=""
                       signalIB={cpu.children.Front_End.children.instr_buffer}
@@ -245,11 +251,7 @@ export default function Debugger() {
                     />
                   </div>
 
-                  <div className="flex flex-col items-center gap-y-4">
-                    <BPredDebugger
-                      className=""
-                      signalBP={Front_End.children.masonshare}
-                    />
+                  <div className="justify-items-center space-y-4">
                     <ROBDebugger
                       className=""
                       signalData={OoO_Core.children.DUT_rob}
@@ -266,7 +268,7 @@ export default function Debugger() {
                     />
                   </div>
 
-                  <div className="flex flex-col items-center gap-y-4">
+                  <div className="justify-items-center space-y-4">
                     <RSDebugger
                       className=""
                       signalRS={OoO_Core.children.DUT_rs}

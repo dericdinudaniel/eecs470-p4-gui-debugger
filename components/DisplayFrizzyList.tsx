@@ -10,6 +10,7 @@ import {
   Dtbody,
   Dtable,
 } from "@/components/dui/DTable";
+import { useTagSearchContext } from "./TagSearch";
 
 type DisplayFrizzyListProps = {
   className: string;
@@ -25,6 +26,8 @@ const DisplayFrizzyList: React.FC<DisplayFrizzyListProps> = ({
   if (freeList.length !== readyBits.length) {
     return <div>Invalid free list and ready bits</div>;
   }
+
+  const { tag } = useTagSearchContext();
 
   const chunkSize = 16;
   const freeListChunks = chunkArray(freeList, chunkSize);
@@ -53,7 +56,7 @@ const DisplayFrizzyList: React.FC<DisplayFrizzyListProps> = ({
                     </Dtd>
                   );
                 }
-                const prNumber = globalIdx.toString();
+                const prNumber = globalIdx;
                 const free = freeChunk[rowIdx];
                 const ready = readyBitsChunks[colIdx][rowIdx];
 
@@ -65,7 +68,13 @@ const DisplayFrizzyList: React.FC<DisplayFrizzyListProps> = ({
                     }`}
                   >
                     <div className="flex px-3 space-x-1">
-                      <span className="w-4">{prNumber}</span>
+                      <span
+                        className={`w-4 ${
+                          tag == prNumber ? "bg-veryGood" : ""
+                        }`}
+                      >
+                        {prNumber}
+                      </span>
                       <span className="flex items-center">
                         {ready === "1" ? "+" : "\u00A0"}
                       </span>

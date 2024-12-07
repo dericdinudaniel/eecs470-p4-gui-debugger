@@ -12,6 +12,7 @@ import {
   Dtbody,
   Dtable,
 } from "@/components/dui/DTable";
+import { useTagSearchContext } from "./TagSearch";
 
 type DisplayMapTableProps = {
   className: string;
@@ -24,6 +25,8 @@ const DisplayMapTable: React.FC<DisplayMapTableProps> = ({
 }) => {
   const chunkSize = 16; // Adjust the chunk size as needed
   const mapTableChunks = chunkArray(mapTable, chunkSize);
+
+  const { tag } = useTagSearchContext();
 
   return (
     <div className={`justify-items-center ${className}`}>
@@ -43,7 +46,9 @@ const DisplayMapTable: React.FC<DisplayMapTableProps> = ({
                   <DtdLeft className="font-semibold bg-neutral">
                     {chunkIdx * chunkSize + idx}:
                   </DtdLeft>
-                  <Dtd className=" bg-neutral">
+                  <Dtd
+                    className={`${tag == pr ? "bg-veryGood" : "bg-neutral"}`}
+                  >
                     <div className="text-center">
                       <span>{displayValue(pr)}</span>
                     </div>

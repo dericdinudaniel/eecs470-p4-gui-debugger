@@ -13,6 +13,7 @@ import {
   Dtable,
 } from "@/components/dui/DTable";
 import { Card, CardContent, CardHeader } from "./dui/Card";
+import { useTagSearchContext } from "./TagSearch";
 
 type DisplayROBDataProps = {
   className: string;
@@ -29,6 +30,8 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
   tail,
   isROB,
 }) => {
+  const { tag } = useTagSearchContext();
+
   return (
     <Card className={className}>
       {isROB && <CardHeader label="ROB" className="text-sm no-underline" />}
@@ -94,7 +97,13 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
                     {parseInstruction(entry.packet.inst.inst)}
                   </Dtd>
                   <Dtd>{"r" + displayValue(entry.R_dest)}</Dtd>
-                  <Dtd>{"p" + displayValue(entry.T_new)}</Dtd>
+                  <Dtd
+                    className={
+                      entry.valid && tag == entry.T_new ? "bg-veryGood" : ""
+                    }
+                  >
+                    {"p" + displayValue(entry.T_new)}
+                  </Dtd>
                   <Dtd>{"p" + displayValue(entry.T_old)}</Dtd>
                   <Dtd>{displayValue(entry.valid ? "1" : "0")}</Dtd>
                   <Dtd>{displayValue(entry.retireable ? "1" : "0")}</Dtd>

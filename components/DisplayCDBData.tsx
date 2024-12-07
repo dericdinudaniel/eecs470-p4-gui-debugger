@@ -10,6 +10,7 @@ import {
   Dtbody,
   Dtable,
 } from "@/components/dui/DTable";
+import { useTagSearchContext } from "./TagSearch";
 
 type DisplayCDBDataProps = {
   className: string;
@@ -24,6 +25,8 @@ const DisplayCDBData: React.FC<DisplayCDBDataProps> = ({
   CDBData,
   isEarlyCDB,
 }) => {
+  const { tag } = useTagSearchContext();
+
   return (
     <div className={`justify-items-center ${className}`}>
       <p className="font-semibold">{isEarlyCDB ? "Early CDB" : "CDB"}</p>
@@ -36,15 +39,19 @@ const DisplayCDBData: React.FC<DisplayCDBDataProps> = ({
           </Dtr>
         </Dthead>
         <Dtbody>
-          {CDBTags.map((tag, idx) => {
-            const displayTag = Number.isNaN(tag) ? "XX" : tag;
+          {CDBTags.map((cdbTag, idx) => {
+            const displayTag = Number.isNaN(cdbTag) ? "XX" : cdbTag;
             const displayVal = CDBData
               ? Number.isNaN(CDBData[idx])
                 ? "XX"
                 : displayValueHex(CDBData[idx])
               : "XX";
 
-            const color = Number.isNaN(tag) || tag == 0 ? "bg-bad" : "bg-good";
+            const valid = !(Number.isNaN(cdbTag) || cdbTag == 0);
+            let color = valid ? "bg-good" : "bg-bad";
+            if (valid && tag == cdbTag) {
+              color = "bg-veryGood";
+            }
 
             return (
               <Dtr key={idx}>
