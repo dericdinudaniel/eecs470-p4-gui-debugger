@@ -258,6 +258,8 @@ export const parseID_EX_PACKET = (packetStr: string): Types.ID_EX_PACKET => {
   accessIdx += Constants.BRANCH_PRED_SZ;
   const predicted_direction = binaryStr[accessIdx] === "1";
   accessIdx += 1;
+  const predicted_target = extractBits(binaryStr, accessIdx, Types.ADDR_WIDTH);
+  accessIdx += Types.ADDR_WIDTH;
 
   const uncond_branch = binaryStr[accessIdx] === "1";
   accessIdx += 1;
@@ -286,6 +288,7 @@ export const parseID_EX_PACKET = (packetStr: string): Types.ID_EX_PACKET => {
     cond_branch,
     bhr,
     predicted_direction,
+    predicted_target,
     uncond_branch,
     halt,
     illegal,
@@ -666,6 +669,9 @@ export const parseCHECKPOINT_DATA = (
   const predicted_direction = binaryStr[accessIdx] === "1";
   accessIdx += 1;
 
+  const predicted_target = extractBits(binaryStr, accessIdx, Types.ADDR_WIDTH);
+  accessIdx += Types.ADDR_WIDTH;
+
   const resolving_branch_direction = binaryStr[accessIdx] === "1";
   accessIdx += 1;
 
@@ -702,6 +708,7 @@ export const parseCHECKPOINT_DATA = (
 
   return {
     predicted_direction,
+    predicted_target,
     resolving_branch_direction,
     recovery_target,
     branch_PC,

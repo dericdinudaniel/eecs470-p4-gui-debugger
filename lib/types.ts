@@ -254,6 +254,7 @@ export type ID_EX_PACKET = {
   cond_branch: boolean;
   bhr: string; // BRANCH_PRED_SZ bits
   predicted_direction: boolean;
+  predicted_target: ADDR;
   uncond_branch: boolean;
   halt: boolean;
   illegal: boolean;
@@ -271,6 +272,7 @@ export const ID_EX_PACKET_WIDTH =
   4 * 1 + // mult, rd_mem, wr_mem, cond_branch
   Constants.BRANCH_PRED_SZ + // bhr
   1 + // predicted_direction
+  ADDR_WIDTH + // predicted_target
   1 + // uncond_branch
   4 * 1; // halt, illegal, csr_op, valid
 
@@ -470,6 +472,7 @@ export function getBranchPredictName(branchPredict: BRANCH_PREDICT_T): string {
 
 export type CHECKPOINT_DATA = {
   predicted_direction: boolean;
+  predicted_target: ADDR;
   resolving_branch_direction: boolean;
   recovery_target: ADDR;
   branch_PC: ADDR;
@@ -480,6 +483,7 @@ export type CHECKPOINT_DATA = {
 };
 export const CHECKPOINT_DATA_WIDTH =
   1 + // predicted_direction
+  ADDR_WIDTH + // predicted_target
   1 + // resolving_branch_direction
   ADDR_WIDTH + // recovery_target
   ADDR_WIDTH + // branch_PC
