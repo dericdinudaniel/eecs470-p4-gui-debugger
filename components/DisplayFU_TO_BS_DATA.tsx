@@ -20,13 +20,13 @@ const DisplayFU_TO_BS_DATA: React.FC<DisplayFU_TO_BS_DATAProps> = ({
     <>
       <div className={`${className}`}>
         <div
-          className={`border rounded-lg p-1 flex flex-col ${
+          className={`justify-items-center border rounded-lg p-1 flex flex-col ${
             isValid ? "bg-good" : "bg-bad"
           }`}
         >
           <p className="text-md font-semibold underline">Correct Branch Data</p>
 
-          <div className="flex flex-col items-center">
+          <div className="justify-items-center">
             <SimpleValDisplay label="BMASK: " className="text-sm">
               {data.bmask}
             </SimpleValDisplay>

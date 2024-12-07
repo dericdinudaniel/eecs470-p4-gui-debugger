@@ -26,11 +26,11 @@ interface BSDebuggerProps {
 }
 
 const DisplaySingleCheckpoint: React.FC<{
-  className: string;
+  className?: string;
   checkpoint: Types.CHECKPOINT_DATA;
   idx?: number;
   valid?: boolean;
-}> = ({ className, checkpoint, idx, valid }) => {
+}> = ({ className = "", checkpoint, idx, valid }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
 
   // Define background color based on validity
@@ -190,29 +190,20 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
         {/* display inputs */}
         {showBSInputs && (
           <>
-            <Card className="mt-2">
-              <div className="flex space-x-3">
-                <div>
-                  <DisplayFU_TO_BS_DATA
-                    className=""
-                    data={BS_correct_branch_data}
-                  />
-
-                  <SimpleValDisplay label="T_old: " className="mt-1">
-                    {T_old}
-                  </SimpleValDisplay>
-                </div>
-                <DisplayCDBData
+            <Card className="mt-2 flex">
+              <div className="justify-items-center space-y-1">
+                <DisplayFU_TO_BS_DATA
                   className=""
-                  CDBTags={BS_cdb}
-                  isEarlyCDB={true}
+                  data={BS_correct_branch_data}
+                />
+
+                <SimpleValDisplay label="T_old: ">{T_old}</SimpleValDisplay>
+                <DisplaySingleCheckpoint
+                  checkpoint={BS_checkpoint_in}
+                  valid={dispatch_valid}
                 />
               </div>
-              <DisplaySingleCheckpoint
-                className="mt-1"
-                checkpoint={BS_checkpoint_in}
-                valid={dispatch_valid}
-              />
+              <DisplayCDBData className="" CDBTags={BS_cdb} isEarlyCDB={true} />
             </Card>
           </>
         )}
@@ -236,58 +227,56 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
 
         {/* display outputs */}
         {showBSOutputs && (
-          <>
-            <Card className="mt-3">
-              <div className="flex space-x-3">
-                <div>
+          <Card className="mt-3">
+            <div className="flex space-x-3">
+              <div>
+                <SimpleValDisplay
+                  label="Prediction: "
+                  className={`p-1 ${
+                    prediction == Types.BRANCH_PREDICT_T.CORRECT_PRED
+                      ? "rounded-lg bg-veryGood"
+                      : prediction == Types.BRANCH_PREDICT_T.MISPREDICT
+                      ? "rounded-lg bg-veryBad"
+                      : ""
+                  }`}
+                  labelClassName="text-base"
+                >
+                  {Types.getBranchPredictName(prediction)}
+                </SimpleValDisplay>
+
+                <div className="pl-1">
                   <SimpleValDisplay
-                    label="Prediction: "
-                    className={`p-1 ${
-                      prediction == Types.BRANCH_PREDICT_T.CORRECT_PRED
-                        ? "rounded-lg bg-veryGood"
-                        : prediction == Types.BRANCH_PREDICT_T.MISPREDICT
-                        ? "rounded-lg bg-veryBad"
-                        : ""
-                    }`}
+                    label="BMASK prev out: "
                     labelClassName="text-base"
                   >
-                    {Types.getBranchPredictName(prediction)}
+                    {branch_mask_prev_out}
                   </SimpleValDisplay>
 
-                  <div className="pl-1">
-                    <SimpleValDisplay
-                      label="BMASK prev out: "
-                      labelClassName="text-base"
-                    >
-                      {branch_mask_prev_out}
-                    </SimpleValDisplay>
+                  <SimpleValDisplay
+                    label="BMASK reg out: "
+                    labelClassName="text-base"
+                  >
+                    {branch_mask_reg_out}
+                  </SimpleValDisplay>
 
-                    <SimpleValDisplay
-                      label="BMASK reg out: "
-                      labelClassName="text-base"
-                    >
-                      {branch_mask_reg_out}
-                    </SimpleValDisplay>
+                  <SimpleValDisplay
+                    label="BMASK mask: "
+                    labelClassName="text-base"
+                  >
+                    {b_mask_mask}
+                  </SimpleValDisplay>
 
-                    <SimpleValDisplay
-                      label="BMASK mask: "
-                      labelClassName="text-base"
-                    >
-                      {b_mask_mask}
-                    </SimpleValDisplay>
-
-                    <SimpleValDisplay label="Full: " labelClassName="text-base">
-                      {full ? "True" : "False"}
-                    </SimpleValDisplay>
-                  </div>
+                  <SimpleValDisplay label="Full: " labelClassName="text-base">
+                    {full ? "True" : "False"}
+                  </SimpleValDisplay>
                 </div>
-                <DisplaySingleCheckpoint
-                  className=""
-                  checkpoint={BS_checkpoint_out}
-                />
               </div>
-            </Card>
-          </>
+              <DisplaySingleCheckpoint
+                className=""
+                checkpoint={BS_checkpoint_out}
+              />
+            </div>
+          </Card>
         )}
       </ModuleContent>
     </Module>
