@@ -46,7 +46,7 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
           <Dtr>
             <DtdLeft className="text-xs p-1">T_new:</DtdLeft>
             <Dtd className="text-xs p-1">
-              {displayValue(RS_TO_FUData.T_new)}
+              p{displayValue(RS_TO_FUData.T_new)}
             </Dtd>
           </Dtr>
 
@@ -61,7 +61,7 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
                     labelClassName="text-xs font-normal"
                     dataClassName="text-xs"
                   >
-                    {displayValue(RS_TO_FUData.T_a)}
+                    p{displayValue(RS_TO_FUData.T_a)}
                   </SimpleValDisplay>
                 </div>
 
@@ -73,7 +73,7 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
                     labelClassName="text-xs font-normal"
                     dataClassName="text-xs"
                   >
-                    {displayValue(RS_TO_FUData.T_b)}
+                    p{displayValue(RS_TO_FUData.T_b)}
                   </SimpleValDisplay>
                 </div>
               </div>

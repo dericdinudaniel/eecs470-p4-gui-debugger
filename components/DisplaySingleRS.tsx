@@ -88,7 +88,7 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
           <Dtr>
             <DtdLeft className="text-xs p-1">T_new:</DtdLeft>
             <Dtd className="text-xs p-1">
-              {displayValue(RSData.rs_to_fu_data.T_new)}
+              p{displayValue(RSData.rs_to_fu_data.T_new)}
             </Dtd>
           </Dtr>
 
@@ -113,7 +113,7 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
                     labelClassName="text-xs font-normal"
                     dataClassName="text-xs"
                   >
-                    {displayValue(RSData.rs_to_fu_data.T_a)}
+                    p{displayValue(RSData.rs_to_fu_data.T_a)}
                     {RSData.ready_ta ? "+" : " "}
                   </SimpleValDisplay>
                 </div>
@@ -135,7 +135,7 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
                     labelClassName="text-xs font-normal"
                     dataClassName="text-xs"
                   >
-                    {displayValue(RSData.rs_to_fu_data.T_b)}
+                    p{displayValue(RSData.rs_to_fu_data.T_b)}
                     {RSData.ready_tb ? "+" : " "}
                   </SimpleValDisplay>
                 </div>

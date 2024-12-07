@@ -38,7 +38,7 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
         <Dtbody>
           <Dtr>
             <DtdLeft className="text-xs p-1">T_new:</DtdLeft>
-            <Dtd className="text-xs p-1">{displayValue(FUData.T_new)}</Dtd>
+            <Dtd className="text-xs p-1">p{displayValue(FUData.T_new)}</Dtd>
           </Dtr>
           <Dtr>
             <DtdLeft className="text-xs p-1">rs1:</DtdLeft>
