@@ -124,7 +124,7 @@ const DisplayLoaf: React.FC<DisplayLoafProps> = ({ className, signalLoaf }) => {
           </div>
 
           <div className="justify-items-center bg-card rounded-lg p-2 pt-0">
-            <CardHeaderSmall label="Cache" />
+            <CardHeaderSmall label="DCache" />
             <div className="justify-items-center space-y-1">
               <div
                 className={`justify-items-center border rounded-lg p-1 ${
