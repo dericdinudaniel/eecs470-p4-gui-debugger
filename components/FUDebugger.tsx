@@ -136,7 +136,7 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
           {showFUInputs && (
             <>
               <div className="mt-2 justify-items-center">
-                <Card className="space-y-2">
+                <Card>
                   <CardHeader label="FU Ins" className="text-sm no-underline" />
                   <CardContent className="mt-0 space-y-2">
                     <div className="flex space-x-4">
@@ -235,7 +235,7 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
 
           {/* FU Regs */}
           <div className="mt-2 justify-items-center">
-            <Card className="space-y-2">
+            <Card>
               <CardHeader label="FU Regs" className="text-sm no-underline" />
               <CardContent className="mt-0 space-y-2">
                 <div className="flex space-x-4">
