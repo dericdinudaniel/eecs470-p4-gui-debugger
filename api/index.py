@@ -12,7 +12,7 @@ CORS(app)
 cache = Cache(app, config={
     'CACHE_TYPE': 'simple',
     'CACHE_DEFAULT_TIMEOUT': 60000,
-    'CACHE_THRESHOLD': 10000
+    'CACHE_THRESHOLD': 22000
 })
 
 @app.route("/api/helloworld/")
