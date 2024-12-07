@@ -19,6 +19,8 @@ import I$Debugger from "@/components/I$Debugger";
 import MemDebugger from "@/components/MemDebugger";
 import SQDebugger from "@/components/SQDebugger";
 import D$Debugger from "@/components/D$Debugger";
+import React from "react";
+import { TagSearchProvider } from "@/components/TagSearch";
 
 export default function Debugger() {
   const [currentCycle, setCurrentCycle] = useState(0);
@@ -155,25 +157,26 @@ export default function Debugger() {
   );
 
   return (
-    <div className="min-h-screen bg-background">
-      <ShadDebuggerHeader
-        verilogCycle={verilogCycle}
-        currentCycle={currentCycle}
-        isNegativeEdge={isNegativeEdge}
-        includeNegativeEdges={includeNegativeEdges}
-        setIncludeNegativeEdges={setIncludeNegativeEdges}
-        maxCycle={maxCycle}
-        jumpCycle={jumpCycle}
-        setJumpCycle={setJumpCycle}
-        handleStart={handleStart}
-        handlePreviousCycle={handlePreviousCycle}
-        handleNextCycle={handleNextCycle}
-        handleEnd={handleEnd}
-        handleJumpToCycle={handleJumpToCycle}
-        handleKeyDown={handleKeyDown}
-      />
-      <div className="m-4">
-        <div className="space-y-4">
+    <TagSearchProvider>
+      <div className="min-h-screen bg-background">
+        <ShadDebuggerHeader
+          verilogCycle={verilogCycle}
+          currentCycle={currentCycle}
+          isNegativeEdge={isNegativeEdge}
+          includeNegativeEdges={includeNegativeEdges}
+          setIncludeNegativeEdges={setIncludeNegativeEdges}
+          maxCycle={maxCycle}
+          jumpCycle={jumpCycle}
+          setJumpCycle={setJumpCycle}
+          handleStart={handleStart}
+          handlePreviousCycle={handlePreviousCycle}
+          handleNextCycle={handleNextCycle}
+          handleEnd={handleEnd}
+          handleJumpToCycle={handleJumpToCycle}
+          handleKeyDown={handleKeyDown}
+        />
+
+        <div className="m-4 space-y-4">
           {signalData && (
             <>
               <div className="space-y-4">
@@ -252,6 +255,6 @@ export default function Debugger() {
           )}
         </div>
       </div>
-    </div>
+    </TagSearchProvider>
   );
 }

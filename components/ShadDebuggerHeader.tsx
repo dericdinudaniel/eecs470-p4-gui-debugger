@@ -11,6 +11,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import Image from "next/image";
 import InfoDialog from "@/components/InfoDialog";
 import PaddedNum from "./dui/PaddedNum";
+import { useTagSearchContext } from "./TagSearch";
 
 interface DebuggerHeaderProps {
   verilogCycle?: number;
@@ -100,6 +101,7 @@ export default function DebuggerHeader({
   handleJumpToCycle,
   handleKeyDown,
 }: DebuggerHeaderProps) {
+  const { tag, setTag } = useTagSearchContext();
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/[.25] bg-background/70 backdrop-blur-sm shadow-md">
       <div className="flex h-14 items-center justify-between px-4 md:px-6">
@@ -166,6 +168,19 @@ export default function DebuggerHeader({
               id="include-negedges"
               checked={includeNegativeEdges}
               onCheckedChange={setIncludeNegativeEdges}
+            />
+          </div>
+
+          <Separator orientation="vertical" className="bg-border/50 mx-2 h-8" />
+
+          <div>
+            <Input
+              id="searchTag"
+              type="number"
+              value={tag}
+              onChange={(e) => setTag(Number(e.target.value))}
+              className="w-28 h-9 text-xs"
+              placeholder="Tag #"
             />
           </div>
         </div>

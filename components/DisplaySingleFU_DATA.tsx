@@ -11,6 +11,7 @@ import {
   Dtbody,
   Dtable,
 } from "@/components/dui/DTable";
+import { useTagSearchContext } from "./TagSearch";
 
 type DisplaySingleFU_DATAProps = {
   className: string;
@@ -25,6 +26,8 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
   FUData,
   fu_type,
 }) => {
+  const { tag } = useTagSearchContext();
+
   return (
     <div className={`${className} hover:shadow-2xl transition-shadow`}>
       <Dtable className={`${FUData.valid ? "bg-good" : "bg-bad"}`}>
@@ -36,7 +39,9 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
           </Dtr>
         </Dthead>
         <Dtbody>
-          <Dtr>
+          <Dtr
+            className={FUData.valid && tag == FUData.T_new ? "bg-veryGood" : ""}
+          >
             <DtdLeft className="text-xs p-1">T_new:</DtdLeft>
             <Dtd className="text-xs p-1">p{displayValue(FUData.T_new)}</Dtd>
           </Dtr>

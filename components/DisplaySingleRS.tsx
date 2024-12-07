@@ -13,6 +13,7 @@ import {
   Dtable,
 } from "@/components/dui/DTable";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
+import { useTagSearchContext } from "./TagSearch";
 
 type DisplaySingleRSProps = {
   className: string;
@@ -66,6 +67,8 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
     return false;
   }
 
+  const { tag } = useTagSearchContext();
+
   return (
     <div className={`${className} hover:shadow-2xl transition-shadow`}>
       <Dtable className={`${RSData.occupied ? "bg-good" : "bg-bad"}`}>
@@ -85,7 +88,13 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
               {parseInstruction(RSData.rs_to_fu_data.packet.inst.inst)}
             </DtdLeft>
           </Dtr>
-          <Dtr>
+          <Dtr
+            className={
+              RSData.occupied && tag == RSData.rs_to_fu_data.T_new
+                ? "bg-veryGood"
+                : ""
+            }
+          >
             <DtdLeft className="text-xs p-1">T_new:</DtdLeft>
             <Dtd className="text-xs p-1">
               p{displayValue(RSData.rs_to_fu_data.T_new)}

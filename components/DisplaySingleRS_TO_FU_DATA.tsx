@@ -13,6 +13,7 @@ import {
   Dtable,
 } from "@/components/dui/DTable";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
+import { useTagSearchContext } from "./TagSearch";
 
 type DisplaySingleRS_TO_FU_DATAProps = {
   className: string;
@@ -27,6 +28,8 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
   RS_TO_FUData,
   fu_type,
 }) => {
+  const { tag } = useTagSearchContext();
+
   return (
     <div className={`${className} hover:shadow-2xl transition-shadow`}>
       <Dtable className={`${RS_TO_FUData.valid ? "bg-good" : "bg-bad"}`}>
@@ -43,7 +46,13 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
               {parseInstruction(RS_TO_FUData.packet.inst.inst)}
             </Dtd>
           </Dtr>
-          <Dtr>
+          <Dtr
+            className={
+              RS_TO_FUData.valid && tag == RS_TO_FUData.T_new
+                ? "bg-veryGood"
+                : ""
+            }
+          >
             <DtdLeft className="text-xs p-1">T_new:</DtdLeft>
             <Dtd className="text-xs p-1">
               p{displayValue(RS_TO_FUData.T_new)}
