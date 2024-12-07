@@ -30,6 +30,12 @@ const DisplaySQData: React.FC<DisplaySQDataProps> = ({
 }) => {
   return (
     <Card className={className}>
+      {Number.isNaN(head) && (
+        <h2 className="p-1 m-2 rounded-lg bg-veryBad">HEAD IS X</h2>
+      )}
+      {Number.isNaN(tail) && (
+        <h2 className="p-1 m-2 rounded-lg bg-veryBad">TAIL IS X</h2>
+      )}
       <Dtable>
         <Dthead>
           <Dtr>
