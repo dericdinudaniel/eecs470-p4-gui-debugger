@@ -20,6 +20,7 @@ import { Card, CardContent, CardHeader, CardHeaderSmall } from "./dui/Card";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 import { constantsStore as Constants } from "@/lib/constants-store";
 import DisplayLoaf from "@/components/DisplayLoaf";
+import DisplayMult from "./DisplayMult";
 
 type FUDebuggerProps = {
   className: string;
@@ -83,10 +84,8 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
   // MULT
   let fu_mult = [];
   for (let i = 0; i < Constants.get("NUM_FU_MULT"); i++) {
-    const loaf = (signalFU as any).children[
-      `mult_gen[${i}].mult_i`
-    ] as ScopeData;
-    fu_mult.push(loaf);
+    const m = (signalFU as any).children[`mult_gen[${i}].mult_i`] as ScopeData;
+    fu_mult.push(m);
   }
 
   const [showFUInputs, setShowFUInputs] = useState(true);
@@ -344,9 +343,13 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
             {/* mult */}
             <Card className="">
               <CardHeader label="Mults" className="text-sm no-underline" />
-              <CardContent className="flex gap-x-2">
+              <CardContent className="space-y-2">
                 {fu_mult.map((mult, idx) => {
-                  return <div key={idx}></div>;
+                  return (
+                    <div key={idx}>
+                      <DisplayMult className="" signalMult={mult} />
+                    </div>
+                  );
                 })}
               </CardContent>
             </Card>
