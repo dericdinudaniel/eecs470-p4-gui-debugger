@@ -8,10 +8,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import Image from "next/image";
+import { Loader2 } from "lucide-react"; // Importing loader icon from Lucide (you may need to install it)
 
 export default function Home() {
   const [fileContent, setFileContent] = useState("");
   const [localFilename, setLocalFilename] = useState("");
+  const [loading, setLoading] = useState(false); // Loading state
   const router = useRouter();
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -36,6 +38,8 @@ export default function Home() {
       return;
     }
 
+    setLoading(true); // Set loading state to true when request starts
+
     try {
       const response = await fetch("/api/parse", {
         method: "POST",
@@ -48,6 +52,8 @@ export default function Home() {
       );
     } catch (error) {
       console.error("Error parsing file:", error);
+    } finally {
+      setLoading(false); // Set loading state to false when request finishes
     }
   };
 
@@ -57,7 +63,8 @@ export default function Home() {
       return;
     }
 
-    //  just send the filename as a string to the server
+    setLoading(true); // Set loading state to true when request starts
+
     try {
       const response = await fetch("/api/parse_local", {
         method: "POST",
@@ -70,6 +77,8 @@ export default function Home() {
       );
     } catch (error) {
       console.error("Error parsing file:", error);
+    } finally {
+      setLoading(false); // Set loading state to false when request finishes
     }
   };
 
@@ -116,8 +125,16 @@ export default function Home() {
             className="h-32"
             placeholder="Paste .vcd file contents here"
           />
-          <Button onClick={handleParseContent} className="w-full mt-2">
-            Parse VCD Content
+          <Button
+            onClick={handleParseContent}
+            className="w-full mt-2"
+            disabled={loading} // Disable the button while loading
+          >
+            {loading ? (
+              <Loader2 className="animate-spin mr-2" size={20} />
+            ) : (
+              "Parse VCD Content"
+            )}
           </Button>
 
           {/* local file */}
@@ -135,8 +152,16 @@ export default function Home() {
             className="mt-8 h-12"
             placeholder="Or upload a .vcd to /uploads, and put filename (no '.vcd') here"
           />
-          <Button onClick={handleParseLocalFile} className="w-full mt-2">
-            Parse Local File
+          <Button
+            onClick={handleParseLocalFile}
+            className="w-full mt-2"
+            disabled={loading} // Disable the button while loading
+          >
+            {loading ? (
+              <Loader2 className="animate-spin mr-2" size={20} />
+            ) : (
+              "Parse Local File"
+            )}
           </Button>
         </div>
       </div>
