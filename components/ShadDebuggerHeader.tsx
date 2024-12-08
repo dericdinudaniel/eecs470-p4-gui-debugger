@@ -19,6 +19,7 @@ interface DebuggerHeaderProps {
   verilogCycle?: number;
   currentCycle: number;
   isNegativeEdge: boolean;
+  negEgdesAvailable: boolean;
   includeNegativeEdges: boolean;
   setIncludeNegativeEdges: (value: boolean) => void;
   maxCycle: number;
@@ -80,6 +81,7 @@ export default function DebuggerHeader({
   signalData,
   verilogCycle,
   currentCycle,
+  negEgdesAvailable,
   isNegativeEdge,
   includeNegativeEdges,
   setIncludeNegativeEdges,
@@ -156,21 +158,27 @@ export default function DebuggerHeader({
             </DebuggerButton>
           </div>
 
-          <Separator orientation="vertical" className="bg-border/50 mx-2 h-8" />
-
-          <div className="flex flex-col items-center justify-center">
-            <Label
-              htmlFor="include-negedges"
-              className="text-[12px] text-muted-foreground underline-fade mb-1"
-            >
-              Include Negedges (t)
-            </Label>
-            <DestructiveSwitch
-              id="include-negedges"
-              checked={includeNegativeEdges}
-              onCheckedChange={setIncludeNegativeEdges}
-            />
-          </div>
+          {true && (
+            <>
+              <Separator
+                orientation="vertical"
+                className="bg-border/50 mx-2 h-8"
+              />
+              <div className="flex flex-col items-center justify-center">
+                <Label
+                  htmlFor="include-negedges"
+                  className="text-[12px] text-muted-foreground underline-fade mb-1"
+                >
+                  Include Negedges (t)
+                </Label>
+                <DestructiveSwitch
+                  id="include-negedges"
+                  checked={includeNegativeEdges}
+                  onCheckedChange={setIncludeNegativeEdges}
+                />
+              </div>
+            </>
+          )}
 
           <Separator orientation="vertical" className="bg-border/50 mx-2 h-8" />
 

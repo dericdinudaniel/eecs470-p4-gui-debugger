@@ -65,18 +65,21 @@ def parse_localvcd_content():
             return jsonify({"error": "No VCD content in the request"}), 400
         
         filename = data['localFilename']
+        include_negedge = data.get('includeNegativeEdges', False)  # Default to False if not provided
     
         with open(f"uploads/{filename}.vcd", 'r') as vcd_file:
             # Parse VCD content
             vcd = VcdParser()
             vcd.parse(vcd_file)
             
-            num_clocks, num_cycles, time = after_parse_endpoint(vcd, cache)
+            num_clocks, num_cycles, time = after_parse_endpoint(vcd, cache, include_negedge)
         
             header_data = {
+                "filename": filename,
                 "num_clock": num_clocks,
                 "num_cycles": num_cycles,
-                "parse_time" : time
+                "parse_time" : time,
+                "include_negedge": include_negedge
             }
             return jsonify(header_data)
 

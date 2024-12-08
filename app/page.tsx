@@ -11,10 +11,13 @@ import Image from "next/image";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useConstantsStore } from "@/lib/constants-store";
+import { Label } from "@/components/ui/label";
+import { DestructiveSwitch } from "@/components/ui/switch";
 
 export default function Home() {
   const [fileContent, setFileContent] = useState("");
   const [localFilename, setLocalFilename] = useState("");
+  const [includeNegativeEdges, setIncludeNegativeEdges] = useState(false);
   const [loading, setLoading] = useState(false); // Loading state
   const router = useRouter();
 
@@ -46,7 +49,7 @@ export default function Home() {
       const response = await fetch("/api/parse", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fileContent }),
+        body: JSON.stringify({ fileContent, includeNegativeEdges }),
       });
       const data = await response.json();
       router.push(
@@ -71,7 +74,7 @@ export default function Home() {
       const response = await fetch("/api/parse_local", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ localFilename }),
+        body: JSON.stringify({ localFilename, includeNegativeEdges }),
       });
       const data = await response.json();
       router.push(
@@ -83,7 +86,7 @@ export default function Home() {
       setLoading(false); // Set loading state to false when request finishes
     }
   };
-  const { constants, setConstant, resetConstants } = useConstantsStore();
+  const { resetConstants } = useConstantsStore();
   return (
     <div className="min-h-screen bg-card/50 flex items-center justify-center">
       <div className="bg-background p-8 rounded-lg shadow-md m-10 w-full max-w-4xl">
@@ -114,6 +117,19 @@ export default function Home() {
             >
               Reset Constants
             </Button>
+            <div className="flex flex-col items-center justify-center">
+              <Label
+                htmlFor="include-negedges"
+                className="text-[12px] text-muted-foreground underline-fade mb-1"
+              >
+                Include Negedges
+              </Label>
+              <DestructiveSwitch
+                id="include-negedges"
+                checked={includeNegativeEdges}
+                onCheckedChange={setIncludeNegativeEdges}
+              />
+            </div>
           </div>
         </div>
         <div

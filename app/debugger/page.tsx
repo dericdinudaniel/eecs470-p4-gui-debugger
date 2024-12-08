@@ -195,6 +195,7 @@ export default function Debugger() {
           signalData={signalData}
           verilogCycle={verilogCycle}
           currentCycle={currentCycle}
+          negEgdesAvailable={headerInfo?.include_negedge as boolean}
           isNegativeEdge={isNegativeEdge}
           includeNegativeEdges={includeNegativeEdges}
           setIncludeNegativeEdges={setIncludeNegativeEdges}

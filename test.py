@@ -2,6 +2,7 @@ import json
 import sys
 from pyDigitalWaveTools.vcd.parser import VcdParser
 import math
+import time
 from typing import List, Union
 
 if len(sys.argv) > 1:
@@ -12,19 +13,21 @@ else:
 
 with open(fname) as vcd_file:
     vcd = VcdParser()
+    
+    start_time = time.time()
     vcd.parse(vcd_file)
+    end_time = time.time()
 
     data = vcd.scope.children["testbench"].toJson()
-    # print(json.dumps(data, indent=4, sort_keys=True))
-    # test = vcd.scope.children["testbench"].children["mustafa"].children["Front_End"].children["fetcher"].children["cacher"].children["take_branch"].vcdId
-    reset = vcd.scope.children["testbench"].children["reset"];
-    print(type(reset.vcdId))
-    # test1 = test[0]
-    # time, value = test1
-    # print(vcd.scope.children["testbench"].children["mustafa"].children["Front_End"].children["fetcher"].children["cacher"].children["take_branch"].vcdId)
-    # print(vcd.scope.children["testbench"].children["mustafa"].children["Front_End"].children["fetcher"].children["cacher"].children["take_branch"]);
-    
-    print("time, value")
+
+    print('Time to parse: ', end_time - start_time)
+
+    # dump json to same filename.json in testing folder
+    with open("testing/" + fname.split('/')[-1] + ".json", "w") as out_file:
+        json.dump(data, out_file, indent=4)
+
+
+
 ############
 
 # scope
