@@ -1,8 +1,3 @@
-import { PHYS_REG_TAG_WIDTH } from "./types";
-
-// import { clog2 } from "./utils";
-const clog2 = (x: number): number => Math.ceil(Math.log2(x));
-
 // Architectural registers
 export const AR_NUM = 32; // number of architectural registers
 
@@ -61,7 +56,3 @@ export const READ_PORTS = 2 * NUM_FU;
 export const WRITE_PORTS = N;
 
 export const NUM_CHECKPOINTS = 4;
-
-// Memory latency in cycles
-// export const CLOCK_PERIOD          = 10.0; // in ns
-// export const MEM_LATENCY_IN_CYCLES = Math.floor(100.0 / CLOCK_PERIOD + 0.49999);
