@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 
 const ConstantsEditor: React.FC = () => {
-  const { constants, setConstant } = useConstantsStore();
+  const { constants, setConstant, resetConstants } = useConstantsStore();
   const [pendingValues, setPendingValues] = useState<Record<string, string>>(
     {}
   );
@@ -63,7 +63,23 @@ const ConstantsEditor: React.FC = () => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[1025px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-2xl">Constants Editor</DialogTitle>
+          <DialogTitle className="text-2xl flex items-center">
+            Constants Editor
+            <Button
+              variant={"destructive"}
+              size={"sm"}
+              className="ml-3 text-sm"
+              onClick={() => {
+                resetConstants();
+                toast.success("Constants reset", {
+                  description:
+                    "All constants have been reset to their default values",
+                });
+              }}
+            >
+              Reset Constants
+            </Button>
+          </DialogTitle>
           <DialogDescription>
             Edit constants here. Press Enter to apply changes.
           </DialogDescription>
