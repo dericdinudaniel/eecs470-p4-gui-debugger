@@ -94,7 +94,7 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
                 <Dtr key={idx} className={`${color}`}>
                   <DtdLeft className="font-semibold">{entryNumber}</DtdLeft>
                   <Dtd className="font-semibold">
-                    {parseInstruction(entry.packet.inst.inst)}
+                    {parseInstruction(entry.packet.inst)}
                   </Dtd>
                   <Dtd>{"r" + displayValue(entry.R_dest)}</Dtd>
                   <Dtd

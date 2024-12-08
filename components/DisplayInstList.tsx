@@ -83,7 +83,7 @@ const DisplayInstList: React.FC<DisplayInstListProps> = ({
                   <DtdLeft className="font-semibold">{entryNumber}</DtdLeft>
                   <Dtd className="w-10">{displayValueHex(entry.PC)}</Dtd>
                   <Dtd className="font-semibold">
-                    {parseInstruction(entry.inst.inst)}
+                    {parseInstruction(entry.inst)}
                   </Dtd>
                   {isIB && (
                     <Dtd>

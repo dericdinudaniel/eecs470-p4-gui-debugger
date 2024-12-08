@@ -77,62 +77,7 @@ export const EXCEPTION_CODE_WIDTH = clog2(
 );
 
 // Representation of RISC-V instruction types
-export type INST = {
-  inst: number; // 32-bit instruction
-  itype: string; // Type of instruction
-
-  r?: {
-    funct7: number; // 7-bit
-    rs2: number; // 5-bit
-    rs1: number; // 5-bit
-    funct3: number; // 3-bit
-    rd: number; // 5-bit
-    opcode: number; // 7-bit
-  };
-
-  i?: {
-    imm: number; // 12-bit
-    rs1: number; // 5-bit
-    funct3: number; // 3-bit
-    rd: number; // 5-bit
-    opcode: number; // 7-bit
-  };
-
-  s?: {
-    off: number; // 7-bit
-    rs2: number; // 5-bit
-    rs1: number; // 5-bit
-    funct3: number; // 3-bit
-    set: number; // 5-bit
-    opcode: number; // 7-bit
-  };
-
-  b?: {
-    of: number; // 1-bit
-    s: number; // 6-bit
-    rs2: number; // 5-bit
-    rs1: number; // 5-bit
-    funct3: number; // 3-bit
-    et: number; // 4-bit
-    f: number; // 1-bit
-    opcode: number; // 7-bit
-  };
-
-  u?: {
-    imm: number; // 20-bit
-    rd: number; // 5-bit
-    opcode: number; // 7-bit
-  };
-
-  j?: {
-    of: number; // 1-bit
-    et: number; // 10-bit
-    s: number; // 1-bit
-    f: number; // 8-bit
-    rd: number; // 5-bit
-    opcode: number; // 7-bit
-  };
-};
+export type INST = number;
 export const INST_WIDTH = 32;
 
 // ALU operand A input select

@@ -181,7 +181,7 @@ type DisplayMultProps = {
 };
 const DisplayMult: React.FC<DisplayMultProps> = ({ className, signalMult }) => {
   const multCore = signalMult?.children.mult_core;
-  let mult_stages = [];
+  let mult_stages: any[] = [];
   for (let i = 0; i < Constants.get("MULT_STAGES"); i++) {
     const m = (multCore as any).children[`mstage[${i}]`] as ScopeData;
     mult_stages.push(m);

@@ -204,10 +204,7 @@ export const parseID_EX_PACKET = (packetStr: string): Types.ID_EX_PACKET => {
   const binaryStr = packetStr.startsWith("b") ? packetStr.slice(1) : packetStr;
   let accessIdx = 0;
 
-  const inst = {
-    inst: extractBits(binaryStr, accessIdx, Types.INST_WIDTH),
-    itype: "r",
-  };
+  const inst = extractBits(binaryStr, accessIdx, Types.INST_WIDTH);
   accessIdx += Types.INST_WIDTH;
 
   const PC = extractBits(binaryStr, accessIdx, Types.ADDR_WIDTH);
@@ -1341,6 +1338,50 @@ export const parseMSHR_DATA_List = (inputStr: string): Types.MSHR_DATA[] => {
       binaryStr.slice(startIdx, startIdx + entryWidth)
     );
     result.push(mshr_data);
+  }
+
+  return result;
+};
+
+export const parseIF_ID_PACKET = (inputStr: string): Types.IF_ID_PACKET => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  let accessIdx = 0;
+
+  const inst = extractBits(binaryStr, accessIdx, Types.INST_WIDTH);
+  accessIdx += Types.INST_WIDTH;
+
+  const PC = extractBits(binaryStr, accessIdx, Types.ADDR_WIDTH);
+  accessIdx += Types.ADDR_WIDTH;
+
+  const NPC = extractBits(binaryStr, accessIdx, Types.ADDR_WIDTH);
+  accessIdx += Types.ADDR_WIDTH;
+
+  const valid = binaryStr[accessIdx] === "1";
+  accessIdx += 1;
+
+  return {
+    inst,
+    PC,
+    NPC,
+    valid,
+  };
+};
+
+export const parseIF_ID_PACKET_List = (
+  inputStr: string
+): Types.IF_ID_PACKET[] => {
+  const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
+  const result: Types.IF_ID_PACKET[] = [];
+
+  const entryWidth = Types.IF_ID_PACKET_WIDTH;
+  const arrLen = binaryStr.length / entryWidth;
+
+  for (let i = arrLen - 1; i >= 0; i--) {
+    const startIdx = i * entryWidth;
+    const packet = parseIF_ID_PACKET(
+      binaryStr.slice(startIdx, startIdx + entryWidth)
+    );
+    result.push(packet);
   }
 
   return result;

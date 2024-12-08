@@ -43,7 +43,7 @@ const DisplaySingleRS_TO_FU_DATA: React.FC<DisplaySingleRS_TO_FU_DATAProps> = ({
         <Dtbody>
           <Dtr>
             <Dtd className="text-xs p-1 font-semibold w-36" colSpan={2}>
-              {parseInstruction(RS_TO_FUData.packet.inst.inst)}
+              {parseInstruction(RS_TO_FUData.packet.inst)}
             </Dtd>
           </Dtr>
           <Dtr

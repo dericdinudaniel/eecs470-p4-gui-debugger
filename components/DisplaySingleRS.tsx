@@ -85,7 +85,7 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
               className="text-xs p-1 text-center font-semibold w-36"
               colSpan={2}
             >
-              {parseInstruction(RSData.rs_to_fu_data.packet.inst.inst)}
+              {parseInstruction(RSData.rs_to_fu_data.packet.inst)}
             </DtdLeft>
           </Dtr>
           <Dtr
