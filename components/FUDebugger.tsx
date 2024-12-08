@@ -72,12 +72,21 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
   //
   // Actual FUs
   // LOAF
-  let fu_store = [];
+  let fu_load = [];
   for (let i = 0; i < Constants.get("NUM_FU_LOAD"); i++) {
     const loaf = (signalFU as any).children[
       `load_gen[${i}].bread`
     ] as ScopeData;
-    fu_store.push(loaf);
+    fu_load.push(loaf);
+  }
+
+  // MULT
+  let fu_mult = [];
+  for (let i = 0; i < Constants.get("NUM_FU_MULT"); i++) {
+    const loaf = (signalFU as any).children[
+      `mult_gen[${i}].mult_i`
+    ] as ScopeData;
+    fu_mult.push(loaf);
   }
 
   const [showFUInputs, setShowFUInputs] = useState(true);
@@ -331,12 +340,22 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
           </div>
 
           {/* FUs */}
-          <div className="mt-2">
+          <div className="mt-2 justify-items-center space-y-2">
+            {/* mult */}
+            <Card className="">
+              <CardHeader label="Mults" className="text-sm no-underline" />
+              <CardContent className="flex gap-x-2">
+                {fu_mult.map((mult, idx) => {
+                  return <div key={idx}></div>;
+                })}
+              </CardContent>
+            </Card>
+
             {/* loads */}
             <Card className="">
               <CardHeader label="Loads" className="text-sm no-underline" />
               <CardContent className="flex gap-x-2">
-                {fu_store.map((load, idx) => {
+                {fu_load.map((load, idx) => {
                   return (
                     <div key={idx}>
                       <DisplayLoaf className="" signalLoaf={load} />
