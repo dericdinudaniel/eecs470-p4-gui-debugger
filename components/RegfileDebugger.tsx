@@ -26,6 +26,7 @@ import { Card, CardContent, CardHeader } from "./dui/Card";
 import * as Types from "@/lib/types";
 import { constantsStore as Constants } from "@/lib/constants-store";
 import { FU_Port } from "@/lib/tstypes";
+import { useTagSearchContext } from "./TagSearch";
 
 type RegfileDebuggerProps = {
   className: string;
@@ -33,6 +34,7 @@ type RegfileDebuggerProps = {
 };
 
 const DisplayRegPorts: React.FC<{
+  tag: number;
   ports_idx: number[];
   ports_data: number[];
   ports_enable?: boolean[];
@@ -40,6 +42,7 @@ const DisplayRegPorts: React.FC<{
   enableForFwd: boolean[];
   FU_ports?: FU_Port[];
 }> = ({
+  tag,
   ports_idx,
   ports_data,
   ports_enable = Array(ports_idx.length).fill(false),
@@ -59,11 +62,10 @@ const DisplayRegPorts: React.FC<{
       </Dthead>
       <Dtbody>
         {ports_idx.map((idx, port) => {
-          let rowColor =
+          let valid =
             ports_enable[port] ||
-            (ports_idx[port] != 0 && !Number.isNaN(ports_idx[port]))
-              ? "bg-good"
-              : "bg-neutral";
+            (ports_idx[port] != 0 && !Number.isNaN(ports_idx[port]));
+          let rowColor = valid ? "bg-good" : "bg-neutral";
 
           const fwd = idxForFwd.findIndex(
             (writePort) => writePort === ports_idx[port]
@@ -79,7 +81,9 @@ const DisplayRegPorts: React.FC<{
           return (
             <Dtr key={port} className={rowColor}>
               <DtdLeft className="font-semibold">{displayValue(port)}:</DtdLeft>
-              <Dtd>{displayValue(idx)}</Dtd>
+              <Dtd className={valid && tag == idx ? "bg-tagSearchHit" : ""}>
+                {displayValue(idx)}
+              </Dtd>
               <Dtd>{displayValueHex(ports_data[port])}</Dtd>
               {FU_ports && currentFU && (
                 <Dtd>
@@ -144,6 +148,7 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
     })),
   ];
 
+  const { tag } = useTagSearchContext();
   const [showRegfilePorts, setShowRegfilePorts] = useState(true);
 
   return (
@@ -165,6 +170,7 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
               <div className="justify-items-center">
                 <h2 className="text-md font-semibold">Read Ports</h2>
                 <DisplayRegPorts
+                  tag={tag}
                   ports_idx={Reg_read_idx}
                   ports_data={Ref_read_out}
                   idxForFwd={Reg_write_idx}
@@ -177,6 +183,7 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
               <div className="justify-items-center">
                 <h2 className="text-md font-semibold">Write Ports</h2>
                 <DisplayRegPorts
+                  tag={tag}
                   ports_idx={Reg_write_idx}
                   ports_data={Ref_write_data}
                   ports_enable={Reg_write_en}
@@ -204,8 +211,12 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
                       const value = regChunk[idx];
 
                       return (
-                        <Dtr key={globalIdx} className="bg-neutral">
-                          <DtdLeft className="font-semibold">
+                        <Dtr key={globalIdx}>
+                          <DtdLeft
+                            className={`font-semibold ${
+                              tag == globalIdx ? "bg-tagSearchHit" : ""
+                            }`}
+                          >
                             {prNumber}:
                           </DtdLeft>
                           <Dtd className="">{displayValueHex(value)}</Dtd>

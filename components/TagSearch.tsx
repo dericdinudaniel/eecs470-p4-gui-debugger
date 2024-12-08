@@ -19,7 +19,7 @@ const useTagSearchContext = () => {
 const TagSearchProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [tag, setTag] = React.useState(0);
+  const [tag, setTag] = React.useState(-1);
 
   return (
     <TagSearchContext.Provider value={{ tag, setTag }}>

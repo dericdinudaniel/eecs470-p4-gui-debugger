@@ -75,7 +75,11 @@ const DisplayFrizzyList: React.FC<DisplayFrizzyListProps> = ({
                       >
                         {prNumber}
                       </span>
-                      <span className="flex items-center">
+                      <span
+                        className={`flex items-center ${
+                          tag == prNumber ? "bg-tagSearchHit" : ""
+                        }`}
+                      >
                         {ready === "1" ? "+" : "\u00A0"}
                       </span>
                     </div>
