@@ -1,4 +1,4 @@
-import * as Constants from "./constants";
+import { constantsStore as Constants } from "./constants-store";
 // import { clog2 } from "./utils";
 const clog2 = (x: number): number => Math.ceil(Math.log2(x));
 
@@ -17,7 +17,7 @@ export const REG_IDX_WIDTH = 5;
 
 // Calculating the bit-width for PHYS_REG_TAG based on clog2(PHYS_REG_SZ_R10K)
 export type PHYS_REG_TAG = number;
-export const PHYS_REG_TAG_WIDTH = clog2(Constants.PHYS_REG_SZ_R10K);
+export const PHYS_REG_TAG_WIDTH = clog2(Constants.get("PHYS_REG_SZ_R10K"));
 
 // MEM_TAG is a 4-bit value
 export type MEM_TAG = number; // 4-bit memory tag
@@ -48,10 +48,10 @@ export type ICACHE_TAG = {
   tags: number; // Equivalent to `logic [12 - ICACHE_LINE_BITS:0]`
   valid: boolean;
 };
-export const ICACHE_TAG_WIDTH = 12 - Constants.ICACHE_LINE_BITS + 1 + 1;
+export const ICACHE_TAG_WIDTH = 12 - Constants.get("ICACHE_LINE_BITS") + 1 + 1;
 
 export type SQ_IDX = number;
-export const SQ_IDX_WIDTH = clog2(Constants.SQ_SZ + Constants.N);
+export const SQ_IDX_WIDTH = clog2(Constants.get("SQ_SZ") + Constants.get("N"));
 
 // Enum for exception codes
 export enum EXCEPTION_CODE {
@@ -270,7 +270,7 @@ export const ID_EX_PACKET_WIDTH =
   REG_IDX_WIDTH + // dest_reg_idx
   ALU_FUNC_WIDTH + // alu_func
   4 * 1 + // mult, rd_mem, wr_mem, cond_branch
-  Constants.BRANCH_PRED_SZ + // bhr
+  Constants.get("BRANCH_PRED_SZ") + // bhr
   1 + // predicted_direction
   ADDR_WIDTH + // predicted_target
   1 + // uncond_branch
@@ -357,7 +357,7 @@ export const FU_DATA_WIDTH =
   DATA_WIDTH + // rs2
   1 + // valid
   FU_FUNC_WIDTH + // fu_func
-  Constants.NUM_CHECKPOINTS + // b_mask
+  Constants.get("NUM_CHECKPOINTS") + // b_mask
   SQ_IDX_WIDTH + // saved_tail
   ADDR_WIDTH + // PC
   DATA_WIDTH; // imm
@@ -400,7 +400,7 @@ export type FRIZZY_DATA = {
   ready: string[]; // 1 if ready
   free: string[]; // 1 if free
 };
-export const FRIZZY_DATA_WIDTH = 2 * Constants.PHYS_REG_SZ_R10K;
+export const FRIZZY_DATA_WIDTH = 2 * Constants.get("PHYS_REG_SZ_R10K");
 
 // FRIZZY Data packet
 export type FREDDY_IN = {
@@ -439,7 +439,7 @@ export const RS_TO_FU_DATA_WIDTH =
   FU_FUNC_WIDTH + // fu_func
   1 + // has_imm
   DATA_WIDTH + // imm_value
-  Constants.NUM_CHECKPOINTS + // b_mask
+  Constants.get("NUM_CHECKPOINTS") + // b_mask
   ADDR_WIDTH + // PC
   SQ_IDX_WIDTH + // saved_tail
   ID_EX_PACKET_WIDTH; // packet
@@ -489,11 +489,11 @@ export const CHECKPOINT_DATA_WIDTH =
   1 + // resolving_branch_direction
   ADDR_WIDTH + // recovery_target
   ADDR_WIDTH + // branch_PC
-  Constants.BRANCH_PRED_SZ + // checkpointed_bhr
-  clog2(Constants.ROB_SZ + Constants.N) + // rob_tail
+  Constants.get("BRANCH_PRED_SZ") + // checkpointed_bhr
+  clog2(Constants.get("ROB_SZ") + Constants.get("N")) + // rob_tail
   SQ_IDX_WIDTH + // sq_tail
   FRIZZY_DATA_WIDTH + // frizzy_checkpoint
-  Constants.AR_NUM * PHYS_REG_TAG_WIDTH; // map_checkpoint
+  Constants.get("AR_NUM") * PHYS_REG_TAG_WIDTH; // map_checkpoint
 
 export type FU_TO_BS_DATA = {
   bmask: string;
@@ -502,7 +502,7 @@ export type FU_TO_BS_DATA = {
   target: ADDR;
 };
 export const FU_TO_BS_DATA_WIDTH =
-  Constants.NUM_CHECKPOINTS + // bmask
+  Constants.get("NUM_CHECKPOINTS") + // bmask
   1 + // taken
   1 + // is_jalr
   ADDR_WIDTH; // target
@@ -593,7 +593,7 @@ export type DCACHE_TAG = {
   tags: number; // Equivalent to `logic [12 - DCACHE_LINE_BITS:0]`
   valid: boolean;
 };
-export const DCACHE_TAG_WIDTH = 12 - Constants.DCACHE_LINE_BITS + 1 + 1;
+export const DCACHE_TAG_WIDTH = 12 - Constants.get("DCACHE_LINE_BITS") + 1 + 1;
 
 export enum DCACHE_T {
   DCACHE_NONE,

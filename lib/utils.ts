@@ -9,7 +9,8 @@ export function cn(...inputs: ClassValue[]) {
 
 import { ScopeData, SignalData } from "./tstypes";
 import * as Types from "./types";
-import * as Constants from "./constants";
+import { constantsStore as Constants } from "./constants-store";
+
 import { reverseStr } from "./tsutils";
 
 export const clog2 = (x: number): number => Math.ceil(Math.log2(x));
@@ -258,8 +259,11 @@ export const parseID_EX_PACKET = (packetStr: string): Types.ID_EX_PACKET => {
   const cond_branch = binaryStr[accessIdx] === "1";
   accessIdx += 1;
 
-  const bhr = binaryStr.slice(accessIdx, accessIdx + Constants.BRANCH_PRED_SZ);
-  accessIdx += Constants.BRANCH_PRED_SZ;
+  const bhr = binaryStr.slice(
+    accessIdx,
+    accessIdx + Constants.get("BRANCH_PRED_SZ")
+  );
+  accessIdx += Constants.get("BRANCH_PRED_SZ");
   const predicted_direction = binaryStr[accessIdx] === "1";
   accessIdx += 1;
   const predicted_target = extractBits(binaryStr, accessIdx, Types.ADDR_WIDTH);
@@ -345,9 +349,9 @@ export const parseFU_DATA = (
 
   const b_mask = binaryStr.slice(
     accessIdx,
-    accessIdx + Constants.NUM_CHECKPOINTS
+    accessIdx + Constants.get("NUM_CHECKPOINTS")
   );
-  accessIdx += Constants.NUM_CHECKPOINTS;
+  accessIdx += Constants.get("NUM_CHECKPOINTS");
 
   const saved_tail = extractBits(binaryStr, accessIdx, Types.SQ_IDX_WIDTH);
   accessIdx += Types.SQ_IDX_WIDTH;
@@ -493,9 +497,9 @@ export const parseRS_TO_FU_DATA = (
 
   const b_mask = binaryStr.slice(
     accessIdx,
-    accessIdx + Constants.NUM_CHECKPOINTS
+    accessIdx + Constants.get("NUM_CHECKPOINTS")
   );
-  accessIdx += Constants.NUM_CHECKPOINTS;
+  accessIdx += Constants.get("NUM_CHECKPOINTS");
 
   const PC = extractBits(binaryStr, accessIdx, Types.ADDR_WIDTH);
   accessIdx += Types.ADDR_WIDTH;
@@ -577,7 +581,7 @@ export const parseReadyBits = (inputStr: string): string[] => {
 //   // N of PHYS_REG_TAG
 //   const result: number[] = [];
 
-//   const arrLen = Constants.N;
+//   const arrLen = Constants.get('N');
 //   for (let i = arrLen - 1; i >= 0; i--) {
 //     const startIdx = i * Types.PHYS_REG_TAG_WIDTH;
 //     const tag = extractBits(binaryStr, startIdx, Types.PHYS_REG_TAG_WIDTH);
@@ -687,16 +691,16 @@ export const parseCHECKPOINT_DATA = (
 
   const checkpointed_bhr = binaryStr.slice(
     accessIdx,
-    accessIdx + Constants.BRANCH_PRED_SZ
+    accessIdx + Constants.get("BRANCH_PRED_SZ")
   );
-  accessIdx += Constants.BRANCH_PRED_SZ;
+  accessIdx += Constants.get("BRANCH_PRED_SZ");
 
   const rob_tail = extractBits(
     binaryStr,
     accessIdx,
-    clog2(Constants.ROB_SZ + Constants.N)
+    clog2(Constants.get("ROB_SZ") + Constants.get("N"))
   );
-  accessIdx += clog2(Constants.ROB_SZ + Constants.N);
+  accessIdx += clog2(Constants.get("ROB_SZ") + Constants.get("N"));
 
   const sq_tail = extractBits(binaryStr, accessIdx, Types.SQ_IDX_WIDTH);
   accessIdx += Types.SQ_IDX_WIDTH;
@@ -709,7 +713,7 @@ export const parseCHECKPOINT_DATA = (
   const map_checkpoint = parseReg_Map(
     binaryStr.slice(
       accessIdx,
-      accessIdx + Constants.AR_NUM * Types.PHYS_REG_TAG_WIDTH
+      accessIdx + Constants.get("AR_NUM") * Types.PHYS_REG_TAG_WIDTH
     )
   );
 
@@ -730,9 +734,14 @@ export const parseCHECKPOINT_DATA = (
 export const parseFRIZZY_DATA = (inputStr: string): Types.FRIZZY_DATA => {
   const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
 
-  const ready = parseReadyBits(binaryStr.slice(0, Constants.PHYS_REG_SZ_R10K));
+  const ready = parseReadyBits(
+    binaryStr.slice(0, Constants.get("PHYS_REG_SZ_R10K"))
+  );
   const free = parseFreeList(
-    binaryStr.slice(Constants.PHYS_REG_SZ_R10K, Constants.PHYS_REG_SZ_R10K * 2)
+    binaryStr.slice(
+      Constants.get("PHYS_REG_SZ_R10K"),
+      Constants.get("PHYS_REG_SZ_R10K") * 2
+    )
   );
 
   return {
@@ -748,7 +757,7 @@ export const parseCHECKPOINT_DATA_List = (
   const result: Types.CHECKPOINT_DATA[] = [];
 
   const entryWidth = Types.CHECKPOINT_DATA_WIDTH;
-  const arrLen = Constants.NUM_CHECKPOINTS;
+  const arrLen = Constants.get("NUM_CHECKPOINTS");
 
   for (let i = arrLen - 1; i >= 0; i--) {
     const startIdx = i * entryWidth;
@@ -782,9 +791,9 @@ export const parseFU_TO_BS_DATA = (inputStr: string): Types.FU_TO_BS_DATA => {
 
   const bmask = binaryStr.slice(
     accessIdx,
-    accessIdx + Constants.NUM_CHECKPOINTS
+    accessIdx + Constants.get("NUM_CHECKPOINTS")
   );
-  accessIdx += Constants.NUM_CHECKPOINTS;
+  accessIdx += Constants.get("NUM_CHECKPOINTS");
 
   const taken = binaryStr[accessIdx] === "1";
   accessIdx += 1;
@@ -867,7 +876,7 @@ export const parseI$_tags = (inputStr: string): number[] => {
   const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
   const result: number[] = [];
 
-  const entryWidth = 12 - Constants.ICACHE_LINE_BITS + 1;
+  const entryWidth = 12 - Constants.get("ICACHE_LINE_BITS") + 1;
   const arrLen = binaryStr.length / entryWidth;
 
   for (let i = arrLen - 1; i >= 0; i--) {
@@ -883,7 +892,7 @@ export const parseI$_indexes = (inputStr: string): number[] => {
   const binaryStr = inputStr.startsWith("b") ? inputStr.slice(1) : inputStr;
   const result: number[] = [];
 
-  const entryWidth = Constants.ICACHE_LINE_BITS;
+  const entryWidth = Constants.get("ICACHE_LINE_BITS");
   const arrLen = binaryStr.length / entryWidth;
 
   for (let i = arrLen - 1; i >= 0; i--) {
@@ -903,9 +912,9 @@ export const parseICACHE_TAG = (inputStr: string): Types.ICACHE_TAG => {
   const tags = extractBits(
     binaryStr,
     accessIdx,
-    12 - Constants.ICACHE_LINE_BITS + 1
+    12 - Constants.get("ICACHE_LINE_BITS") + 1
   );
-  accessIdx += 12 - Constants.ICACHE_LINE_BITS + 1;
+  accessIdx += 12 - Constants.get("ICACHE_LINE_BITS") + 1;
 
   const valid = binaryStr[accessIdx] === "1";
   accessIdx += 1;
@@ -1254,9 +1263,9 @@ export const parseDCACHE_TAG = (inputStr: string): Types.DCACHE_TAG => {
   const tags = extractBits(
     binaryStr,
     accessIdx,
-    12 - Constants.DCACHE_LINE_BITS + 1
+    12 - Constants.get("DCACHE_LINE_BITS") + 1
   );
-  accessIdx += 12 - Constants.DCACHE_LINE_BITS + 1;
+  accessIdx += 12 - Constants.get("DCACHE_LINE_BITS") + 1;
 
   const valid = binaryStr[accessIdx] === "1";
   accessIdx += 1;

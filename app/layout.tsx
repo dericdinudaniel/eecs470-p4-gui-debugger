@@ -1,6 +1,7 @@
 import "./globals.css";
 import { JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata = {
   title: "Chimp Debugger",
@@ -30,6 +31,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <main>{children}</main>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

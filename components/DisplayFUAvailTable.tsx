@@ -1,5 +1,5 @@
 import React from "react";
-import * as Constants from "@/lib/constants";
+import { constantsStore as Constants } from "@/lib/constants-store";
 import {
   Dthead,
   Dtd,
@@ -28,11 +28,11 @@ const DisplayFUAvailTable: React.FC<FUTableProps> = ({
   storeAvail,
   loadAvail,
 }) => {
-  const numAlu = Constants.NUM_FU_ALU;
-  const numBranch = Constants.NUM_FU_BRANCH;
-  const numMult = Constants.NUM_FU_MULT;
-  const numStore = Constants.NUM_FU_STORE;
-  const numLoad = Constants.NUM_FU_LOAD;
+  const numAlu = Constants.get("NUM_FU_ALU");
+  const numBranch = Constants.get("NUM_FU_BRANCH");
+  const numMult = Constants.get("NUM_FU_MULT");
+  const numStore = Constants.get("NUM_FU_STORE");
+  const numLoad = Constants.get("NUM_FU_LOAD");
 
   // Helper function to convert binary string to array of 1s and 0s
   const binaryToArray = (binary: string, length: number) => {

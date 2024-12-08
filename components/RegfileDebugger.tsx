@@ -24,7 +24,7 @@ import { Module, ModuleHeader, ModuleContent } from "./dui/Module";
 import { DButton } from "./dui/DButton";
 import { Card, CardContent, CardHeader } from "./dui/Card";
 import * as Types from "@/lib/types";
-import * as Constants from "@/lib/constants";
+import { constantsStore as Constants } from "@/lib/constants-store";
 import { FU_Port } from "@/lib/tstypes";
 
 type RegfileDebuggerProps = {
@@ -122,23 +122,23 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
   // calculate which ports are used by which FUs
 
   const FU_ReadPorts: FU_Port[] = [
-    ...Array.from({ length: Constants.NUM_FU_ALU * 2 }, (_, i) => ({
+    ...Array.from({ length: Constants.get("NUM_FU_ALU") * 2 }, (_, i) => ({
       fu_type: Types.FU_TYPE.ALU,
       idx: Math.floor(i / 2),
     })),
-    ...Array.from({ length: Constants.NUM_FU_MULT * 2 }, (_, i) => ({
+    ...Array.from({ length: Constants.get("NUM_FU_MULT") * 2 }, (_, i) => ({
       fu_type: Types.FU_TYPE.MUL,
       idx: Math.floor(i / 2),
     })),
-    ...Array.from({ length: Constants.NUM_FU_BRANCH * 2 }, (_, i) => ({
+    ...Array.from({ length: Constants.get("NUM_FU_BRANCH") * 2 }, (_, i) => ({
       fu_type: Types.FU_TYPE.BR,
       idx: Math.floor(i / 2),
     })),
-    ...Array.from({ length: Constants.NUM_FU_STORE * 2 }, (_, i) => ({
+    ...Array.from({ length: Constants.get("NUM_FU_STORE") * 2 }, (_, i) => ({
       fu_type: Types.FU_TYPE.STORE,
       idx: Math.floor(i / 2),
     })),
-    ...Array.from({ length: Constants.NUM_FU_LOAD * 2 }, (_, i) => ({
+    ...Array.from({ length: Constants.get("NUM_FU_LOAD") * 2 }, (_, i) => ({
       fu_type: Types.FU_TYPE.LOAD,
       idx: Math.floor(i / 2),
     })),

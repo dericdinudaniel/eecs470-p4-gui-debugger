@@ -18,7 +18,7 @@ import { DButton } from "./dui/DButton";
 import DisplayFU_TO_BS_DATA from "./DisplayFU_TO_BS_DATA";
 import { Card, CardContent, CardHeader, CardHeaderSmall } from "./dui/Card";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
-import * as Constants from "@/lib/constants";
+import { constantsStore as Constants } from "@/lib/constants-store";
 import DisplayLoaf from "@/components/DisplayLoaf";
 
 type FUDebuggerProps = {
@@ -73,7 +73,7 @@ const FUDebugger: React.FC<FUDebuggerProps> = ({ className, signalFU }) => {
   // Actual FUs
   // LOAF
   let fu_store = [];
-  for (let i = 0; i < Constants.NUM_FU_LOAD; i++) {
+  for (let i = 0; i < Constants.get("NUM_FU_LOAD"); i++) {
     const loaf = (signalFU as any).children[
       `load_gen[${i}].bread`
     ] as ScopeData;
