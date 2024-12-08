@@ -1,4 +1,13 @@
 import { Instruction } from "./rvcodec.js/Instruction";
+import { ScopeData } from "./tstypes";
+import { constantsStore } from "@/lib/constants-store";
+import {
+  extractSignalValue,
+  parseCDBTags,
+  parseFU_DATA_List,
+  parseSQ_DATA_List,
+} from "./utils";
+import * as Types from "./types";
 
 export const parseInstruction = (instruction: number): string => {
   // convert number to hex string

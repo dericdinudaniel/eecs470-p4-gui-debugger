@@ -13,7 +13,7 @@ import {
   Dtable,
 } from "@/components/dui/DTable";
 import { Card, CardContent, CardHeader } from "./dui/Card";
-import { useTagSearchContext } from "./TagSearch";
+import { useDisplayContext } from "./DisplayContext";
 
 type DisplayROBDataProps = {
   className: string;
@@ -30,7 +30,7 @@ const DisplayROBData: React.FC<DisplayROBDataProps> = ({
   tail,
   isROB,
 }) => {
-  const { tag } = useTagSearchContext();
+  const { tag } = useDisplayContext();
 
   return (
     <Card className={className}>

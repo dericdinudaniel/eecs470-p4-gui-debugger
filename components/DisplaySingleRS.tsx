@@ -13,7 +13,7 @@ import {
   Dtable,
 } from "@/components/dui/DTable";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
-import { useTagSearchContext } from "./TagSearch";
+import { useDisplayContext } from "./DisplayContext";
 
 type DisplaySingleRSProps = {
   className: string;
@@ -67,7 +67,7 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
     return false;
   }
 
-  const { tag } = useTagSearchContext();
+  const { tag } = useDisplayContext();
 
   return (
     <div className={`${className} hover:shadow-2xl transition-shadow`}>

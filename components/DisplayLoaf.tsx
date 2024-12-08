@@ -15,6 +15,8 @@ import {
 import * as Types from "@/lib/types";
 import { Dtable, Dtbody, Dtd, Dth, Dthead, DthLeft, Dtr } from "./dui/DTable";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
+import { useDisplayContext } from "@/components/DisplayContext";
+import { useConstantsStore } from "@/lib/constants-store";
 
 type DisplayLoafProps = {
   className: string;
@@ -22,13 +24,19 @@ type DisplayLoafProps = {
 };
 
 const DisplayLoaf: React.FC<DisplayLoafProps> = ({ className, signalLoaf }) => {
+  const { autoDetectConstants } = useConstantsStore();
   try {
     const test = extractSignalValueToInt(
       signalLoaf,
       "state"
     ) as Types.LOAF_STATE_T;
   } catch (e) {
-    throw new Error("Check Constants.ts & sysdefs.h: NUM_FU_LOAD");
+    try {
+      const { signalData } = useDisplayContext();
+      autoDetectConstants(signalData);
+    } catch (e) {
+      throw new Error("Check Constants.ts & sysdefs.h: NUM_FU_LOAD");
+    }
   }
 
   const state = extractSignalValueToInt(

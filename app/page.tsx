@@ -8,7 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import Image from "next/image";
-import { Loader2 } from "lucide-react"; // Importing loader icon from Lucide (you may need to install it)
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { useConstantsStore } from "@/lib/constants-store";
 
 export default function Home() {
   const [fileContent, setFileContent] = useState("");
@@ -81,7 +83,7 @@ export default function Home() {
       setLoading(false); // Set loading state to false when request finishes
     }
   };
-
+  const { constants, setConstant, resetConstants } = useConstantsStore();
   return (
     <div className="min-h-screen bg-card/50 flex items-center justify-center">
       <div className="bg-background p-8 rounded-lg shadow-md m-10 w-full max-w-4xl">
@@ -98,6 +100,20 @@ export default function Home() {
               System on Chimp Debugger
             </h1>
             <ThemeToggle className="w-12 h-12" />
+            <Button
+              variant={"destructive"}
+              size={"sm"}
+              className="ml-3 text-sm"
+              onClick={() => {
+                resetConstants();
+                toast.success("Constants reset", {
+                  description:
+                    "All constants have been reset to their default values",
+                });
+              }}
+            >
+              Reset Constants
+            </Button>
           </div>
         </div>
         <div

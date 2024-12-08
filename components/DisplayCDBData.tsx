@@ -10,7 +10,7 @@ import {
   Dtbody,
   Dtable,
 } from "@/components/dui/DTable";
-import { useTagSearchContext } from "./TagSearch";
+import { useDisplayContext } from "./DisplayContext";
 
 type DisplayCDBDataProps = {
   className: string;
@@ -25,7 +25,7 @@ const DisplayCDBData: React.FC<DisplayCDBDataProps> = ({
   CDBData,
   isEarlyCDB,
 }) => {
-  const { tag } = useTagSearchContext();
+  const { tag } = useDisplayContext();
 
   return (
     <div className={`justify-items-center ${className}`}>

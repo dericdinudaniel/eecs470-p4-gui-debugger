@@ -11,10 +11,11 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import Image from "next/image";
 import InfoDialog from "@/components/InfoDialog";
 import PaddedNum from "./dui/PaddedNum";
-import { useTagSearchContext } from "./TagSearch";
+import { useDisplayContext } from "./DisplayContext";
 import ConstantsEditor from "./ConstantsEditor";
 
 interface DebuggerHeaderProps {
+  signalData: any;
   verilogCycle?: number;
   currentCycle: number;
   isNegativeEdge: boolean;
@@ -76,6 +77,7 @@ const DebuggerButton: React.FC<DebuggerButtonProps> = ({
 };
 
 export default function DebuggerHeader({
+  signalData,
   verilogCycle,
   currentCycle,
   isNegativeEdge,
@@ -93,7 +95,7 @@ export default function DebuggerHeader({
   handleJumpToCycle,
   handleKeyDown,
 }: DebuggerHeaderProps) {
-  const { setTag } = useTagSearchContext();
+  const { setTag } = useDisplayContext();
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/[.25] bg-background/70 backdrop-blur-sm shadow-md">
       <div className="flex h-14 items-center justify-between px-4 md:px-6">
@@ -114,7 +116,7 @@ export default function DebuggerHeader({
           </Link>
           <ThemeToggle />
           <InfoDialog />
-          <ConstantsEditor />
+          <ConstantsEditor signalData={signalData} />
         </div>
 
         <div className="flex items-center justify-center space-x-2">

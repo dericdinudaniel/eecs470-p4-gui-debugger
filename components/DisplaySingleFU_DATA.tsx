@@ -11,7 +11,7 @@ import {
   Dtbody,
   Dtable,
 } from "@/components/dui/DTable";
-import { useTagSearchContext } from "./TagSearch";
+import { useDisplayContext } from "./DisplayContext";
 
 type DisplaySingleFU_DATAProps = {
   className: string;
@@ -26,7 +26,7 @@ const DisplaySingleFU_DATA: React.FC<DisplaySingleFU_DATAProps> = ({
   FUData,
   fu_type,
 }) => {
-  const { tag } = useTagSearchContext();
+  const { tag } = useDisplayContext();
 
   return (
     <div className={`${className} hover:shadow-2xl transition-shadow`}>

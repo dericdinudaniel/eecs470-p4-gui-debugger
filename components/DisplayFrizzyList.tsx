@@ -10,7 +10,7 @@ import {
   Dtbody,
   Dtable,
 } from "@/components/dui/DTable";
-import { useTagSearchContext } from "./TagSearch";
+import { useDisplayContext } from "./DisplayContext";
 
 type DisplayFrizzyListProps = {
   className: string;
@@ -27,7 +27,7 @@ const DisplayFrizzyList: React.FC<DisplayFrizzyListProps> = ({
     return <div>Invalid free list and ready bits</div>;
   }
 
-  const { tag } = useTagSearchContext();
+  const { tag } = useDisplayContext();
 
   const chunkSize = 16;
   const freeListChunks = chunkArray(freeList, chunkSize);

@@ -12,9 +12,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { constantsStore } from "@/lib/constants-store";
 
-const ConstantsEditor: React.FC = () => {
-  const { constants, setConstant, resetConstants } = useConstantsStore();
+const ConstantsEditor: React.FC<{
+  signalData: any;
+}> = ({ signalData }) => {
+  const { constants, setConstant, resetConstants, autoDetectConstants } =
+    useConstantsStore();
   const [pendingValues, setPendingValues] = useState<Record<string, string>>(
     {}
   );
@@ -66,18 +70,35 @@ const ConstantsEditor: React.FC = () => {
           <DialogTitle className="text-2xl flex items-center">
             Constants Editor
             <Button
+              size={"sm"}
+              className="ml-3 text-sm"
+              onClick={() => {
+                autoDetectConstants(signalData);
+              }}
+            >
+              Auto Detect Constants
+            </Button>
+            <Button
               variant={"destructive"}
               size={"sm"}
               className="ml-3 text-sm"
               onClick={() => {
                 resetConstants();
-                toast.success("Constants reset", {
-                  description:
-                    "All constants have been reset to their default values",
-                });
               }}
             >
               Reset Constants
+            </Button>
+            <Button
+              size={"sm"}
+              className="ml-3 text-sm"
+              onClick={() => {
+                console.log("Constants: ", constantsStore.getAll());
+                toast.success("Constants logged", {
+                  description: "All constants have been logged to the console",
+                });
+              }}
+            >
+              Log Constants
             </Button>
           </DialogTitle>
           <DialogDescription>

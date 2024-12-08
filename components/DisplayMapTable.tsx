@@ -11,7 +11,7 @@ import {
   Dtbody,
   Dtable,
 } from "@/components/dui/DTable";
-import { useTagSearchContext } from "./TagSearch";
+import { useDisplayContext } from "./DisplayContext";
 
 type DisplayMapTableProps = {
   className: string;
@@ -25,7 +25,7 @@ const DisplayMapTable: React.FC<DisplayMapTableProps> = ({
   const chunkSize = 16; // Adjust the chunk size as needed
   const mapTableChunks = chunkArray(mapTable, chunkSize);
 
-  const { tag } = useTagSearchContext();
+  const { tag } = useDisplayContext();
 
   return (
     <div className={`justify-items-center ${className}`}>

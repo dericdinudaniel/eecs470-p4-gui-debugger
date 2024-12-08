@@ -12,7 +12,7 @@ import {
   Dtable,
 } from "@/components/dui/DTable";
 import { Card } from "./dui/Card";
-import { useTagSearchContext } from "./TagSearch";
+import { useDisplayContext } from "./DisplayContext";
 
 type DisplaySQDataProps = {
   className: string;
@@ -29,7 +29,7 @@ const DisplaySQData: React.FC<DisplaySQDataProps> = ({
   tail,
   isSQ,
 }) => {
-  const { tag } = useTagSearchContext();
+  const { tag } = useDisplayContext();
 
   return (
     <Card className={className}>

@@ -26,7 +26,7 @@ import { Card, CardContent, CardHeader } from "./dui/Card";
 import * as Types from "@/lib/types";
 import { constantsStore as Constants } from "@/lib/constants-store";
 import { FU_Port } from "@/lib/tstypes";
-import { useTagSearchContext } from "./TagSearch";
+import { useDisplayContext } from "./DisplayContext";
 
 type RegfileDebuggerProps = {
   className: string;
@@ -148,7 +148,7 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
     })),
   ];
 
-  const { tag } = useTagSearchContext();
+  const { tag } = useDisplayContext();
   const [showRegfilePorts, setShowRegfilePorts] = useState(true);
 
   return (

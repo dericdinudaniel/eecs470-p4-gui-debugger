@@ -5,9 +5,10 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { TagSearchProvider } from "@/components/TagSearch";
+import { DisplayContextProvider } from "@/components/DisplayContext";
 import DisplayAll from "@/components/DisplayAll";
 import ShadDebuggerHeader from "@/components/ShadDebuggerHeader";
+import { useConstantsStore } from "@/lib/constants-store";
 
 export default function Debugger() {
   const [currentCycle, setCurrentCycle] = useState(0);
@@ -171,6 +172,15 @@ export default function Debugger() {
     }
   };
 
+  const [hasRunAutoDetect, setHasRunAutoDetect] = useState(false);
+  const { autoDetectConstants } = useConstantsStore();
+  useEffect(() => {
+    if (signalData && !hasRunAutoDetect) {
+      autoDetectConstants(signalData);
+      setHasRunAutoDetect(true); // Ensure it only runs once
+    }
+  }, [signalData, hasRunAutoDetect]);
+
   const testbench = signalData?.signals.children.testbench;
 
   const verilogCycle = parseInt(
@@ -179,9 +189,10 @@ export default function Debugger() {
   );
 
   return (
-    <TagSearchProvider>
+    <DisplayContextProvider signalData={signalData}>
       <div className="min-h-screen bg-background">
         <ShadDebuggerHeader
+          signalData={signalData}
           verilogCycle={verilogCycle}
           currentCycle={currentCycle}
           isNegativeEdge={isNegativeEdge}
@@ -204,6 +215,6 @@ export default function Debugger() {
           {signalData && <DisplayAll className="" signalData={signalData} />}
         </div>
       </div>
-    </TagSearchProvider>
+    </DisplayContextProvider>
   );
 }
