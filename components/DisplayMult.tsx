@@ -11,6 +11,7 @@ import {
 } from "@/lib/utils";
 import { CardHeaderSmall } from "./dui/Card";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
+import { useDisplayContext } from "./DisplayContext";
 
 const DisplayMultStage: React.FC<{
   className: string;
@@ -48,6 +49,8 @@ const DisplayMultStage: React.FC<{
     "partial_product"
   );
 
+  const { tag } = useDisplayContext();
+
   return (
     <div
       className={`justify-items-center border rounded-lg p-1 ${
@@ -64,6 +67,7 @@ const DisplayMultStage: React.FC<{
                 label="Tag:"
                 labelClassName="text-xs"
                 dataClassName="text-xs"
+                className={start && tag == tag_in ? "bg-tagSearchHit" : ""}
               >
                 {tag_in}
               </SimpleValDisplay>
