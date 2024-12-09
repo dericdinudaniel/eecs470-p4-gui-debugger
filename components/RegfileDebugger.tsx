@@ -211,7 +211,7 @@ const RegfileDebugger: React.FC<RegfileDebuggerProps> = ({
                       const value = regChunk[idx];
 
                       return (
-                        <Dtr key={globalIdx}>
+                        <Dtr key={globalIdx} className="bg-neutral">
                           <DtdLeft
                             className={`font-semibold ${
                               tag == globalIdx ? "bg-tagSearchHit" : ""

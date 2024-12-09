@@ -197,19 +197,12 @@ export default function DebuggerHeader({
         <div className="flex items-center space-x-4">
           <div className="flex flex-col items-end">
             {verilogCycle != undefined && (
-              <p className="text-sm font-mono">
-                Verilog Cycle:{" "}
-                <PaddedNum
-                  number={Number.isNaN(verilogCycle) ? 0 : verilogCycle}
-                  maxNumber={maxCycle}
-                />
-              </p>
+              <p className="text-sm font-mono">Verilog Cycle: {verilogCycle}</p>
             )}
 
             <p className="text-sm font-mono">
               {/* Num Cycles: {padWithSpaces(maxCycle + 1, maxCycle)} */}
-              Num Cycles:{" "}
-              <PaddedNum number={maxCycle + 1} maxNumber={maxCycle} />
+              Num Cycles: {maxCycle}
             </p>
           </div>
           <div className="flex flex-row items-center space-x-1">
