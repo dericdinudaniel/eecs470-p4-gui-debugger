@@ -8,7 +8,9 @@
     "dev": "concurrently \"pnpm run next-dev\" \"pnpm run flask-dev\"",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prodFE": "pnpm run build && pnpm run start",
+    "prod": "concurrently \"pnpm run prodFE\" \"pnpm run flask-dev\""
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.2",
