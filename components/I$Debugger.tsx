@@ -31,6 +31,7 @@ import { Card, CardContent, CardHeader, CardHeaderSmall } from "./dui/Card";
 import { SimpleValDisplay } from "./dui/SimpleValDisplay";
 import { IFProps, MemArbToI$, I$ToMemArb } from "./DisplayInterfaces";
 import { DButton } from "./dui/DButton";
+import { constantsStore as Constants } from "@/lib/constants-store";
 
 // Memory Interface Component
 const MemIF: React.FC<IFProps> = ({ className, signal, display }) => {
@@ -192,12 +193,7 @@ const FetchIF: React.FC<IFProps> = ({ className, signal, display }) => {
               <div className="flex items-start gap-x-2">
                 <div className="justify-items-center">
                   <SimpleValDisplay label="Valid: ">
-                    <PaddedNum
-                      number={valid_fetches}
-                      maxNumber={
-                        (proc2Icache_addr.length - 1) / Types.ADDR_WIDTH
-                      } // calculate N width
-                    />
+                    {valid_fetches}
                   </SimpleValDisplay>
                   <CardHeaderSmall label="Fetch Addrs" />
                   <Dtable>
@@ -208,7 +204,10 @@ const FetchIF: React.FC<IFProps> = ({ className, signal, display }) => {
                     </Dthead>
                     <Dtbody className="bg-neutral">
                       {I$_proc2Icache_addr.map((addr, idx) => (
-                        <Dtr key={idx}>
+                        <Dtr
+                          key={idx}
+                          className={idx < valid_fetches ? "bg-good" : "bg-bad"}
+                        >
                           <DtdLeft className="font-semibold pl-1">
                             {idx}:
                           </DtdLeft>
@@ -242,7 +241,11 @@ const FetchIF: React.FC<IFProps> = ({ className, signal, display }) => {
                 <Dtbody>
                   {I$_Icache_data_out.map((inst, idx) => (
                     <Dtr key={idx} className="text-sm p-1 bg-neutral">
-                      <Dtd>
+                      <Dtd
+                        className={
+                          idx < Icache_valid_out ? "bg-good" : "bg-bad"
+                        }
+                      >
                         <div className="w-40">{parseInstruction(inst)}</div>
                       </Dtd>
                     </Dtr>
