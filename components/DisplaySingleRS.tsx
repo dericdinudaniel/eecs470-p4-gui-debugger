@@ -37,34 +37,37 @@ const DisplaySingleRS: React.FC<DisplaySingleRSProps> = ({
   function checkSQ(): boolean {
     // loop over SQ_entries from head to saved_tail, and if all of the SQ entries have address_valid, then highlight the entry
     // remember to go to beginning after reaching the end
+    try {
+      if (SQ_entries != undefined && SQ_head != undefined) {
+        const saved_tail = RSData.rs_to_fu_data.saved_tail;
+        let i = SQ_head;
 
-    if (SQ_entries != undefined && SQ_head != undefined) {
-      const saved_tail = RSData.rs_to_fu_data.saved_tail;
-      let i = SQ_head;
-
-      if (SQ_empty) {
-        return false;
-      }
-
-      while (i != saved_tail) {
-        if (SQ_entries[i].valid === false) {
-          return false;
-        }
-        if (SQ_entries[i].address_valid === false) {
+        if (SQ_empty) {
           return false;
         }
 
-        i = (i + 1) % SQ_entries.length;
+        while (i != saved_tail) {
+          if (SQ_entries[i].valid === false) {
+            return false;
+          }
+          if (SQ_entries[i].address_valid === false) {
+            return false;
+          }
 
-        if (i === saved_tail) {
-          break;
+          i = (i + 1) % SQ_entries.length;
+
+          if (i === saved_tail) {
+            break;
+          }
         }
+
+        return true && RSData.occupied && RSData.fu === Types.FU_TYPE.LOAD;
       }
 
-      return true && RSData.occupied && RSData.fu === Types.FU_TYPE.LOAD;
+      return false;
+    } catch {
+      return false;
     }
-
-    return false;
   }
 
   const { tag } = useDisplayContext();
