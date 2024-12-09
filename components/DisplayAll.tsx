@@ -38,15 +38,15 @@ const DisplayAll: React.FC<DisplayAllProps> = ({ className, signalData }) => {
           />
           <div className="justify-items-center space-y-4">
             <SQDebugger className="" signalSQ={OoO_Core.children.DUT_sq} />
-            <BPredDebugger
-              className=""
-              signalBP={Front_End.children.masonshare}
-            />
           </div>
         </div>
 
         <div className="flex gap-x-2">
           <div className="justify-items-center space-y-4">
+            <BPredDebugger
+              className=""
+              signalBP={Front_End.children.masonshare}
+            />
             <IBDebugger
               className=""
               signalIB={cpu.children.Front_End.children.instr_buffer}
