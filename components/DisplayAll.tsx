@@ -36,9 +36,7 @@ const DisplayAll: React.FC<DisplayAllProps> = ({ className, signalData }) => {
             className=""
             signalI$={Front_End.children.fetcher.children.cacher}
           />
-          <div className="justify-items-center space-y-4">
-            <SQDebugger className="" signalSQ={OoO_Core.children.DUT_sq} />
-          </div>
+          <SQDebugger className="" signalSQ={OoO_Core.children.DUT_sq} />
         </div>
 
         <div className="flex gap-x-2">
