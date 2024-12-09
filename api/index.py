@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_caching import Cache
 from flask_cors import CORS
 from pyDigitalWaveTools.vcd.parser import VcdParser
-from parsing import full_parse, after_parse_endpoint
+from .parsing import after_parse_endpoint
 from pprint import pprint
 
 import logging
@@ -14,6 +14,9 @@ cache = Cache(app, config={
     'CACHE_DEFAULT_TIMEOUT': 60000,
     'CACHE_THRESHOLD': 52000
 })
+
+def create_app():
+    return app
 
 @app.route("/api/helloworld/")
 def hello_world():

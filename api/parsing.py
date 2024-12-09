@@ -39,109 +39,6 @@ def after_parse_endpoint(parser, cache, include_negedge):
 # structure will be the exact same, but data will be a single value instead of a list of values
 
 discard_terms = {"unnamed", "genblk", ".psel", "tmp"}
-def full_parse(cache, root_scope, num_clocks):
-    def process_scope(scope, timestamp):
-        result = {"name": scope.name}
-        if hasattr(scope, 'children'):
-            result["children"] = {}
-            for name, child in scope.children.items():
-                if any(term in name.lower() for term in discard_terms):
-                    continue
-                
-                result["children"][name] = process_scope(child, timestamp)
-        else:
-            if hasattr(scope, 'data'):
-                data = scope.data
-                value = None
-                latest_matching_time = -1
-                for time, val in data:
-                    if time <= timestamp:
-                        # Update the value if this is a later or equal timestamp
-                        if time >= latest_matching_time:
-                            latest_matching_time = time
-                            value = val
-                    else:
-                        break
-                result["value"] = value
-                result["type"] = {
-                    "sigType": scope.sigType,
-                    "width": scope.width
-                }
-        return result
-
-    clock = root_scope.children["testbench"].children["clock"].data
-    for i in range(num_clocks):  # +1 to include the last cycle      
-        cycle_number = (i-1) // 2
-        is_negedge = i % 2 == 0
-        is_negedge_str = "neg" if is_negedge else "pos"
-        timestamp = clock[i][0]
-        current_data = process_scope(root_scope, timestamp)
-        cache.set(f"cycle_{cycle_number}_{is_negedge_str}", current_data)
-
-    return "Parsing and caching complete"
-
-
-def full_parse2(cache, root_scope, num_clocks):
-    # Dictionary to store the last accessed index for each signal
-    signal_indices = {}
-    
-    def process_scope(scope, timestamp, path=""):
-        result = {"name": scope.name}
-        if hasattr(scope, 'children'):
-            result["children"] = {}
-            for name, child in scope.children.items():
-                if any(term in name.lower() for term in discard_terms):
-                    continue
-                
-                current_path = f"{path}.{name}" if path else name
-                result["children"][name] = process_scope(child, timestamp, current_path)
-        else:
-            if hasattr(scope, 'data'):
-                data = scope.data
-                scope_path = path
-                
-                # Initialize index for this signal if not already done
-                if scope_path not in signal_indices:
-                    signal_indices[scope_path] = 0
-                
-                value = None
-                latest_matching_time = -1
-                current_index = signal_indices[scope_path]
-                
-                # Start from the last known position
-                for i in range(current_index, len(data)):
-                    time, val = data[i]
-                    if time <= timestamp:
-                        # Update the value if this is a later or equal timestamp
-                        if time >= latest_matching_time:
-                            latest_matching_time = time
-                            value = val
-                            signal_indices[scope_path] = i
-                    else:
-                        break
-                
-                result["value"] = value
-                result["type"] = {
-                    "sigType": scope.sigType,
-                    "width": scope.width
-                }
-        return result
-
-    clock = root_scope.children["testbench"].children["clock"].data
-    for i in range(num_clocks):  # +1 to include the last cycle      
-        cycle_number = (i-1) // 2
-        is_negedge = i % 2 == 0
-        
-        is_negedge_str = "neg" if is_negedge else "pos"
-        
-        timestamp = clock[i][0]
-        
-        current_data = process_scope(root_scope, timestamp)
-        
-        cache.set(f"cycle_{cycle_number}_{is_negedge_str}", current_data)
-
-    return "Parsing and caching complete"
-
 
 def full_parse3(cache, root_scope, num_cycles, num_clocks, include_negedge):
     # Dictionary to store the last accessed index for each signal
@@ -236,5 +133,111 @@ def full_parse3(cache, root_scope, num_cycles, num_clocks, include_negedge):
 
         # Store the updated result for the current cycle in the cache
         cache.set(f"cycle_{cycle_number}_{is_negedge_str}", cached_hierarchy)
+
+    return "Parsing and caching complete"
+
+
+############################### OLD FULL PARSE FUNCTIONS ###############################
+
+def full_parse2(cache, root_scope, num_clocks):
+    # Dictionary to store the last accessed index for each signal
+    signal_indices = {}
+    
+    def process_scope(scope, timestamp, path=""):
+        result = {"name": scope.name}
+        if hasattr(scope, 'children'):
+            result["children"] = {}
+            for name, child in scope.children.items():
+                if any(term in name.lower() for term in discard_terms):
+                    continue
+                
+                current_path = f"{path}.{name}" if path else name
+                result["children"][name] = process_scope(child, timestamp, current_path)
+        else:
+            if hasattr(scope, 'data'):
+                data = scope.data
+                scope_path = path
+                
+                # Initialize index for this signal if not already done
+                if scope_path not in signal_indices:
+                    signal_indices[scope_path] = 0
+                
+                value = None
+                latest_matching_time = -1
+                current_index = signal_indices[scope_path]
+                
+                # Start from the last known position
+                for i in range(current_index, len(data)):
+                    time, val = data[i]
+                    if time <= timestamp:
+                        # Update the value if this is a later or equal timestamp
+                        if time >= latest_matching_time:
+                            latest_matching_time = time
+                            value = val
+                            signal_indices[scope_path] = i
+                    else:
+                        break
+                
+                result["value"] = value
+                result["type"] = {
+                    "sigType": scope.sigType,
+                    "width": scope.width
+                }
+        return result
+
+    clock = root_scope.children["testbench"].children["clock"].data
+    for i in range(num_clocks):  # +1 to include the last cycle      
+        cycle_number = (i-1) // 2
+        is_negedge = i % 2 == 0
+        
+        is_negedge_str = "neg" if is_negedge else "pos"
+        
+        timestamp = clock[i][0]
+        
+        current_data = process_scope(root_scope, timestamp)
+        
+        cache.set(f"cycle_{cycle_number}_{is_negedge_str}", current_data)
+
+    return "Parsing and caching complete"
+
+
+def full_parse(cache, root_scope, num_clocks):
+    def process_scope(scope, timestamp):
+        result = {"name": scope.name}
+        if hasattr(scope, 'children'):
+            result["children"] = {}
+            for name, child in scope.children.items():
+                if any(term in name.lower() for term in discard_terms):
+                    continue
+                
+                result["children"][name] = process_scope(child, timestamp)
+        else:
+            if hasattr(scope, 'data'):
+                data = scope.data
+                value = None
+                latest_matching_time = -1
+                for time, val in data:
+                    if time <= timestamp:
+                        # Update the value if this is a later or equal timestamp
+                        if time >= latest_matching_time:
+                            latest_matching_time = time
+                            value = val
+                    else:
+                        break
+                result["value"] = value
+                result["type"] = {
+                    "sigType": scope.sigType,
+                    "width": scope.width
+                }
+        return result
+
+    clock = root_scope.children["testbench"].children["clock"].data
+    for i in range(num_clocks):  # +1 to include the last cycle      
+        cycle_number = (i-1) // 2
+        is_negedge = i % 2 == 0
+        is_negedge_str = "neg" if is_negedge else "pos"
+        timestamp = clock[i][0]
+        current_data = process_scope(root_scope, timestamp)
+        cache.set(f"cycle_{cycle_number}_{is_negedge_str}", current_data)
 
     return "Parsing and caching complete"

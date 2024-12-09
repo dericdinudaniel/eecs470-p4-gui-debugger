@@ -2,3 +2,4 @@ Flask
 Flask-Caching
 pyDigitalWaveTools
 flask-cors
+waitress

@@ -10,6 +10,7 @@
     "start": "next start",
     "lint": "next lint",
     "prodFE": "pnpm run build && pnpm run start",
+    "prodBE": "pip3 install -r requirements.txt && waitress-serve --port=5328 --call api.index:create_app",
     "prod": "concurrently \"pnpm run prodFE\" \"pnpm run flask-dev\""
   },
   "dependencies": {
