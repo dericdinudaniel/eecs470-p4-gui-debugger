@@ -58,7 +58,7 @@ const DisplayMultStage: React.FC<{
       <div className="justify-items-center">
         <div className="justify-items-center">
           <CardHeaderSmall label="Inputs" className="text-xs underline" />
-          <div className="justify-items-center mt-[-.4rem] space-y-[-.50rem]">
+          <div className="mt-[-.4rem] space-y-[-.50rem] w-40">
             <div className="flex gap-x-2">
               <SimpleValDisplay
                 label="Tag:"
@@ -108,8 +108,7 @@ const DisplayMultStage: React.FC<{
 
         <div className="justify-items-center">
           <CardHeaderSmall label="Outputs" className="text-xs underline" />
-
-          <div className="justify-items-center mt-[-.4rem] space-y-[-.50rem]">
+          <div className="mt-[-.4rem] space-y-[-.50rem] w-40">
             <SimpleValDisplay
               label="Tag: "
               labelClassName="text-xs"

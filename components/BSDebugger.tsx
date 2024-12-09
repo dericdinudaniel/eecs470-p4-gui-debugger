@@ -39,54 +39,51 @@ const DisplaySingleCheckpoint: React.FC<{
 
   return (
     <div className={`${className}`}>
-      <div className={`p-2 pb-0 rounded-lg border ${backgroundColor}`}>
-        {idx !== undefined && (
-          <h2 className="text-md font-semibold text-center mb-1">
-            Stack #{idx}
-          </h2>
-        )}
-        <div className="flex items-center">
-          <div className="space-y-[-.35rem] mt-[-.4rem]">
-            <SimpleValDisplay label="Branch PC: ">
-              {displayValueHex(checkpoint.branch_PC)}
-            </SimpleValDisplay>
-
-            <SimpleValDisplay label="BHR: ">
-              {checkpoint.checkpointed_bhr}
-            </SimpleValDisplay>
-
-            <SimpleValDisplay label="ROB Tail: ">
-              {checkpoint.rob_tail}
-            </SimpleValDisplay>
-
-            <SimpleValDisplay label="SQ Tail: ">
-              {checkpoint.sq_tail}
-            </SimpleValDisplay>
-
-            <SimpleValDisplay label="Pred. Dir: ">
-              {checkpoint.predicted_direction ? "T" : "NT"}
-            </SimpleValDisplay>
-
-            <SimpleValDisplay label="Pred. Tgt: ">
-              {displayValueHex(checkpoint.predicted_target)}
-            </SimpleValDisplay>
-
-            <SimpleValDisplay label="Resolved Dir: ">
-              {checkpoint.resolving_branch_direction ? "T" : "NT"}
-            </SimpleValDisplay>
-          </div>
-          {/* Toggle Button */}
-          <DButton
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className="h-8 ml-2"
-          >
+      <div
+        className={`p-1 pb-0 rounded-lg border justify-items-center ${backgroundColor}`}
+      >
+        <div className="gap-x-2 justify-items-center">
+          {idx != undefined && (
+            <h2 className="text-md font-semibold text-center">Stack #{idx}</h2>
+          )}
+          <DButton onClick={() => setIsCollapsed(!isCollapsed)}>
             {isCollapsed ? "Show ChckPt" : "Hide ChckPt"}
           </DButton>
         </div>
 
+        <div className="space-y-[-.35rem] w-full">
+          <SimpleValDisplay label="BR PC: " className="w-40">
+            {displayValueHex(checkpoint.branch_PC)}
+          </SimpleValDisplay>
+
+          <SimpleValDisplay label="BHR: ">
+            {checkpoint.checkpointed_bhr}
+          </SimpleValDisplay>
+
+          <SimpleValDisplay label="ROB Tail: ">
+            {checkpoint.rob_tail}
+          </SimpleValDisplay>
+
+          <SimpleValDisplay label="SQ Tail: ">
+            {checkpoint.sq_tail}
+          </SimpleValDisplay>
+
+          <SimpleValDisplay label="Pred. Dir: ">
+            {checkpoint.predicted_direction ? "T" : "NT"}
+          </SimpleValDisplay>
+
+          <SimpleValDisplay label="Pred. Tgt: ">
+            {displayValueHex(checkpoint.predicted_target)}
+          </SimpleValDisplay>
+
+          <SimpleValDisplay label="Resolved Dir: ">
+            {checkpoint.resolving_branch_direction ? "T" : "NT"}
+          </SimpleValDisplay>
+        </div>
+
         {/* Collapsible Section */}
         {!isCollapsed && (
-          <div className="flex space-x-2 mt-2">
+          <div className="flex space-x-2">
             <DisplayFrizzyList
               className=""
               freeList={checkpoint.frizzy_checkpoint.free}
@@ -198,7 +195,7 @@ const BSDebugger: React.FC<BSDebuggerProps> = ({ className, signalBS }) => {
         {/* display inputs */}
         {showBSInputs && (
           <>
-            <Card className="mt-2 flex">
+            <Card className="mt-2 flex gap-x-1">
               <div className="justify-items-center space-y-1">
                 <DisplayFU_TO_BS_DATA
                   className=""
