@@ -114,25 +114,41 @@ def full_parse3(cache, root_scope, num_cycles, num_clocks, include_negedge):
     # Initialize the hierarchy and result structure only once
     cached_hierarchy = initialize_hierarchy(root_scope)
     
-    # 
-    clock_data = root_scope.children["testbench"].children["clock"].data
-    # iterate_over = num_cycles if not include_negedge else num_clocks
-    for i in range(num_cycles):
-        # cycle_number = (i-1) // 2
-        # cycle_number = (i-1) // 2 if not include_negedge else i
-        cycle_number = i
-        
-        is_negedge = include_negedge and i % 2 == 0
+    ######### NO NEG EDGE #########
+    clock = root_scope.children["testbench"].children["clock"].data
+    for i in range(num_clocks):  # +1 to include the last cycle
+        cycle_number = (i-1) // 2
+        is_negedge = i % 2 == 0
 
         is_negedge_str = "neg" if is_negedge else "pos"
 
-        timestamp = clock_data[(i * 2) + 1][0]
+        timestamp = clock[i][0]
 
         # Update the values in the cached result structure
         update_values(timestamp, cached_hierarchy)
 
         # Store the updated result for the current cycle in the cache
         cache.set(f"cycle_{cycle_number}_{is_negedge_str}", cached_hierarchy)
+    ######### END #########
+    
+    ######### YES NEG EDGE #########
+    # for i in range(num_cycles):
+    #     # cycle_number = (i-1) // 2
+    #     # cycle_number = (i-1) // 2 if not include_negedge else i
+    #     cycle_number = i
+        
+    #     is_negedge = include_negedge and i % 2 == 0
+
+    #     is_negedge_str = "neg" if is_negedge else "pos"
+
+    #     timestamp = clock_data[(i * 2) + 1][0]
+
+    #     # Update the values in the cached result structure
+    #     update_values(timestamp, cached_hierarchy)
+
+    #     # Store the updated result for the current cycle in the cache
+    #     cache.set(f"cycle_{cycle_number}_{is_negedge_str}", cached_hierarchy)
+    ######### END #########
 
     return "Parsing and caching complete"
 

@@ -36,7 +36,7 @@ export default function Debugger() {
           handlePrevious10Cycles();
           break;
         case "c":
-          handleStart();
+          // handleStart();
           break;
         case ",":
           handleEnd();
