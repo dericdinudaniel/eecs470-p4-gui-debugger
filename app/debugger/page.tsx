@@ -6,9 +6,10 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { DisplayContextProvider } from "@/components/DisplayContext";
-import DisplayAll from "@/components/DisplayAll";
+import DisplayAllP4 from "@/components/DisplayAllP4";
 import ShadDebuggerHeader from "@/components/ShadDebuggerHeader";
 import { useConstantsStore } from "@/lib/constants-store";
+import DisplayAllP3 from "@/components/P3/DisplayAllP3";
 
 export default function Debugger() {
   const [currentCycle, setCurrentCycle] = useState(0);
@@ -183,10 +184,12 @@ export default function Debugger() {
 
   const testbench = signalData?.signals.children.testbench;
 
-  const verilogCycle = parseInt(
-    testbench?.children.cycle_count.value.slice(1),
-    2
-  );
+  let verilogCycle = 0;
+  try {
+    verilogCycle = parseInt(testbench?.children.cycle_count.value.slice(1), 2);
+  } catch (e) {
+    verilogCycle = 0;
+  }
 
   return (
     <DisplayContextProvider signalData={signalData}>
@@ -213,7 +216,8 @@ export default function Debugger() {
         />
 
         <div className="m-4 space-y-4">
-          {signalData && <DisplayAll className="" signalData={signalData} />}
+          {/* {signalData && <DisplayAllP4 className="" signalData={signalData} />} */}
+          {signalData && <DisplayAllP3 className="" signalData={signalData} />}
         </div>
       </div>
     </DisplayContextProvider>

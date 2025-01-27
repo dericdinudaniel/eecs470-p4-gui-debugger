@@ -118,7 +118,7 @@ export default function DebuggerHeader({
           </Link>
           <ThemeToggle />
           <InfoDialog />
-          <ConstantsEditor signalData={signalData} />
+          {/* <ConstantsEditor signalData={signalData} /> */}
         </div>
 
         <div className="flex items-center justify-center space-x-2">
@@ -180,17 +180,14 @@ export default function DebuggerHeader({
             </>
           )}
 
-          <Separator orientation="vertical" className="bg-border/50 mx-2 h-8" />
-
-          <div>
-            <TagSearchInput
-              id="searchTag"
-              type="number"
-              onChange={(e) => setTag(Number(e.target.value))}
-              className="w-28 h-9 text-xs text-red"
-              placeholder="Tag #"
-            />
-          </div>
+          {/* <Separator orientation="vertical" className="bg-border/50 mx-2 h-8" />
+          <TagSearchInput
+            id="searchTag"
+            type="number"
+            onChange={(e) => setTag(Number(e.target.value))}
+            className="w-28 h-9 text-xs text-red"
+            placeholder="Tag #"
+          /> */}
         </div>
 
         {/* cycle display */}

@@ -1,11 +1,9 @@
 import React from "react";
-import { ScopeData } from "@/lib/tstypes";
 import DebuggerOutput from "@/components/DebuggerOutput";
 import ROBDebugger from "@/components/ROBDebugger";
 import RSDebugger from "@/components/RSDebugger";
 import FNAFDebugger from "@/components/FNAFDebugger";
 import RegfileDebugger from "@/components/RegfileDebugger";
-import ShadDebuggerHeader from "@/components/ShadDebuggerHeader";
 import BSDebugger from "@/components/BSDebugger";
 import FUDebugger from "@/components/FUDebugger";
 import IBDebugger from "@/components/IBDebugger";
@@ -16,12 +14,15 @@ import MemDebugger from "@/components/MemDebugger";
 import SQDebugger from "@/components/SQDebugger";
 import D$Debugger from "@/components/D$Debugger";
 
-type DisplayAllProps = {
+type DisplayAllP4Props = {
   className: string;
   signalData: any;
 };
 
-const DisplayAll: React.FC<DisplayAllProps> = ({ className, signalData }) => {
+const DisplayAllP4: React.FC<DisplayAllP4Props> = ({
+  className,
+  signalData,
+}) => {
   const testbench = signalData?.signals.children.testbench;
   const cpu = testbench?.children.mustafa;
   const Front_End = cpu?.children.Front_End;
@@ -96,4 +97,4 @@ const DisplayAll: React.FC<DisplayAllProps> = ({ className, signalData }) => {
   );
 };
 
-export default DisplayAll;
+export default DisplayAllP4;

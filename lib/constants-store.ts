@@ -103,6 +103,8 @@ class ConstantsStore {
   }
 
   autoDetectConstants(signalData: any): void {
+    return;
+
     // base signals
     const testbench = signalData?.signals.children.testbench;
     const cpu = testbench?.children.mustafa;

@@ -88,6 +88,9 @@ export enum ALU_OPA_SELECT {
   OPA_IS_ZERO = 0x3,
 }
 export const ALU_OPA_SELECT_WIDTH = 2;
+export function getALUOpaSelectName(opaSelect: ALU_OPA_SELECT): string {
+  return ALU_OPA_SELECT[opaSelect] ? ALU_OPA_SELECT[opaSelect] : "XXX";
+}
 
 // ALU operand B input select
 export enum ALU_OPB_SELECT {
@@ -98,7 +101,10 @@ export enum ALU_OPB_SELECT {
   OPB_IS_U_IMM = 0x4,
   OPB_IS_J_IMM = 0x5,
 }
-export const ALU_OPB_SELECT_WIDTH = 4;
+export const ALU_OPB_SELECT_WIDTH = 3;
+export function getALUOpbSelectName(opbSelect: ALU_OPB_SELECT): string {
+  return ALU_OPB_SELECT[opbSelect] ? ALU_OPB_SELECT[opbSelect] : "XXX";
+}
 
 // ALU function codes
 export enum ALU_FUNC {
@@ -178,6 +184,41 @@ export type IF_ID_PACKET = {
   valid: boolean;
 };
 export const IF_ID_PACKET_WIDTH = INST_WIDTH + 2 * ADDR_WIDTH + 1;
+
+// ID_EX_orig Packet
+export type ID_EX_PACKET_orig = {
+  inst: INST;
+  PC: ADDR;
+  NPC: ADDR;
+
+  rs1_value: DATA;
+  rs2_value: DATA;
+
+  opa_select: ALU_OPA_SELECT;
+  opb_select: ALU_OPB_SELECT;
+
+  dest_reg_idx: REG_IDX;
+  alu_func: ALU_FUNC;
+  mult: boolean;
+  rd_mem: boolean;
+  wr_mem: boolean;
+  cond_branch: boolean;
+  uncond_branch: boolean;
+  halt: boolean;
+  illegal: boolean;
+  csr_op: boolean;
+
+  valid: boolean;
+};
+export const ID_EX_PACKET_orig_WIDTH =
+  INST_WIDTH + // inst
+  2 * ADDR_WIDTH + // PC, NPC
+  2 * DATA_WIDTH + // rs1_value, rs2_value
+  ALU_OPA_SELECT_WIDTH + // opa_select
+  ALU_OPB_SELECT_WIDTH + // opb_select
+  REG_IDX_WIDTH + // dest_reg_idx
+  ALU_FUNC_WIDTH + // alu_func
+  9 * 1; // mult, rd_mem, wr_mem, cond_branch, uncond_branch, halt, illegal, csr_op, valid
 
 // ID_EX Packet
 export type ID_EX_PACKET = {
