@@ -1,0 +1,7 @@
+This project is licensed under the GNU General Public License (GPL).
+
+If you use or modify this work, please credit the original author, Deric Dinu Daniel, by including the following attribution:
+
+"Based on the work of Deric Dinu Daniel, available at https://github.com/dericdinudaniel/eecs470-p4-gui-debugger."
+
+Attribution is appreciated but not legally required.
