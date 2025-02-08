@@ -14,6 +14,7 @@ export default function Debugger() {
   const [currentCycle, setCurrentCycle] = useState(0);
   const [isNegativeEdge, setIsNegativeEdge] = useState(false);
   const [includeNegativeEdges, setIncludeNegativeEdges] = useState(false);
+  const [negedgeAllowed, setNegedgeAllowed] = useState(false);
   const [maxCycle, setMaxCycle] = useState(0);
   const [jumpCycle, setJumpCycle] = useState("");
   const [headerInfo, setHeaderInfo] = useState<any>(null);
@@ -45,7 +46,9 @@ export default function Debugger() {
           document.getElementById("jumpCycleInput")?.focus();
           break;
         case "t":
-          setIncludeNegativeEdges((prev) => !prev);
+          if (negedgeAllowed) {
+            setIncludeNegativeEdges((prev) => !prev);
+          }
       }
     };
 
@@ -78,6 +81,8 @@ export default function Debugger() {
       const parsedHeaderInfo = JSON.parse(headerInfoParam);
       setHeaderInfo(parsedHeaderInfo);
       setMaxCycle(parsedHeaderInfo.num_cycles - 1 || 0);
+
+      setNegedgeAllowed(parsedHeaderInfo.include_negedge as boolean);
     }
 
     fetchSignalData(0, "pos");
@@ -199,6 +204,7 @@ export default function Debugger() {
           isNegativeEdge={isNegativeEdge}
           includeNegativeEdges={includeNegativeEdges}
           setIncludeNegativeEdges={setIncludeNegativeEdges}
+          negedgeAllowed={negedgeAllowed}
           maxCycle={maxCycle}
           jumpCycle={jumpCycle}
           setJumpCycle={setJumpCycle}

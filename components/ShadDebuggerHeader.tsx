@@ -21,6 +21,7 @@ interface DebuggerHeaderProps {
   isNegativeEdge: boolean;
   negEgdesAvailable: boolean;
   includeNegativeEdges: boolean;
+  negedgeAllowed: boolean;
   setIncludeNegativeEdges: (value: boolean) => void;
   maxCycle: number;
   jumpCycle: string;
@@ -81,10 +82,10 @@ export default function DebuggerHeader({
   signalData,
   verilogCycle,
   currentCycle,
-  negEgdesAvailable,
   isNegativeEdge,
   includeNegativeEdges,
   setIncludeNegativeEdges,
+  negedgeAllowed,
   maxCycle,
   jumpCycle,
   setJumpCycle,
@@ -158,7 +159,7 @@ export default function DebuggerHeader({
             </DebuggerButton>
           </div>
 
-          {true && (
+          {negedgeAllowed && (
             <>
               <Separator
                 orientation="vertical"

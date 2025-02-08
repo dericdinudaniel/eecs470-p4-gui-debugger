@@ -103,6 +103,10 @@ class ConstantsStore {
   }
 
   autoDetectConstants(signalData: any): void {
+    // Some constants cannot be auto-detected due to lack of information and need to be infered from other signals before rendering.
+    // For example, store queue index width is dependant on store queue size, and SQ idx width affects other stuff I don't remember rn.
+    // But most of the time, constants can be infered from the signal data if the Verilog struct is constant size. Notice how I don't do this for every single constant.
+
     // base signals
     const testbench = signalData?.signals.children.testbench;
     const cpu = testbench?.children.mustafa;
